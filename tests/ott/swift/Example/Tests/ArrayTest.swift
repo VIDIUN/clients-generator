@@ -1,6 +1,6 @@
 //
 //  ArrayTest.swift
-//  KalturaClient
+//  VidiunClient
 //
 //  Created by Rivka Peleg on 03/08/2017.
 //  Copyright © 2017 CocoaPods. All rights reserved.
@@ -9,7 +9,7 @@
 import Foundation
 import Quick
 import Nimble
-import KalturaOttClient
+import VidiunOttClient
 
 
 class arrayTest: QuickSpec {
@@ -61,7 +61,7 @@ class arrayTest: QuickSpec {
                                                   username: TConfig.username,
                                                     password: TConfig.password)
             .set { (response:LoginResponse?, error: ApiException?) in
-                self.client?.ks = response?.loginSession?.ks
+                self.client?.vs = response?.loginSession?.vs
             done(error)
         }
         executor.send(request: requestBuilder.build(client!))

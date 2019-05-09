@@ -1,13 +1,13 @@
-package com.kaltura.services;
+package com.vidiun.services;
 
 //<editor-fold defaultstate="collapsed" desc="comment">
 import android.os.Handler;
 import android.util.Log;
 
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.KalturaClient;
-import com.kaltura.client.KalturaConfiguration;
-import com.kaltura.client.services.KalturaAdminUserService;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.VidiunClient;
+import com.vidiun.client.VidiunConfiguration;
+import com.vidiun.client.services.VidiunAdminUserService;
 //</editor-fold>
 
 /**
@@ -16,12 +16,12 @@ import com.kaltura.client.services.KalturaAdminUserService;
  */
 public class AdminUser {
 
-    private static KalturaClient client;
+    private static VidiunClient client;
     private static boolean userIsLogin;
     /**
      * Contains the session if the user has successfully logged
      */
-    public static String ks;
+    public static String vs;
     /**
      * 
      * api host
@@ -33,7 +33,7 @@ public class AdminUser {
     /**
      *
      */
-    public static KalturaClient getClient() {
+    public static VidiunClient getClient() {
         return client;
     }
 
@@ -45,13 +45,13 @@ public class AdminUser {
 
     /**
      * Get an admin session using admin email and password (Used for login to
-     * the KMC application)
+     * the VMC application)
      *
      * @param TAG constant in your class
      * @param email
      * @param password
      *
-     * @throws KalturaApiException
+     * @throws VidiunApiException
      */
     public static void login(final String TAG, final String email, final String password, final LoginTaskListener loginTaskListener) {
         final Handler handler = new Handler();
@@ -61,17 +61,17 @@ public class AdminUser {
             public void run() {
                 try {
                     // set a new configuration object
-                    KalturaConfiguration config = new KalturaConfiguration();
+                    VidiunConfiguration config = new VidiunConfiguration();
                     config.setTimeout(10000);
                     config.setEndpoint(host);
 
-                    client = new KalturaClient(config);
+                    client = new VidiunClient(config);
 
-                    KalturaAdminUserService userService = new KalturaAdminUserService(client);
-                    ks = userService.login(email, password);
-                    Log.w(TAG, ks);
-                    // set the kaltura client to use the recieved ks as default for all future operations
-                    client.setSessionId(ks);
+                    VidiunAdminUserService userService = new VidiunAdminUserService(client);
+                    vs = userService.login(email, password);
+                    Log.w(TAG, vs);
+                    // set the vidiun client to use the recieved vs as default for all future operations
+                    client.setSessionId(vs);
                     userIsLogin = true;
                     handler.post(new Runnable() {
 
@@ -80,7 +80,7 @@ public class AdminUser {
                             loginTaskListener.onLoginSuccess();
                         }
                     });
-                } catch (final KalturaApiException e) {
+                } catch (final VidiunApiException e) {
                     e.printStackTrace();
                     Log.w(TAG, "Login error: " + e.getMessage() + " error code: " + e.code);
                     userIsLogin = false;

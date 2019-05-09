@@ -83,7 +83,7 @@ xcuserdata
 # NB: this is exclusive with OPTION 1 above
 #
 xcuserdata/**/*
-DemoApplication/Kaltura.xcodeproj/project.xcworkspace/xcuserdata/**/*
+DemoApplication/Vidiun.xcodeproj/project.xcworkspace/xcuserdata/**/*
  
 #     (requires option 2 above): Personal Schemes
 #

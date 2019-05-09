@@ -15,10 +15,10 @@ function runJavaTests($clientRoot)
 	chdir("{$clientRoot}/bin");
 
 	// compile the client library
-	executeCommand("{$jdkPath}javac.exe", "-d . -sourcepath ../src -cp ".implode(';', addPrefix($externalJars, '../lib/'))." ../src/com/kaltura/client/test/KalturaTestSuite.java");
+	executeCommand("{$jdkPath}javac.exe", "-d . -sourcepath ../src -cp ".implode(';', addPrefix($externalJars, '../lib/'))." ../src/com/vidiun/client/test/VidiunTestSuite.java");
 
 	// pack the client library
-	executeCommand("{$jdkPath}jar.exe", "cvf kalturaClient.jar .");
+	executeCommand("{$jdkPath}jar.exe", "cvf vidiunClient.jar .");
 
 	// run the tests
 	copy("{$clientRoot}/src/DemoImage.jpg", "{$clientRoot}/bin/DemoImage.jpg");
@@ -30,10 +30,10 @@ function runJavaTests($clientRoot)
 		$log4jConfig = substr($log4jConfig, 2);		
 	$log4jParam = "-Dlog4j.configuration=file://{$log4jConfig}";
 	
-	$jarList = "bin/kalturaClient.jar;".implode(';', addPrefix($externalJars, 'lib/'));
+	$jarList = "bin/vidiunClient.jar;".implode(';', addPrefix($externalJars, 'lib/'));
 	
 	chdir($clientRoot);
-	executeCommand("{$jdkPath}java.exe", "-cp {$jarList} {$log4jParam} org.junit.runner.JUnitCore com.kaltura.client.test.KalturaTestSuite");
+	executeCommand("{$jdkPath}java.exe", "-cp {$jarList} {$log4jParam} org.junit.runner.JUnitCore com.vidiun.client.test.VidiunTestSuite");
 }
 
 function runCSharpTests($clientRoot)
@@ -58,12 +58,12 @@ function runCSharpTests($clientRoot)
 	replaceInFolder($clientRoot, array('.sln', '.csproj'), null, $search, $replace);
 
 	// clean up
-	$exeFile = fixSlashes("{$clientRoot}/KalturaClientTester/bin/Debug/KalturaClientTester.exe");
+	$exeFile = fixSlashes("{$clientRoot}/VidiunClientTester/bin/Debug/VidiunClientTester.exe");
 	if (file_exists($exeFile))
 		unlink($exeFile);
 	
 	// compile
-	executeCommandFrom($clientRoot, $config['csharp']['devenv_bin'], "/build Debug KalturaClient.sln");
+	executeCommandFrom($clientRoot, $config['csharp']['devenv_bin'], "/build Debug VidiunClient.sln");
 	
 	// wait for compilation to end
 	$startTime = microtime(true);
@@ -81,7 +81,7 @@ function runCSharpTests($clientRoot)
 	}
 	
 	// run the tests
-	executeCommandFrom("{$clientRoot}/KalturaClientTester", $exeFile);
+	executeCommandFrom("{$clientRoot}/VidiunClientTester", $exeFile);
 }
 
 if ($argc < 2)
@@ -114,7 +114,7 @@ executeCommandFrom("{$rootDir}/php53/tests", $config['php']['php_bin'], 'run.php
 // Python
 echo "Python\n==================\n";
 executeCommandFrom("{$rootDir}/python", $config['python']['python_bin'], 'setup.py install');
-executeCommandFrom("{$rootDir}/python/KalturaClient/tests", $config['python']['python_bin'], '-m unittest discover');
+executeCommandFrom("{$rootDir}/python/VidiunClient/tests", $config['python']['python_bin'], '-m unittest discover');
 
 // Ruby
 echo "Ruby\n==================\n";
@@ -122,5 +122,5 @@ executeCommandFrom("{$rootDir}/ruby", null, 'echo y | ' . $config['ruby']['rake_
 
 // Flex3.5 (test compilation only)
 echo "Flex3.5\n==================\n";
-executeCommandFrom("{$rootDir}/flex35", $config['flex35']['mxmlc_bin'], "-sp tests . -- tests/KalturaClientSample.as");
+executeCommandFrom("{$rootDir}/flex35", $config['flex35']['mxmlc_bin'], "-sp tests . -- tests/VidiunClientSample.as");
 

@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,35 +28,35 @@
 /*
  Forward declarations
  */
-@class KalturaLibXmlWrapper;
-@class KalturaXmlParserBase;
-@class KalturaObjectBase;
-@class KalturaException;
+@class VidiunLibXmlWrapper;
+@class VidiunXmlParserBase;
+@class VidiunObjectBase;
+@class VidiunException;
 
 /*
- Protocol KalturaXmlParserDelegate
+ Protocol VidiunXmlParserDelegate
  */
-@protocol KalturaLibXmlWrapperDelegate <NSObject>
+@protocol VidiunLibXmlWrapperDelegate <NSObject>
 
 @optional
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName;
-- (void)parser:(KalturaLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName;
-- (void)parser:(KalturaLibXmlWrapper *)aParser foundCharacters:(NSString *)aString;
-- (void)parser:(KalturaLibXmlWrapper *)aParser parseErrorOccurred:(NSError *)aParseError;
+- (void)parser:(VidiunLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName;
+- (void)parser:(VidiunLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName;
+- (void)parser:(VidiunLibXmlWrapper *)aParser foundCharacters:(NSString *)aString;
+- (void)parser:(VidiunLibXmlWrapper *)aParser parseErrorOccurred:(NSError *)aParseError;
 
 @end
 
 /*
- Class KalturaLibXmlWrapper
+ Class VidiunLibXmlWrapper
  */
-@interface KalturaLibXmlWrapper : NSObject
+@interface VidiunLibXmlWrapper : NSObject
 {
     struct _xmlParserCtxt* _xmlCtx;
     NSMutableString* _foundChars;
 }
 
-@property (nonatomic, assign) id<KalturaLibXmlWrapperDelegate> delegate;
+@property (nonatomic, assign) id<VidiunLibXmlWrapperDelegate> delegate;
 
 - (void)processData:(NSData*)aData;
 - (void)noMoreData;
@@ -64,92 +64,92 @@
 @end
 
 /*
- Protocol KalturaXmlParserDelegate
+ Protocol VidiunXmlParserDelegate
  */
-@protocol KalturaXmlParserDelegate <NSObject>
+@protocol VidiunXmlParserDelegate <NSObject>
 
-- (void)parsingFinished:(KalturaXmlParserBase*)aParser;
-- (void)parsingFailed:(KalturaXmlParserBase*)aParser;
+- (void)parsingFinished:(VidiunXmlParserBase*)aParser;
+- (void)parsingFailed:(VidiunXmlParserBase*)aParser;
 
 @end
 
 /*
- Class KalturaXmlParserBase
+ Class VidiunXmlParserBase
  */
-@interface KalturaXmlParserBase : NSObject <KalturaLibXmlWrapperDelegate>
+@interface VidiunXmlParserBase : NSObject <VidiunLibXmlWrapperDelegate>
 {
-    id <KalturaLibXmlWrapperDelegate> _origDelegate;
+    id <VidiunLibXmlWrapperDelegate> _origDelegate;
     BOOL _attached;
 }
 
-@property (nonatomic, retain) KalturaLibXmlWrapper* parser;
-@property (nonatomic, assign) id <KalturaXmlParserDelegate> delegate;
+@property (nonatomic, retain) VidiunLibXmlWrapper* parser;
+@property (nonatomic, assign) id <VidiunXmlParserDelegate> delegate;
 @property (nonatomic, retain) NSError* error;
 
-- (void)attachToParser:(KalturaLibXmlWrapper*)aParser withDelegate:(id <KalturaXmlParserDelegate>)aDelegate;
+- (void)attachToParser:(VidiunLibXmlWrapper*)aParser withDelegate:(id <VidiunXmlParserDelegate>)aDelegate;
 - (void)detach;
 - (void)callDelegateAndDetach;
-- (void)parsingFailed:(KalturaXmlParserBase*)aParser;
+- (void)parsingFailed:(VidiunXmlParserBase*)aParser;
 - (id)result;
 
 @end
 
 /*
- Class KalturaXmlParserSkipTag
+ Class VidiunXmlParserSkipTag
  */
-@interface KalturaXmlParserSkipTag : KalturaXmlParserBase
+@interface VidiunXmlParserSkipTag : VidiunXmlParserBase
 {
     int _level;
 }
 @end
 
 /*
- Class KalturaXmlParserSimpleType
+ Class VidiunXmlParserSimpleType
  */
-@interface KalturaXmlParserSimpleType : KalturaXmlParserBase
+@interface VidiunXmlParserSimpleType : VidiunXmlParserBase
 {
     NSString* _value;
 }
 @end
 
 /*
- Class KalturaXmlParserException
+ Class VidiunXmlParserException
  */
-@interface KalturaXmlParserException : KalturaXmlParserBase <KalturaXmlParserDelegate>
+@interface VidiunXmlParserException : VidiunXmlParserBase <VidiunXmlParserDelegate>
 {
-    KalturaXmlParserBase* _subParser;
-    KalturaXmlParserBase* _excObjParser;
-    KalturaException* _targetException;
+    VidiunXmlParserBase* _subParser;
+    VidiunXmlParserBase* _excObjParser;
+    VidiunException* _targetException;
 }
 
-- (id)initWithSubParser:(KalturaXmlParserBase*)aSubParser;
+- (id)initWithSubParser:(VidiunXmlParserBase*)aSubParser;
 
 @end
 
 /*
- Class KalturaXmlParserObject
+ Class VidiunXmlParserObject
  */
-@interface KalturaXmlParserObject : KalturaXmlParserBase <KalturaXmlParserDelegate>
+@interface VidiunXmlParserObject : VidiunXmlParserBase <VidiunXmlParserDelegate>
 {
-    KalturaXmlParserBase* _subParser;
-    KalturaObjectBase* _targetObj;
+    VidiunXmlParserBase* _subParser;
+    VidiunObjectBase* _targetObj;
     NSString* _expectedType;
     NSString* _lastTagCapitalized;
     BOOL _lastIsObjectType;
-    int _lastPropType;     // KalturaFieldType
+    int _lastPropType;     // VidiunFieldType
 }
 
-- (id)initWithObject:(KalturaObjectBase*)aObject;
+- (id)initWithObject:(VidiunObjectBase*)aObject;
 - (id)initWithExpectedType:(NSString*)aExpectedType;
 
 @end
 
 /*
- Class KalturaXmlParserArray
+ Class VidiunXmlParserArray
  */
-@interface KalturaXmlParserArray : KalturaXmlParserBase <KalturaXmlParserDelegate>
+@interface VidiunXmlParserArray : VidiunXmlParserBase <VidiunXmlParserDelegate>
 {
-    KalturaXmlParserBase* _subParser;
+    VidiunXmlParserBase* _subParser;
     NSString* _expectedType;
     NSMutableArray* _targetArr;
 }
@@ -159,30 +159,30 @@
 @end
 
 /*
- Class KalturaXmlParserMultirequest
+ Class VidiunXmlParserMultirequest
  */
-@interface KalturaXmlParserMultirequest : KalturaXmlParserBase <KalturaXmlParserDelegate>
+@interface VidiunXmlParserMultirequest : VidiunXmlParserBase <VidiunXmlParserDelegate>
 {
     NSMutableArray* _subParsers;
     int _reqIndex;
 }
 
-- (void)addSubParser:(KalturaXmlParserBase*)aParser;
+- (void)addSubParser:(VidiunXmlParserBase*)aParser;
 - (int)reqCount;
 
 @end
 
 /*
- Class KalturaXmlParserSkipPath
+ Class VidiunXmlParserSkipPath
  */
-@interface KalturaXmlParserSkipPath : KalturaXmlParserBase <KalturaXmlParserDelegate>
+@interface VidiunXmlParserSkipPath : VidiunXmlParserBase <VidiunXmlParserDelegate>
 {
-    KalturaXmlParserBase* _subParser;
+    VidiunXmlParserBase* _subParser;
     NSArray* _path;
     int _pathPosition;
     int _skipLevel;
 }
 
-- (id)initWithSubParser:(KalturaXmlParserBase*)aSubParser withPath:(NSArray*)aPath;
+- (id)initWithSubParser:(VidiunXmlParserBase*)aSubParser withPath:(NSArray*)aPath;
 
 @end

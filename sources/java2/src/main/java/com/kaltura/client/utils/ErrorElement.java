@@ -1,4 +1,4 @@
-package com.kaltura.client.utils;
+package com.vidiun.client.utils;
 
 public class ErrorElement {
 

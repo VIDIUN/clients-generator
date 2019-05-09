@@ -5,11 +5,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -30,21 +30,21 @@
 /**
  * @namespace
  */
-namespace Kaltura\Client;
+namespace Vidiun\Client;
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
 interface IPlugin
 {
 	/**
-	 * @return \Kaltura\Client\Client
+	 * @return \Vidiun\Client\Client
 	 */
-	public static function get(\Kaltura\Client\Client $client);
+	public static function get(\Vidiun\Client\Client $client);
 	
 	/**
-	 * @return array<\Kaltura\Client\ServiceBase>
+	 * @return array<\Vidiun\Client\ServiceBase>
 	 */
 	public function getServices();
 	

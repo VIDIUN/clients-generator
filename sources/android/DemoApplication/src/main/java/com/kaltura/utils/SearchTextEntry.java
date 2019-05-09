@@ -1,4 +1,4 @@
-package com.kaltura.utils;
+package com.vidiun.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.kaltura.client.types.KalturaMediaEntry;
+import com.vidiun.client.types.VidiunMediaEntry;
 
 /**
  * Seeking a string entered in the search for the entry
@@ -17,8 +17,8 @@ import com.kaltura.client.types.KalturaMediaEntry;
 public class SearchTextEntry extends Observable implements TextWatcher {
 
     private int textlength;
-    private List<KalturaMediaEntry> copyList;
-    private List<KalturaMediaEntry> listCategory;
+    private List<VidiunMediaEntry> copyList;
+    private List<VidiunMediaEntry> listCategory;
     private List<String> copyListInLowerCase;
     private EditText editText;
     private String TAG;
@@ -26,16 +26,16 @@ public class SearchTextEntry extends Observable implements TextWatcher {
     public SearchTextEntry() {
     }
 
-    public void init(String TAG, EditText editText, List<KalturaMediaEntry> listCategory) {
+    public void init(String TAG, EditText editText, List<VidiunMediaEntry> listCategory) {
         this.TAG = TAG;
         this.editText = editText;
         this.listCategory = listCategory;
         textlength = 0;
-        copyList = new ArrayList<KalturaMediaEntry>();
+        copyList = new ArrayList<VidiunMediaEntry>();
         copyListInLowerCase = new ArrayList<String>();
         copyList.addAll(listCategory);
-        for (KalturaMediaEntry kalturaMediaEntry : listCategory) {
-            copyListInLowerCase.add(kalturaMediaEntry.name.toLowerCase());
+        for (VidiunMediaEntry vidiunMediaEntry : listCategory) {
+            copyListInLowerCase.add(vidiunMediaEntry.name.toLowerCase());
         }
     }
 

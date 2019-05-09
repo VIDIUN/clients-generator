@@ -8,8 +8,8 @@
     <ProjectGuid>{8D578521-A319-4E27-9A39-CBE92DF3B874}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kaltura</RootNamespace>
-    <AssemblyName>KalturaClient</AssemblyName>
+    <RootNamespace>Vidiun</RootNamespace>
+    <AssemblyName>VidiunClient</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -37,23 +37,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KalturaAPIException.cs" />
-    <Compile Include="KalturaClient.cs" />
-    <Compile Include="KalturaFiles.cs" />
-    <Compile Include="KalturaMultiResponse.cs" />
-    <Compile Include="KalturaObjectBase.cs" />
-    <Compile Include="KalturaObjectFactory.cs" />
-    <Compile Include="KalturaServiceActionCall.cs" />
-    <Compile Include="KalturaServiceBase.cs" />
-    <Compile Include="IKalturaLogger.cs" />
-    <Compile Include="IKalturaSerializable.cs" />
-    <Compile Include="KalturaEnums.cs" />
-    <Compile Include="KalturaClientBase.cs" />
-    <Compile Include="KalturaConfiguration.cs" />
-    <Compile Include="KalturaParam.cs" />
-    <Compile Include="KalturaParams.cs" />
-    <Compile Include="KalturaPublishEventArgs.cs" />
-    <Compile Include="KalturaStringEnum.cs" />
+    <Compile Include="VidiunAPIException.cs" />
+    <Compile Include="VidiunClient.cs" />
+    <Compile Include="VidiunFiles.cs" />
+    <Compile Include="VidiunMultiResponse.cs" />
+    <Compile Include="VidiunObjectBase.cs" />
+    <Compile Include="VidiunObjectFactory.cs" />
+    <Compile Include="VidiunServiceActionCall.cs" />
+    <Compile Include="VidiunServiceBase.cs" />
+    <Compile Include="IVidiunLogger.cs" />
+    <Compile Include="IVidiunSerializable.cs" />
+    <Compile Include="VidiunEnums.cs" />
+    <Compile Include="VidiunClientBase.cs" />
+    <Compile Include="VidiunConfiguration.cs" />
+    <Compile Include="VidiunParam.cs" />
+    <Compile Include="VidiunParams.cs" />
+    <Compile Include="VidiunPublishEventArgs.cs" />
+    <Compile Include="VidiunStringEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

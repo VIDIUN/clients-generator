@@ -2035,11 +2035,11 @@
 				<string key="132.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="133.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="134.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="135.CustomClassName">KalturaThumbView</string>
+				<string key="135.CustomClassName">VidiunThumbView</string>
 				<string key="135.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="136.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="137.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="138.CustomClassName">KalturaThumbView</string>
+				<string key="138.CustomClassName">VidiunThumbView</string>
 				<string key="138.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="139.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="140.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2049,14 +2049,14 @@
 				<string key="156.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="2.CustomClassName">CategoryPTableViewCell_iPhone</string>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="3.CustomClassName">KalturaThumbView</string>
+				<string key="3.CustomClassName">VidiunThumbView</string>
 				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="48.CustomClassName">CategoryLTableViewCell_iPhone</string>
 				<string key="48.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="49.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="50.CustomClassName">KalturaThumbView</string>
+				<string key="50.CustomClassName">VidiunThumbView</string>
 				<string key="50.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="51.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="52.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2065,13 +2065,13 @@
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="58.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="59.CustomClassName">KalturaThumbView</string>
+				<string key="59.CustomClassName">VidiunThumbView</string>
 				<string key="59.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="60.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="61.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="64.CustomClassName">KalturaThumbView</string>
+				<string key="64.CustomClassName">VidiunThumbView</string>
 				<string key="64.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="65.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="66.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2082,7 +2082,7 @@
 				<string key="70.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="71.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="72.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="79.CustomClassName">KalturaThumbView</string>
+				<string key="79.CustomClassName">VidiunThumbView</string>
 				<string key="79.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="80.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2091,14 +2091,14 @@
 				<string key="83.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="84.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="85.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="86.CustomClassName">KalturaThumbView</string>
+				<string key="86.CustomClassName">VidiunThumbView</string>
 				<string key="86.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="87.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="88.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="92.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="93.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="94.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="95.CustomClassName">KalturaThumbView</string>
+				<string key="95.CustomClassName">VidiunThumbView</string>
 				<string key="95.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="96.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="97.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2129,15 +2129,15 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="cell1Image">KalturaThumbView</string>
+						<string key="cell1Image">VidiunThumbView</string>
 						<string key="cell1Label1">UILabel</string>
 						<string key="cell1Label2">UILabel</string>
 						<string key="cell1View">UIView</string>
-						<string key="cell2Image">KalturaThumbView</string>
+						<string key="cell2Image">VidiunThumbView</string>
 						<string key="cell2Label1">UILabel</string>
 						<string key="cell2Label2">UILabel</string>
 						<string key="cell2View">UIView</string>
-						<string key="cell3Image">KalturaThumbView</string>
+						<string key="cell3Image">VidiunThumbView</string>
 						<string key="cell3Label1">UILabel</string>
 						<string key="cell3Label2">UILabel</string>
 						<string key="cell3View">UIView</string>
@@ -2145,7 +2145,7 @@
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="cell1Image">
 							<string key="name">cell1Image</string>
-							<string key="candidateClassName">KalturaThumbView</string>
+							<string key="candidateClassName">VidiunThumbView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="cell1Label1">
 							<string key="name">cell1Label1</string>
@@ -2161,7 +2161,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="cell2Image">
 							<string key="name">cell2Image</string>
-							<string key="candidateClassName">KalturaThumbView</string>
+							<string key="candidateClassName">VidiunThumbView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="cell2Label1">
 							<string key="name">cell2Label1</string>
@@ -2177,7 +2177,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="cell3Image">
 							<string key="name">cell3Image</string>
-							<string key="candidateClassName">KalturaThumbView</string>
+							<string key="candidateClassName">VidiunThumbView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="cell3Label1">
 							<string key="name">cell3Label1</string>
@@ -2215,11 +2215,11 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="cell1Image">KalturaThumbView</string>
+						<string key="cell1Image">VidiunThumbView</string>
 						<string key="cell1Label1">UILabel</string>
 						<string key="cell1Label2">UILabel</string>
 						<string key="cell1View">UIView</string>
-						<string key="cell2Image">KalturaThumbView</string>
+						<string key="cell2Image">VidiunThumbView</string>
 						<string key="cell2Label1">UILabel</string>
 						<string key="cell2Label2">UILabel</string>
 						<string key="cell2View">UIView</string>
@@ -2227,7 +2227,7 @@
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="cell1Image">
 							<string key="name">cell1Image</string>
-							<string key="candidateClassName">KalturaThumbView</string>
+							<string key="candidateClassName">VidiunThumbView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="cell1Label1">
 							<string key="name">cell1Label1</string>
@@ -2243,7 +2243,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="cell2Image">
 							<string key="name">cell2Image</string>
-							<string key="candidateClassName">KalturaThumbView</string>
+							<string key="candidateClassName">VidiunThumbView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="cell2Label1">
 							<string key="name">cell2Label1</string>
@@ -2264,11 +2264,11 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">KalturaThumbView</string>
+					<string key="className">VidiunThumbView</string>
 					<string key="superclassName">UIImageView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/KalturaThumbView.h</string>
+						<string key="minorKey">./Classes/VidiunThumbView.h</string>
 					</object>
 				</object>
 			</array>

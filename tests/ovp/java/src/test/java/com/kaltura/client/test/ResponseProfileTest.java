@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,34 +25,34 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import java.util.ArrayList;
 
-import com.kaltura.client.enums.KalturaMediaType;
-import com.kaltura.client.enums.KalturaMetadataObjectType;
-import com.kaltura.client.types.KalturaCategory;
-import com.kaltura.client.types.KalturaCategoryEntry;
-import com.kaltura.client.types.KalturaCategoryEntryFilter;
-import com.kaltura.client.types.KalturaCategoryEntryListResponse;
-import com.kaltura.client.types.KalturaDetachedResponseProfile;
-import com.kaltura.client.types.KalturaMediaEntry;
-import com.kaltura.client.types.KalturaMetadata;
-import com.kaltura.client.types.KalturaMetadataFilter;
-import com.kaltura.client.types.KalturaMetadataListResponse;
-import com.kaltura.client.types.KalturaMetadataProfile;
-import com.kaltura.client.types.KalturaResponseProfile;
-import com.kaltura.client.types.KalturaResponseProfileHolder;
-import com.kaltura.client.types.KalturaResponseProfileMapping;
+import com.vidiun.client.enums.VidiunMediaType;
+import com.vidiun.client.enums.VidiunMetadataObjectType;
+import com.vidiun.client.types.VidiunCategory;
+import com.vidiun.client.types.VidiunCategoryEntry;
+import com.vidiun.client.types.VidiunCategoryEntryFilter;
+import com.vidiun.client.types.VidiunCategoryEntryListResponse;
+import com.vidiun.client.types.VidiunDetachedResponseProfile;
+import com.vidiun.client.types.VidiunMediaEntry;
+import com.vidiun.client.types.VidiunMetadata;
+import com.vidiun.client.types.VidiunMetadataFilter;
+import com.vidiun.client.types.VidiunMetadataListResponse;
+import com.vidiun.client.types.VidiunMetadataProfile;
+import com.vidiun.client.types.VidiunResponseProfile;
+import com.vidiun.client.types.VidiunResponseProfileHolder;
+import com.vidiun.client.types.VidiunResponseProfileMapping;
 
 
 public class ResponseProfileTest extends BaseTest{
 
 	public void testEntryCategoriesAndMetadata() throws Exception {
-		KalturaMediaEntry entry = null;
-		KalturaCategory category = null;
-		KalturaMetadataProfile categoryMetadataProfile = null;
-		KalturaResponseProfile responseProfile = null;
+		VidiunMediaEntry entry = null;
+		VidiunCategory category = null;
+		VidiunMetadataProfile categoryMetadataProfile = null;
+		VidiunResponseProfile responseProfile = null;
 		
 		try{
 			String xsd = "<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n";
@@ -112,46 +112,46 @@ public class ResponseProfileTest extends BaseTest{
 						
 			entry = createEntry();
 			category = createCategory();
-			categoryMetadataProfile = createMetadataProfile(KalturaMetadataObjectType.CATEGORY, xsd);
+			categoryMetadataProfile = createMetadataProfile(VidiunMetadataObjectType.CATEGORY, xsd);
 
-			KalturaMetadataFilter metadataFilter = new KalturaMetadataFilter();
-			metadataFilter.metadataObjectTypeEqual = KalturaMetadataObjectType.CATEGORY;
+			VidiunMetadataFilter metadataFilter = new VidiunMetadataFilter();
+			metadataFilter.metadataObjectTypeEqual = VidiunMetadataObjectType.CATEGORY;
 			metadataFilter.metadataProfileIdEqual = categoryMetadataProfile.id;
 
-			KalturaResponseProfileMapping metadataMapping = new KalturaResponseProfileMapping();
+			VidiunResponseProfileMapping metadataMapping = new VidiunResponseProfileMapping();
 			metadataMapping.filterProperty = "objectIdEqual";
 			metadataMapping.parentProperty = "categoryId";
 			
-			ArrayList<KalturaResponseProfileMapping> metadataMappings = new ArrayList<KalturaResponseProfileMapping>();
+			ArrayList<VidiunResponseProfileMapping> metadataMappings = new ArrayList<VidiunResponseProfileMapping>();
 			metadataMappings.add(metadataMapping);
 
-			KalturaDetachedResponseProfile metadataResponseProfile = new KalturaDetachedResponseProfile();
+			VidiunDetachedResponseProfile metadataResponseProfile = new VidiunDetachedResponseProfile();
 			metadataResponseProfile.name = "metadata";
 			metadataResponseProfile.filter = metadataFilter;
 			metadataResponseProfile.mappings = metadataMappings;
 			
-			ArrayList<KalturaDetachedResponseProfile> categoryEntryRelatedProfiles = new ArrayList<KalturaDetachedResponseProfile>();
+			ArrayList<VidiunDetachedResponseProfile> categoryEntryRelatedProfiles = new ArrayList<VidiunDetachedResponseProfile>();
 			categoryEntryRelatedProfiles.add(metadataResponseProfile);
 
-			KalturaCategoryEntryFilter categoryEntryFilter = new KalturaCategoryEntryFilter();
+			VidiunCategoryEntryFilter categoryEntryFilter = new VidiunCategoryEntryFilter();
 			
-			KalturaResponseProfileMapping categoryEntryMapping = new KalturaResponseProfileMapping();
+			VidiunResponseProfileMapping categoryEntryMapping = new VidiunResponseProfileMapping();
 			categoryEntryMapping.filterProperty = "entryIdEqual";
 			categoryEntryMapping.parentProperty = "id";
 			
-			ArrayList<KalturaResponseProfileMapping> categoryEntryMappings = new ArrayList<KalturaResponseProfileMapping>();
+			ArrayList<VidiunResponseProfileMapping> categoryEntryMappings = new ArrayList<VidiunResponseProfileMapping>();
 			categoryEntryMappings.add(categoryEntryMapping);
 			
-			KalturaDetachedResponseProfile categoryEntryResponseProfile = new KalturaDetachedResponseProfile();
+			VidiunDetachedResponseProfile categoryEntryResponseProfile = new VidiunDetachedResponseProfile();
 			categoryEntryResponseProfile.name = "categoryEntry";
 			categoryEntryResponseProfile.relatedProfiles = categoryEntryRelatedProfiles;
 			categoryEntryResponseProfile.filter = categoryEntryFilter;
 			categoryEntryResponseProfile.mappings = categoryEntryMappings;
 			
-			ArrayList<KalturaDetachedResponseProfile> entryRelatedProfiles = new ArrayList<KalturaDetachedResponseProfile>();
+			ArrayList<VidiunDetachedResponseProfile> entryRelatedProfiles = new ArrayList<VidiunDetachedResponseProfile>();
 			entryRelatedProfiles.add(categoryEntryResponseProfile);
 			
-			responseProfile = new KalturaResponseProfile();
+			responseProfile = new VidiunResponseProfile();
 			responseProfile.name = "rp" + System.currentTimeMillis();
 			responseProfile.systemName = responseProfile.name;
 			responseProfile.relatedProfiles = entryRelatedProfiles;
@@ -161,29 +161,29 @@ public class ResponseProfileTest extends BaseTest{
 			assertNotNull(responseProfile.relatedProfiles);
 			assertEquals(1, responseProfile.relatedProfiles.size());
 			
-			KalturaCategoryEntry categoryEntry = addEntryToCategory(entry.id, category.id);
-			KalturaMetadata categoryMetadata = createMetadata(KalturaMetadataObjectType.CATEGORY, Integer.toString(category.id), categoryMetadataProfile.id, xml);
+			VidiunCategoryEntry categoryEntry = addEntryToCategory(entry.id, category.id);
+			VidiunMetadata categoryMetadata = createMetadata(VidiunMetadataObjectType.CATEGORY, Integer.toString(category.id), categoryMetadataProfile.id, xml);
 			
-			KalturaResponseProfileHolder responseProfileHolder = new KalturaResponseProfileHolder();
+			VidiunResponseProfileHolder responseProfileHolder = new VidiunResponseProfileHolder();
 			responseProfileHolder.id = responseProfile.id;
 	
 			startAdminSession();
 			client.setResponseProfile(responseProfileHolder);
-			KalturaMediaEntry getEntry = client.getMediaService().get(entry.id);
+			VidiunMediaEntry getEntry = client.getMediaService().get(entry.id);
 			assertEquals(getEntry.id, entry.id);
 			
 			assertNotNull(getEntry.relatedObjects);
 			assertTrue(getEntry.relatedObjects.containsKey(categoryEntryResponseProfile.name));
-			KalturaCategoryEntryListResponse categoryEntryList = (KalturaCategoryEntryListResponse) getEntry.relatedObjects.get(categoryEntryResponseProfile.name);
+			VidiunCategoryEntryListResponse categoryEntryList = (VidiunCategoryEntryListResponse) getEntry.relatedObjects.get(categoryEntryResponseProfile.name);
 			assertEquals(1, categoryEntryList.totalCount);
-			KalturaCategoryEntry getCategoryEntry = categoryEntryList.objects.get(0);
+			VidiunCategoryEntry getCategoryEntry = categoryEntryList.objects.get(0);
 			assertEquals(getCategoryEntry.createdAt, categoryEntry.createdAt);
 
 			assertNotNull(getCategoryEntry.relatedObjects);
 			assertTrue(getCategoryEntry.relatedObjects.containsKey(metadataResponseProfile.name));
-			KalturaMetadataListResponse metadataList = (KalturaMetadataListResponse) getCategoryEntry.relatedObjects.get(metadataResponseProfile.name);
+			VidiunMetadataListResponse metadataList = (VidiunMetadataListResponse) getCategoryEntry.relatedObjects.get(metadataResponseProfile.name);
 			assertEquals(1, metadataList.totalCount);
-			KalturaMetadata getMetadata = metadataList.objects.get(0);
+			VidiunMetadata getMetadata = metadataList.objects.get(0);
 			assertEquals(categoryMetadata.id, getMetadata.id);
 			assertEquals(xml, getMetadata.xml);
 		}
@@ -202,19 +202,19 @@ public class ResponseProfileTest extends BaseTest{
 		}
 	}
 
-	protected KalturaMetadata createMetadata(KalturaMetadataObjectType objectType, String objectId, int metadataProfileId, String xmlData) throws Exception {
+	protected VidiunMetadata createMetadata(VidiunMetadataObjectType objectType, String objectId, int metadataProfileId, String xmlData) throws Exception {
 		startAdminSession();
 
-		KalturaMetadata metadata = client.getMetadataService().add(metadataProfileId, objectType, objectId, xmlData);
+		VidiunMetadata metadata = client.getMetadataService().add(metadataProfileId, objectType, objectId, xmlData);
 		assertNotNull(metadata.id);
 		
 		return metadata;
 	}
 
-	protected KalturaMetadataProfile createMetadataProfile(KalturaMetadataObjectType objectType, String xsdData) throws Exception {
+	protected VidiunMetadataProfile createMetadataProfile(VidiunMetadataObjectType objectType, String xsdData) throws Exception {
 		startAdminSession();
 
-		KalturaMetadataProfile metadataProfile = new KalturaMetadataProfile();
+		VidiunMetadataProfile metadataProfile = new VidiunMetadataProfile();
 		metadataProfile.metadataObjectType = objectType;
 		metadataProfile.name = "mp" + System.currentTimeMillis();
 		
@@ -224,10 +224,10 @@ public class ResponseProfileTest extends BaseTest{
 		return metadataProfile;
 	}
 
-	protected KalturaCategoryEntry addEntryToCategory(String entryId, int categoryId) throws Exception {
+	protected VidiunCategoryEntry addEntryToCategory(String entryId, int categoryId) throws Exception {
 		startAdminSession();
 
-		KalturaCategoryEntry categoryEntry = new KalturaCategoryEntry();
+		VidiunCategoryEntry categoryEntry = new VidiunCategoryEntry();
 		categoryEntry.entryId = entryId;
 		categoryEntry.categoryId = categoryId;
 		
@@ -237,11 +237,11 @@ public class ResponseProfileTest extends BaseTest{
 		return categoryEntry;
 	}
 
-	protected KalturaMediaEntry createEntry() throws Exception {
+	protected VidiunMediaEntry createEntry() throws Exception {
 		startAdminSession();
 
-		KalturaMediaEntry entry = new KalturaMediaEntry();
-		entry.mediaType = KalturaMediaType.VIDEO;
+		VidiunMediaEntry entry = new VidiunMediaEntry();
+		entry.mediaType = VidiunMediaType.VIDEO;
 		
 		entry = client.getMediaService().add(entry);
 		assertNotNull(entry.id);
@@ -249,10 +249,10 @@ public class ResponseProfileTest extends BaseTest{
 		return entry;
 	}
 
-	protected KalturaCategory createCategory() throws Exception {
+	protected VidiunCategory createCategory() throws Exception {
 		startAdminSession();
 
-		KalturaCategory category = new KalturaCategory();
+		VidiunCategory category = new VidiunCategory();
 		category.name = "c" + System.currentTimeMillis();
 		
 		category = client.getCategoryService().add(category);

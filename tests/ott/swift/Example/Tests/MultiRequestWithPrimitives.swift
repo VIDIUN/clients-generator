@@ -1,6 +1,6 @@
 //
 //  MultiRequestWithPrimitives.swift
-//  KalturaClient
+//  VidiunClient
 //
 //  Created by Rivka Peleg on 07/08/2017.
 //  Copyright © 2017 CocoaPods. All rights reserved.
@@ -9,7 +9,7 @@
 
 import Quick
 import Nimble
-import KalturaOttClient
+import VidiunOttClient
 
 class MultiRequestWithPrimitives: QuickSpec {
     var client: Client?
@@ -67,7 +67,7 @@ class MultiRequestWithPrimitives: QuickSpec {
                                                   username: TConfig.username,
                                                   password: TConfig.password)
             .set { (response:LoginResponse?, error: ApiException?) in
-                    self.client?.ks = response?.loginSession?.ks
+                    self.client?.vs = response?.loginSession?.vs
             done(error)
             
         }

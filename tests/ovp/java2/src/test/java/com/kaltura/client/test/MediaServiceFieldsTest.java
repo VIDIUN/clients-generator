@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,37 +25,37 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import com.kaltura.client.APIOkRequestsExecutor;
-import com.kaltura.client.enums.ContainerFormat;
-import com.kaltura.client.enums.SiteRestrictionType;
-import com.kaltura.client.services.AccessControlService;
-import com.kaltura.client.services.AccessControlService.AddAccessControlBuilder;
-import com.kaltura.client.services.AccessControlService.DeleteAccessControlBuilder;
-import com.kaltura.client.services.AccessControlService.UpdateAccessControlBuilder;
-import com.kaltura.client.services.ConversionProfileService;
-import com.kaltura.client.services.ConversionProfileService.AddConversionProfileBuilder;
-import com.kaltura.client.services.ConversionProfileService.DeleteConversionProfileBuilder;
-import com.kaltura.client.services.ConversionProfileService.UpdateConversionProfileBuilder;
-import com.kaltura.client.services.ThumbParamsService;
-import com.kaltura.client.services.ThumbParamsService.AddThumbParamsBuilder;
-import com.kaltura.client.services.ThumbParamsService.DeleteThumbParamsBuilder;
-import com.kaltura.client.services.ThumbParamsService.GetThumbParamsBuilder;
-import com.kaltura.client.services.ThumbParamsService.UpdateThumbParamsBuilder;
-import com.kaltura.client.types.AccessControl;
-import com.kaltura.client.types.BaseRestriction;
-import com.kaltura.client.types.ConversionProfile;
-import com.kaltura.client.types.CountryRestriction;
-import com.kaltura.client.types.SiteRestriction;
-import com.kaltura.client.types.ThumbParams;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
+import com.vidiun.client.APIOkRequestsExecutor;
+import com.vidiun.client.enums.ContainerFormat;
+import com.vidiun.client.enums.SiteRestrictionType;
+import com.vidiun.client.services.AccessControlService;
+import com.vidiun.client.services.AccessControlService.AddAccessControlBuilder;
+import com.vidiun.client.services.AccessControlService.DeleteAccessControlBuilder;
+import com.vidiun.client.services.AccessControlService.UpdateAccessControlBuilder;
+import com.vidiun.client.services.ConversionProfileService;
+import com.vidiun.client.services.ConversionProfileService.AddConversionProfileBuilder;
+import com.vidiun.client.services.ConversionProfileService.DeleteConversionProfileBuilder;
+import com.vidiun.client.services.ConversionProfileService.UpdateConversionProfileBuilder;
+import com.vidiun.client.services.ThumbParamsService;
+import com.vidiun.client.services.ThumbParamsService.AddThumbParamsBuilder;
+import com.vidiun.client.services.ThumbParamsService.DeleteThumbParamsBuilder;
+import com.vidiun.client.services.ThumbParamsService.GetThumbParamsBuilder;
+import com.vidiun.client.services.ThumbParamsService.UpdateThumbParamsBuilder;
+import com.vidiun.client.types.AccessControl;
+import com.vidiun.client.types.BaseRestriction;
+import com.vidiun.client.types.ConversionProfile;
+import com.vidiun.client.types.CountryRestriction;
+import com.vidiun.client.types.SiteRestriction;
+import com.vidiun.client.types.ThumbParams;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
 
 public class MediaServiceFieldsTest extends BaseTest {
 
@@ -70,7 +70,7 @@ public class MediaServiceFieldsTest extends BaseTest {
 		startAdminSession();
 
         final CountDownLatch doneSignal = new CountDownLatch(1);
-		final String testString = "Kaltura test: " + getName();
+		final String testString = "Vidiun test: " + getName();
 		final int testInt = 42;
 		final ContainerFormat testEnumAsString = ContainerFormat.ISMV;
 
@@ -143,7 +143,7 @@ public class MediaServiceFieldsTest extends BaseTest {
 
 		startAdminSession();
 
-		final String testString = "Kaltura test: " + getName();
+		final String testString = "Vidiun test: " + getName();
 
         final CountDownLatch doneSignal = new CountDownLatch(1);
 		ThumbParams paramsAdd = new ThumbParams();
@@ -201,7 +201,7 @@ public class MediaServiceFieldsTest extends BaseTest {
 		final int testInt = 42;
 
 		ConversionProfile profileAdd = new ConversionProfile();
-		profileAdd.setName("Kaltura test: " + getName());
+		profileAdd.setName("Vidiun test: " + getName());
 		profileAdd.setFlavorParamsIds("0");
 		profileAdd.setStorageProfileId(testInt);
 

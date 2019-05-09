@@ -1,4 +1,4 @@
-package com.kaltura.bpmn.deploy;
+package com.vidiun.bpmn.deploy;
 
 import java.io.File;
 import java.io.FileInputStream;

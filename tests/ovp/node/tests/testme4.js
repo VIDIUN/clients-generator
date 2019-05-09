@@ -1,7 +1,7 @@
 var Unit = require('deadunit')
-var kc = require('../KalturaClient');
-var ktypes = require('../KalturaTypes');
-var vo = require ('../KalturaVO.js');
+var vc = require('../VidiunClient');
+var vtypes = require('../VidiunTypes');
+var vo = require ('../VidiunVO.js');
 var config = require ('./config.js');
 
 var create_session = function (results)
@@ -13,7 +13,7 @@ var create_session = function (results)
 		console.log(results.code);
 		//process.exit(1);
 	    }else{
-		console.log('KS is: '+results);
+		console.log('VS is: '+results);
 	    }
     }else{
 	console.log('Something went wrong here :(');
@@ -65,16 +65,16 @@ var upload_entry = function (results)
 	console.log('Something went wrong here :(');
     }
 }
-var kaltura_conf = new kc.KalturaConfiguration(config.minus2_partner_id);
-kaltura_conf.serviceUrl = config.service_url ;
-var client = new kc.KalturaClient(kaltura_conf);
-var type = ktypes.KalturaSessionType.ADMIN;
+var vidiun_conf = new vc.VidiunConfiguration(config.minus2_partner_id);
+vidiun_conf.serviceUrl = config.service_url ;
+var client = new vc.VidiunClient(vidiun_conf);
+var type = vtypes.VidiunSessionType.ADMIN;
 
 var expiry = null;
 var privileges = null;
-var ks = client.session.start(create_session, config.minus2_admin_secret, config.user_id, type, config.minus2_partner_id, expiry, privileges);
+var vs = client.session.start(create_session, config.minus2_admin_secret, config.user_id, type, config.minus2_partner_id, expiry, privileges);
 
-var partner = new vo.KalturaPartner();
+var partner = new vo.VidiunPartner();
 partner.name = "MBP";
 partner.appearInSearch = null;
 partner.adminName = "MBP";
@@ -85,15 +85,15 @@ var template_partner_id = null;
 var silent = null;
 var result = client.partner.register(create_partner, partner, cms_password, template_partner_id, silent);
 
-var kaltura_conf = new kc.KalturaConfiguration(config.partner_id);
-kaltura_conf.serviceUrl = config.service_url ;
-var client1 = new kc.KalturaClient(kaltura_conf);
-var type = ktypes.KalturaSessionType.USER;
+var vidiun_conf = new vc.VidiunConfiguration(config.partner_id);
+vidiun_conf.serviceUrl = config.service_url ;
+var client1 = new vc.VidiunClient(vidiun_conf);
+var type = vtypes.VidiunSessionType.USER;
 
 var expiry = null;
 var privileges = null;
-var ks = client1.session.start(create_session, config.secret, config.user_id, type, config.partner_id, expiry, privileges);
-var uploadToken = new vo.KalturaUploadToken();
+var vs = client1.session.start(create_session, config.secret, config.user_id, type, config.partner_id, expiry, privileges);
+var uploadToken = new vo.VidiunUploadToken();
 //var uploadToken.fileName = "~/downloads/cat.mp4";
 var result = client1.uploadToken.add(create_upload_token, uploadToken);
 /*var uploadTokenId = result.id;

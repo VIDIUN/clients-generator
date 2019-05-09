@@ -1,4 +1,4 @@
-package com.kaltura.boxAdapter;
+package com.vidiun.boxAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,20 +13,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.KalturaFlavorAsset;
-import com.kaltura.utils.Utils;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.VidiunFlavorAsset;
+import com.vidiun.utils.Utils;
 
 public class BoxAdapterRate extends BaseAdapter {
 
-    private List<KalturaFlavorAsset> list;
+    private List<VidiunFlavorAsset> list;
     private LayoutInflater lInflater;
     private Typeface typeFont;
     private boolean setHighlight = false;
     private int highlightIndex = 0;
     private int backgroundColor;
 
-    public BoxAdapterRate(Context context, List<KalturaFlavorAsset> list, int backgroundColor) {
+    public BoxAdapterRate(Context context, List<VidiunFlavorAsset> list, int backgroundColor) {
         this.backgroundColor = backgroundColor;
         /**
          * Set type font
@@ -35,7 +35,7 @@ public class BoxAdapterRate extends BaseAdapter {
         if (list != null) {
             this.list = list;
         } else {
-            this.list = new ArrayList<KalturaFlavorAsset>();
+            this.list = new ArrayList<VidiunFlavorAsset>();
         }
 
         lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -112,14 +112,14 @@ public class BoxAdapterRate extends BaseAdapter {
     }
 
     public StringBuffer getFlavorBitrate(int position) {
-    	KalturaFlavorAsset flavor = getFlavor(position);
+    	VidiunFlavorAsset flavor = getFlavor(position);
     	if (flavor.tags!=null && flavor.tags.contains("widevine_mbr"))
     		return new StringBuffer("auto");
     	else 
     		return Utils.roundBitrate(flavor.bitrate);
     }
     
-    public KalturaFlavorAsset getFlavor(int position) {
+    public VidiunFlavorAsset getFlavor(int position) {
     	return list.get(position);
     }
 

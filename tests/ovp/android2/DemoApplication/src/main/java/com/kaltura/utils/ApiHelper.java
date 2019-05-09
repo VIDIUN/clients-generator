@@ -1,12 +1,12 @@
-package com.kaltura.utils;
+package com.vidiun.utils;
 
-import com.kaltura.client.APIOkRequestsExecutor;
-import com.kaltura.client.Client;
-import com.kaltura.client.Configuration;
-import com.kaltura.client.RequestQueue;
-import com.kaltura.client.types.Category;
-import com.kaltura.client.types.ListResponse;
-import com.kaltura.client.utils.request.RequestBuilder;
+import com.vidiun.client.APIOkRequestsExecutor;
+import com.vidiun.client.Client;
+import com.vidiun.client.Configuration;
+import com.vidiun.client.RequestQueue;
+import com.vidiun.client.types.Category;
+import com.vidiun.client.types.ListResponse;
+import com.vidiun.client.utils.request.RequestBuilder;
 
 /**
  * Created by jonathan.kanarek on 06/07/2017.

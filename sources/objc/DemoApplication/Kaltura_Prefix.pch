@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'Kaltura' target in the 'Kaltura' project
+// Prefix header for all source files of the 'Vidiun' target in the 'Vidiun' project
 //
 
 #ifdef __OBJC__
@@ -14,4 +14,4 @@
 #import "Utils.h"
 #import <CoreMedia/CoreMedia.h>
 #import <AVFoundation/AVFoundation.h>
-#import "KalturaThumbView.h"
+#import "VidiunThumbView.h"

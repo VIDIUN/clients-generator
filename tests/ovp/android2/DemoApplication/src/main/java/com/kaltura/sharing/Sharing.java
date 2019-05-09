@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.sharing;
+package com.vidiun.sharing;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.MediaEntry;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.MediaEntry;
 import com.nostra13.socialsharing.common.AuthListener;
 import com.nostra13.socialsharing.common.LogoutListener;
 import com.nostra13.socialsharing.common.PostListener;

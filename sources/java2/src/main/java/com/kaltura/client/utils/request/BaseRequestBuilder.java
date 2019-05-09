@@ -1,17 +1,17 @@
-package com.kaltura.client.utils.request;
+package com.vidiun.client.utils.request;
 
-import com.kaltura.client.Client;
-import com.kaltura.client.Configuration;
-import com.kaltura.client.FileHolder;
-import com.kaltura.client.Files;
-import com.kaltura.client.Params;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.utils.APIConstants;
-import com.kaltura.client.utils.EncryptionUtils;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
-import com.kaltura.client.utils.response.base.ResponseElement;
+import com.vidiun.client.Client;
+import com.vidiun.client.Configuration;
+import com.vidiun.client.FileHolder;
+import com.vidiun.client.Files;
+import com.vidiun.client.Params;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.utils.APIConstants;
+import com.vidiun.client.utils.EncryptionUtils;
+import com.vidiun.client.utils.GsonParser;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
+import com.vidiun.client.utils.response.base.ResponseElement;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -126,7 +126,7 @@ public abstract class BaseRequestBuilder<ReturnedType, SelfType> extends Request
             params.putAll(configurations.getRequestConfiguration());
         }
         if (addSignature) {
-            params.add("kalsig", EncryptionUtils.encryptMD5(params.toString()));
+            params.add("vidsig", EncryptionUtils.encryptMD5(params.toString()));
         }
         return params;
     }

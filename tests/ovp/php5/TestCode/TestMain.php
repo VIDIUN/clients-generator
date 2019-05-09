@@ -5,11 +5,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -26,9 +26,9 @@
 //
 // @ignore
 // ===================================================================================================
-require_once(dirname(__FILE__) . '/../KalturaClient.php');
+require_once(dirname(__FILE__) . '/../VidiunClient.php');
 
-class TestMain implements IKalturaLogger
+class TestMain implements IVidiunLogger
 {
 	const CONFIG_FILE = 'config.ini';
 	const CONFIG_TEMPLATE_FILE = 'config.template.ini';
@@ -72,19 +72,19 @@ class TestMain implements IKalturaLogger
 		date_default_timezone_set($this->config[self::CONFIG_ITEM_TIMEZONE]);
 	}
 	
-	private function getKalturaClient($partnerId, $adminSecret, $isAdmin)
+	private function getVidiunClient($partnerId, $adminSecret, $isAdmin)
 	{
-		$kConfig = new KalturaConfiguration();
-		$kConfig->serviceUrl = $this->config[self::CONFIG_ITEM_SERVICE_URL];
-		$kConfig->setLogger($this);
-		$client = new KalturaClient($kConfig);
+		$vConfig = new VidiunConfiguration();
+		$vConfig->serviceUrl = $this->config[self::CONFIG_ITEM_SERVICE_URL];
+		$vConfig->setLogger($this);
+		$client = new VidiunClient($vConfig);
 		
 		$userId = "SomeUser";
-		$sessionType = ($isAdmin)? KalturaSessionType::ADMIN : KalturaSessionType::USER; 
+		$sessionType = ($isAdmin)? VidiunSessionType::ADMIN : VidiunSessionType::USER; 
 		try
 		{
-			$ks = $client->generateSession($adminSecret, $userId, $sessionType, $partnerId);
-			$client->setKs($ks);
+			$vs = $client->generateSession($adminSecret, $userId, $sessionType, $partnerId);
+			$client->setVs($vs);
 		}
 		catch(Exception $ex)
 		{
@@ -96,7 +96,7 @@ class TestMain implements IKalturaLogger
 	
 	public function listActions()
 	{
-		$client = $this->getKalturaClient($this->config[self::CONFIG_ITEM_PARTNER_ID], $this->config[self::CONFIG_ITEM_ADMIN_SECRET], true);
+		$client = $this->getVidiunClient($this->config[self::CONFIG_ITEM_PARTNER_ID], $this->config[self::CONFIG_ITEM_ADMIN_SECRET], true);
 		$results = $client->media->listAction();
 		$entry = $results->objects[0];
 		echo "\nGot an entry: [{$entry->name}]";
@@ -104,14 +104,14 @@ class TestMain implements IKalturaLogger
 
 	public function multiRequest()
 	{
-		$client = $this->getKalturaClient($this->config[self::CONFIG_ITEM_PARTNER_ID], $this->config[self::CONFIG_ITEM_ADMIN_SECRET], true);
+		$client = $this->getVidiunClient($this->config[self::CONFIG_ITEM_PARTNER_ID], $this->config[self::CONFIG_ITEM_ADMIN_SECRET], true);
 		$client->startMultiRequest();
 		$client->baseEntry->count();
 		$client->partner->getInfo();
 		$client->partner->getUsage(2011);
 		$multiRequest = $client->doMultiRequest();
 		$partner = $multiRequest[1];
-		if(!is_object($partner) || get_class($partner) != 'KalturaPartner')
+		if(!is_object($partner) || get_class($partner) != 'VidiunPartner')
 		{
 			throw new Exception("UNEXPECTED_RESULT");
 		}
@@ -121,20 +121,20 @@ class TestMain implements IKalturaLogger
 	public function add()
 	{
 		echo "\nUploading test video...";
-		$client = $this->getKalturaClient($this->config[self::CONFIG_ITEM_PARTNER_ID], $this->config[self::CONFIG_ITEM_ADMIN_SECRET], false);
+		$client = $this->getVidiunClient($this->config[self::CONFIG_ITEM_PARTNER_ID], $this->config[self::CONFIG_ITEM_ADMIN_SECRET], false);
 		$filePath = $this->config[self::CONFIG_ITEM_UPLOAD_FILE];
 		
 		$token = $client->baseEntry->upload($filePath);
-		$entry = new KalturaMediaEntry();
+		$entry = new VidiunMediaEntry();
 		$entry->name = "my upload entry";
-		$entry->mediaType = KalturaMediaType::VIDEO;
+		$entry->mediaType = VidiunMediaType::VIDEO;
 		$newEntry = $client->media->addFromUploadedFile($entry, $token);
 		echo "\nUploaded a new Video entry " . $newEntry->id;
 		$client->media->delete($newEntry->id);
 		try {
 			$entry = null;
 			$entry = $client->media->get($newEntry->id);
-		} catch (KalturaException $exApi) {
+		} catch (VidiunException $exApi) {
 			if ($entry == null) {
 				echo "\nDeleted the entry (" . $newEntry->id .") successfully!";
 			}

@@ -6,11 +6,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,35 +28,35 @@
 // @ignore
 // ===================================================================================================
 
-require_once(dirname(__file__) . '/lib/KalturaCommandLineParser.php');
-require_once(dirname(__file__) . '/lib/KalturaSession.php');
+require_once(dirname(__file__) . '/lib/VidiunCommandLineParser.php');
+require_once(dirname(__file__) . '/lib/VidiunSession.php');
 
 $commandLineSwitches = array(
-	array(KalturaCommandLineParser::SWITCH_REQUIRES_VALUE, 'v', 'version', 'Session version (1/2)'),
-	array(KalturaCommandLineParser::SWITCH_REQUIRES_VALUE, 't', 'type', 'Session type - 0=USER, 2=ADMIN'),
-	array(KalturaCommandLineParser::SWITCH_REQUIRES_VALUE, 'u', 'user', 'User name'),
-	array(KalturaCommandLineParser::SWITCH_REQUIRES_VALUE, 'e', 'expiry', 'Session expiry (seconds)'),
-	array(KalturaCommandLineParser::SWITCH_REQUIRES_VALUE, 'p', 'privileges', 'Session privileges'),
-	array(KalturaCommandLineParser::SWITCH_NO_VALUE, 'w', 'widget', 'Widget session'),
-	array(KalturaCommandLineParser::SWITCH_NO_VALUE, 'b', 'bare', 'Print only the KS itself'),
+	array(VidiunCommandLineParser::SWITCH_REQUIRES_VALUE, 'v', 'version', 'Session version (1/2)'),
+	array(VidiunCommandLineParser::SWITCH_REQUIRES_VALUE, 't', 'type', 'Session type - 0=USER, 2=ADMIN'),
+	array(VidiunCommandLineParser::SWITCH_REQUIRES_VALUE, 'u', 'user', 'User name'),
+	array(VidiunCommandLineParser::SWITCH_REQUIRES_VALUE, 'e', 'expiry', 'Session expiry (seconds)'),
+	array(VidiunCommandLineParser::SWITCH_REQUIRES_VALUE, 'p', 'privileges', 'Session privileges'),
+	array(VidiunCommandLineParser::SWITCH_NO_VALUE, 'w', 'widget', 'Widget session'),
+	array(VidiunCommandLineParser::SWITCH_NO_VALUE, 'b', 'bare', 'Print only the VS itself'),
 );
 
 // parse command line
-$options = KalturaCommandLineParser::parseArguments($commandLineSwitches);
-$arguments = KalturaCommandLineParser::stripCommandLineSwitches($commandLineSwitches, $argv);
+$options = VidiunCommandLineParser::parseArguments($commandLineSwitches);
+$arguments = VidiunCommandLineParser::stripCommandLineSwitches($commandLineSwitches, $argv);
 
 if (!$arguments)
 {
-	$usage = "Usage: generateKs [switches] <partnerId>\nOptions:\n";
-	$usage .= KalturaCommandLineParser::getArgumentsUsage($commandLineSwitches);
+	$usage = "Usage: generateVs [switches] <partnerId>\nOptions:\n";
+	$usage .= VidiunCommandLineParser::getArgumentsUsage($commandLineSwitches);
 	die($usage);
 }
 
 $partnerId = $arguments[0];
 
-KalturaSecretRepository::init();
+VidiunSecretRepository::init();
 
-$adminSecret = KalturaSecretRepository::getAdminSecret($partnerId);
+$adminSecret = VidiunSecretRepository::getAdminSecret($partnerId);
 if (!$adminSecret)
     die("Failed to get secret for partner {$partnerId}\n");
 
@@ -74,24 +74,24 @@ if (isset($options['widget']))
 }
 
 if (!isset($options['bare']))
-	echo "ks\t";
+	echo "vs\t";
 
 $version = isset($options['version']) ? $options['version'] : 1;
 switch ($version)
 { 
 case 1:
-	$ks = KalturaSession::generateKsV1($adminSecret, $user, $type, $partnerId, $expiry, $privileges, null, null);
+	$vs = VidiunSession::generateVsV1($adminSecret, $user, $type, $partnerId, $expiry, $privileges, null, null);
 	break;
 
 case 2:
-	$ks = KalturaSession::generateKsV2($adminSecret, $user, $type, $partnerId, $expiry, $privileges, null, null);
+	$vs = VidiunSession::generateVsV2($adminSecret, $user, $type, $partnerId, $expiry, $privileges, null, null);
 	break;
 
 default:
 	die("Invalid version {$version}\n");
 }
 	
-echo $ks;
+echo $vs;
 
 if (!isset($options['bare']))
 	echo "\n";

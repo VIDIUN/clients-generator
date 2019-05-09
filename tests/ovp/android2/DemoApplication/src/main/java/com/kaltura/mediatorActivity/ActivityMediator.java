@@ -1,4 +1,4 @@
-package com.kaltura.mediatorActivity;
+package com.vidiun.mediatorActivity;
 
 import android.app.Activity;
 import android.content.Intent;

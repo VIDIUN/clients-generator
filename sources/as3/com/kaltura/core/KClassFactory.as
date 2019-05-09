@@ -1,18 +1,18 @@
-package com.kaltura.core {
-	import com.kaltura.utils.ObjectUtil;
+package com.vidiun.core {
+	import com.vidiun.utils.ObjectUtil;
 
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
 
 
-	public class KClassFactory {
+	public class VClassFactory {
 		/**
 		 * the vo class to create
 		 * */
 		public var generator:Class;
 
 
-		public function KClassFactory(generator:Class = null) {
+		public function VClassFactory(generator:Class = null) {
 			super();
 
 			this.generator = generator;
@@ -156,7 +156,7 @@ package com.kaltura.core {
 			var cls:Class;
 			try {
 				// try creating the required type
-				cls = getDefinitionByName('com.kaltura.vo.' + objectType) as Class;
+				cls = getDefinitionByName('com.vidiun.vo.' + objectType) as Class;
 			}
 			catch (e:Error) {
 				cls = null;
@@ -165,7 +165,7 @@ package com.kaltura.core {
 			if (!cls && fallbackType != '') {
 				// try creating fallback type instead
 				try {
-					cls = getDefinitionByName('com.kaltura.vo.' + fallbackType) as Class;
+					cls = getDefinitionByName('com.vidiun.vo.' + fallbackType) as Class;
 				}
 				catch (e:Error) {
 					cls = null;
@@ -177,7 +177,7 @@ package com.kaltura.core {
 				cls = Object;
 			}
 
-			return new KClassFactory(cls).newInstanceFromXML(XMLList(xmlInfo));
+			return new VClassFactory(cls).newInstanceFromXML(XMLList(xmlInfo));
 		}
 	}
 }

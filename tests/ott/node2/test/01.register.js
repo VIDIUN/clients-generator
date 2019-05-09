@@ -3,15 +3,15 @@ const fs = require('fs');
 const cache = require('node-shared-cache');
 const expect = require("chai").expect;
 const shortid = require('shortid');
-const kaltura = require('../KalturaClient');
+const vidiun = require('../VidiunClient');
 
 const testConfig = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 const {partnerId, serviceUrl} = testConfig;
 
-let config = new kaltura.Configuration();
+let config = new vidiun.Configuration();
 config.serviceUrl = serviceUrl;
 
-const client = new kaltura.Client(config);
+const client = new vidiun.Client(config);
 
 const username = shortid.generate();
 const password = shortid.generate();
@@ -25,7 +25,7 @@ obj.password = password;
 describe("User", () => {
 	
     describe("register", () => {
-    	const user = new kaltura.objects.OTTUser({
+    	const user = new vidiun.objects.OTTUser({
     		username: username,
     		firstName: shortid.generate(),
     		lastName: shortid.generate(),
@@ -33,7 +33,7 @@ describe("User", () => {
     	});
 
     	it('creates user', (done) => {
-    		kaltura.services.ottUser.register(partnerId, user, password)
+    		vidiun.services.ottUser.register(partnerId, user, password)
         	.completion((success, response) => {
 				const {executionTime, result} = response;
 				const user = result;
@@ -48,8 +48,8 @@ describe("User", () => {
 	
     describe("login", () => {
 		
-    	it('returns valid ks', (done) => {
-    		kaltura.services.ottUser.login(partnerId, username, password)
+    	it('returns valid vs', (done) => {
+    		vidiun.services.ottUser.login(partnerId, username, password)
         	.completion((success, response) => {
 				const {executionTime, result} = response;
 				const loginResponse = result;
@@ -57,8 +57,8 @@ describe("User", () => {
 				console.dir(loginResponse);
         		expect(loginResponse).to.not.be.a('null');
         		expect(loginResponse.loginSession).to.not.be.a('null');
-        		expect(loginResponse.loginSession.ks).to.not.be.a('null');
-        		client.setKs(loginResponse.loginSession.ks);
+        		expect(loginResponse.loginSession.vs).to.not.be.a('null');
+        		client.setVs(loginResponse.loginSession.vs);
         		done();
         	})
         	.execute(client);
@@ -66,14 +66,14 @@ describe("User", () => {
     });
 	
     describe("household", () => {
-    	const household = new kaltura.objects.Household({
+    	const household = new vidiun.objects.Household({
     		name: shortid.generate(),
     		description: shortid.generate(),
     		externalId: shortid.generate()
     	});
 
     	it('created', (done) => {
-    		kaltura.services.household.add(household)
+    		vidiun.services.household.add(household)
         	.completion((success, response) => {
 				const {executionTime, result} = response;
 				const household = result;
@@ -87,15 +87,15 @@ describe("User", () => {
         });
 		
     	it('logged in as master', (done) => {
-    		kaltura.services.ottUser.login(partnerId, username, password)
+    		vidiun.services.ottUser.login(partnerId, username, password)
         	.completion((success, response) => {
 				const {executionTime, result} = response;
 				const loginResponse = result;
         		expect(success).to.equal(true);
         		expect(loginResponse).to.not.be.a('null');
         		expect(loginResponse.loginSession).to.not.be.a('null');
-        		expect(loginResponse.loginSession.ks).to.not.be.a('null');
-        		client.setKs(loginResponse.loginSession.ks);
+        		expect(loginResponse.loginSession.vs).to.not.be.a('null');
+        		client.setVs(loginResponse.loginSession.vs);
         		done();
         	})
         	.execute(client);

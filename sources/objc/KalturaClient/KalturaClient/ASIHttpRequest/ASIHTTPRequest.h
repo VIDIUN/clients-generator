@@ -229,7 +229,7 @@ typedef void (^ASIDataBlock)(NSData *data);
 	int authenticationRetryCount;
 	
 	// Authentication scheme (Basic, Digest, NTLM)
-	// If you are using Basic authentication and want to force ASIHTTPRequest to send an authorization header without waiting for a 401, you must set this to (NSString *)kCFHTTPAuthenticationSchemeBasic
+	// If you are using Basic authentication and want to force ASIHTTPRequest to send an authorization header without waiting for a 401, you must set this to (NSString *)vCFHTTPAuthenticationSchemeBasic
 	NSString *authenticationScheme;
 	
 	// Realm for authentication when credentials are required
@@ -374,8 +374,8 @@ typedef void (^ASIDataBlock)(NSData *data);
 	NSString *proxyHost;
 	int proxyPort;
 	
-	// ASIHTTPRequest will assume kCFProxyTypeHTTP if the proxy type could not be automatically determined
-	// Set to kCFProxyTypeSOCKS if you are manually configuring a SOCKS proxy
+	// ASIHTTPRequest will assume vCFProxyTypeHTTP if the proxy type could not be automatically determined
+	// Set to vCFProxyTypeSOCKS if you are manually configuring a SOCKS proxy
 	NSString *proxyType;
 
 	// URL for a PAC (Proxy Auto Configuration) file. If you want to set this yourself, it's probably best if you use a local file
@@ -389,7 +389,7 @@ typedef void (^ASIDataBlock)(NSData *data);
 	// Set to NO to only present credentials when explicitly asked for them
 	// This only affects credentials stored in the session cache when useSessionPersistence is YES. Credentials from the keychain are never presented unless the server asks for them
 	// Default is YES
-	// For requests using Basic authentication, set authenticationScheme to (NSString *)kCFHTTPAuthenticationSchemeBasic, and credentials can be sent on the very first request when shouldPresentCredentialsBeforeChallenge is YES
+	// For requests using Basic authentication, set authenticationScheme to (NSString *)vCFHTTPAuthenticationSchemeBasic, and credentials can be sent on the very first request when shouldPresentCredentialsBeforeChallenge is YES
 	BOOL shouldPresentCredentialsBeforeChallenge;
 	
 	// YES when the request hasn't finished yet. Will still be YES even if the request isn't doing anything (eg it's waiting for delegate authentication). READ-ONLY

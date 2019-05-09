@@ -5,11 +5,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -27,11 +27,11 @@
 // @ignore
 // ===================================================================================================
 
-define("KALTURA_SERVICE_FORMAT_JSON", 1);
-define("KALTURA_SERVICE_FORMAT_XML",  2);
-define("KALTURA_SERVICE_FORMAT_PHP",  3);
+define("VIDIUN_SERVICE_FORMAT_JSON", 1);
+define("VIDIUN_SERVICE_FORMAT_XML",  2);
+define("VIDIUN_SERVICE_FORMAT_PHP",  3);
 	
-class KalturaClientBase 
+class VidiunClientBase 
 {
 	/**
 	 * @var string
@@ -39,14 +39,14 @@ class KalturaClientBase
 	var $apiVersion = null;
 	
 	/**
-	 * @var KalturaConfiguration
+	 * @var VidiunConfiguration
 	 */
 	var $config;
 	
 	/**
 	 * @var string
 	 */
-	var $ks;
+	var $vs;
 	
 	/**
 	 * @var boolean
@@ -59,11 +59,11 @@ class KalturaClientBase
 	var $error;
 	
 	/**
-	 * Kaltura client constuctor, expecting configuration object 
+	 * Vidiun client constuctor, expecting configuration object 
 	 *
-	 * @param KalturaConfiguration $config
+	 * @param VidiunConfiguration $config
 	 */
-	function KalturaClientBase(/*KalturaConfiguration*/ $config)
+	function VidiunClientBase(/*VidiunConfiguration*/ $config)
 	{
 		$this->config = $config;
 		
@@ -80,7 +80,7 @@ class KalturaClientBase
 		$this->error = null;
 		
 		$this->log("service url: [" . $this->config->serviceUrl . "]");
-		$this->log("trying to call service: [".$service.".".$action."] using session: [" .$this->ks . "]");
+		$this->log("trying to call service: [".$service.".".$action."] using session: [" .$this->vs . "]");
 		
 		// append the basic params
 		$this->addParam($params, "apiVersion", $this->apiVersion);
@@ -91,7 +91,7 @@ class KalturaClientBase
     
 		$this->addParam($params, "format", $this->config->format);
 		$this->addParam($params, "clientTag", $this->config->clientTag);
-		$this->addParam($params, "ks", $this->ks);
+		$this->addParam($params, "vs", $this->vs);
 		
 		$url = $this->config->serviceUrl."/api_v3/service/$service/action/$action";
 		$this->log("full reqeust url: [" . $url . "]");
@@ -121,7 +121,7 @@ class KalturaClientBase
 		}
 
 		$signature = $this->signature($newParams);
-		$this->addParam($params, "kalsig", $signature);
+		$this->addParam($params, "vidsig", $signature);
 		
 	    $this->log(print_r($newParams, true));
 	    
@@ -135,7 +135,7 @@ class KalturaClientBase
 		{
 			$this->log("result (serialized): " . $postResult);
 			
-			if ($this->config->format == KALTURA_SERVICE_FORMAT_PHP)
+			if ($this->config->format == VIDIUN_SERVICE_FORMAT_PHP)
 			{
 				$result = @unserialize($postResult);
 
@@ -161,7 +161,7 @@ class KalturaClientBase
 
 	function signature($params)
 	{
-		ksort($params);
+		vsort($params);
 		$str = "";
 		foreach ($params as $k => $v)
 		{
@@ -260,14 +260,14 @@ class KalturaClientBase
 		return $query; 
 	}
 		
-	function getKs()
+	function getVs()
 	{
-		return $this->ks;
+		return $this->vs;
 	}
 	
-	function setKs($ks)
+	function setVs($vs)
 	{
-		$this->ks = $ks;
+		$this->vs = $vs;
 	}
 	
 	function addParam(&$params, $paramName, $paramValue)
@@ -331,16 +331,16 @@ class KalturaClientBase
  * Abstract base class for all client services 
  *
  */
-class KalturaServiceBase
+class VidiunServiceBase
 {
 	var $client;
 	
 	/**
-	 * Initialize the service keeping reference to the KalturaClient
+	 * Initialize the service keeping reference to the VidiunClient
 	 *
-	 * @param KalturaClient $client
+	 * @param VidiunClient $client
 	 */
-	function KalturaServiceBase(/*KalturaClient*/ &$client)
+	function VidiunServiceBase(/*VidiunClient*/ &$client)
 	{
 		$this->client = &$client;
 	}
@@ -350,7 +350,7 @@ class KalturaServiceBase
  * Abstract base class for all client objects 
  *
  */
-class KalturaObjectBase
+class VidiunObjectBase
 {
 	function addIfNotNull(&$params, $paramName, $paramValue)
 	{
@@ -372,28 +372,28 @@ class KalturaObjectBase
 	}
 }
 
-class KalturaConfiguration
+class VidiunConfiguration
 {
 	var $logger;
 
-	var $serviceUrl    = "http://www.kaltura.com/";
+	var $serviceUrl    = "http://www.vidiun.com/";
 	var $partnerId     = null;
 	var $format        = 3;
 	var $clientTag 	   = "php4:@DATE@";
 	
 	/**
-	 * Constructs new Kaltura configuration object
+	 * Constructs new Vidiun configuration object
 	 *
 	 */
-	function KalturaConfiguration($partnerId)
+	function VidiunConfiguration($partnerId)
 	{
 	    $this->partnerId = $partnerId;
 	}
 	
 	/**
-	 * Set logger to get kaltura client debug logs
+	 * Set logger to get vidiun client debug logs
 	 *
-	 * @param IKalturaLogger $log
+	 * @param IVidiunLogger $log
 	 */
 	function setLogger($log)
 	{
@@ -403,7 +403,7 @@ class KalturaConfiguration
 	/**
 	 * Gets the logger (Internal client use)
 	 *
-	 * @return IKalturaLogger
+	 * @return IVidiunLogger
 	 */
 	function getLogger()
 	{

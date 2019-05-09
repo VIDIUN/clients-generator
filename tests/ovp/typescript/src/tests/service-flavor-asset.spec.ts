@@ -1,46 +1,46 @@
-import { KalturaClient } from "../kaltura-client-service";
+import { VidiunClient } from "../vidiun-client-service";
 import { FlavorAssetListAction } from "../api/types/FlavorAssetListAction";
 import { BaseEntryListAction } from "../api/types/BaseEntryListAction";
-import { KalturaFlavorAssetListResponse } from "../api/types/KalturaFlavorAssetListResponse";
-import { KalturaMediaEntryFilter } from "../api/types/KalturaMediaEntryFilter";
-import { KalturaFlavorAsset } from "../api/types/KalturaFlavorAsset";
-import { KalturaFlavorAssetFilter } from "../api/types/KalturaFlavorAssetFilter";
+import { VidiunFlavorAssetListResponse } from "../api/types/VidiunFlavorAssetListResponse";
+import { VidiunMediaEntryFilter } from "../api/types/VidiunMediaEntryFilter";
+import { VidiunFlavorAsset } from "../api/types/VidiunFlavorAsset";
+import { VidiunFlavorAssetFilter } from "../api/types/VidiunFlavorAssetFilter";
 import { getClient } from "./utils";
-import { LoggerSettings, LogLevels } from "../api/kaltura-logger";
+import { LoggerSettings, LogLevels } from "../api/vidiun-logger";
 import { asyncAssert } from "./utils";
-import { KalturaResponse } from '../api';
+import { VidiunResponse } from '../api';
 
 describe(`service "Flavor" tests`, () => {
-	let kalturaClient: KalturaClient = null;
+	let vidiunClient: VidiunClient = null;
 
 	beforeAll(async () => {
 		LoggerSettings.logLevel = LogLevels.error; // suspend warnings
 
 		return getClient()
 			.then(client => {
-				kalturaClient = client;
+				vidiunClient = client;
 			}).catch(error => {
 				// can do nothing since jasmine will ignore any exceptions thrown from before all
 			});
 	});
 
 	afterAll(() => {
-		kalturaClient = null;
+		vidiunClient = null;
 	});
 
 	test("flavor list", (done) => {
 
 		expect.assertions(4);
-		kalturaClient.multiRequest(
+		vidiunClient.multiRequest(
 			[
 				new BaseEntryListAction({
-					filter: new KalturaMediaEntryFilter({
+					filter: new VidiunMediaEntryFilter({
 						flavorParamsIdsMatchOr: '0'
 					})
 				}),
 				new FlavorAssetListAction(
 					{
-						filter: new KalturaFlavorAssetFilter(
+						filter: new VidiunFlavorAssetFilter(
 							{
 								entryIdEqual: ''
 							}
@@ -50,13 +50,13 @@ describe(`service "Flavor" tests`, () => {
 			])
 			.then(
 				responses => {
-					const response: KalturaResponse<KalturaFlavorAssetListResponse> = responses[1];
+					const response: VidiunResponse<VidiunFlavorAssetListResponse> = responses[1];
 					asyncAssert(() => {
-						expect(response.result instanceof KalturaFlavorAssetListResponse).toBeTruthy();
-						if (response.result instanceof KalturaFlavorAssetListResponse) {
+						expect(response.result instanceof VidiunFlavorAssetListResponse).toBeTruthy();
+						if (response.result instanceof VidiunFlavorAssetListResponse) {
 							expect(Array.isArray(response.result.objects)).toBeTruthy();
 							expect(response.result.objects.length).toBeGreaterThan(0);
-							expect(response.result.objects[0] instanceof KalturaFlavorAsset).toBeTruthy();
+							expect(response.result.objects[0] instanceof VidiunFlavorAsset).toBeTruthy();
 						}
 					});
 					done();

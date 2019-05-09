@@ -2,16 +2,16 @@ from __future__ import absolute_import
 
 import unittest
 
-from .utils import KalturaBaseTest
+from .utils import VidiunBaseTest
 
-from KalturaClient.Plugins.Core import KalturaWidgetListResponse
+from VidiunClient.Plugins.Core import VidiunWidgetListResponse
 
 
-class WidgetTests(KalturaBaseTest):
+class WidgetTests(VidiunBaseTest):
 
     def test_list_widgets(self):
         widgets = self.client.widget.list()
-        self.assertIsInstance(widgets, KalturaWidgetListResponse)
+        self.assertIsInstance(widgets, VidiunWidgetListResponse)
 
 
 def test_suite():

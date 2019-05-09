@@ -3,26 +3,26 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "kaltura-ngx-client": {
-      "root": "projects/kaltura-ngx-client",
-      "sourceRoot": "projects/kaltura-ngx-client/src",
+    "vidiun-ngx-client": {
+      "root": "projects/vidiun-ngx-client",
+      "sourceRoot": "projects/vidiun-ngx-client/src",
       "projectType": "library",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/kaltura-ngx-client/tsconfig.lib.json",
-            "project": "projects/kaltura-ngx-client/ng-package.json"
+            "tsConfig": "projects/vidiun-ngx-client/tsconfig.lib.json",
+            "project": "projects/vidiun-ngx-client/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/kaltura-ngx-client/ng-package.prod.json"
+              "project": "projects/vidiun-ngx-client/ng-package.prod.json"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "kaltura-ngx-client"
+  "defaultProject": "vidiun-ngx-client"
 }

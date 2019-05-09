@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +15,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kaltura.bar.ActionBar;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.Category;
-import com.kaltura.client.types.ListResponse;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
-import com.kaltura.enums.States;
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.Categories;
-import com.kaltura.utils.SpinnerCategory;
-import com.kaltura.utils.Utils;
+import com.vidiun.bar.ActionBar;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.Category;
+import com.vidiun.client.types.ListResponse;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
+import com.vidiun.enums.States;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.Categories;
+import com.vidiun.utils.SpinnerCategory;
+import com.vidiun.utils.Utils;
 
 public class VideoInfo extends TemplateActivity {
 

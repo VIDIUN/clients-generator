@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 //<editor-fold defaultstate="collapsed" desc="comment">
 import android.app.ProgressDialog;
@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.AdminUser;
-import com.kaltura.utils.Utils;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.AdminUser;
+import com.vidiun.utils.Utils;
 //</editor-fold>
 
 public class Splash extends TemplateActivity {

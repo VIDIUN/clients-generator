@@ -3,35 +3,35 @@ from __future__ import absolute_import
 import re
 import unittest
 
-from .utils import KalturaBaseTest
+from .utils import VidiunBaseTest
 
-from KalturaClient.Plugins.Core import (
-    KalturaUiConf,
-    KalturaUiConfFilter,
-    KalturaUiConfListResponse,
-    KalturaUiConfObjType,
+from VidiunClient.Plugins.Core import (
+    VidiunUiConf,
+    VidiunUiConfFilter,
+    VidiunUiConfListResponse,
+    VidiunUiConfObjType,
 )
 
 
-class UiConfTests(KalturaBaseTest):
+class UiConfTests(VidiunBaseTest):
 
     def test_list(self):
         resp = self.client.uiConf.list()
-        self.assertIsInstance(resp, KalturaUiConfListResponse)
+        self.assertIsInstance(resp, VidiunUiConfListResponse)
 
         objs = resp.objects
         self.assertIsInstance(objs, list)
 
         for o in objs:
-            self.assertIsInstance(o, KalturaUiConf)
+            self.assertIsInstance(o, VidiunUiConf)
 
     def test_get_players(self):
-        filt = KalturaUiConfFilter()
+        filt = VidiunUiConfFilter()
 
         players = [
-                   KalturaUiConfObjType.PLAYER_V3,
-                   KalturaUiConfObjType.PLAYER,
-                   KalturaUiConfObjType.PLAYER_SL,
+                   VidiunUiConfObjType.PLAYER_V3,
+                   VidiunUiConfObjType.PLAYER,
+                   VidiunUiConfObjType.PLAYER_SL,
                   ]
         filt.setObjTypeIn(players)
 
@@ -45,11 +45,11 @@ class UiConfTests(KalturaBaseTest):
         """Until I find a better way... this gets all uiconfs that are
            'playlist players'
            not sure if this is the right way"""
-        filt = KalturaUiConfFilter()
+        filt = VidiunUiConfFilter()
         players = [
-                   KalturaUiConfObjType.PLAYER_V3,
-                   KalturaUiConfObjType.PLAYER,
-                   KalturaUiConfObjType.PLAYER_SL,
+                   VidiunUiConfObjType.PLAYER_V3,
+                   VidiunUiConfObjType.PLAYER,
+                   VidiunUiConfObjType.PLAYER_SL,
                   ]
         tags = 'playlist'
 
@@ -71,10 +71,10 @@ class UiConfTests(KalturaBaseTest):
         """Until I find a better way... this gets all uiconfs that are
            'single video' players
            Not sure if this is the right way"""
-        filt = KalturaUiConfFilter()
-        players = [KalturaUiConfObjType.PLAYER_V3,
-                   KalturaUiConfObjType.PLAYER,
-                   KalturaUiConfObjType.PLAYER_SL,
+        filt = VidiunUiConfFilter()
+        players = [VidiunUiConfObjType.PLAYER_V3,
+                   VidiunUiConfObjType.PLAYER,
+                   VidiunUiConfObjType.PLAYER_SL,
                   ]
         tags = 'player'
 
@@ -95,13 +95,13 @@ class UiConfTests(KalturaBaseTest):
 
     def test_list_templates(self):
         templates = self.client.uiConf.listTemplates()
-        self.assertIsInstance(templates, KalturaUiConfListResponse)
+        self.assertIsInstance(templates, VidiunUiConfListResponse)
 
         objs = templates.objects
         self.assertIsInstance(objs, list)
 
         for o in objs:
-            self.assertIsInstance(o, KalturaUiConf)
+            self.assertIsInstance(o, VidiunUiConf)
 
 
 def test_suite():

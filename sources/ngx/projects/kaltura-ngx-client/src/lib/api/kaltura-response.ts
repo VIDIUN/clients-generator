@@ -1,8 +1,8 @@
-import { KalturaAPIException } from "./kaltura-api-exception";
+import { VidiunAPIException } from "./vidiun-api-exception";
 
-export class KalturaResponse<T> {
+export class VidiunResponse<T> {
 
-    constructor(public result : T, public error : KalturaAPIException)
+    constructor(public result : T, public error : VidiunAPIException)
     {
 
 

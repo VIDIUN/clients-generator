@@ -1,20 +1,20 @@
-package com.kaltura.mediatorActivity;
+package com.vidiun.mediatorActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.kaltura.activity.Info;
-import com.kaltura.activity.Main;
-import com.kaltura.activity.MostPopular;
-import com.kaltura.activity.Player;
-import com.kaltura.activity.Settings;
-import com.kaltura.activity.Splash;
-import com.kaltura.activity.SuccessUpload;
-import com.kaltura.activity.Upload;
-import com.kaltura.activity.Uploading;
-import com.kaltura.activity.VideoCategories;
-import com.kaltura.activity.VideoCategory;
-import com.kaltura.activity.VideoInfo;
+import com.vidiun.activity.Info;
+import com.vidiun.activity.Main;
+import com.vidiun.activity.MostPopular;
+import com.vidiun.activity.Player;
+import com.vidiun.activity.Settings;
+import com.vidiun.activity.Splash;
+import com.vidiun.activity.SuccessUpload;
+import com.vidiun.activity.Upload;
+import com.vidiun.activity.Uploading;
+import com.vidiun.activity.VideoCategories;
+import com.vidiun.activity.VideoCategory;
+import com.vidiun.activity.VideoInfo;
 
 /**
  * Concrete mediator

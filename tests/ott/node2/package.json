@@ -1,8 +1,8 @@
 {
-  "name": "kaltura-ott-client",
+  "name": "vidiun-ott-client",
   "version": "@VERSION_JS@",
-  "description": "Kaltura OTT NodeJS client library",
-  "main": "KalturaClient.js",
+  "description": "Vidiun OTT NodeJS client library",
+  "main": "VidiunClient.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --timeout 60000"
   },
@@ -11,21 +11,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaltura/KalturaOttGeneratedAPIClientsNode"
+    "url": "https://github.com/vidiun/VidiunOttGeneratedAPIClientsNode"
   },
   "keywords": [
-    "Kaltura",
+    "Vidiun",
     "API",
     "clientlibs",
     "OTT"
   ],
   "author": {
-    "name": "Kaltura Community",
-    "email": "community@kaltura.com"
+    "name": "Vidiun Community",
+    "email": "community@vidiun.com"
   },
   "license": "AGPLv3",
   "bugs": {
-    "url": "https://github.com/kaltura/clients-generator/issues"
+    "url": "https://github.com/vidiun/clients-generator/issues"
   },
   "dependencies": {
     "md5": "*",

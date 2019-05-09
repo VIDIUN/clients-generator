@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  KalturaClient
+//  VidiunClient
 //
 //  Created by tan-tan-kanarek on 07/17/2017.
 //  Copyright (c) 2017 tan-tan-kanarek. All rights reserved.

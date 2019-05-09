@@ -1,4 +1,4 @@
-package com.kaltura.client.utils;
+package com.vidiun.client.utils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;

@@ -110,7 +110,7 @@
     <orderEntry type="library" exported="" name="universal-image-loader-1.9.5" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.0.1" level="project" />
-    <orderEntry type="module" module-name="KalturaClient" exported="" />
+    <orderEntry type="module" module-name="VidiunClient" exported="" />
     <orderEntry type="library" exported="" name="org.json-20130603" level="project" />
     <orderEntry type="library" exported="" name="okio-1.9.0" level="project" />
     <orderEntry type="library" exported="" name="commons-codec-1.4" level="project" />

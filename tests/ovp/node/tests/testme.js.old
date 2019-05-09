@@ -12,27 +12,27 @@ var cb = function (results){
 	}
 };
 
-var kc = require('../KalturaClient');
-var ktypes = require('../KalturaTypes');
-var vo = require ('../KalturaVO.js');
+var vc = require('../VidiunClient');
+var vtypes = require('../VidiunTypes');
+var vo = require ('../VidiunVO.js');
 var config = require ('./config.js');
 
 try{
-    var kaltura_conf = new kc.KalturaConfiguration(config.minus2_partner_id);
+    var vidiun_conf = new vc.VidiunConfiguration(config.minus2_partner_id);
 }catch(e){
     console.log(e);
     process.exit(1);
 }
-kaltura_conf.serviceUrl = config.service_url ;
+vidiun_conf.serviceUrl = config.service_url ;
 
-var client = new kc.KalturaClient(kaltura_conf);
-var type = ktypes.KalturaSessionType.ADMIN;
+var client = new vc.VidiunClient(vidiun_conf);
+var type = vtypes.VidiunSessionType.ADMIN;
 
 var expiry = null;
 var privileges = null;
 //console.log('***************Creating -2 admin session***************');
-var ks = client.session.start(cb, config.minus2_admin_secret, config.user_id, type, config.minus2_partner_id, expiry, privileges);
-var partner = new vo.KalturaPartner();
+var vs = client.session.start(cb, config.minus2_admin_secret, config.user_id, type, config.minus2_partner_id, expiry, privileges);
+var partner = new vo.VidiunPartner();
 partner.name = "MBP";
 partner.appearInSearch = null;
 partner.adminName = "MBP";

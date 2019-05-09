@@ -32,7 +32,7 @@ class BpmnClientGenerator extends ClientGeneratorFromXml
 		}
 	}
 	
-	function writeService(DOMElement $serviceNode, $serviceName = null, $serviceId = null, $actionPrefix = "", $extends = "KalturaServiceBase")
+	function writeService(DOMElement $serviceNode, $serviceName = null, $serviceId = null, $actionPrefix = "", $extends = "VidiunServiceBase")
 	{
 		$serviceId = $serviceNode->getAttribute('id');
 		if(!$this->shouldIncludeService($serviceId))
@@ -73,7 +73,7 @@ class BpmnClientGenerator extends ClientGeneratorFromXml
 		
 		$processNodes = $xpath->query("/*[local-name()='definitions']/*[local-name()='process']");
 		$processNode = $processNodes->item(0);
-		$processNode->setAttribute('id', "kaltura-$serviceName-$action");
+		$processNode->setAttribute('id', "vidiun-$serviceName-$action");
 		$processNode->setAttribute('name', "$serviceUName.$action");
 		
 		$signature = array();
@@ -127,7 +127,7 @@ execution.setVariable(\"response\", response);
 		$scriptNode = $scriptNodes->item(0);
 		$scriptNode->nodeValue = $script;
 		
-		$filename = "processes/kaltura.$serviceName.$action.bpmn";
+		$filename = "processes/vidiun.$serviceName.$action.bpmn";
 		$this->addFile($filename, $bpmn->saveXML(), false);
 	}
 }

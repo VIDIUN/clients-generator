@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,9 +25,9 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
-import com.kaltura.client.types.APIException;
+import com.vidiun.client.types.APIException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -36,7 +36,7 @@ import java.lang.reflect.Constructor;
 
 /**
  * This class was generated using generate.php
- * against an XML schema provided by Kaltura.
+ * against an XML schema provided by Vidiun.
  * @date Thu, 09 Feb 12 10:24:52 +0200
  * 
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
@@ -54,7 +54,7 @@ public class ObjectFactory {
 	        String objectType = objectTypeNode.getTextContent();
 	        
 			try {
-				clazz = (Class<T>) Class.forName("com.kaltura.client.types." + objectType);
+				clazz = (Class<T>) Class.forName("com.vidiun.client.types." + objectType);
 			} catch (ClassNotFoundException e1) {
 				clazz = null;
 			}

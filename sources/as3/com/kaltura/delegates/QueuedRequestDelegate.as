@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,19 +25,19 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.delegates {
-	import com.kaltura.commands.MultiRequest;
-	import com.kaltura.commands.QueuedRequest;
-	import com.kaltura.config.KalturaConfig;
-	import com.kaltura.errors.KalturaError;
-	import com.kaltura.net.KalturaCall;
+package com.vidiun.delegates {
+	import com.vidiun.commands.MultiRequest;
+	import com.vidiun.commands.QueuedRequest;
+	import com.vidiun.config.VidiunConfig;
+	import com.vidiun.errors.VidiunError;
+	import com.vidiun.net.VidiunCall;
 	
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 
 	public class QueuedRequestDelegate extends WebDelegateBase {
 
-		public function QueuedRequestDelegate(call:KalturaCall = null, config:KalturaConfig = null) {
+		public function QueuedRequestDelegate(call:VidiunCall = null, config:VidiunConfig = null) {
 			super(call, config); 
 		}
 		
@@ -57,14 +57,14 @@ package com.kaltura.delegates {
 				var myInst : Object;
 				
 				if (commandName == "MultiRequest") {
-					clsName = "com.kaltura.delegates.MultiRequestDelegate"; 
+					clsName = "com.vidiun.delegates.MultiRequestDelegate"; 
 					cls = getDefinitionByName( clsName ) as Class;
 					myInst = new cls(null , null);
 					// set the call after the constructor, so we don't fire execute()
 					myInst.call = (call as QueuedRequest).calls[i];
 				}
 				else {
-					clsName = "com.kaltura.delegates."+importFrom+"."+ commandName +"Delegate"; //'com.kaltura.delegates.session.SessionStartDelegate'
+					clsName = "com.vidiun.delegates."+importFrom+"."+ commandName +"Delegate"; //'com.vidiun.delegates.session.SessionStartDelegate'
 					cls = getDefinitionByName( clsName ) as Class;//(') as Class;
 					myInst = new cls(null , null);
 				}
@@ -88,22 +88,22 @@ package com.kaltura.delegates {
 				xml +="</result></result>";
 				
 				// add the item or a matching error:
-				var kErr:KalturaError = validateKalturaResponse(xml);
+				var vErr:VidiunError = validateVidiunResponse(xml);
 				
-				if (kErr == null) {
+				if (vErr == null) {
 					var res : XML = new XML(xml);
 					try {
 						var obj : Object = (myInst as WebDelegateBase).parse( res );
 						resArr.push( obj );
 					} catch (e:Error) {
-						kErr = new KalturaError();
-						kErr.errorCode = String(e.errorID);
-						kErr.errorMsg = e.message;
-						resArr.push( kErr );
+						vErr = new VidiunError();
+						vErr.errorCode = String(e.errorID);
+						vErr.errorMsg = e.message;
+						resArr.push( vErr );
 					}
 				}
 				else {
-					resArr.push(kErr);
+					resArr.push(vErr);
 				}
 			}
 			

@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package com.kaltura.client;
+package com.vidiun.client;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,7 +27,7 @@ import java.io.Serializable;
  * @author Aaron Zeckoski (azeckoski @ vt.edu)
  */
 @SuppressWarnings("serial")
-public class KalturaFile implements Serializable {
+public class VidiunFile implements Serializable {
 
     private String name;
     private long size;
@@ -35,10 +35,10 @@ public class KalturaFile implements Serializable {
     private InputStream inputStream;
 
     /**
-     * Create a KF from a File object
+     * Create a VF from a File object
      * @param file the file (must not be null)
      */
-    public KalturaFile(File file) {
+    public VidiunFile(File file) {
         if (file == null) {
             throw new IllegalArgumentException("file must be set");
         }
@@ -51,11 +51,11 @@ public class KalturaFile implements Serializable {
     }
 
     /**
-     * Create a KF from a FileInputStream object
+     * Create a VF from a FileInputStream object
      * @param fileInputStream the file stream (must not be null)
      * @param name the file name
      */
-    public KalturaFile(FileInputStream fileInputStream, String name) {
+    public VidiunFile(FileInputStream fileInputStream, String name) {
         if (fileInputStream == null) {
             throw new IllegalArgumentException("fileInputStream must be set");
         }
@@ -73,12 +73,12 @@ public class KalturaFile implements Serializable {
     }
 
     /**
-     * Create a KF from a normal input stream and some params
+     * Create a VF from a normal input stream and some params
      * @param inputStream the file content stream (must not be null)
      * @param name the file name
      * @param size the file size
      */
-    public KalturaFile(InputStream inputStream, String name, long size) {
+    public VidiunFile(InputStream inputStream, String name, long size) {
         if (inputStream == null) {
             throw new IllegalArgumentException("fileInputStream must be set");
         }

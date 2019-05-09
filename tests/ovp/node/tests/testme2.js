@@ -1,7 +1,7 @@
 var Unit = require('deadunit')
-var kc = require('../KalturaClient');
-var ktypes = require('../KalturaTypes');
-var vo = require ('../KalturaVO.js');
+var vc = require('../VidiunClient');
+var vtypes = require('../VidiunTypes');
+var vo = require ('../VidiunVO.js');
 var config = require ('./config.js');
 
     var testme = Unit.test('Create -2 Admin session', function () {
@@ -16,7 +16,7 @@ var cb = function (results)
 		test.log(results.code);
 		test.ok(false);
 	    }else{
-		//test.log('KS is: '+results);
+		//test.log('VS is: '+results);
 		//test.ok(true);
 
 	    }
@@ -26,15 +26,15 @@ var cb = function (results)
     }
 }
 
-var kaltura_conf = new kc.KalturaConfiguration(config.minus2_partner_id);
-kaltura_conf.serviceUrl = config.service_url ;
-var client = new kc.KalturaClient(kaltura_conf);
-var type = ktypes.KalturaSessionType.ADMIN;
+var vidiun_conf = new vc.VidiunConfiguration(config.minus2_partner_id);
+vidiun_conf.serviceUrl = config.service_url ;
+var client = new vc.VidiunClient(vidiun_conf);
+var type = vtypes.VidiunSessionType.ADMIN;
 
 var expiry = null;
 var privileges = null;
-var ks = client.session.start(cb, config.minus2_admin_secret, config.user_id, type, config.minus2_partner_id, expiry, privileges);
-var partner = new vo.KalturaPartner();
+var vs = client.session.start(cb, config.minus2_admin_secret, config.user_id, type, config.minus2_partner_id, expiry, privileges);
+var partner = new vo.VidiunPartner();
 partner.name = "MBP";
 partner.appearInSearch = null;
 partner.adminName = "MBP";

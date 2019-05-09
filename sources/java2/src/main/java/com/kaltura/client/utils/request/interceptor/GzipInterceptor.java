@@ -1,4 +1,4 @@
-package com.kaltura.client.utils.request.interceptor;
+package com.vidiun.client.utils.request.interceptor;
 
 import okhttp3.*;
 import okio.BufferedSink;

@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,19 +25,19 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
 import com.google.gson.Gson;
-import com.kaltura.client.enums.EnumAsInt;
-import com.kaltura.client.enums.EnumAsString;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.ObjectBase;
+import com.vidiun.client.enums.EnumAsInt;
+import com.vidiun.client.enums.EnumAsString;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.ObjectBase;
 
 import java.io.Serializable;
 import java.util.*;
 
 /**
- * Helper class that provides a collection of Kaltura parameters (key-value
+ * Helper class that provides a collection of Vidiun parameters (key-value
  * pairs).
  *
  * @author jpotts
@@ -84,11 +84,11 @@ public class Params extends LinkedHashMap<String, Object> implements Serializabl
 	}
 
 	public void add(String key, Integer value) {
-		if (value == null || value == ParamsValueDefaults.KALTURA_UNDEF_INT) {
+		if (value == null || value == ParamsValueDefaults.VIDIUN_UNDEF_INT) {
 			return;
 		}
 
-		if (value == ParamsValueDefaults.KALTURA_NULL_INT) {
+		if (value == ParamsValueDefaults.VIDIUN_NULL_INT) {
 			putNull(key);
 			return;
 		}
@@ -99,10 +99,10 @@ public class Params extends LinkedHashMap<String, Object> implements Serializabl
 	}
 
 	public void add(String key, Long value) {
-		if (value == null || value == ParamsValueDefaults.KALTURA_UNDEF_LONG) {
+		if (value == null || value == ParamsValueDefaults.VIDIUN_UNDEF_LONG) {
 			return;
 		}
-		if (value == ParamsValueDefaults.KALTURA_NULL_LONG) {
+		if (value == ParamsValueDefaults.VIDIUN_NULL_LONG) {
 			putNull(key);
 			return;
 		}
@@ -113,10 +113,10 @@ public class Params extends LinkedHashMap<String, Object> implements Serializabl
 	}
 
 	public void add(String key, Double value) {
-		if (value == null || value == ParamsValueDefaults.KALTURA_UNDEF_DOUBLE) {
+		if (value == null || value == ParamsValueDefaults.VIDIUN_UNDEF_DOUBLE) {
 			return;
 		}
-		if (value == ParamsValueDefaults.KALTURA_NULL_DOUBLE) {
+		if (value == ParamsValueDefaults.VIDIUN_NULL_DOUBLE) {
 			putNull(key);
 			return;
 		}
@@ -140,7 +140,7 @@ public class Params extends LinkedHashMap<String, Object> implements Serializabl
 			return;
 		}
 
-		if (value.equals(ParamsValueDefaults.KALTURA_NULL_STRING)) {
+		if (value.equals(ParamsValueDefaults.VIDIUN_NULL_STRING)) {
 			putNull(key);
 			return;
 		}

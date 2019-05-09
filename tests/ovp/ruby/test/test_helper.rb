@@ -4,11 +4,11 @@
 #                          | ' </ _` | |  _| || | '_/ _` |
 #                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 #
-# This file is part of the Kaltura Collaborative Media Suite which allows users
+# This file is part of the Vidiun Collaborative Media Suite which allows users
 # to do with audio, video, and animation what Wiki platfroms allow them to do with
 # text.
 #
-# Copyright (C) 2006-2011  Kaltura Inc.
+# Copyright (C) 2006-2011  Vidiun Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -31,29 +31,29 @@ require 'shoulda'
 require 'yaml'
 require 'logger'
 
-require 'kaltura'
+require 'vidiun'
 
 class Test::Unit::TestCase
 
-  # read the kaltura config file
-  # initiate a kaltura configuration object
-  # initiate kaltura client object
+  # read the vidiun config file
+  # initiate a vidiun configuration object
+  # initiate vidiun client object
   # get the sesion object and assigns it to the client
   def setup
-    config_file = YAML.load_file("kaltura.yml")
+    config_file = YAML.load_file("vidiun.yml")
         
     partner_id = config_file["test"]["partner_id"]
     service_url = config_file["test"]["service_url"]
     administrator_secret = config_file["test"]["administrator_secret"]
     timeout = config_file["test"]["timeout"]
     
-    config = Kaltura::KalturaConfiguration.new()
+    config = Vidiun::VidiunConfiguration.new()
     config.service_url = service_url
     config.logger = Logger.new(STDOUT)
     config.timeout = timeout
     
-    @client = Kaltura::KalturaClient.new( config )
-    @client.generate_session(administrator_secret, '', Kaltura::KalturaSessionType::ADMIN, partner_id )
+    @client = Vidiun::VidiunClient.new( config )
+    @client.generate_session(administrator_secret, '', Vidiun::VidiunSessionType::ADMIN, partner_id )
   end
 
 end

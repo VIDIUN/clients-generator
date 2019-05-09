@@ -5,7 +5,7 @@
 	<key>uiconfID</key>
 	<string>21384602</string>
 	<key>playbackHost</key>
-	<string>cdnapi.kaltura.com</string>
+	<string>cdnapi.vidiun.com</string>
 	<key>playbackProtocol</key>
 	<string>http</string>
 </dict>

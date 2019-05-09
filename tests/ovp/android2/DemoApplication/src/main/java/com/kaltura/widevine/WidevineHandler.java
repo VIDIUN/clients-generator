@@ -1,4 +1,4 @@
-package com.kaltura.widevine;
+package com.vidiun.widevine;
 
 import android.app.Activity;
 import android.drm.DrmErrorEvent;
@@ -8,8 +8,8 @@ import android.drm.DrmInfoRequest;
 import android.drm.DrmManagerClient;
 import android.widget.Toast;
 
-import com.kaltura.services.AdminUser;
-import com.kaltura.utils.ApiHelper;
+import com.vidiun.services.AdminUser;
+import com.vidiun.utils.ApiHelper;
 
 public class WidevineHandler {
 	
@@ -22,15 +22,15 @@ public class WidevineHandler {
 	
 	public WidevineHandler (Activity activity, int partnerId, String entryId, String flavorId) {
 		String host = (ApiHelper.getCdnHost() != null) ? ApiHelper.getCdnHost() : ApiHelper.getHost();
-		url = host + "/p/" + partnerId + "/sp/" + partnerId + "00/playManifest/entryId/" + entryId + "/flavorId/" + flavorId + "/format/url/protocol/http/a.wvm?ks=" + ApiHelper.getClient().getSessionId();
+		url = host + "/p/" + partnerId + "/sp/" + partnerId + "00/playManifest/entryId/" + entryId + "/flavorId/" + flavorId + "/format/url/protocol/http/a.wvm?vs=" + ApiHelper.getClient().getSessionId();
 		context = activity;
 		
 		DrmManagerClient mDrmManager = new DrmManagerClient(context);
 		DrmInfoRequest drmInfoRequest = new DrmInfoRequest(DrmInfoRequest.TYPE_RIGHTS_ACQUISITION_INFO, WIDEVINE_MIME_TYPE); 
 		drmInfoRequest.put("WVAssetURIKey", url);
-		drmInfoRequest.put("WVDRMServerKey", ApiHelper.getHost() + DRM_SERVER_URI + flavorId + "&ks=" + ApiHelper.getClient().getSessionId());
+		drmInfoRequest.put("WVDRMServerKey", ApiHelper.getHost() + DRM_SERVER_URI + flavorId + "&vs=" + ApiHelper.getClient().getSessionId());
 		drmInfoRequest.put("WVDeviceIDKey", "device1234");
-		drmInfoRequest.put("WVPortalKey", "kaltura");
+		drmInfoRequest.put("WVPortalKey", "vidiun");
 
 		mDrmManager.setOnEventListener(new DrmManagerClient.OnEventListener() {
 			public void onEvent(DrmManagerClient client, DrmEvent event) {

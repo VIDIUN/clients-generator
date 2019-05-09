@@ -5,11 +5,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -27,7 +27,7 @@
 // @ignore
 // ===================================================================================================
 
-class Kaltura_Client_ParseUtils 
+class Vidiun_Client_ParseUtils 
 {
 	public static function unmarshalSimpleType(\SimpleXMLElement $xml) 
 	{
@@ -37,11 +37,11 @@ class Kaltura_Client_ParseUtils
 	public static function unmarshalObject(\SimpleXMLElement $xml, $fallbackType = null) 
 	{
 		$objectType = reset($xml->objectType);
-		$type = Kaltura_Client_TypeMap::getZendType($objectType);
+		$type = Vidiun_Client_TypeMap::getZendType($objectType);
 		if(!class_exists($type)) {
-			$type = Kaltura_Client_TypeMap::getZendType($fallbackType);
+			$type = Vidiun_Client_TypeMap::getZendType($fallbackType);
 			if(!class_exists($type))
-				throw new Kaltura_Client_ClientException("Invalid object type class [$type] of Kaltura type [$objectType]", Kaltura_Client_ClientException::ERROR_INVALID_OBJECT_TYPE);
+				throw new Vidiun_Client_ClientException("Invalid object type class [$type] of Vidiun type [$objectType]", Vidiun_Client_ClientException::ERROR_INVALID_OBJECT_TYPE);
 		}
 			
 		return new $type($xml);

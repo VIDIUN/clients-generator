@@ -1,13 +1,13 @@
 {
-  "name": "kaltura-ott-typescript-client",
+  "name": "vidiun-ott-typescript-client",
   "private": true,
   "version": "@VERSION_JS@",
-  "description": "Kaltura OTT Typescript client",
+  "description": "Vidiun OTT Typescript client",
   "keywords": [
-    "Kaltura"
+    "Vidiun"
   ],
   "license": "AGPL-3.0",
-  "author": "https://github.com/kaltura-ng/graphs/contributors",
+  "author": "https://github.com/vidiun-ng/graphs/contributors",
   "contributors": [
     {
       "name": "Eran Sakal",
@@ -29,10 +29,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaltura/KalturaOttGeneratedAPIClientsTypescript.git"
+    "url": "https://github.com/vidiun/VidiunOttGeneratedAPIClientsTypescript.git"
   },
   "bugs": {
-    "url": "https://github.com/kaltura/KalturaOttGeneratedAPIClientsTypescript/issues"
+    "url": "https://github.com/vidiun/VidiunOttGeneratedAPIClientsTypescript/issues"
   },
   "main": "./index.js",
   "dependencies": {

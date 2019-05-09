@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,45 +34,45 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import com.kaltura.client.APIOkRequestsExecutor;
-import com.kaltura.client.enums.EntryStatus;
-import com.kaltura.client.enums.EntryType;
-import com.kaltura.client.enums.MediaType;
-import com.kaltura.client.enums.ModerationFlagType;
-import com.kaltura.client.services.DataService;
-import com.kaltura.client.services.DataService.AddDataBuilder;
-import com.kaltura.client.services.FlavorAssetService;
-import com.kaltura.client.services.FlavorAssetService.GetByEntryIdFlavorAssetBuilder;
-import com.kaltura.client.services.MediaService;
-import com.kaltura.client.services.MediaService.AddContentMediaBuilder;
-import com.kaltura.client.services.MediaService.AddFromUploadedFileMediaBuilder;
-import com.kaltura.client.services.MediaService.AddFromUrlMediaBuilder;
-import com.kaltura.client.services.MediaService.AddMediaBuilder;
-import com.kaltura.client.services.MediaService.CountMediaBuilder;
-import com.kaltura.client.services.MediaService.GetMediaBuilder;
-import com.kaltura.client.services.MediaService.ListFlagsMediaBuilder;
-import com.kaltura.client.services.MediaService.ListMediaBuilder;
-import com.kaltura.client.services.MediaService.UpdateMediaBuilder;
-import com.kaltura.client.services.MediaService.UploadMediaBuilder;
-import com.kaltura.client.services.PlaylistService;
-import com.kaltura.client.services.PlaylistService.ExecuteFromFiltersPlaylistBuilder;
-import com.kaltura.client.services.UploadTokenService;
-import com.kaltura.client.services.UploadTokenService.AddUploadTokenBuilder;
-import com.kaltura.client.services.UploadTokenService.UploadUploadTokenBuilder;
-import com.kaltura.client.types.BaseEntry;
-import com.kaltura.client.types.DataEntry;
-import com.kaltura.client.types.FlavorAsset;
-import com.kaltura.client.types.ListResponse;
-import com.kaltura.client.types.MediaEntry;
-import com.kaltura.client.types.MediaEntryFilter;
-import com.kaltura.client.types.MediaEntryFilterForPlaylist;
-import com.kaltura.client.types.ModerationFlag;
-import com.kaltura.client.types.UploadToken;
-import com.kaltura.client.types.UploadedFileTokenResource;
-import com.kaltura.client.utils.request.NullRequestBuilder;
-import com.kaltura.client.utils.request.ServeRequestBuilder;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
+import com.vidiun.client.APIOkRequestsExecutor;
+import com.vidiun.client.enums.EntryStatus;
+import com.vidiun.client.enums.EntryType;
+import com.vidiun.client.enums.MediaType;
+import com.vidiun.client.enums.ModerationFlagType;
+import com.vidiun.client.services.DataService;
+import com.vidiun.client.services.DataService.AddDataBuilder;
+import com.vidiun.client.services.FlavorAssetService;
+import com.vidiun.client.services.FlavorAssetService.GetByEntryIdFlavorAssetBuilder;
+import com.vidiun.client.services.MediaService;
+import com.vidiun.client.services.MediaService.AddContentMediaBuilder;
+import com.vidiun.client.services.MediaService.AddFromUploadedFileMediaBuilder;
+import com.vidiun.client.services.MediaService.AddFromUrlMediaBuilder;
+import com.vidiun.client.services.MediaService.AddMediaBuilder;
+import com.vidiun.client.services.MediaService.CountMediaBuilder;
+import com.vidiun.client.services.MediaService.GetMediaBuilder;
+import com.vidiun.client.services.MediaService.ListFlagsMediaBuilder;
+import com.vidiun.client.services.MediaService.ListMediaBuilder;
+import com.vidiun.client.services.MediaService.UpdateMediaBuilder;
+import com.vidiun.client.services.MediaService.UploadMediaBuilder;
+import com.vidiun.client.services.PlaylistService;
+import com.vidiun.client.services.PlaylistService.ExecuteFromFiltersPlaylistBuilder;
+import com.vidiun.client.services.UploadTokenService;
+import com.vidiun.client.services.UploadTokenService.AddUploadTokenBuilder;
+import com.vidiun.client.services.UploadTokenService.UploadUploadTokenBuilder;
+import com.vidiun.client.types.BaseEntry;
+import com.vidiun.client.types.DataEntry;
+import com.vidiun.client.types.FlavorAsset;
+import com.vidiun.client.types.ListResponse;
+import com.vidiun.client.types.MediaEntry;
+import com.vidiun.client.types.MediaEntryFilter;
+import com.vidiun.client.types.MediaEntryFilterForPlaylist;
+import com.vidiun.client.types.ModerationFlag;
+import com.vidiun.client.types.UploadToken;
+import com.vidiun.client.types.UploadedFileTokenResource;
+import com.vidiun.client.utils.request.NullRequestBuilder;
+import com.vidiun.client.utils.request.ServeRequestBuilder;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
 
 public class MediaServiceTest extends BaseTest {
 
@@ -279,7 +279,7 @@ public class MediaServiceTest extends BaseTest {
 	 * Tests the following : 
 	 * Media Service -
 	 *  - add From Url
-	 * http://www.kaltura.org/how-update-supposed-work-api-v3
+	 * http://www.vidiun.org/how-update-supposed-work-api-v3
 	 * @throws Exception 
 	 */
 	public void testUpdate() throws Exception {

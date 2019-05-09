@@ -3,19 +3,19 @@ import unittest
 
 from six.moves import configparser
 
-from KalturaClient import KalturaClient, KalturaConfiguration
-from KalturaClient.Base import KalturaObjectFactory, KalturaEnumsFactory
-from KalturaClient.Base import IKalturaLogger
+from VidiunClient import VidiunClient, VidiunConfiguration
+from VidiunClient.Base import VidiunObjectFactory, VidiunEnumsFactory
+from VidiunClient.Base import IVidiunLogger
 
-from KalturaClient.Plugins.Core import KalturaSessionType
+from VidiunClient.Plugins.Core import VidiunSessionType
 
-generateSessionFunction = KalturaClient.generateSessionV2
+generateSessionFunction = VidiunClient.generateSessionV2
 # generateSessionV2() needs the Crypto module, if we don't have it, we fallback to generateSession()
 try:
     from Crypto import Random
     from Crypto.Cipher import AES
 except ImportError:
-    generateSessionFunction = KalturaClient.generateSession
+    generateSessionFunction = VidiunClient.generateSession
 
 dir = os.path.dirname(__file__)
 filename = os.path.join(dir, 'config.ini')
@@ -32,15 +32,15 @@ logging.basicConfig(level = logging.DEBUG,
                     format = '%(asctime)s %(levelname)s %(message)s',
                     stream = sys.stdout)
 
-class KalturaLogger(IKalturaLogger):
+class VidiunLogger(IVidiunLogger):
     def log(self, msg):
         logging.info(msg)
 
 def GetConfig():
-    config = KalturaConfiguration()
+    config = VidiunConfiguration()
     config.requestTimeout = 500
     config.serviceUrl = SERVICE_URL
-    config.setLogger(KalturaLogger())
+    config.setLogger(VidiunLogger())
     return config
 
 def getTestFile(filename, mode='rb'):
@@ -49,18 +49,18 @@ def getTestFile(filename, mode='rb'):
     
     
 
-class KalturaBaseTest(unittest.TestCase):
-    """Base class for all Kaltura Tests"""
-    #TODO  create a client factory as to avoid thrashing kaltura with logins...
+class VidiunBaseTest(unittest.TestCase):
+    """Base class for all Vidiun Tests"""
+    #TODO  create a client factory as to avoid thrashing vidiun with logins...
     
     def setUp(self):
         #(client session is enough when we do operations in a users scope)
         self.config = GetConfig()
-        self.client = KalturaClient(self.config)
-        self.ks = generateSessionFunction(ADMIN_SECRET, USER_NAME, 
-                                             KalturaSessionType.ADMIN, PARTNER_ID, 
+        self.client = VidiunClient(self.config)
+        self.vs = generateSessionFunction(ADMIN_SECRET, USER_NAME, 
+                                             VidiunSessionType.ADMIN, PARTNER_ID, 
                                              86400, "disableentitlement")
-        self.client.setKs(self.ks)            
+        self.client.setVs(self.vs)            
             
             
     def tearDown(self):
@@ -68,7 +68,7 @@ class KalturaBaseTest(unittest.TestCase):
         #do cleanup first, probably relies on self.client
         self.doCleanups()
         
-        del(self.ks)
+        del(self.vs)
         del(self.client)
         del(self.config)
         

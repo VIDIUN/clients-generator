@@ -1,6 +1,6 @@
-package com.kaltura.client.utils.response.base;
+package com.vidiun.client.utils.response.base;
 
-import com.kaltura.client.utils.ErrorElement;
+import com.vidiun.client.utils.ErrorElement;
 
 import java.util.List;
 import java.util.Map;

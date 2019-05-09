@@ -1,32 +1,32 @@
-import { KalturaResponse } from "./kaltura-response";
-import { KalturaRequestBase, KalturaRequestBaseArgs } from "./kaltura-request-base";
-import { KalturaAPIException } from './kaltura-api-exception';
-import { KalturaObjectBase } from './kaltura-object-base';
-import { KalturaRequestOptions, KalturaRequestOptionsArgs } from './kaltura-request-options';
+import { VidiunResponse } from "./vidiun-response";
+import { VidiunRequestBase, VidiunRequestBaseArgs } from "./vidiun-request-base";
+import { VidiunAPIException } from './vidiun-api-exception';
+import { VidiunObjectBase } from './vidiun-object-base';
+import { VidiunRequestOptions, VidiunRequestOptionsArgs } from './vidiun-request-options';
 import { environment } from '../environment';
 
-export interface KalturaRequestArgs extends KalturaRequestBaseArgs
+export interface VidiunRequestArgs extends VidiunRequestBaseArgs
 {
 
 }
 
 
-export abstract class KalturaRequest<T> extends KalturaRequestBase {
+export abstract class VidiunRequest<T> extends VidiunRequestBase {
 
-  private __requestOptions__: KalturaRequestOptions;
-  protected callback: (response: KalturaResponse<T>) => void;
+  private __requestOptions__: VidiunRequestOptions;
+  protected callback: (response: VidiunResponse<T>) => void;
   private responseType : string;
   private responseSubType : string;
-  protected _responseConstructor : { new() : KalturaObjectBase}; // NOTICE: this property is not used directly. It is here to force import of that type for bundling issues.
+  protected _responseConstructor : { new() : VidiunObjectBase}; // NOTICE: this property is not used directly. It is here to force import of that type for bundling issues.
 
-  constructor(data : KalturaRequestBaseArgs, {responseType, responseSubType, responseConstructor} : {responseType : string, responseSubType? : string, responseConstructor : { new() : KalturaObjectBase}  } ) {
+  constructor(data : VidiunRequestBaseArgs, {responseType, responseSubType, responseConstructor} : {responseType : string, responseSubType? : string, responseConstructor : { new() : VidiunObjectBase}  } ) {
     super(data);
     this.responseSubType = responseSubType;
     this.responseType = responseType;
     this._responseConstructor = responseConstructor;
   }
 
-  setCompletion(callback: (response: KalturaResponse<T>) => void): this {
+  setCompletion(callback: (response: VidiunResponse<T>) => void): this {
     this.callback = callback;
     return this;
   }
@@ -52,14 +52,14 @@ export abstract class KalturaRequest<T> extends KalturaRequestBase {
 
       const unwrappedResponse = this._unwrapResponse(response);
 
-      if (unwrappedResponse instanceof KalturaAPIException) {
+      if (unwrappedResponse instanceof VidiunAPIException) {
         // handle situation when multi request propagated actual api exception object.
         return { status: false, response: unwrappedResponse};
       }
 
-      if (unwrappedResponse && unwrappedResponse.objectType === 'KalturaAPIException') {
+      if (unwrappedResponse && unwrappedResponse.objectType === 'VidiunAPIException') {
         return { status: false,
-          response: new KalturaAPIException(
+          response: new VidiunAPIException(
             unwrappedResponse.message,
             unwrappedResponse.code,
             unwrappedResponse.args
@@ -78,7 +78,7 @@ export abstract class KalturaRequest<T> extends KalturaRequestBase {
       if (!parsedResponse && this.responseType !== 'v') {
         return {
           status: false,
-          response: new KalturaAPIException(`server response is undefined, expected '${this.responseType} / ${this.responseSubType}'`, 'client::response_type_error', null)
+          response: new VidiunAPIException(`server response is undefined, expected '${this.responseType} / ${this.responseSubType}'`, 'client::response_type_error', null)
         };
       }
 
@@ -86,25 +86,25 @@ export abstract class KalturaRequest<T> extends KalturaRequestBase {
     } catch (ex) {
       return {
         status: false,
-        response: new KalturaAPIException(ex.message, 'client::general_error', null)
+        response: new VidiunAPIException(ex.message, 'client::general_error', null)
       };
     }
   }
 
-  handleResponse(response: any, returnRawResponse: boolean = false): KalturaResponse<T> {
+  handleResponse(response: any, returnRawResponse: boolean = false): VidiunResponse<T> {
     let responseResult: any;
     let responseError: any;
 
-    let result: KalturaResponse<T>;
+    let result: VidiunResponse<T>;
 
     if (returnRawResponse) {
-      result = new KalturaResponse(response, undefined);
+      result = new VidiunResponse(response, undefined);
     } else {
       let parsedResponse = this.parseServerResponse(response);
 
       result = parsedResponse.status ?
-        new KalturaResponse<T>(parsedResponse.response, undefined) :
-        new KalturaResponse<T>(undefined, parsedResponse.response);
+        new VidiunResponse<T>(parsedResponse.response, undefined) :
+        new VidiunResponse<T>(undefined, parsedResponse.response);
     }
 
     if (this.callback) {
@@ -118,18 +118,18 @@ export abstract class KalturaRequest<T> extends KalturaRequestBase {
     return result;
   }
 
-  setRequestOptions(optionArgs: KalturaRequestOptionsArgs): this;
-  setRequestOptions(options: KalturaRequestOptions): this;
-  setRequestOptions(arg: KalturaRequestOptionsArgs | KalturaRequestOptions): this {
-    this.__requestOptions__ = arg instanceof KalturaRequestOptions ? arg : new KalturaRequestOptions(arg);
+  setRequestOptions(optionArgs: VidiunRequestOptionsArgs): this;
+  setRequestOptions(options: VidiunRequestOptions): this;
+  setRequestOptions(arg: VidiunRequestOptionsArgs | VidiunRequestOptions): this {
+    this.__requestOptions__ = arg instanceof VidiunRequestOptions ? arg : new VidiunRequestOptions(arg);
     return this;
   }
 
-  getRequestOptions(): KalturaRequestOptions {
+  getRequestOptions(): VidiunRequestOptions {
     return this.__requestOptions__;
   }
 
-  buildRequest(defaultRequestOptions: KalturaRequestOptions): {} {
+  buildRequest(defaultRequestOptions: VidiunRequestOptions): {} {
     const requestOptionsObject = this.__requestOptions__ ? this.__requestOptions__.toRequestObject() : {};
     const defaultRequestOptionsObject = defaultRequestOptions ? defaultRequestOptions.toRequestObject() : {};
 

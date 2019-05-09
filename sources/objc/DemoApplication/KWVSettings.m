@@ -1,15 +1,15 @@
 //
 //  WVSettings.m
-//  Kaltura
+//  Vidiun
 //
 //  Created by Eliza Sapir on 6/3/13.
 //
 //
 
-#import "KWVSettings.h"
+#import "VWVSettings.h"
 #import "WViPhoneAPI.h"
 
-@implementation KWVSettings
+@implementation VWVSettings
 
 @synthesize drmServer, portalId;
 
@@ -17,14 +17,14 @@
     return nativeAdapting;
 }
 
--(NSDictionary*) initializeDictionary:(NSString *)flavorId andKS: (NSString*) ks{
+-(NSDictionary*) initializeDictionary:(NSString *)flavorId andVS: (NSString*) vs{
     NSString* hostName;
-    hostName= [[NSString alloc] initWithString: @"http://www.kaltura.com"];
+    hostName= [[NSString alloc] initWithString: @"http://www.vidiun.com"];
 //    NSString* portalId, *drmServer;
-    self.portalId = [[NSString alloc] initWithString: @"kaltura"];
+    self.portalId = [[NSString alloc] initWithString: @"vidiun"];
 
     //EMM
-    self.drmServer = [[NSString alloc] initWithFormat: @"%@/api_v3/service/widevine_widevinedrm/action/getLicense?format=widevine&flavorAssetId=%@&ks=%@" , hostName, flavorId, ks];
+    self.drmServer = [[NSString alloc] initWithFormat: @"%@/api_v3/service/widevine_widevinedrm/action/getLicense?format=widevine&flavorAssetId=%@&vs=%@" , hostName, flavorId, vs];
     
 //    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 //    nativeAdapting = [defaults boolForKey:@"native_adapting"];

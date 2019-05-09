@@ -1,16 +1,16 @@
 //
 //  MediaInfoViewController_iPhone.h
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 29.02.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
-#import <KALTURAPlayerSDK/KPViewController.h>
+#import <VIDIUNPlayerSDK/VPViewController.h>
 
 @class AppDelegate_iPhone;
 
@@ -20,14 +20,14 @@ extern const CGRect PlayerCGRect;
     
     AppDelegate_iPhone *app;
     
-    KalturaMediaEntry *mediaEntry;
+    VidiunMediaEntry *mediaEntry;
     
     IBOutlet UIScrollView *scrollMain;
     
     IBOutlet UIView *viewIntro;
     IBOutlet UIView *viewDescription;
 
-    IBOutlet KalturaThumbView *imgThumb;
+    IBOutlet VidiunThumbView *imgThumb;
     IBOutlet UILabel *labelTitle;
 
     IBOutlet UILabel *labelVTitle;
@@ -42,7 +42,7 @@ extern const CGRect PlayerCGRect;
     
     NSString *categoryName;
 
-    KPViewController* playerViewController;
+    VPViewController* playerViewController;
         
 }
 
@@ -55,7 +55,7 @@ extern const CGRect PlayerCGRect;
 - (void)stopAndRemovePlayer;
 - (void)toggleFullscreen:(NSNotification *)note;
 
-@property (nonatomic, retain) KalturaMediaEntry *mediaEntry;
+@property (nonatomic, retain) VidiunMediaEntry *mediaEntry;
 @property (nonatomic, retain) NSString *categoryName;
 
 @end

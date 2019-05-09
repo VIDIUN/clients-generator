@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,19 +25,19 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import java.util.concurrent.CountDownLatch;
 
-import com.kaltura.client.APIOkRequestsExecutor;
-import com.kaltura.client.enums.MetadataObjectType;
-import com.kaltura.client.services.MetadataProfileService;
-import com.kaltura.client.services.MetadataProfileService.AddMetadataProfileBuilder;
-import com.kaltura.client.services.MetadataProfileService.DeleteMetadataProfileBuilder;
-import com.kaltura.client.services.MetadataProfileService.UpdateMetadataProfileBuilder;
-import com.kaltura.client.types.MetadataProfile;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
+import com.vidiun.client.APIOkRequestsExecutor;
+import com.vidiun.client.enums.MetadataObjectType;
+import com.vidiun.client.services.MetadataProfileService;
+import com.vidiun.client.services.MetadataProfileService.AddMetadataProfileBuilder;
+import com.vidiun.client.services.MetadataProfileService.DeleteMetadataProfileBuilder;
+import com.vidiun.client.services.MetadataProfileService.UpdateMetadataProfileBuilder;
+import com.vidiun.client.types.MetadataProfile;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
 
 public class PluginTest extends BaseTest {
 

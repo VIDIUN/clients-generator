@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2017  Kaltura Inc.
+// Copyright (C) 2006-2017  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,14 +28,14 @@
 
 /**
  * This class was generated using exec.php
- * against an XML schema provided by Kaltura.
+ * against an XML schema provided by Vidiun.
  *
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
  */
 
 import Quick
 import Nimble
-import KalturaClient
+import VidiunClient
 
 class ExceptionsTest: BaseTest {
     
@@ -91,7 +91,7 @@ class ExceptionsTest: BaseTest {
                         
                         expect(error).notTo(beNil())
                         expect(error?.code).notTo(beNil())
-                        expect(error?.code) == "INVALID_KS"
+                        expect(error?.code) == "INVALID_VS"
                         
                         done()
                     })
@@ -126,9 +126,9 @@ class ExceptionsTest: BaseTest {
                 waitUntil(timeout: 500) { done in
                     let requestBuilder = SessionService.start(secret: "bad-secret", userId: nil, type: SessionType.ADMIN, partnerId: self.partnerId)
                     
-                    requestBuilder.set(completion: {(ks: String?, error: ApiException?) in
+                    requestBuilder.set(completion: {(vs: String?, error: ApiException?) in
                         
-                        expect(ks).to(beNil())
+                        expect(vs).to(beNil())
                         
                         expect(error).notTo(beNil())
                         expect(error?.code).notTo(beNil())

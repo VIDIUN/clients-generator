@@ -1,9 +1,9 @@
 //
 //  AppDelegate_iPad.m
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 28.02.12.
-//  Copyright 2012 Kaltura. All rights reserved.
+//  Copyright 2012 Vidiun. All rights reserved.
 //
 
 #import "AppDelegate_iPad.h"
@@ -77,8 +77,8 @@
     
     [self.window addSubview:self.navigation.view];
     
-    UInt32 category = kAudioSessionCategory_MediaPlayback;
-	AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(category), &category);
+    UInt32 category = vAudioSessionCategory_MediaPlayback;
+	AudioSessionSetProperty(vAudioSessionProperty_AudioCategory, sizeof(category), &category);
 	
 	AudioSessionSetActive(true);
 	
@@ -93,7 +93,7 @@
    
     [self.window makeKeyAndVisible];
     
-    NSString* suffixUA = @"kalturaNativeCordovaPlayer";
+    NSString* suffixUA = @"vidiunNativeCordovaPlayer";
     UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
     NSString* defaultUA = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
     NSString* finalUA = [defaultUA stringByAppendingString:suffixUA];

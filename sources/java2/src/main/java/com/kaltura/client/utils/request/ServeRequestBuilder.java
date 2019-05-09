@@ -1,9 +1,9 @@
-package com.kaltura.client.utils.request;
+package com.vidiun.client.utils.request;
 
-import com.kaltura.client.Client;
-import com.kaltura.client.Params;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.utils.APIConstants;
+import com.vidiun.client.Client;
+import com.vidiun.client.Params;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.utils.APIConstants;
 
 public abstract class ServeRequestBuilder extends RequestBuilder<String, String, ServeRequestBuilder> {
 
@@ -23,7 +23,7 @@ public abstract class ServeRequestBuilder extends RequestBuilder<String, String,
 
 	@Override
     public RequestElement<String> build(final Client client, boolean addSignature) {
-		Params kParams = prepareParams(client, true);
+		Params vParams = prepareParams(client, true);
 		prepareHeaders(client.getConnectionConfiguration());
 		String endPoint = client.getConnectionConfiguration().getEndpoint().replaceAll("/$", "");
         StringBuilder urlBuilder = new StringBuilder(endPoint)
@@ -34,7 +34,7 @@ public abstract class ServeRequestBuilder extends RequestBuilder<String, String,
         .append("/action/")
         .append(action)
         .append("?")
-        .append(kParams.toQueryString());
+        .append(vParams.toQueryString());
         
         url = urlBuilder.toString();
 		

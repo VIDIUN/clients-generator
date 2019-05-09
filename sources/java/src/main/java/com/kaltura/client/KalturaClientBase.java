@@ -4,11 +4,11 @@
 //						  | ' </ _` | |  _| || | '_/ _` |
 //						  |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -77,23 +77,23 @@ import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.w3c.dom.Element;
 
-import com.kaltura.client.enums.KalturaSessionType;
-import com.kaltura.client.utils.ParseUtils;
-import com.kaltura.client.utils.XmlUtils;
+import com.vidiun.client.enums.VidiunSessionType;
+import com.vidiun.client.utils.ParseUtils;
+import com.vidiun.client.utils.XmlUtils;
 
 /**
  * Contains non-generated client logic. Includes the doQueue method which is responsible for
- * making HTTP calls to the Kaltura server.
+ * making HTTP calls to the Vidiun server.
  * 
  * @author jpotts
  *
  */
 @SuppressWarnings("serial")
-abstract public class KalturaClientBase implements Serializable {
+abstract public class VidiunClientBase implements Serializable {
 	
 	private static final String UTF8_CHARSET = "UTF-8";
 
-    // KS v2 constants
+    // VS v2 constants
     private static final int BLOCK_SIZE = 16;
     private static final String FIELD_EXPIRY = "_e";
     private static final String FIELD_USER = "_u";
@@ -101,14 +101,14 @@ abstract public class KalturaClientBase implements Serializable {
 	private static final int RANDOM_SIZE = 16; 
 
 	private static final int MAX_DEBUG_RESPONSE_STRING_LENGTH = 1024;
-	protected KalturaConfiguration kalturaConfiguration;
-    protected List<KalturaServiceActionCall> callsQueue;
+	protected VidiunConfiguration vidiunConfiguration;
+    protected List<VidiunServiceActionCall> callsQueue;
     protected List<Class<?>> requestReturnType;
-    protected KalturaParams multiRequestParamsMap;
+    protected VidiunParams multiRequestParamsMap;
 	protected Map<String, Object> clientConfiguration = new HashMap<String, Object>();
 	protected Map<String, Object> requestConfiguration = new HashMap<String, Object>();
 
-	private static IKalturaLogger logger = KalturaLogger.getLogger(KalturaClientBase.class);
+	private static IVidiunLogger logger = VidiunLogger.getLogger(VidiunClientBase.class);
     
     private Header[] responseHeaders = null; 
     
@@ -181,91 +181,91 @@ abstract public class KalturaClientBase implements Serializable {
         return responseHeaders;
     }
 
-    public KalturaClientBase() {
+    public VidiunClientBase() {
     }
 
-    public KalturaClientBase(KalturaConfiguration config) {
-        this.kalturaConfiguration = config;
-        this.callsQueue = new ArrayList<KalturaServiceActionCall>();
-        this.multiRequestParamsMap = new KalturaParams();
+    public VidiunClientBase(VidiunConfiguration config) {
+        this.vidiunConfiguration = config;
+        this.callsQueue = new ArrayList<VidiunServiceActionCall>();
+        this.multiRequestParamsMap = new VidiunParams();
     }
 
 	public boolean isMultiRequest() {
 		return (requestReturnType != null);
 	}
 
-	public void setKalturaConfiguration(KalturaConfiguration kalturaConfiguration) {
-		this.kalturaConfiguration = kalturaConfiguration;
+	public void setVidiunConfiguration(VidiunConfiguration vidiunConfiguration) {
+		this.vidiunConfiguration = vidiunConfiguration;
 	}
 
-	public KalturaConfiguration getKalturaConfiguration() {
-		return this.kalturaConfiguration;
+	public VidiunConfiguration getVidiunConfiguration() {
+		return this.vidiunConfiguration;
 	}
 	
-	public void queueServiceCall(String service, String action, KalturaParams kparams) throws KalturaApiException {
-		this.queueServiceCall(service, action, kparams, new KalturaFiles(), null);
+	public void queueServiceCall(String service, String action, VidiunParams vparams) throws VidiunApiException {
+		this.queueServiceCall(service, action, vparams, new VidiunFiles(), null);
 	}
 	
-	public void queueServiceCall(String service, String action, KalturaParams kparams, Class<?> expectedClass) throws KalturaApiException {
-		this.queueServiceCall(service, action, kparams, new KalturaFiles(), expectedClass);
+	public void queueServiceCall(String service, String action, VidiunParams vparams, Class<?> expectedClass) throws VidiunApiException {
+		this.queueServiceCall(service, action, vparams, new VidiunFiles(), expectedClass);
 	}
 	
-	public void queueServiceCall(String service, String action, KalturaParams kparams, KalturaFiles kfiles) throws KalturaApiException {
-		this.queueServiceCall(service, action, kparams, kfiles, null);
+	public void queueServiceCall(String service, String action, VidiunParams vparams, VidiunFiles vfiles) throws VidiunApiException {
+		this.queueServiceCall(service, action, vparams, vfiles, null);
 	}
 
-	public void queueServiceCall(String service, String action, KalturaParams kparams, KalturaFiles kfiles, Class<?> expectedClass) throws KalturaApiException {
+	public void queueServiceCall(String service, String action, VidiunParams vparams, VidiunFiles vfiles, Class<?> expectedClass) throws VidiunApiException {
 		Object value;
 		for(Entry<String, Object> itr : this.requestConfiguration.entrySet()) {
 			value = itr.getValue();
-			if(value instanceof KalturaObjectBase){
-				kparams.add(itr.getKey(), (KalturaObjectBase)value);
+			if(value instanceof VidiunObjectBase){
+				vparams.add(itr.getKey(), (VidiunObjectBase)value);
 			}
 			else{				
-				kparams.add(itr.getKey(), String.valueOf(value));
+				vparams.add(itr.getKey(), String.valueOf(value));
 			}
 		}
 
-		KalturaServiceActionCall call = new KalturaServiceActionCall(service, action, kparams, kfiles);
+		VidiunServiceActionCall call = new VidiunServiceActionCall(service, action, vparams, vfiles);
 		if(requestReturnType != null)
 			requestReturnType.add(expectedClass);
 		this.callsQueue.add(call);
 	}
 	
-	public String serve() throws KalturaApiException {
+	public String serve() throws VidiunApiException {
 		
-		KalturaParams kParams = new KalturaParams();
-		String url = extractParamsFromCallQueue(kParams, new KalturaFiles());
-		String kParamsString = kParams.toQueryString();
-		url += "?" + kParamsString;
+		VidiunParams vParams = new VidiunParams();
+		String url = extractParamsFromCallQueue(vParams, new VidiunFiles());
+		String vParamsString = vParams.toQueryString();
+		url += "?" + vParamsString;
 		
 		return url;
 	}
 	
 	abstract protected void resetRequest();
 
-	public Element doQueue() throws KalturaApiException {
+	public Element doQueue() throws VidiunApiException {
 		if (this.callsQueue.isEmpty()) return null;
 
 		if (logger.isEnabled())
-			logger.debug("service url: [" + this.kalturaConfiguration.getEndpoint() + "]");
+			logger.debug("service url: [" + this.vidiunConfiguration.getEndpoint() + "]");
 
-		KalturaParams kparams = new KalturaParams();
-		KalturaFiles kfiles = new KalturaFiles();
+		VidiunParams vparams = new VidiunParams();
+		VidiunFiles vfiles = new VidiunFiles();
 
-		String url = extractParamsFromCallQueue(kparams, kfiles);
+		String url = extractParamsFromCallQueue(vparams, vfiles);
 
 		if (logger.isEnabled())
 		{
-			logger.debug("JSON: [" + kparams + "]");
+			logger.debug("JSON: [" + vparams + "]");
 		}
 
 		PostMethod method;
 		try {
-			method = createPostMethod(kparams, kfiles, url);
+			method = createPostMethod(vparams, vfiles, url);
 		} catch (UnsupportedEncodingException e) {
 			resetRequest();
-			throw new KalturaApiException("Unsupported encoding: " + e.getMessage());
+			throw new VidiunApiException("Unsupported encoding: " + e.getMessage());
 		}
 		
 		HttpClient client = createHttpClient();
@@ -307,7 +307,7 @@ abstract public class KalturaClientBase implements Serializable {
         return new String(out.toByteArray(), UTF8_CHARSET);
     }
 
-	protected String executeMethod(HttpClient client, PostMethod method) throws KalturaApiException {
+	protected String executeMethod(HttpClient client, PostMethod method) throws VidiunApiException {
 		String responseString = "";
 		try {
 			// Execute the method.
@@ -322,7 +322,7 @@ abstract public class KalturaClientBase implements Serializable {
 			
 			if (logger.isEnabled() && statusCode != HttpStatus.SC_OK) {
 				logger.error("Method failed: " + method.getStatusLine ( ));
-				throw new KalturaApiException("Unexpected Http return code: " + statusCode);
+				throw new VidiunApiException("Unexpected Http return code: " + statusCode);
 			}
 
 			// Read the response body
@@ -344,7 +344,7 @@ abstract public class KalturaClientBase implements Serializable {
             {
             	if (header.getName().compareTo("X-Me") == 0)
                     serverName = header.getValue();
-            	else if (header.getName().compareTo("X-Kaltura-Session") == 0)
+            	else if (header.getName().compareTo("X-Vidiun-Session") == 0)
                     serverSession = header.getValue();
 			}
 			if (serverName != null || serverSession != null)
@@ -367,34 +367,34 @@ abstract public class KalturaClientBase implements Serializable {
 		} catch ( HttpException e ) {
 			if (logger.isEnabled())
 				logger.error( "Fatal protocol violation: " + e.getMessage ( ) ,e);
-			throw new KalturaApiException("Protocol exception occured while executing request");
+			throw new VidiunApiException("Protocol exception occured while executing request");
 		} catch ( SocketTimeoutException e) {
 			if (logger.isEnabled())
 				logger.error( "Fatal transport error: " + e.getMessage ( ), e);
-			throw new KalturaApiException("Request was timed out");
+			throw new VidiunApiException("Request was timed out");
 		} catch ( ConnectTimeoutException e) {
 			if (logger.isEnabled())
 				logger.error( "Fatal transport error: " + e.getMessage ( ), e);
-			throw new KalturaApiException("Connection to server was timed out");
+			throw new VidiunApiException("Connection to server was timed out");
 		} catch ( IOException e ) {
 			if (logger.isEnabled())
 				logger.error( "Fatal transport error: " + e.getMessage ( ), e);
-			throw new KalturaApiException("I/O exception occured while reading request response");
+			throw new VidiunApiException("I/O exception occured while reading request response");
 		}  finally {
 			// Release the connection.
 			method.releaseConnection ( );
 		}
 	}
 
-	private PostMethod createPostMethod(KalturaParams kparams, KalturaFiles kfiles, String url) throws UnsupportedEncodingException {
+	private PostMethod createPostMethod(VidiunParams vparams, VidiunFiles vfiles, String url) throws UnsupportedEncodingException {
 		PostMethod method = new PostMethod(url);
         method.setRequestHeader("Accept","text/xml,application/xml,*/*");
         method.setRequestHeader("Accept-Charset","utf-8,ISO-8859-1;q=0.7,*;q=0.5");
         
-        if (!kfiles.isEmpty()) {        	
-            method = this.getPostMultiPartWithFiles(method, kparams, kfiles);        	
+        if (!vfiles.isEmpty()) {        	
+            method = this.getPostMultiPartWithFiles(method, vparams, vfiles);        	
         } else {
-            method = this.addParams(method, kparams);            
+            method = this.addParams(method, vparams);            
         }
         
         if (isAcceptGzipEncoding()) {
@@ -431,9 +431,9 @@ abstract public class KalturaClientBase implements Serializable {
 		client.getParams().setParameter(HttpMethodParams.HTTP_URI_CHARSET, UTF8_CHARSET);
 		
 		HttpConnectionManagerParams connParams = client.getHttpConnectionManager().getParams();
-		if(this.kalturaConfiguration.getTimeout() != 0) {
-			connParams.setSoTimeout(this.kalturaConfiguration.getTimeout());
-			connParams.setConnectionTimeout(this.kalturaConfiguration.getTimeout());
+		if(this.vidiunConfiguration.getTimeout() != 0) {
+			connParams.setSoTimeout(this.vidiunConfiguration.getTimeout());
+			connParams.setConnectionTimeout(this.vidiunConfiguration.getTimeout());
 		}
 		client.getHttpConnectionManager().setParams(connParams);
 		return client;
@@ -461,43 +461,43 @@ abstract public class KalturaClientBase implements Serializable {
 		}
 	}
 
-	private String extractParamsFromCallQueue(KalturaParams kparams, KalturaFiles kfiles) throws KalturaApiException {
+	private String extractParamsFromCallQueue(VidiunParams vparams, VidiunFiles vfiles) throws VidiunApiException {
 		
-		String url = this.kalturaConfiguration.getEndpoint() + "/api_v3";
+		String url = this.vidiunConfiguration.getEndpoint() + "/api_v3";
 		
 		// append the basic params
-		kparams.add("format", this.kalturaConfiguration.getServiceFormat());
-		kparams.add("ignoreNull", true);
+		vparams.add("format", this.vidiunConfiguration.getServiceFormat());
+		vparams.add("ignoreNull", true);
 	
 		Object value;
 		for(Entry<String, Object> itr : this.clientConfiguration.entrySet()) {
 			value = itr.getValue();
-			if(value instanceof KalturaObjectBase){
-				kparams.add(itr.getKey(), (KalturaObjectBase)value);
+			if(value instanceof VidiunObjectBase){
+				vparams.add(itr.getKey(), (VidiunObjectBase)value);
 			}
 			else{				
-				kparams.add(itr.getKey(), String.valueOf(value));
+				vparams.add(itr.getKey(), String.valueOf(value));
 			}
 		}
 		
 		if (requestReturnType != null) {
 			url += "/service/multirequest";
 			int i = 1;
-			for (KalturaServiceActionCall call : this.callsQueue) {
-				KalturaParams callParams = call.getParamsForMultiRequest(i);
-				kparams.add(callParams);
-				KalturaFiles callFiles = call.getFilesForMultiRequest(i);
-				kfiles.add(callFiles);
+			for (VidiunServiceActionCall call : this.callsQueue) {
+				VidiunParams callParams = call.getParamsForMultiRequest(i);
+				vparams.add(callParams);
+				VidiunFiles callFiles = call.getFilesForMultiRequest(i);
+				vfiles.add(callFiles);
 				i++;
 			}
 
 			// map params
 			for (Object key : this.multiRequestParamsMap.keySet()) {
 				String requestParam = (String) key;
-				KalturaParams resultParam = this.multiRequestParamsMap.getParams(requestParam);
+				VidiunParams resultParam = this.multiRequestParamsMap.getParams(requestParam);
 
-				if (kparams.containsKey(requestParam)) {
-					kparams.add(requestParam, resultParam);
+				if (vparams.containsKey(requestParam)) {
+					vparams.add(requestParam, resultParam);
 				}
 			}
 			
@@ -505,16 +505,16 @@ abstract public class KalturaClientBase implements Serializable {
 			this.multiRequestParamsMap.clear();
 			
 		} else {
-			KalturaServiceActionCall call = this.callsQueue.get(0);
+			VidiunServiceActionCall call = this.callsQueue.get(0);
 			url += "/service/" + call.getService() + "/action/" + call.getAction();
-			kparams.add(call.getParams());
-			kfiles.add(call.getFiles());
+			vparams.add(call.getParams());
+			vfiles.add(call.getFiles());
 		}
 		
 		// cleanup
 		this.callsQueue.clear();
 		
-		kparams.add("kalsig", this.signature(kparams));
+		vparams.add("vidsig", this.signature(vparams));
 		return url;
 	}
 
@@ -522,7 +522,7 @@ abstract public class KalturaClientBase implements Serializable {
 		requestReturnType = new ArrayList<Class<?>>();
 	}
 
-	public Element getElementByXPath(Element element, String xPath) throws KalturaApiException
+	public Element getElementByXPath(Element element, String xPath) throws VidiunApiException
 	{
 		try 
 		{
@@ -530,15 +530,15 @@ abstract public class KalturaClientBase implements Serializable {
 		}
 		catch (XPathExpressionException xee)
 		{
-			throw new KalturaApiException("XPath expression exception evaluating result");
+			throw new VidiunApiException("XPath expression exception evaluating result");
 		}
 	}
 	
-	public KalturaMultiResponse doMultiRequest() throws KalturaApiException
+	public VidiunMultiResponse doMultiRequest() throws VidiunApiException
 	{
 		Element multiRequestResult = doQueue();
 
-		KalturaMultiResponse multiResponse = new KalturaMultiResponse();
+		VidiunMultiResponse multiResponse = new VidiunMultiResponse();
 	   
 		for(int i = 0; i < multiRequestResult.getChildNodes().getLength(); i++) 
 		{
@@ -546,14 +546,14 @@ abstract public class KalturaClientBase implements Serializable {
 			
 			try
 			{
-				KalturaApiException exception = getExceptionOnAPIError(arrayNode);
+				VidiunApiException exception = getExceptionOnAPIError(arrayNode);
 				if (exception != null)
 				{
 					multiResponse.add(exception);
 				}	
 				else if (getElementByXPath(arrayNode, "objectType") != null)
 				{
-			   		multiResponse.add(KalturaObjectFactory.create(arrayNode, requestReturnType.get(i)));
+			   		multiResponse.add(VidiunObjectFactory.create(arrayNode, requestReturnType.get(i)));
 				}
 				else if (getElementByXPath(arrayNode, "item/objectType") != null)
 				{
@@ -564,7 +564,7 @@ abstract public class KalturaClientBase implements Serializable {
 					multiResponse.add(arrayNode.getTextContent());
 				}
 			}
-			catch (KalturaApiException e)
+			catch (VidiunApiException e)
 			{
 				multiResponse.add(e);
 			}
@@ -576,11 +576,11 @@ abstract public class KalturaClientBase implements Serializable {
 	}
 	
 	
-	public void mapMultiRequestParam(int resultNumber, int requestNumber, String requestParamName) throws KalturaApiException {
+	public void mapMultiRequestParam(int resultNumber, int requestNumber, String requestParamName) throws VidiunApiException {
 		this.mapMultiRequestParam(resultNumber, null, requestNumber, requestParamName);
 	}
 
-	public void mapMultiRequestParam(int resultNumber, String resultParamName, int requestNumber, String requestParamName) throws KalturaApiException {
+	public void mapMultiRequestParam(int resultNumber, String resultParamName, int requestNumber, String requestParamName) throws VidiunApiException {
 		String resultParam = "{" + resultNumber + ":result";
 		if (resultParamName != null && resultParamName != ""){
 			resultParam += resultParamName;
@@ -588,17 +588,17 @@ abstract public class KalturaClientBase implements Serializable {
 		resultParam += "}";
 
 		String requestNumberString = Integer.toString(requestNumber);
-		KalturaParams params = new KalturaParams();
+		VidiunParams params = new VidiunParams();
 		params.add(requestParamName, resultParam);
 		this.multiRequestParamsMap.add(requestNumberString, params);
 	}
 
-	private String signature(KalturaParams kparams) throws KalturaApiException {
-		String md5 = new String(Hex.encodeHex(DigestUtils.md5(kparams.toString())));;
+	private String signature(VidiunParams vparams) throws VidiunApiException {
+		String md5 = new String(Hex.encodeHex(DigestUtils.md5(vparams.toString())));;
 		return md5;
 	}
 
-	private Element validateXmlResult(Element resultXml) throws KalturaApiException {
+	private Element validateXmlResult(Element resultXml) throws VidiunApiException {
 		
 		Element resultElement = null;
    		resultElement = getElementByXPath(resultXml, "/xml/result");
@@ -606,11 +606,11 @@ abstract public class KalturaClientBase implements Serializable {
 		if (resultElement != null) {
 			return resultElement;			
 		} else {
-			throw new KalturaApiException("Invalid result");
+			throw new VidiunApiException("Invalid result");
 		}
 	}
 
-	private KalturaApiException getExceptionOnAPIError(Element result) throws KalturaApiException {
+	private VidiunApiException getExceptionOnAPIError(Element result) throws VidiunApiException {
 		Element errorElement = getElementByXPath(result, "error");
 		if (errorElement == null)
 		{
@@ -624,52 +624,52 @@ abstract public class KalturaClientBase implements Serializable {
 			return null;
 		}
 		
-		return new KalturaApiException(messageElement.getTextContent(),codeElement.getTextContent());
+		return new VidiunApiException(messageElement.getTextContent(),codeElement.getTextContent());
 	}
 
-	private void throwExceptionOnAPIError(Element result) throws KalturaApiException {
-		KalturaApiException exception = getExceptionOnAPIError(result);
+	private void throwExceptionOnAPIError(Element result) throws VidiunApiException {
+		VidiunApiException exception = getExceptionOnAPIError(result);
 		if (exception != null)
 		{
 			throw exception;
 		}
 	}
 
-	private PostMethod getPostMultiPartWithFiles(PostMethod method, KalturaParams kparams, KalturaFiles kfiles) {
+	private PostMethod getPostMultiPartWithFiles(PostMethod method, VidiunParams vparams, VidiunFiles vfiles) {
  
 		String boundary = "---------------------------" + System.currentTimeMillis();
 		List <Part> parts = new ArrayList<Part>();
 		parts.add(new StringPart (HttpMethodParams.MULTIPART_BOUNDARY, boundary));
  
-		parts.add(new StringPart ("json", kparams.toString()));	   
+		parts.add(new StringPart ("json", vparams.toString()));	   
 
-		for (String key : kfiles.keySet()) {
-			final KalturaFile kFile = kfiles.get(key);
-			parts.add(new StringPart(key, "filename=" + kFile.getName()));
-			if (kFile.getFile() != null) {
+		for (String key : vfiles.keySet()) {
+			final VidiunFile vFile = vfiles.get(key);
+			parts.add(new StringPart(key, "filename=" + vFile.getName()));
+			if (vFile.getFile() != null) {
 				// use the file
-				File file = kFile.getFile();
+				File file = vFile.getFile();
 				try {
 					parts.add(new FilePart(key, file));
 				} catch (FileNotFoundException e) {
 					// TODO this sort of leaves the submission in a weird
 					// state... -AZ
 					if (logger.isEnabled())
-						logger.error("Exception while iterating over kfiles", e);
+						logger.error("Exception while iterating over vfiles", e);
 				}
 			} else {
 				// use the input stream
 				PartSource fisPS = new PartSource() {
 					public long getLength() {
-						return kFile.getSize();
+						return vFile.getSize();
 					}
 
 					public String getFileName() {
-						return kFile.getName();
+						return vFile.getName();
 					}
 
 					public InputStream createInputStream() throws IOException {
-						return kFile.getInputStream();
+						return vFile.getInputStream();
 					}
 				};
 				parts.add(new FilePart(key, fisPS));
@@ -687,8 +687,8 @@ abstract public class KalturaClientBase implements Serializable {
 		return method;
 	}
 		
-	private PostMethod addParams(PostMethod method, KalturaParams kparams) throws UnsupportedEncodingException {
-		String content = kparams.toString();
+	private PostMethod addParams(PostMethod method, VidiunParams vparams) throws UnsupportedEncodingException {
+		String content = vparams.toString();
 		String contentType = "application/json";
 		StringRequestEntity requestEntity = new StringRequestEntity(content, contentType , null);
 		
@@ -696,17 +696,17 @@ abstract public class KalturaClientBase implements Serializable {
 		return method;
 	}
 	
-	public String generateSession(String adminSecretForSigning, String userId, KalturaSessionType type, int partnerId) throws Exception
+	public String generateSession(String adminSecretForSigning, String userId, VidiunSessionType type, int partnerId) throws Exception
 	{
 		return this.generateSession(adminSecretForSigning, userId, type, partnerId, 86400);
 	}
 	
-	public String generateSession(String adminSecretForSigning, String userId, KalturaSessionType type, int partnerId, int expiry) throws Exception
+	public String generateSession(String adminSecretForSigning, String userId, VidiunSessionType type, int partnerId, int expiry) throws Exception
 	{
 		return this.generateSession(adminSecretForSigning, userId, type, partnerId, expiry, "");
 	}
 
-	public String generateSession(String adminSecretForSigning, String userId, KalturaSessionType type, int partnerId, int expiry, String privileges) throws Exception
+	public String generateSession(String adminSecretForSigning, String userId, VidiunSessionType type, int partnerId, int expiry, String privileges) throws Exception
 	{
 		try
 		{
@@ -737,22 +737,22 @@ abstract public class KalturaClientBase implements Serializable {
 			String hashedString = new String(Base64.encodeBase64(sbToEncode.toString().getBytes()));
 			
 			// remove line breaks in the session string
-			String ks = hashedString.replace("\n", "");
-			ks = hashedString.replace("\r", "");
+			String vs = hashedString.replace("\n", "");
+			vs = hashedString.replace("\r", "");
 			
-			// return the generated session key (KS)
-			return ks;
+			// return the generated session key (VS)
+			return vs;
 		} catch (NoSuchAlgorithmException ex)
 		{
 			throw new Exception(ex);
 		}
 	}
 
-	public String generateSessionV2(String adminSecretForSigning, String userId, KalturaSessionType type, int partnerId, int expiry, String privileges) throws Exception
+	public String generateSessionV2(String adminSecretForSigning, String userId, VidiunSessionType type, int partnerId, int expiry, String privileges) throws Exception
 	{
 		try {
 		// build fields array
-		KalturaParams fields = new KalturaParams();
+		VidiunParams fields = new VidiunParams();
 		String[] privilegesArr = privileges.split(",");
 		for (String curPriv : privilegesArr) {
 			String privilege = curPriv.trim();
@@ -796,13 +796,13 @@ abstract public class KalturaClientBase implements Serializable {
 		System.arraycopy(prefix.getBytes(), 0, output, 0, prefix.length());
 		System.arraycopy(encryptedFields,0,output,prefix.length(), encryptedFields.length);
 		
-		String encodedKs = new String(Base64.encodeBase64(output));
-		encodedKs = encodedKs.replaceAll("\\+", "-");
-		encodedKs = encodedKs.replaceAll("/", "_");
-		encodedKs = encodedKs.replace("\n", "");
-		encodedKs = encodedKs.replace("\r", "");
+		String encodedVs = new String(Base64.encodeBase64(output));
+		encodedVs = encodedVs.replaceAll("\\+", "-");
+		encodedVs = encodedVs.replaceAll("/", "_");
+		encodedVs = encodedVs.replace("\n", "");
+		encodedVs = encodedVs.replace("\r", "");
 		
-		return encodedKs;
+		return encodedVs;
 		} catch (GeneralSecurityException ex) {
 			logger.error("Failed to generate v2 session.");
 			throw new Exception(ex);

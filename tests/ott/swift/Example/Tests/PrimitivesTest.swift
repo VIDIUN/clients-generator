@@ -1,6 +1,6 @@
 //
 //  PrimitivesTest.swift
-//  KalturaClient
+//  VidiunClient
 //
 //  Created by Rivka Peleg on 02/08/2017.
 //  Copyright © 2017 CocoaPods. All rights reserved.
@@ -8,7 +8,7 @@
 
 import Quick
 import Nimble
-import KalturaOttClient
+import VidiunOttClient
 
 class PrimitivesTest: QuickSpec {
     var client: Client?
@@ -86,7 +86,7 @@ class PrimitivesTest: QuickSpec {
     private func login(done: @escaping (_ error: ApiException?) -> Void) {
         
         let requestBuilder = OttUserService.login(partnerId: TConfig.partnerId, username: TConfig.username, password: TConfig.password).set { (response:LoginResponse?, error: ApiException?) in
-            self.client?.ks = response?.loginSession?.ks
+            self.client?.vs = response?.loginSession?.vs
             done(error)
             
         }
@@ -145,7 +145,7 @@ class PrimitivesTest: QuickSpec {
         let getAssetFiles = AssetService.get(id: TConfig.assetId, assetReferenceType: .MEDIA)
         
         getAssetFiles.set { (asset:Asset?, error:ApiException?) in
-            let playManifest = AssetFileService.playManifest(partnerId: TConfig.partnerId, assetId: TConfig.assetId, assetType: .MEDIA, assetFileId: Int64((asset?.mediaFiles?.last?.id)!), contextType: .PLAYBACK, ks: self.client?.ks).set(completion: { (result:Void?, error:ApiException?) in
+            let playManifest = AssetFileService.playManifest(partnerId: TConfig.partnerId, assetId: TConfig.assetId, assetType: .MEDIA, assetFileId: Int64((asset?.mediaFiles?.last?.id)!), contextType: .PLAYBACK, vs: self.client?.vs).set(completion: { (result:Void?, error:ApiException?) in
                 completed(result, error)
             })
         

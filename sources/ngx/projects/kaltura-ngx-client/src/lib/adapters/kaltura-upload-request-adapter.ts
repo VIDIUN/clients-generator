@@ -1,10 +1,10 @@
-import { KalturaUploadRequest } from '../api/kaltura-upload-request';
+import { VidiunUploadRequest } from '../api/vidiun-upload-request';
 import { buildUrl, createEndpoint, prepareParameters, createClientTag } from './utils';
 import { SubscriptionLike as ISubscription ,  Observable } from 'rxjs';
-import { KalturaClientException } from '../api/kaltura-client-exception';
-import { KalturaRequestOptions } from '../api/kaltura-request-options';
-import { KalturaClientOptions } from '../kaltura-client-options';
-import { KalturaAPIException } from '../api/kaltura-api-exception';
+import { VidiunClientException } from '../api/vidiun-client-exception';
+import { VidiunRequestOptions } from '../api/vidiun-request-options';
+import { VidiunClientOptions } from '../vidiun-client-options';
+import { VidiunAPIException } from '../api/vidiun-api-exception';
 import { environment } from '../environment';
 
 interface UploadByChunksData {
@@ -13,8 +13,8 @@ interface UploadByChunksData {
   resumeAt: number;
   finalChunk: boolean;
 }
-export class KalturaUploadRequestAdapter {
-  private _chunkUploadSupported(request: KalturaUploadRequest<any>): boolean {
+export class VidiunUploadRequestAdapter {
+  private _chunkUploadSupported(request: VidiunUploadRequest<any>): boolean {
     // SUPPORTED BY BROWSER?
     // Check if these features are support by the browser:
     // - File object type
@@ -36,12 +36,12 @@ export class KalturaUploadRequestAdapter {
     return enabledInClient && supportedByBrowser && supportedByRequest;
   }
 
-  constructor(public clientOptions: KalturaClientOptions, public defaultRequestOptions: KalturaRequestOptions)
+  constructor(public clientOptions: VidiunClientOptions, public defaultRequestOptions: VidiunRequestOptions)
   {
 
   }
 
-  transmit(request: KalturaUploadRequest<any>): Observable<any> {
+  transmit(request: VidiunUploadRequest<any>): Observable<any> {
     return Observable.create(observer => {
       const uploadedFileSize = !isNaN(request.uploadedFileSize) && isFinite(request.uploadedFileSize) && request.uploadedFileSize > 0 ? request.uploadedFileSize : 0;
       const data: UploadByChunksData = {
@@ -72,11 +72,11 @@ export class KalturaUploadRequestAdapter {
               observer.complete();
             }
           } catch (error) {
-            if (error instanceof KalturaClientException || error instanceof KalturaAPIException) {
+            if (error instanceof VidiunClientException || error instanceof VidiunAPIException) {
               observer.error(error);
             } else {
               const errorMessage = error instanceof Error ? error.message : typeof error === 'string' ? error : null;
-              observer.error(new KalturaClientException('client::response-unknown-error', errorMessage || 'Failed to parse response'));
+              observer.error(new VidiunClientException('client::response-unknown-error', errorMessage || 'Failed to parse response'));
             }
           }
 
@@ -129,7 +129,7 @@ export class KalturaUploadRequestAdapter {
     return response;
   }
 
-  private _chunkUpload(request: KalturaUploadRequest<any>, uploadChunkData: UploadByChunksData): Observable<any> {
+  private _chunkUpload(request: VidiunUploadRequest<any>, uploadChunkData: UploadByChunksData): Observable<any> {
     return Observable.create(observer => {
       const parameters = prepareParameters(request, this.clientOptions, this.defaultRequestOptions);
 
@@ -195,18 +195,18 @@ export class KalturaUploadRequestAdapter {
             if (xhr.status === 200) {
               resp = this._unwrapResponse(JSON.parse(xhr.response));
 
-              if (resp && resp.objectType === 'KalturaAPIException') {
-                resp = new KalturaAPIException(
+              if (resp && resp.objectType === 'VidiunAPIException') {
+                resp = new VidiunAPIException(
                   resp.message,
                   resp.code,
                   resp.args
                 );
               }
             } else {
-              resp = new KalturaClientException('client::upload-failure', xhr.responseText || 'failed to upload file');
+              resp = new VidiunClientException('client::upload-failure', xhr.responseText || 'failed to upload file');
             }
           } catch (e) {
-            resp = new KalturaClientException('client::upload-failure', e.message || 'failed to upload file')
+            resp = new VidiunClientException('client::upload-failure', e.message || 'failed to upload file')
           }
 
           if (resp instanceof Error) {
@@ -214,7 +214,7 @@ export class KalturaUploadRequestAdapter {
           } else {
             if (uploadChunkData.enabled) {
               if (typeof resp.uploadedFileSize === "undefined" || resp.uploadedFileSize === null) {
-                observer.error(new KalturaClientException('client::upload-failure', `uploaded chunk of file failed, expected response with property 'uploadedFileSize'`));
+                observer.error(new VidiunClientException('client::upload-failure', `uploaded chunk of file failed, expected response with property 'uploadedFileSize'`));
                 return;
               } else if (!uploadChunkData.finalChunk) {
                 uploadChunkData.resumeAt = Number(resp.uploadedFileSize);

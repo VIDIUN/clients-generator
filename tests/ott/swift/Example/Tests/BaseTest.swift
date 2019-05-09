@@ -1,7 +1,7 @@
 
 import Quick
 import Nimble
-import KalturaOttClient
+import VidiunOttClient
 
 class BaseTest: QuickSpec {
     var client: Client?
@@ -50,7 +50,7 @@ class BaseTest: QuickSpec {
     private func login(done: @escaping (_ error: ApiException?) -> Void) {
         
         let requestBuilder = OttUserService.anonymousLogin(partnerId: TConfig.partnerId).set { (loginSession:LoginSession?, exception:ApiException?) in
-            self.client!.ks = loginSession?.ks
+            self.client!.vs = loginSession?.vs
             done(exception)
         }
         

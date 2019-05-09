@@ -4,15 +4,15 @@ const md5 = require('md5');
 const cache = require('node-shared-cache');
 const expect = require("chai").expect;
 const shortid = require('shortid');
-const kaltura = require('../KalturaClient');
+const vidiun = require('../VidiunClient');
 
 const testConfig = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 const {partnerId, serviceUrl} = testConfig;
 
-let config = new kaltura.Configuration();
+let config = new vidiun.Configuration();
 config.serviceUrl = serviceUrl;
 
-const client = new kaltura.Client(config);
+const client = new vidiun.Client(config);
 
 var userId;
 
@@ -24,8 +24,8 @@ describe("User", () => {
 	
 	describe("login", () => {
 		
-		it('returns valid ks', (done) => {
-			kaltura.services.ottUser.login(partnerId, username, password)
+		it('returns valid vs', (done) => {
+			vidiun.services.ottUser.login(partnerId, username, password)
 			.completion((success, response) => {
 				const {executionTime, result} = response;
 				const loginResponse = result;
@@ -33,11 +33,11 @@ describe("User", () => {
 				console.dir(loginResponse);
 				expect(loginResponse).to.not.be.a('null');
 				expect(loginResponse.loginSession).to.not.be.a('null');
-				expect(loginResponse.loginSession.ks).to.not.be.a('null');
+				expect(loginResponse.loginSession.vs).to.not.be.a('null');
 				expect(loginResponse.user).to.not.be.a('null');
 				expect(loginResponse.user.id).to.not.be.a('null');
 				
-				client.setKs(loginResponse.loginSession.ks);
+				client.setVs(loginResponse.loginSession.vs);
 				userId = loginResponse.user.id
 				
 				done();
@@ -47,13 +47,13 @@ describe("User", () => {
 	});
 	
 	describe("app-token", () => {
-		var appToken = new kaltura.objects.AppToken({
-			hashType: kaltura.enums.AppTokenHashType.MD5
+		var appToken = new vidiun.objects.AppToken({
+			hashType: vidiun.enums.AppTokenHashType.MD5
 		});
 		
 		it('App-Token created', (done) => {
 			
-			kaltura.services.appToken.add(appToken)
+			vidiun.services.appToken.add(appToken)
 			.completion((success, response) => {
 				const {executionTime, result} = response;
 				appToken = result;
@@ -69,33 +69,33 @@ describe("User", () => {
 			.execute(client);
 		});
 		
-		it('KS created', (done) => {
+		it('VS created', (done) => {
 			
-			client.setKs(null);
-			kaltura.services.ottUser.anonymousLogin(partnerId)
+			client.setVs(null);
+			vidiun.services.ottUser.anonymousLogin(partnerId)
 			.completion((success, response) => {
 				const {executionTime, result} = response;
 				const loginSession = result;
 				expect(success).to.equal(true);
 				console.dir(loginSession);
 				expect(loginSession).to.not.be.a('null');
-				expect(loginSession.ks).to.not.be.a('null');
+				expect(loginSession.vs).to.not.be.a('null');
 				
-				client.setKs(loginSession.ks);
+				client.setVs(loginSession.vs);
 				
-				const tokenHash = md5(loginSession.ks + appToken.token);
-				kaltura.services.appToken.startSession(appToken.id, tokenHash)
+				const tokenHash = md5(loginSession.vs + appToken.token);
+				vidiun.services.appToken.startSession(appToken.id, tokenHash)
 				.completion((success, response) => {
 					const {executionTime, result} = response;
 					const sessionInfo = result;
 					expect(success).to.equal(true);
 					console.dir(sessionInfo);
 					expect(sessionInfo).to.not.be.a('null');
-					expect(sessionInfo.ks).to.not.be.a('null');
+					expect(sessionInfo.vs).to.not.be.a('null');
 					expect(sessionInfo.userId).to.not.be.a('null');
 					expect(sessionInfo.userId).to.equal(userId);
 					
-					client.setKs(sessionInfo.ks);
+					client.setVs(sessionInfo.vs);
 					
 					done();
 				})
@@ -105,16 +105,16 @@ describe("User", () => {
 			
 		});
 		
-		it('KS valid', (done) => {
+		it('VS valid', (done) => {
 			
-			kaltura.services.session.get()
+			vidiun.services.session.get()
 			.completion((success, response) => {
 				const {executionTime, result} = response;
 				const session = result;
 				expect(success).to.equal(true);
 				console.dir(session);
 				expect(session).to.not.be.a('null');
-				expect(session.ks).to.not.be.a('null');
+				expect(session.vs).to.not.be.a('null');
 				expect(session.userId).to.not.be.a('null');
 				expect(session.userId).to.equal(userId);
 				
@@ -126,7 +126,7 @@ describe("User", () => {
 		
 		it('App-Token deleted', (done) => {
 			
-			kaltura.services.appToken.deleteAction(appToken.id)
+			vidiun.services.appToken.deleteAction(appToken.id)
 			.completion((success, response) => {
 				const {executionTime, result} = response;
 				expect(success).to.equal(true);
@@ -136,9 +136,9 @@ describe("User", () => {
 			.execute(client);
 		});
 		
-		it('KS invalid', (done) => {
+		it('VS invalid', (done) => {
 			
-			kaltura.services.session.get()
+			vidiun.services.session.get()
 			.completion((success, response) => {
 				const {executionTime, result} = response;
 				expect(success).to.equal(false);

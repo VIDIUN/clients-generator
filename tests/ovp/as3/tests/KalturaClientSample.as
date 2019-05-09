@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -26,35 +26,35 @@
 // @ignore
 // ===================================================================================================
 ﻿package {
-	import com.kaltura.KalturaClient;
-	import com.kaltura.commands.session.SessionStart;
-	import com.kaltura.config.KalturaConfig;
-	import com.kaltura.events.KalturaEvent;
-	import com.kaltura.types.KalturaSessionType;
+	import com.vidiun.VidiunClient;
+	import com.vidiun.commands.session.SessionStart;
+	import com.vidiun.config.VidiunConfig;
+	import com.vidiun.events.VidiunEvent;
+	import com.vidiun.types.VidiunSessionType;
 	
 	import flash.display.Sprite;
 
-	public class KalturaClientSample extends Sprite
+	public class VidiunClientSample extends Sprite
 	{
 		private const API_SECRET:String = "YOUR_USER_SECRET";
-		private const KALTURA_PARTNER_ID:int = 54321;
+		private const VIDIUN_PARTNER_ID:int = 54321;
 		
-		public function KalturaClientSample()
+		public function VidiunClientSample()
 		{
-			var configuration : KalturaConfig = new KalturaConfig();
-			var kaltura : KalturaClient = new KalturaClient( configuration );	
-			var startSession : SessionStart = new SessionStart(API_SECRET, 'testUser', KalturaSessionType.USER, KALTURA_PARTNER_ID);
-			startSession.addEventListener(KalturaEvent.COMPLETE, completed);
-			startSession.addEventListener(KalturaEvent.FAILED, failed);
-			kaltura.post( startSession );
+			var configuration : VidiunConfig = new VidiunConfig();
+			var vidiun : VidiunClient = new VidiunClient( configuration );	
+			var startSession : SessionStart = new SessionStart(API_SECRET, 'testUser', VidiunSessionType.USER, VIDIUN_PARTNER_ID);
+			startSession.addEventListener(VidiunEvent.COMPLETE, completed);
+			startSession.addEventListener(VidiunEvent.FAILED, failed);
+			vidiun.post( startSession );
 		}
 		
-		private function completed (event:KalturaEvent):void {
+		private function completed (event:VidiunEvent):void {
 			trace ("Session Started: " + event.success);
 			trace (event.data);
 		}
 		
-		private function failed (event:KalturaEvent):void {
+		private function failed (event:VidiunEvent):void {
 			trace ("Session Failed: " + event.error.errorMsg);
 		}
 	}

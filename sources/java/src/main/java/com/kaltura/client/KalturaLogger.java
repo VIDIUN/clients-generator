@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,19 +25,19 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
-import com.kaltura.client.KalturaLoggerLog4j;
+import com.vidiun.client.VidiunLoggerLog4j;
 
-abstract public class KalturaLogger 
+abstract public class VidiunLogger 
 {
 	// Creation & retrieval methods:
-	public static IKalturaLogger getLogger(String name)
+	public static IVidiunLogger getLogger(String name)
 	{
-		return KalturaLoggerLog4j.get(name);
+		return VidiunLoggerLog4j.get(name);
 	}
 	
-	public static IKalturaLogger getLogger(Class<?> clazz)
+	public static IVidiunLogger getLogger(Class<?> clazz)
 	{
 		return getLogger(clazz.getName());
 	}

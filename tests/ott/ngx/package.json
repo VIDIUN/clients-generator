@@ -1,12 +1,12 @@
 {
-  "name": "@kaltura-ng/kaltura-ott-client",
+  "name": "@vidiun-ng/vidiun-ott-client",
   "version": "@VERSION_JS@",
-  "description": "Kaltura OTT Angular based client",
+  "description": "Vidiun OTT Angular based client",
   "keywords": [
-    "Kaltura"
+    "Vidiun"
   ],
   "license": "AGPL-3.0",
-  "author": "https://github.com/kaltura-ng/graphs/contributors",
+  "author": "https://github.com/vidiun-ng/graphs/contributors",
   "contributors": [
     {
       "name": "Eran Sakal",
@@ -20,15 +20,15 @@
   "scripts": {
     "build": "ng build && node ./scripts/update-dist-package-json.js",
     "lint": "tslint src/**/*.ts",
-    "deploy": "rm -rf dist && npm run build && cd dist/kaltura-ngx-client && npm pack && npm link",
+    "deploy": "rm -rf dist && npm run build && cd dist/vidiun-ngx-client && npm pack && npm link",
     "test": ""
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaltura/KalturaOttGeneratedAPIClientsTypescript.git"
+    "url": "https://github.com/vidiun/VidiunOttGeneratedAPIClientsTypescript.git"
   },
   "bugs": {
-    "url": "https://github.com/kaltura/KalturaOttGeneratedAPIClientsTypescript/issues"
+    "url": "https://github.com/vidiun/VidiunOttGeneratedAPIClientsTypescript/issues"
   },
   "main": "./index.js",
   "dependencies": {

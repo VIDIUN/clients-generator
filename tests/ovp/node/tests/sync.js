@@ -2,28 +2,28 @@ var sync = require('synchronize');
 var fiber = sync.fiber;
 var await = sync.await;
 var defer = sync.defer;
-var kaltura = require('../KalturaClient');
-var ktypes = require('../KalturaTypes');
-var vo = require ('../KalturaVO.js');
+var vidiun = require('../VidiunClient');
+var vtypes = require('../VidiunTypes');
+var vo = require ('../VidiunVO.js');
 var config = require ('./config.js');
 
 function init_client(callback) {
 	console.log('Initializing client');
-	var clientConfig = new kaltura.KalturaConfiguration(config.partner_id);
-	var client = new kaltura.KalturaClient(clientConfig);
+	var clientConfig = new vidiun.VidiunConfiguration(config.partner_id);
+	var client = new vidiun.VidiunClient(clientConfig);
 
 	clientConfig.serviceUrl = config.service_url;
 
-	var type = ktypes.KalturaSessionType.ADMIN;
+	var type = vtypes.VidiunSessionType.ADMIN;
 	
 	if(typeof callback === 'function'){
-	    client.session.start(function(ks) {
-		    client.setKs(ks);
-		    console.log(ks);
+	    client.session.start(function(vs) {
+		    client.setVs(vs);
+		    console.log(vs);
 		    callback(client);
 	    }, config.admin_secret, 'test', type, config.partner_id, 86400, 'disableentitlement');
 	}else{
-		client.setKs(callback);
+		client.setVs(callback);
 		return client;
 	}
 }
@@ -35,7 +35,7 @@ function cb(results)
 try {
     fiber(function() {
 	client=(init_client());
-	var partner = new vo.KalturaPartner();
+	var partner = new vo.VidiunPartner();
 	partner.name = "MBP";
 	partner.appearInSearch = null;
 	partner.adminName = "MBP";

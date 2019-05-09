@@ -1,4 +1,4 @@
-package com.kaltura.boxAdapter;
+package com.vidiun.boxAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +14,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.MediaEntry;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.MediaEntry;
 
 public class BoxAdapterAllEntries extends BaseAdapter {
 

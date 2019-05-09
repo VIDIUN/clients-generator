@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,26 +25,26 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.net {
+package com.vidiun.net {
 	
-	import com.kaltura.KalturaClient;
-	import com.kaltura.config.KalturaConfig;
-	import com.kaltura.delegates.IKalturaCallDelegate;
-	import com.kaltura.errors.KalturaError;
-	import com.kaltura.events.KalturaEvent;
-	import com.kaltura.utils.ObjectUtil;
+	import com.vidiun.VidiunClient;
+	import com.vidiun.config.VidiunConfig;
+	import com.vidiun.delegates.IVidiunCallDelegate;
+	import com.vidiun.errors.VidiunError;
+	import com.vidiun.events.VidiunEvent;
+	import com.vidiun.utils.ObjectUtil;
 	
 	import flash.events.EventDispatcher;
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	import flash.utils.getQualifiedClassName;
 	
-	public class KalturaCall extends EventDispatcher {
+	public class VidiunCall extends EventDispatcher {
 		
 		public var args:URLVariables = new URLVariables();
 		public var result:Object;
-		public var error:KalturaError;
-		public var config:KalturaConfig;
+		public var error:VidiunError;
+		public var config:VidiunConfig;
 		public var success:Boolean = false;
 		public var action : String;
 		public var service : String;
@@ -53,7 +53,7 @@ package com.kaltura.net {
 		
 		public var useTimeout:Boolean = true;
 		
-		public var delegate : IKalturaCallDelegate;
+		public var delegate : IVidiunCallDelegate;
 		
 		/**
 		 * when the client is in queueing mode, determined whether the call is queued. 
@@ -61,7 +61,7 @@ package com.kaltura.net {
 		public var queued:Boolean = true;
 		
 		
-		public function KalturaCall() {}
+		public function VidiunCall() {}
 		
 		/**
 		 * OVERRIDE this function in case something needs to be initialized prior to execution
@@ -77,15 +77,15 @@ package com.kaltura.net {
 			if (value is Number)
 			{
 				if (value == Number.NEGATIVE_INFINITY ) { return; }
-				if (value == KalturaClient.NULL_NUMBER ) { this.args[name + '__null'] = '';  return; }
+				if (value == VidiunClient.NULL_NUMBER ) { this.args[name + '__null'] = '';  return; }
 			}
 			if ( value is int)
 			{
 				if (value == int.MIN_VALUE ) { return; }
-				if (value == KalturaClient.NULL_INT ) { this.args[name + '__null'] = '';  return; }
+				if (value == VidiunClient.NULL_INT ) { this.args[name + '__null'] = '';  return; }
 			}
 			if (value === null) {	return;	 }
-			if (value === KalturaClient.NULL_STRING) {	this.args[name + '__null'] = '';  return;	 }
+			if (value === VidiunClient.NULL_STRING) {	this.args[name + '__null'] = '';  return;	 }
 			
 			if (name) { //&& String(value).length > 0
 				this.args[name] = value; 
@@ -99,29 +99,29 @@ package com.kaltura.net {
 		public function handleResult(result:Object):void {
 			this.result = result;
 			success = true;
-			dispatchEvent(new KalturaEvent(KalturaEvent.COMPLETE, false, false, true, result));
+			dispatchEvent(new VidiunEvent(VidiunEvent.COMPLETE, false, false, true, result));
 		}
 		/**
 		 * dispatch an Error when a request has faild for any reason  
 		 * @param error
 		 * 
 		 */		
-		public function handleError(error:KalturaError):void {
+		public function handleError(error:VidiunError):void {
 			this.error = error;
 			success = false;
 			error.requestArgs = args;
-			dispatchEvent(new KalturaEvent(KalturaEvent.FAILED, false, false, false, null, error));
+			dispatchEvent(new VidiunEvent(VidiunEvent.FAILED, false, false, false, null, error));
 		}
 		
 		/**
-		 * Create from prefix and kaltura object an arry of key value arrays that ready to be send to the server request API 
+		 * Create from prefix and vidiun object an arry of key value arrays that ready to be send to the server request API 
 		 * can deal with nesting objects and arrays
-		 * @param any Kaltura object 
+		 * @param any Vidiun object 
 		 * @prefix added before the original params to format the params to send
-		 * @return Array of formated params that supported by kaltura server
+		 * @return Array of formated params that supported by vidiun server
 		 * 
 		 */		
-		protected function kalturaObject2Arrays( obj : Object , prefix : String = null) : Array {	
+		protected function vidiunObject2Arrays( obj : Object , prefix : String = null) : Array {	
 			var keyValArr : Array = new Array();
 			var valArray : Array = new Array();
 			var keyArray : Array = new Array();
@@ -164,11 +164,11 @@ package com.kaltura.net {
 					valArray = valArray.concat( arr[1] );
 					j = valArray.length;
 				}
-				else //must be a Kaltura Object
+				else //must be a Vidiun Object
 				{
 					objArr= getQualifiedClassName(value).split("::");
 					var tempPrefix : String = objKeys[i].toString();
-					var tempKeyValArr : Array = kalturaObject2Arrays( value , prefix + ":" + tempPrefix );
+					var tempKeyValArr : Array = vidiunObject2Arrays( value , prefix + ":" + tempPrefix );
 					keyArray = keyArray.concat(tempKeyValArr[0]);
 					valArray = valArray.concat(tempKeyValArr[1]);
 					j = valArray.length;
@@ -217,7 +217,7 @@ package com.kaltura.net {
 				{
 					//var objArr : Array = getQualifiedClassName(arr[i]).split("::");
 					//var tempPrefix : String = objArr[objArr.length-1];
-					tempArr  = kalturaObject2Arrays( arr[i] , newPrefix ); //  + ":" +tempPrefix
+					tempArr  = vidiunObject2Arrays( arr[i] , newPrefix ); //  + ":" +tempPrefix
 					
 					keyArray = keyArray.concat( tempArr[0] );
 					valArray = valArray.concat( tempArr[1] );

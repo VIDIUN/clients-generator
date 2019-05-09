@@ -1,9 +1,9 @@
 //
 //  HomeViewController_iPhone.m
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 28.02.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import "HomeViewController_iPhone.h"

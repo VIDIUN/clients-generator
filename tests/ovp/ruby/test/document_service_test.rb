@@ -4,11 +4,11 @@
 #                          | ' </ _` | |  _| || | '_/ _` |
 #                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 #
-# This file is part of the Kaltura Collaborative Media Suite which allows users
+# This file is part of the Vidiun Collaborative Media Suite which allows users
 # to do with audio, video, and animation what Wiki platfroms allow them to do with
 # text.
 #
-# Copyright (C) 2006-2011  Kaltura Inc.
+# Copyright (C) 2006-2011  Vidiun Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -32,8 +32,8 @@ class DocumentServiceTest < Test::Unit::TestCase
     # this test tries to access the depricated document service and retrieves the list of documents.
     should "get the document list" do
   
-    document_entry_filter = Kaltura::KalturaDocumentEntryFilter.new
-    filter_pager = Kaltura::KalturaFilterPager.new      
+    document_entry_filter = Vidiun::VidiunDocumentEntryFilter.new
+    filter_pager = Vidiun::VidiunFilterPager.new      
     
     document_list = @client.documents_service.list(document_entry_filter, filter_pager) 
     assert_not_nil document_list.total_count   

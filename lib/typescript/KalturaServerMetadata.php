@@ -12,7 +12,7 @@ function validateType($type, $typeClassName, $availableTypes, $target)
     {
         switch ($type)
         {
-            case KalturaServerTypes::Simple:
+            case VidiunServerTypes::Simple:
                 $supportedTypes = array('int','bool','float','bigint','string');
 
                 if (!in_array($typeClassName,$supportedTypes))
@@ -21,15 +21,15 @@ function validateType($type, $typeClassName, $availableTypes, $target)
 
                 }
                 break;
-            case KalturaServerTypes::Unknown:
+            case VidiunServerTypes::Unknown:
                 $errors[] = "Unknown type for {$target}";
                 break;
-            case KalturaServerTypes::Object:
-            case KalturaServerTypes::ArrayOfObjects:
-            case KalturaServerTypes::MapOfObjects:
-            case KalturaServerTypes::EnumOfString:
-            case KalturaServerTypes::EnumOfInt:
-                if (!in_array($typeClassName, $availableTypes) && $typeClassName != "KalturaObjectBase")
+            case VidiunServerTypes::Object:
+            case VidiunServerTypes::ArrayOfObjects:
+            case VidiunServerTypes::MapOfObjects:
+            case VidiunServerTypes::EnumOfString:
+            case VidiunServerTypes::EnumOfInt:
+                if (!in_array($typeClassName, $availableTypes) && $typeClassName != "VidiunObjectBase")
                 {
                     $errors[] = "Unknown type '{$typeClassName}' for {$target}";
 
@@ -41,7 +41,7 @@ function validateType($type, $typeClassName, $availableTypes, $target)
     return $errors;
 }
 
-class KalturaServerTypes
+class VidiunServerTypes
 {
     const Unknown = "Unknown";
     const Simple = "Simple";
@@ -121,7 +121,7 @@ class ServiceActionParam
     {
         $errors = array();
 
-        if ($this->typeClassName == KalturaServerTypes::Void)
+        if ($this->typeClassName == VidiunServerTypes::Void)
         {
             $errors[] = "service '{$service->name}' action '{$action->name}' param '{$this->name}' has invalid type void";
         }
@@ -217,7 +217,7 @@ class ClassType
     public $deprecated = false;
     public $properties = array();
 
-    public function prepare(KalturaServerMetadata $serverMetadata, $availableTypes)
+    public function prepare(VidiunServerMetadata $serverMetadata, $availableTypes)
     {
         $errors = array();
 
@@ -247,7 +247,7 @@ class ClassTypeProperty
     {
         $errors = array();
 
-        if ($this->typeClassName == KalturaServerTypes::Void)
+        if ($this->typeClassName == VidiunServerTypes::Void)
         {
             $errors[] = "class '{$classType->name}' property '{$this->name}' has invalid type void";
         }
@@ -267,7 +267,7 @@ class ClassTypeProperty
     }
 }
 
-class KalturaServerMetadata
+class VidiunServerMetadata
 {
     public $apiVersion;
     public $services = array();

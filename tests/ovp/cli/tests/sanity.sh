@@ -10,8 +10,8 @@ fi
 PREFIX=$1
 PARTNER_ID=$2
 shopt -s expand_aliases
-. $PREFIX/kalcliAutoComplete
-. $PREFIX/kalcliAliases.sh
+. $PREFIX/vidcliAutoComplete
+. $PREFIX/vidcliAliases.sh
 PASSED=0
 FAILED=0
 report()
@@ -28,31 +28,31 @@ report()
 }
 TEST_FLV="$PREFIX/tests/DemoVideo.flv"
 echo -e "${BRIGHT_BLUE}######### Running tests ###########${NORMAL}"
-KS=`genks -b $PARTNER_ID`
-kalcli -x media list ks=$KS
+VS=`genvs -b $PARTNER_ID`
+vidcli -x media list vs=$VS
 report "media->list()" $?
-SOME_ENTRY_ID=`kalcli -x baseentry list pager:objectType=KalturaFilterPager pager:pageSize=1 filter:objectType=KalturaBaseEntryFilter   filter:typeEqual=1 ks=$KS|awk '$1 == "id" {print $2}'`
+SOME_ENTRY_ID=`vidcli -x baseentry list pager:objectType=VidiunFilterPager pager:pageSize=1 filter:objectType=VidiunBaseEntryFilter   filter:typeEqual=1 vs=$VS|awk '$1 == "id" {print $2}'`
 report "baseentry->list()" $?
-kalcli -x baseentry updateThumbnailFromSourceEntry  entryId=$SOME_ENTRY_ID sourceEntryId=$SOME_ENTRY_ID ks=$KS  timeOffset=3
+vidcli -x baseentry updateThumbnailFromSourceEntry  entryId=$SOME_ENTRY_ID sourceEntryId=$SOME_ENTRY_ID vs=$VS  timeOffset=3
 report "baseentry->updateThumbnailFromSourceEntry()" $? 
-TOKEN=`kalcli -x uploadtoken add uploadToken:objectType=KalturaUploadToken uploadToken:fileName=$TEST_FLV  ks=$KS|awk '$1 == "id" {print $2}'`
+TOKEN=`vidcli -x uploadtoken add uploadToken:objectType=VidiunUploadToken uploadToken:fileName=$TEST_FLV  vs=$VS|awk '$1 == "id" {print $2}'`
 report "uploadtoken->add()" $?
-kalcli -x uploadtoken upload fileData=@$TEST_FLV uploadTokenId=$TOKEN ks=$KS
+vidcli -x uploadtoken upload fileData=@$TEST_FLV uploadTokenId=$TOKEN vs=$VS
 report "uploadtoken->upload()" $?
-ENTRY_ID=`kalcli -x baseentry addFromUploadedFile uploadTokenId=$TOKEN partnerId=$PARTNER_ID ks=$KS entry:objectType=KalturaBaseEntry |awk '$1 == "id" {print $2}'`
+ENTRY_ID=`vidcli -x baseentry addFromUploadedFile uploadTokenId=$TOKEN partnerId=$PARTNER_ID vs=$VS entry:objectType=VidiunBaseEntry |awk '$1 == "id" {print $2}'`
 report "baseentry->addFromUploadedFile()" $?
 TEST_CAT_NAM='testme'+$RANDOM
-CAT_ID=`kalcli -x category add category:objectType=KalturaCategory category:name=$TEST_CAT_NAM  ks=$KS|awk '$1 == "id" {print $2}'`
+CAT_ID=`vidcli -x category add category:objectType=VidiunCategory category:name=$TEST_CAT_NAM  vs=$VS|awk '$1 == "id" {print $2}'`
 report "category->add()" $?
 if [ $RC -eq 0 ];then
     sleep 5
-    TOTALC=`kalcli -x category list filter:objectType=KalturaCategoryFilter filter:fullNameEqual=$TEST_CAT_NAM ks=$KS|awk '$1 == "totalCount" {print $2}'`
+    TOTALC=`vidcli -x category list filter:objectType=VidiunCategoryFilter filter:fullNameEqual=$TEST_CAT_NAM vs=$VS|awk '$1 == "totalCount" {print $2}'`
     if [ $TOTALC -eq 1 ];then
 	report "category->list()" 0
     else
 	report "category->list()" 1
     fi
-    kalcli -x category delete  id=$CAT_ID ks=$KS
+    vidcli -x category delete  id=$CAT_ID vs=$VS
     report "category->delete()" $?
 fi
 echo -e "${BRIGHT_GREEN}PASSED tests: $PASSED ${NORMAL}, ${BRIGHT_RED}FAILED tests: $FAILED ${NORMAL}"

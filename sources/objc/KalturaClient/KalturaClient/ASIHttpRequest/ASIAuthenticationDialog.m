@@ -14,12 +14,12 @@ static ASIAuthenticationDialog *sharedDialog = nil;
 BOOL isDismissing = NO;
 static NSMutableArray *requestsNeedingAuthentication = nil;
 
-static const NSUInteger kUsernameRow = 0;
-static const NSUInteger kUsernameSection = 0;
-static const NSUInteger kPasswordRow = 1;
-static const NSUInteger kPasswordSection = 0;
-static const NSUInteger kDomainRow = 0;
-static const NSUInteger kDomainSection = 1;
+static const NSUInteger vUsernameRow = 0;
+static const NSUInteger vUsernameSection = 0;
+static const NSUInteger vPasswordRow = 1;
+static const NSUInteger vPasswordSection = 0;
+static const NSUInteger vDomainRow = 0;
+static const NSUInteger vDomainSection = 1;
 
 
 @implementation ASIAutorotatingViewController
@@ -199,17 +199,17 @@ static const NSUInteger kDomainSection = 1;
 
 - (UITextField *)usernameField
 {
-	return [self textFieldInRow:kUsernameRow section:kUsernameSection];
+	return [self textFieldInRow:vUsernameRow section:vUsernameSection];
 }
 
 - (UITextField *)passwordField
 {
-	return [self textFieldInRow:kPasswordRow section:kPasswordSection];
+	return [self textFieldInRow:vPasswordRow section:vPasswordSection];
 }
 
 - (UITextField *)domainField
 {
-	return [self textFieldInRow:kDomainRow section:kDomainSection];
+	return [self textFieldInRow:vDomainRow section:vDomainSection];
 }
 
 #pragma mark show / dismiss
@@ -367,7 +367,7 @@ static const NSUInteger kDomainSection = 1;
 
 		// Handle NTLM domains
 		NSString *scheme = ([self type] == ASIStandardAuthenticationType) ? [[self request] authenticationScheme] : [[self request] proxyAuthenticationScheme];
-		if ([scheme isEqualToString:(NSString *)kCFHTTPAuthenticationSchemeNTLM]) {
+		if ([scheme isEqualToString:(NSString *)vCFHTTPAuthenticationSchemeNTLM]) {
 			NSString *domain = [[self domainField] text];
 			if ([self type] == ASIProxyAuthenticationType) {
 				[theRequest setProxyDomain:domain];
@@ -387,7 +387,7 @@ static const NSUInteger kDomainSection = 1;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
 {
 	NSString *scheme = ([self type] == ASIStandardAuthenticationType) ? [[self request] authenticationScheme] : [[self request] proxyAuthenticationScheme];
-	if ([scheme isEqualToString:(NSString *)kCFHTTPAuthenticationSchemeNTLM]) {
+	if ([scheme isEqualToString:(NSString *)vCFHTTPAuthenticationSchemeNTLM]) {
 		return 2;
 	}
 	return 1;
@@ -441,12 +441,12 @@ static const NSUInteger kDomainSection = 1;
 	NSUInteger s = [indexPath section];
 	NSUInteger r = [indexPath row];
 
-	if (s == kUsernameSection && r == kUsernameRow) {
+	if (s == vUsernameSection && r == vUsernameRow) {
 		[textField setPlaceholder:@"User"];
-	} else if (s == kPasswordSection && r == kPasswordRow) {
+	} else if (s == vPasswordSection && r == vPasswordRow) {
 		[textField setPlaceholder:@"Password"];
 		[textField setSecureTextEntry:YES];
-	} else if (s == kDomainSection && r == kDomainRow) {
+	} else if (s == vDomainSection && r == vDomainRow) {
 		[textField setPlaceholder:@"Domain"];
 	}
 	[cell.contentView addSubview:textField];
@@ -467,7 +467,7 @@ static const NSUInteger kDomainSection = 1;
 {
 	if (section == [self numberOfSectionsInTableView:aTableView]-1) {
 		// If we're using Basic authentication and the connection is not using SSL, we'll show the plain text message
-		if ([[[self request] authenticationScheme] isEqualToString:(NSString *)kCFHTTPAuthenticationSchemeBasic] && ![[[[self request] url] scheme] isEqualToString:@"https"]) {
+		if ([[[self request] authenticationScheme] isEqualToString:(NSString *)vCFHTTPAuthenticationSchemeBasic] && ![[[[self request] url] scheme] isEqualToString:@"https"]) {
 			return @"Password will be sent in the clear.";
 		// We are using Digest, NTLM, or any scheme over SSL
 		} else {

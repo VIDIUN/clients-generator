@@ -1,10 +1,10 @@
-This is the Readme for the Kaltura Java API Client Library.
+This is the Readme for the Vidiun Java API Client Library.
 You should read this before building and testing the client.
-This library replaces the deprecated KalturaClient library.
+This library replaces the deprecated VidiunClient library.
 
 == CONTENTS OF THIS PACKAGE ==
 
- - Kaltura Java Client Library API (src/main/java/com)
+ - Vidiun Java Client Library API (src/main/java/com)
  - JUnit tests (src/test/java/com)
 
 
@@ -27,9 +27,9 @@ Use the following command to build the API without running unit tests:
   mvn -Dmaven.test.skip=true package
 
 After running the command you will find 3 Jar files in the "target" directory.
-  -- target/KalturaApiClient-X.X.X.jar contains the compiled client library
-  -- target/KalturaApiClient-X.X.X-sources.jar contains the source code
-  -- target/KalturaApiClient-X.X.X-javadoc.jar contains the Javadoc documentation for the library
+  -- target/VidiunApiClient-X.X.X.jar contains the compiled client library
+  -- target/VidiunApiClient-X.X.X-sources.jar contains the source code
+  -- target/VidiunApiClient-X.X.X-javadoc.jar contains the Javadoc documentation for the library
 
 == TESTING THE API CLIENT LIBRARY USING MAVEN ==
 
@@ -39,7 +39,7 @@ Use the following command to both build the API and run unit tests:
   mvn package
 
 The same Jar files will be created as above.  The results of the unit tests will be stored in the file
-target/surefire-reports/com.kaltura.client.test.KalturaTestSuite.txt
+target/surefire-reports/com.vidiun.client.test.VidiunTestSuite.txt
 
 
 
@@ -55,17 +55,17 @@ To build the API:
 To run the JUnit test suite that accompanies this source:
  - Copy src/test/resources/test.template.properties file to src/test/resources/test.properties and edit it, enter valid data to partnerId, adminSecret, and serviceUrl variables.
  - Compile the client library.
- - Right click the KalturaTestSuite.java file and choose Debug As > JUnit Test.
+ - Right click the VidiunTestSuite.java file and choose Debug As > JUnit Test.
 
   
 == SETUP log4j LOGGING IN ECLIPSE ==
 
 The launch settings are saved in the following files:
-- 1. KalturaTestSuite.launch (the JUnit tests)
-- 2. KalturaMainTest.launch (A main test class for quickly testing the build)
+- 1. VidiunTestSuite.launch (the JUnit tests)
+- 2. VidiunMainTest.launch (A main test class for quickly testing the build)
 
 There is a log4j.properties file in src/test/resources/log4j. 
  - Edit it to set the log level as desired, defaults are:
   log4j.category.ClientBase.class=DEBUG
-  log4j.logger.com.kaltura=ERROR
+  log4j.logger.com.vidiun=ERROR
 

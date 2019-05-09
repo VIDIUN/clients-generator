@@ -1,16 +1,16 @@
-package com.kaltura.client.utils.request;
+package com.vidiun.client.utils.request;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.kaltura.client.Client;
-import com.kaltura.client.Configuration;
-import com.kaltura.client.Files;
-import com.kaltura.client.Params;
-import com.kaltura.client.enums.ResponseType;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
+import com.vidiun.client.Client;
+import com.vidiun.client.Configuration;
+import com.vidiun.client.Files;
+import com.vidiun.client.Params;
+import com.vidiun.client.enums.ResponseType;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
 
 public class ContentRequestBuilder extends RequestBuilder<String, String, ContentRequestBuilder> {
 

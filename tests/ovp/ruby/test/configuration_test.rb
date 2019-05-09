@@ -4,11 +4,11 @@
 #                          | ' </ _` | |  _| || | '_/ _` |
 #                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 #
-# This file is part of the Kaltura Collaborative Media Suite which allows users
+# This file is part of the Vidiun Collaborative Media Suite which allows users
 # to do with audio, video, and animation what Wiki platfroms allow them to do with
 # text.
 #
-# Copyright (C) 2006-2011  Kaltura Inc.
+# Copyright (C) 2006-2011  Vidiun Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -31,16 +31,16 @@ class ConfigurationTest < Test::Unit::TestCase
   
   # this test validates the session id 
   should "not have a nil client session" do
-    assert_not_nil @client.ks
+    assert_not_nil @client.vs
   end
   
   # this test generates a exception inside the client library code. 
   should "raise an error for invalid api calls" do
     
     assert_raise NoMethodError do
-      base_entry = Kaltura::KalturaBaseEntry.new
-      base_entry.type = Kaltura::KalturaEntryType::DOCUMENT
-      base_entry.name = "kaltura_test_configurationtest_" + Time.now.getutc.strftime("%d/%m/%Y %H:%M:%S:%L")
+      base_entry = Vidiun::VidiunBaseEntry.new
+      base_entry.type = Vidiun::VidiunEntryType::DOCUMENT
+      base_entry.name = "vidiun_test_configurationtest_" + Time.now.getutc.strftime("%d/%m/%Y %H:%M:%S:%L")
       pdf_file = File.open("test/media/test.pdf")
       pdf_token = @client.invalid_service.upload(pdf_file)
     end
@@ -48,7 +48,7 @@ class ConfigurationTest < Test::Unit::TestCase
   
   # this test invoke the api actions in https channel
   should "support HTTPS" do
-    config = YAML.load_file("kaltura.yml")
+    config = YAML.load_file("vidiun.yml")
         
     partner_id = config["test"]["partner_id"]
     service_url = config["test"]["service_url"]
@@ -57,88 +57,88 @@ class ConfigurationTest < Test::Unit::TestCase
     
     service_url.gsub(/http:/, "https:/")
 
-    config = Kaltura::KalturaConfiguration.new()
+    config = Vidiun::VidiunConfiguration.new()
     config.service_url = service_url
     config.logger = Logger.new(STDOUT)
     config.timeout = timeout
     
-    @client = Kaltura::KalturaClient.new( config )
-    assert_equal @client.ks, Kaltura::KalturaNotImplemented
+    @client = Vidiun::VidiunClient.new( config )
+    assert_equal @client.vs, Vidiun::VidiunNotImplemented
     
-    session = @client.session_service.start( administrator_secret, '', Kaltura::KalturaSessionType::ADMIN, partner_id)
-    @client.ks = session
+    session = @client.session_service.start( administrator_secret, '', Vidiun::VidiunSessionType::ADMIN, partner_id)
+    @client.vs = session
     
-    assert_not_nil @client.ks
+    assert_not_nil @client.vs
   end
   
   # this test generates a exception inside the client library code. 
   should "raise an error for invalid service url" do
     
-    config = YAML.load_file("kaltura.yml")
+    config = YAML.load_file("vidiun.yml")
         
     partner_id = config["test"]["partner_id"]
     service_url = "http://invalid-service-url"
     administrator_secret = config["test"]["administrator_secret"]
 
-    config = Kaltura::KalturaConfiguration.new()
+    config = Vidiun::VidiunConfiguration.new()
     config.service_url = service_url
     config.logger = Logger.new(STDOUT)
     
-    @client = Kaltura::KalturaClient.new( config )
+    @client = Vidiun::VidiunClient.new( config )
     
-    assert_raise Kaltura::KalturaAPIError do
-      session = @client.session_service.start( administrator_secret, '', Kaltura::KalturaSessionType::ADMIN, partner_id)
+    assert_raise Vidiun::VidiunAPIError do
+      session = @client.session_service.start( administrator_secret, '', Vidiun::VidiunSessionType::ADMIN, partner_id)
     end
   end
   
   # this test tries to retrieve a session key for a invalid configuration.
   should "not create a valid client session for invalid credentials" do
     
-    config = YAML.load_file("kaltura.yml")
+    config = YAML.load_file("vidiun.yml")
         
     partner_id = config["test"]["partner_id"]
     service_url = config["test"]["service_url"]
 
-    config = Kaltura::KalturaConfiguration.new()
+    config = Vidiun::VidiunConfiguration.new()
     config.service_url = service_url
     config.logger = Logger.new(STDOUT)
     
-    @client = Kaltura::KalturaClient.new( config )
+    @client = Vidiun::VidiunClient.new( config )
     
-    assert_raise Kaltura::KalturaAPIError do
-      session = @client.session_service.start( "invalid_administrator_secret", '', Kaltura::KalturaSessionType::ADMIN, partner_id)
-      @client.ks = session
+    assert_raise Vidiun::VidiunAPIError do
+      session = @client.session_service.start( "invalid_administrator_secret", '', Vidiun::VidiunSessionType::ADMIN, partner_id)
+      @client.vs = session
     end
     
-    assert_equal @client.ks, Kaltura::KalturaNotImplemented
+    assert_equal @client.vs, Vidiun::VidiunNotImplemented
   end
   
   # this test uses a session created in client side to comunicate with api.
   should "upload a file and create an entry using the session created in client side" do
       
-      config = YAML.load_file("kaltura.yml")
+      config = YAML.load_file("vidiun.yml")
   
       partner_id = config["test"]["partner_id"]
       service_url = config["test"]["service_url"]
       administrator_secret = config["test"]["administrator_secret"]
       timeout = config["test"]["timeout"]
 
-    config = Kaltura::KalturaConfiguration.new()
+    config = Vidiun::VidiunConfiguration.new()
     config.service_url = service_url
       config.logger = Logger.new(STDOUT)
       config.timeout = timeout
   
-      @client = Kaltura::KalturaClient.new( config )
+      @client = Vidiun::VidiunClient.new( config )
     
-      assert_equal @client.ks, Kaltura::KalturaNotImplemented
+      assert_equal @client.vs, Vidiun::VidiunNotImplemented
     
-      @client.generate_session(administrator_secret, '', Kaltura::KalturaSessionType::ADMIN, partner_id)
+      @client.generate_session(administrator_secret, '', Vidiun::VidiunSessionType::ADMIN, partner_id)
       
-      assert_not_nil @client.ks
+      assert_not_nil @client.vs
       
-      base_entry = Kaltura::KalturaBaseEntry.new
-      base_entry.type = Kaltura::KalturaEntryType::DOCUMENT
-      base_entry.name = "kaltura_test_configurationtest_" + Time.now.getutc.strftime("%d/%m/%Y %H:%M:%S:%L")
+      base_entry = Vidiun::VidiunBaseEntry.new
+      base_entry.type = Vidiun::VidiunEntryType::DOCUMENT
+      base_entry.name = "vidiun_test_configurationtest_" + Time.now.getutc.strftime("%d/%m/%Y %H:%M:%S:%L")
       pdf_file = File.open("test/media/test.pdf")
       
       

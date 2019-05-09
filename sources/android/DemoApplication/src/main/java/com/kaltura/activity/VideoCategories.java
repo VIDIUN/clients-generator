@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,22 +35,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kaltura.bar.ActionBar;
-import com.kaltura.boxAdapter.BoxAdapterAllCategories;
-import com.kaltura.client.enums.KalturaMediaType;
-import com.kaltura.client.types.KalturaCategory;
-import com.kaltura.client.types.KalturaMediaEntry;
-import com.kaltura.client.types.KalturaMediaEntryFilter;
-import com.kaltura.components.GridForLandLargeScreen;
-import com.kaltura.components.GridForPortLargeScreen;
-import com.kaltura.enums.States;
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.Category;
-import com.kaltura.services.Media;
-import com.kaltura.sharing.Sharing;
-import com.kaltura.utils.SearchTextCategory;
-import com.kaltura.utils.Sort;
-import com.kaltura.utils.Utils;
+import com.vidiun.bar.ActionBar;
+import com.vidiun.boxAdapter.BoxAdapterAllCategories;
+import com.vidiun.client.enums.VidiunMediaType;
+import com.vidiun.client.types.VidiunCategory;
+import com.vidiun.client.types.VidiunMediaEntry;
+import com.vidiun.client.types.VidiunMediaEntryFilter;
+import com.vidiun.components.GridForLandLargeScreen;
+import com.vidiun.components.GridForPortLargeScreen;
+import com.vidiun.enums.States;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.Category;
+import com.vidiun.services.Media;
+import com.vidiun.sharing.Sharing;
+import com.vidiun.utils.SearchTextCategory;
+import com.vidiun.utils.Sort;
+import com.vidiun.utils.Utils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -59,7 +59,7 @@ import com.nostra13.universalimageloader.core.ImageLoadingListener;
 public class VideoCategories extends TemplateActivity implements Observer, ListView.OnItemClickListener {
 
     private ListView lvAllCategories;
-    private List<KalturaCategory> listCategory;
+    private List<VidiunCategory> listCategory;
     private BoxAdapterAllCategories listAllCategories;
     private EditText etSearch;
     private SearchTextCategory searchText;
@@ -67,8 +67,8 @@ public class VideoCategories extends TemplateActivity implements Observer, ListV
     private TextView tv_bar;
     private LinearLayout ll_categories;
     private int categoryId;
-    private List<KalturaMediaEntry> listEntries;
-    private HashMap<KalturaMediaEntry, Bitmap> listBitmap;
+    private List<VidiunMediaEntry> listEntries;
+    private HashMap<VidiunMediaEntry, Bitmap> listBitmap;
     private int textColor;
     private int arrow;
     private List<GridForPortLargeScreen> contentPort;
@@ -79,7 +79,7 @@ public class VideoCategories extends TemplateActivity implements Observer, ListV
     private boolean largeScreen;
     private static int save = -1;
     private boolean isSet = false;
-    private List<KalturaMediaEntry> listMostPopular;
+    private List<VidiunMediaEntry> listMostPopular;
     private boolean listCategoriesIsLoaded = false;
     private boolean isMostPopular = false;
     private Activity activity;
@@ -98,12 +98,12 @@ public class VideoCategories extends TemplateActivity implements Observer, ListV
     private static int countShowDialog = 0;
 
     public VideoCategories() {
-        listMostPopular = new ArrayList<KalturaMediaEntry>();
+        listMostPopular = new ArrayList<VidiunMediaEntry>();
         searchText = new SearchTextCategory();
         searchText.addObserver(this);
-        listCategory = new ArrayList<KalturaCategory>();
-        listEntries = new ArrayList<KalturaMediaEntry>();
-        listBitmap = new HashMap<KalturaMediaEntry, Bitmap>();
+        listCategory = new ArrayList<VidiunCategory>();
+        listEntries = new ArrayList<VidiunMediaEntry>();
+        listBitmap = new HashMap<VidiunMediaEntry, Bitmap>();
         contentPort = new ArrayList<GridForPortLargeScreen>();
     }
 
@@ -722,7 +722,7 @@ public class VideoCategories extends TemplateActivity implements Observer, ListV
         }
     }
 
-    private void showUploadDialog(final KalturaMediaEntry entry) {
+    private void showUploadDialog(final VidiunMediaEntry entry) {
         //set up dialogVideoInfo
         if (countShowDialog < 1) {
             countShowDialog++;
@@ -858,7 +858,7 @@ public class VideoCategories extends TemplateActivity implements Observer, ListV
         view = new ArrayList<ImageView>();
         progressBar = new ArrayList<ProgressBar>();
 
-        for (KalturaMediaEntry entry : listEntries) {
+        for (VidiunMediaEntry entry : listEntries) {
             url.add(entry.thumbnailUrl + "/width/" + Integer.valueOf(/*
                      * display.getWidth()
                      */300).toString() + "/height/" + Integer.valueOf(/*
@@ -966,7 +966,7 @@ public class VideoCategories extends TemplateActivity implements Observer, ListV
         view = new ArrayList<ImageView>();
         progressBar = new ArrayList<ProgressBar>();
 
-        for (KalturaMediaEntry entry : listEntries) {
+        for (VidiunMediaEntry entry : listEntries) {
             url.add(entry.thumbnailUrl + "/width/" + Integer.valueOf(/*
                      * display.getWidth()
                      */300).toString() + "/height/" + Integer.valueOf(/*
@@ -1096,10 +1096,10 @@ public class VideoCategories extends TemplateActivity implements Observer, ListV
         /**
          * Sort by name
          */
-        Collections.sort(listCategory, new Sort<KalturaCategory>("name", "compareTo"));
+        Collections.sort(listCategory, new Sort<VidiunCategory>("name", "compareTo"));
         listAllCategories = new BoxAdapterAllCategories(context, listCategory, textColor, arrow, Color.argb(transparentColor, 1, 18, 35));
         if (largeScreen) {
-            KalturaCategory mp = new KalturaCategory();
+            VidiunCategory mp = new VidiunCategory();
             mp.name = "Most Popular";
             mp.id = 1;
             listCategory.add(0, mp);
@@ -1231,17 +1231,17 @@ public class VideoCategories extends TemplateActivity implements Observer, ListV
         /**
          * Sort by name
          */
-        Collections.sort((List<KalturaCategory>) paramObject, new Sort<KalturaCategory>("name", "compareTo"));
-        listAllCategories = new BoxAdapterAllCategories(context, (List<KalturaCategory>) paramObject, textColor, arrow, Color.argb(0, 1, 18, 35));
+        Collections.sort((List<VidiunCategory>) paramObject, new Sort<VidiunCategory>("name", "compareTo"));
+        listAllCategories = new BoxAdapterAllCategories(context, (List<VidiunCategory>) paramObject, textColor, arrow, Color.argb(0, 1, 18, 35));
         lvAllCategories.setAdapter(listAllCategories);
     }
 
-    private class DownloadListCatigoriesTask extends AsyncTask<Void, States, List<KalturaCategory>> {
+    private class DownloadListCatigoriesTask extends AsyncTask<Void, States, List<VidiunCategory>> {
 
         private String message;
 
         @Override
-        protected List<KalturaCategory> doInBackground(Void... params) {
+        protected List<VidiunCategory> doInBackground(Void... params) {
             // Test for connection
             Log.w(TAG, "Thread is start.");
             try {
@@ -1265,7 +1265,7 @@ public class VideoCategories extends TemplateActivity implements Observer, ListV
         }
 
         @Override
-        protected void onPostExecute(final List<KalturaCategory> listCategory) {
+        protected void onPostExecute(final List<VidiunCategory> listCategory) {
             progressDialog.hide();
             // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
@@ -1389,8 +1389,8 @@ public class VideoCategories extends TemplateActivity implements Observer, ListV
 
                     publishProgress(States.LOADING_DATA);
                     //Getting list of all entries category
-                    KalturaMediaEntryFilter filter = new KalturaMediaEntryFilter();
-                    filter.mediaTypeEqual = KalturaMediaType.VIDEO;
+                    VidiunMediaEntryFilter filter = new VidiunMediaEntryFilter();
+                    filter.mediaTypeEqual = VidiunMediaType.VIDEO;
                     if (!isMostPopular) {
                         filter.categoriesIdsMatchAnd = Integer.valueOf(categoryId).toString();
                     }

@@ -1,7 +1,7 @@
 {
   "name": "clients-generator",
   "version": "1.0.0",
-  "description": "The code in this repo is used to auto generate the Kaltura client libraries for each supported language.",
+  "description": "The code in this repo is used to auto generate the Vidiun client libraries for each supported language.",
   "main": "copyAndPush.js",
   "directories": {
     "lib": "lib",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kaltura/clients-generator.git"
+    "url": "git+https://github.com/vidiun/clients-generator.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kaltura/clients-generator/issues"
+    "url": "https://github.com/vidiun/clients-generator/issues"
   },
-  "homepage": "https://github.com/kaltura/clients-generator#readme",
+  "homepage": "https://github.com/vidiun/clients-generator#readme",
   "dependencies": {
     "copy-dir": "^0.4.0",
     "rimraf": "^2.6.3"

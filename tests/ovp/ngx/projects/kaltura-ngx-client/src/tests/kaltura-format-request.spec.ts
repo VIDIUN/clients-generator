@@ -1,34 +1,34 @@
 import {BaseEntryListAction} from "../lib/api/types/BaseEntryListAction";
 import {UserLoginByLoginIdAction} from "../lib/api/types/UserLoginByLoginIdAction";
-import {KalturaDetachedResponseProfile} from "../lib/api/types/KalturaDetachedResponseProfile";
-import {KalturaBaseEntryFilter} from "../lib/api/types/KalturaBaseEntryFilter";
-import {KalturaSearchOperator} from "../lib/api/types/KalturaSearchOperator";
-import {KalturaNullableBoolean} from "../lib/api/types/KalturaNullableBoolean";
+import {VidiunDetachedResponseProfile} from "../lib/api/types/VidiunDetachedResponseProfile";
+import {VidiunBaseEntryFilter} from "../lib/api/types/VidiunBaseEntryFilter";
+import {VidiunSearchOperator} from "../lib/api/types/VidiunSearchOperator";
+import {VidiunNullableBoolean} from "../lib/api/types/VidiunNullableBoolean";
 import {AppTokenAddAction} from "../lib/api/types/AppTokenAddAction";
-import {KalturaAppToken} from "../lib/api/types/KalturaAppToken";
-import {KalturaSearchOperatorType} from "../lib/api/types/KalturaSearchOperatorType";
-import {KalturaContentDistributionSearchItem} from "../lib/api/types/KalturaContentDistributionSearchItem";
+import {VidiunAppToken} from "../lib/api/types/VidiunAppToken";
+import {VidiunSearchOperatorType} from "../lib/api/types/VidiunSearchOperatorType";
+import {VidiunContentDistributionSearchItem} from "../lib/api/types/VidiunContentDistributionSearchItem";
 import {UserGetAction} from "../lib/api/types/UserGetAction";
 import {PlaylistListAction} from "../lib/api/types/PlaylistListAction";
-import {KalturaResponseType} from "../lib/api/types/KalturaResponseType";
-import {KalturaBaseEntryListResponse} from "../lib/api/types/KalturaBaseEntryListResponse";
-import {KalturaPlaylist} from "../lib/api/types/KalturaPlaylist";
+import {VidiunResponseType} from "../lib/api/types/VidiunResponseType";
+import {VidiunBaseEntryListResponse} from "../lib/api/types/VidiunBaseEntryListResponse";
+import {VidiunPlaylist} from "../lib/api/types/VidiunPlaylist";
 import {PartnerGetAction} from "../lib/api/types/PartnerGetAction";
-import {KalturaPlaylistType} from "../lib/api/types/KalturaPlaylistType";
-import {KalturaEntryReplacementStatus} from "../lib/api/types/KalturaEntryReplacementStatus";
-import {KalturaMediaEntryFilterForPlaylist} from "../lib/api/types/KalturaMediaEntryFilterForPlaylist";
-import {KalturaAPIException} from "../lib/api/kaltura-api-exception";
-import {KalturaAppTokenHashType} from "../lib/api/types/KalturaAppTokenHashType";
-import {KalturaMediaEntryFilter} from "../lib/api/types/KalturaMediaEntryFilter";
-import {KalturaMediaEntry} from "../lib/api/types/KalturaMediaEntry";
+import {VidiunPlaylistType} from "../lib/api/types/VidiunPlaylistType";
+import {VidiunEntryReplacementStatus} from "../lib/api/types/VidiunEntryReplacementStatus";
+import {VidiunMediaEntryFilterForPlaylist} from "../lib/api/types/VidiunMediaEntryFilterForPlaylist";
+import {VidiunAPIException} from "../lib/api/vidiun-api-exception";
+import {VidiunAppTokenHashType} from "../lib/api/types/VidiunAppTokenHashType";
+import {VidiunMediaEntryFilter} from "../lib/api/types/VidiunMediaEntryFilter";
+import {VidiunMediaEntry} from "../lib/api/types/VidiunMediaEntry";
 import { asyncAssert, escapeRegExp, getClient } from "./utils";
-import {LoggerSettings, LogLevels} from "../lib/api/kaltura-logger";
-import {KalturaFilterPager} from "../lib/api/types/KalturaFilterPager";
-import {KalturaClient} from "../lib/kaltura-client.service";
+import {LoggerSettings, LogLevels} from "../lib/api/vidiun-logger";
+import {VidiunFilterPager} from "../lib/api/types/VidiunFilterPager";
+import {VidiunClient} from "../lib/vidiun-client.service";
 import {TestsConfig} from './tests-config';
 
-describe("Kaltura server API request", () => {
-    let kalturaClient: KalturaClient = null;
+describe("Vidiun server API request", () => {
+    let vidiunClient: VidiunClient = null;
 
     beforeAll(async () => {
         LoggerSettings.logLevel = LogLevels.error; // suspend warnings
@@ -36,27 +36,27 @@ describe("Kaltura server API request", () => {
         return new Promise((resolve => {
             getClient()
                 .subscribe(client => {
-                    kalturaClient = client;
+                    vidiunClient = client;
                     resolve(client);
                 });
         }));
     });
 
     afterAll(() => {
-        kalturaClient = null;
+        vidiunClient = null;
     });
 
-    describe("Kaltura request with specific format type", () => {
+    describe("Vidiun request with specific format type", () => {
         test("handle response format 1 (json)", (done) => {
             // example of assignment by setParameters function (support chaining)
             const listAction: BaseEntryListAction = new BaseEntryListAction(
                 {
-                    filter: new KalturaBaseEntryFilter().setData(filter => {
+                    filter: new VidiunBaseEntryFilter().setData(filter => {
                         filter.statusIn = "2";
                     })
                 });
             expect.assertions(2);
-            kalturaClient.request(listAction, KalturaResponseType.responseTypeJson).subscribe(
+            vidiunClient.request(listAction, VidiunResponseType.responseTypeJson).subscribe(
                 (response) => {
                     asyncAssert(() => {
                         expect(typeof response === 'string').toBeTruthy();
@@ -74,12 +74,12 @@ describe("Kaltura server API request", () => {
             // example of assignment by setParameters function (support chaining)
             const listAction: BaseEntryListAction = new BaseEntryListAction(
                 {
-                    filter: new KalturaBaseEntryFilter().setData(filter => {
+                    filter: new VidiunBaseEntryFilter().setData(filter => {
                         filter.statusIn = "2";
                     })
                 });
             expect.assertions(2);
-            kalturaClient.request(listAction, KalturaResponseType.responseTypeXml).subscribe(
+            vidiunClient.request(listAction, VidiunResponseType.responseTypeXml).subscribe(
                 (response) => {
                     asyncAssert(() => {
                         expect(typeof response === 'string').toBeTruthy();

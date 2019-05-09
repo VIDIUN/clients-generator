@@ -9,7 +9,7 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 	private $_serverType = null;
 	private $_disableDateParsing = false;
     private $_framework;
-    private $_targetKalturaServer;
+    private $_targetVidiunServer;
 
 	function __construct($xmlPath, Zend_Config $config, $framework = "typescript", $srcAPIBasePath = "src/api")
 	{
@@ -19,14 +19,14 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 
 		$this->_usePrivateAttributes = isset($config->usePrivateAttributes) ? $config->usePrivateAttributes : false;
 		$this->_framework = $framework;
-		KalturaLog::info("typescript generator: setting target client framework to '$framework'");
+		VidiunLog::info("typescript generator: setting target client framework to '$framework'");
 	}
 
     public function setTestsPath($testsDir)
     {
         parent::setTestsPath($testsDir);
         $this->_serverType = $testsDir;
-        $this->_targetKalturaServer = $testsDir;
+        $this->_targetVidiunServer = $testsDir;
     }
 
 
@@ -36,7 +36,7 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 
 		if ($this->_disableDateParsing)
 		{
-			KalturaLog::info("typescript generator: disable date parsing feature");
+			VidiunLog::info("typescript generator: disable date parsing feature");
 		}
 
 		parent::generate();
@@ -45,7 +45,7 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 		$xpath = new DOMXPath ($this->_doc);
 		$this->serverMetadata = $this->extractData($xpath);
 
-		$classesGenerator = new ClassesGenerator($this->serverMetadata, $this->_framework, $this->_disableDateParsing, $this->_targetKalturaServer);
+		$classesGenerator = new ClassesGenerator($this->serverMetadata, $this->_framework, $this->_disableDateParsing, $this->_targetVidiunServer);
 		$indexFilesGenerator = new IndexFilesGenerator($this->serverMetadata);
 		$enumsGenerator = new EnumsGenerator($this->serverMetadata);
 		$files = array_merge(
@@ -63,7 +63,7 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 
 	public function extractData($xpath)
 	{
-		$result = new KalturaServerMetadata();
+		$result = new VidiunServerMetadata();
 		$errors = array();
 
 		$serviceNodes = $xpath->query("/xml/services/service");
@@ -84,18 +84,18 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 		{
 			$className = $classNode->getAttribute("name");
 
-			if ($this->shouldIncludeType($className) && $className != "KalturaClientConfiguration") {
+			if ($this->shouldIncludeType($className) && $className != "VidiunClientConfiguration") {
 
-				if ($className == "KalturaServerObject")
+				if ($className == "VidiunServerObject")
 				{
-					$errors[] = "Class name 'KalturaServerObject' cannot be generated";
+					$errors[] = "Class name 'VidiunServerObject' cannot be generated";
 				}
 
 				$classType = new ClassType();
 
-				$classType->name = $this->fixKalturaTypeName($classNode->getAttribute("name"));
+				$classType->name = $this->fixVidiunTypeName($classNode->getAttribute("name"));
 				$classType->abstract = $classNode->getAttribute("abstract") == 1;
-				$classType->base = $this->fixKalturaTypeName($classNode->getAttribute("base"));
+				$classType->base = $this->fixVidiunTypeName($classNode->getAttribute("base"));
 				$classType->plugin = $classNode->getAttribute("plugin");
 				$classType->description = $classNode->getAttribute("description");
 				$classType->properties = $this->extractClassTypeProperties($classNode);
@@ -114,7 +114,7 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 				$enumType = new EnumType();
 				$result->enumTypes[] = $enumType;
 
-				$enumType->name = $this->fixKalturaTypeName($enumNode->getAttribute("name"));
+				$enumType->name = $this->fixVidiunTypeName($enumNode->getAttribute("name"));
 				$enumType->type = $enumNode->getAttribute("enumType");
 
 				$enumValueNodes = $enumNode->childNodes;
@@ -287,10 +287,10 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 		return $result;
 	}
 
-	function fixKalturaTypeName($name)
+	function fixVidiunTypeName($name)
 	{
 		return $name;
-		//return $name == "KalturaObjectBase" ? "KalturaObjectBase" : preg_replace('/^Kaltura/', '',$name);
+		//return $name == "VidiunObjectBase" ? "VidiunObjectBase" : preg_replace('/^Vidiun/', '',$name);
 	}
 
 	function extractServiceActions(DOMElement $serviceNode)
@@ -347,7 +347,7 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 	function mapToTypescriptType(DOMElement $xmlnode, $allowEmptyTypes)
 	{
 		$result = new stdClass();
-		$result->type = KalturaServerTypes::Unknown;
+		$result->type = VidiunServerTypes::Unknown;
 		$result->className = null;
 
 		$typeValue = $xmlnode->hasAttribute("type") ? $xmlnode->getAttribute("type") : null;
@@ -356,7 +356,7 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 		{
 			if ($allowEmptyTypes)
 			{
-				$result->type = KalturaServerTypes::Void;
+				$result->type = VidiunServerTypes::Void;
 				$result->className =  null;
 			}
 		}else
@@ -364,27 +364,27 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 			switch($typeValue)
 			{
 			    case "array":
-			        $arrayTypeValue = $this->fixKalturaTypeName($xmlnode->getAttribute("arrayType"));
+			        $arrayTypeValue = $this->fixVidiunTypeName($xmlnode->getAttribute("arrayType"));
                     if (isset($arrayTypeValue) && $arrayTypeValue != "") {
-                        $result->type = KalturaServerTypes::ArrayOfObjects;
+                        $result->type = VidiunServerTypes::ArrayOfObjects;
                         $result->className = $arrayTypeValue;
                     }
 			        break;
                 case "map":
-                    $arrayTypeValue = $this->fixKalturaTypeName($xmlnode->getAttribute("arrayType"));
+                    $arrayTypeValue = $this->fixVidiunTypeName($xmlnode->getAttribute("arrayType"));
                     if (isset($arrayTypeValue) && $arrayTypeValue != "") {
-                        $result->type = KalturaServerTypes::MapOfObjects;
+                        $result->type = VidiunServerTypes::MapOfObjects;
                         $result->className = $arrayTypeValue;
                     }
 			        break;
 				case "file":
-					$result->type = KalturaServerTypes::File;
+					$result->type = VidiunServerTypes::File;
 					$result->className = null;
 					break;
 				case "bigint":
 				case "float":
 				case "bool":
-					$result->type = KalturaServerTypes::Simple;
+					$result->type = VidiunServerTypes::Simple;
 					$result->className = $typeValue;
 					break;
 				case "string":
@@ -394,29 +394,29 @@ class TypescriptClientGenerator extends ClientGeneratorFromXml
 
 					if ($isTime == "1" && $this->_disableDateParsing === false)
 					{
-						$result->type = KalturaServerTypes::Date;
+						$result->type = VidiunServerTypes::Date;
 						$result->className = "";
 					}else if ($enumType)
 					{
 						if ($typeValue == "string")
 						{
-							$result->type = KalturaServerTypes::EnumOfString;
+							$result->type = VidiunServerTypes::EnumOfString;
 						}else
 						{
-							$result->type = KalturaServerTypes::EnumOfInt;
+							$result->type = VidiunServerTypes::EnumOfInt;
 						}
 
-						$result->className = $this->fixKalturaTypeName($enumType);
+						$result->className = $this->fixVidiunTypeName($enumType);
 
 					}else
 					{
-						$result->type = KalturaServerTypes::Simple;
+						$result->type = VidiunServerTypes::Simple;
 						$result->className = $typeValue;
 					}
 					break;
 				default:
-					$result->type = KalturaServerTypes::Object;
-					$result->className = $this->fixKalturaTypeName( $typeValue);
+					$result->type = VidiunServerTypes::Object;
+					$result->className = $this->fixVidiunTypeName( $typeValue);
 					break;
 			}
 		}

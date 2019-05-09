@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -31,11 +31,11 @@ using System.Text;
 using System.Web;
 using System.IO;
 
-namespace Kaltura
+namespace Vidiun
 {
-    public class KalturaFiles : SortedList<string, Stream>
+    public class VidiunFiles : SortedList<string, Stream>
     {
-        public void Add(KalturaFiles files)
+        public void Add(VidiunFiles files)
         {
             foreach (KeyValuePair<string, Stream> item in files)
             {

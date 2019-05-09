@@ -1,8 +1,8 @@
-package com.kaltura.client;
+package com.vidiun.client;
 
-import com.kaltura.client.utils.request.ConnectionConfiguration;
-import com.kaltura.client.utils.request.RequestElement;
-import com.kaltura.client.utils.response.base.Response;
+import com.vidiun.client.utils.request.ConnectionConfiguration;
+import com.vidiun.client.utils.request.RequestElement;
+import com.vidiun.client.utils.response.base.Response;
 
 public interface RequestQueue {
 

@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* Send kaltura request with a specific format (i.e json, xml, excel)
+* Send vidiun request with a specific format (i.e json, xml, excel)
 
 ### Fix
 
@@ -49,28 +49,28 @@ upgrade Angular stack from v5 to v6 which affected library public API
 
 before - nested imports were supported
 ```
-import { KalturaUser } from 'kaltura-ngx-client/api/types/KalturaUser';
-import { CategoryUpdateAction } from "kaltura-ngx-client/api/types/CategoryUpdateAction";
+import { VidiunUser } from 'vidiun-ngx-client/api/types/VidiunUser';
+import { CategoryUpdateAction } from "vidiun-ngx-client/api/types/CategoryUpdateAction";
 ```
 
 after - all imports should be done against the library entry point
 ```
- import { KalturaUser, CategoryUpdateAction } from 'kaltura-ngx-client';
+ import { VidiunUser, CategoryUpdateAction } from 'vidiun-ngx-client';
 ```
 
-* rename `KalturaTypesFactory` to `KalturaObjectBaseFactory` 
+* rename `VidiunTypesFactory` to `VidiunObjectBaseFactory` 
 before
 ```
-import { KalturaTypesFactory } from 'kaltura-ngx-client';
+import { VidiunTypesFactory } from 'vidiun-ngx-client';
 
-const clonedEntry = Object.assign(KalturaTypesFactory.createObject(entry), entry);
+const clonedEntry = Object.assign(VidiunTypesFactory.createObject(entry), entry);
 ```
 
 after
 ```
-import { KalturaObjectBaseFactory } from 'kaltura-ngx-client';
+import { VidiunObjectBaseFactory } from 'vidiun-ngx-client';
 
-const clonedEntry = Object.assign(KalturaObjectBaseFactory.createObject(entry), entry);
+const clonedEntry = Object.assign(VidiunObjectBaseFactory.createObject(entry), entry);
 ```
   
 
@@ -91,7 +91,7 @@ To allow sending empty arrays for properties, use `allowEmptyArray()` method:
 ```
 yourObjectInstance.allowEmptyArray('theRelevantArrayPropertyName')
 ``` 
-this will instruct the kaltura client to send empty arrays if assigned for `restrictions` property.
+this will instruct the vidiun client to send empty arrays if assigned for `restrictions` property.
 
 ## 10.2.0 (2018-05-03)
 
@@ -110,7 +110,7 @@ this will instruct the kaltura client to send empty arrays if assigned for `rest
 
 ### Fix
 
-* expose args value on KalturaAPIException if provided by the server
+* expose args value on VidiunAPIException if provided by the server
 
 ### Features
 
@@ -122,10 +122,10 @@ this will instruct the kaltura client to send empty arrays if assigned for `rest
 
 * upload file abort and network connectivity behavior
 * unhandled error when overriding
-* in kaltura client rename `overrideOptions` to `appendOptions`
-* in kaltura client rename `resetOptions` to `setdOptions`
-* in kaltura client rename `overrideDefaultRequestOptions` to `appendDefaultRequestOptions`
-* in kaltura client rename `resetDefaultRequestOptions` to `setDefaultRequestOptions`
+* in vidiun client rename `overrideOptions` to `appendOptions`
+* in vidiun client rename `resetOptions` to `setdOptions`
+* in vidiun client rename `overrideDefaultRequestOptions` to `appendDefaultRequestOptions`
+* in vidiun client rename `resetDefaultRequestOptions` to `setDefaultRequestOptions`
 
 ## 9.1.0 (2018-03-11)
 
@@ -144,30 +144,30 @@ this will instruct the kaltura client to send empty arrays if assigned for `rest
 
 ### Features
 
-* allow adding options property to requests with general information such as ks, partnerId, response profile.
+* allow adding options property to requests with general information such as vs, partnerId, response profile.
 * allow adding options property to client service.
 * allow adding default options property to be used with all requests.
-* add `getFirstError()` method to kaltura multi response object which simplify extracting the error of the first request that failed.
+* add `getFirstError()` method to vidiun multi response object which simplify extracting the error of the first request that failed.
 
 ### BREAKING CHANGES
 
 
-* `KalturaClientConfiguration` was replaced with `KalturaClientOptions`. Declaring client options now uses injection token as shown below:
+* `VidiunClientConfiguration` was replaced with `VidiunClientOptions`. Declaring client options now uses injection token as shown below:
 
 Before (in `app.module.ts`):
 ```
 export function clientConfigurationFactory() {
-    const result = new KalturaClientConfiguration();
-    result.endpointUrl = getKalturaServerUri();
-    result.clientTag = 'KMCng';
+    const result = new VidiunClientConfiguration();
+    result.endpointUrl = getVidiunServerUri();
+    result.clientTag = 'VMCng';
     return result;
 }
 
 providers: [
     ...
-    KalturaClient,
+    VidiunClient,
     {
-      provide: KalturaClientConfiguration,
+      provide: VidiunClientConfiguration,
       useFactory: clientConfigurationFactory
     }
 ]
@@ -175,11 +175,11 @@ providers: [
 
 After (in `app.module.ts`):
 ```
-import {KalturaClientModule, KalturaClientOptions} from 'kaltura-ngx-client';
+import {VidiunClientModule, VidiunClientOptions} from 'vidiun-ngx-client';
 
-export function kalturaClientOptionsFactory(): KalturaClientOptions {
+export function vidiunClientOptionsFactory(): VidiunClientOptions {
     return  {
-        endpointUrl: getKalturaServerUri(),
+        endpointUrl: getVidiunServerUri(),
         clientTag: 'app'
     };
 }
@@ -187,40 +187,40 @@ export function kalturaClientOptionsFactory(): KalturaClientOptions {
 @NgModule({
 imports: [
     ...
-    KalturaClientModule.forRoot(kalturaClientOptionsFactory)
+    VidiunClientModule.forRoot(vidiunClientOptionsFactory)
 ]
 ```
 
-* `KalturaClient` exposes a method for setting default request options as fallback values
+* `VidiunClient` exposes a method for setting default request options as fallback values
 
 Before (in `app.module.ts`):
 ```
-import { KalturaClient } from 'kaltura-ngx-client';
+import { VidiunClient } from 'vidiun-ngx-client';
 
 export class AppModule {
-    constructor(private _kalturaClient: KalturaClient) {
+    constructor(private _vidiunClient: VidiunClient) {
     }
 
-    private onUserLoggedIn(ks: string, partnerId: number)
+    private onUserLoggedIn(vs: string, partnerId: number)
       {
-          this._kalturaClient.ks = ks;
-          this._kalturaClient.partnerId = partnerId;
+          this._vidiunClient.vs = vs;
+          this._vidiunClient.partnerId = partnerId;
       }
 }
 ```
 
 After (in `app.module.ts`):
 ```
-import { KalturaClient } from 'kaltura-ngx-client';
+import { VidiunClient } from 'vidiun-ngx-client';
 
 export class AppModule {
-    constructor(private _kalturaClient: KalturaClient) {
+    constructor(private _vidiunClient: VidiunClient) {
     }
 
-    private onUserLoggedIn(ks: string, partnerId: number)
+    private onUserLoggedIn(vs: string, partnerId: number)
       {
-          this._kalturaClient.setDefaultRequestOptions({
-              ks,
+          this._vidiunClient.setDefaultRequestOptions({
+              vs,
               partnerId
           });
       }
@@ -230,11 +230,11 @@ export class AppModule {
 * changing client options manually is done using a dedicated method
 
 ```
-import { KalturaClient } from 'kaltura-ngx-client';
+import { VidiunClient } from 'vidiun-ngx-client';
 
 export class AppModule {
-    constructor(private _kalturaClient: KalturaClient) {
-        _kalturaClient.appendOptions({
+    constructor(private _vidiunClient: VidiunClient) {
+        _vidiunClient.appendOptions({
             endpointUrl: 'new endpoint url'
         })
     }
@@ -247,9 +247,9 @@ export class AppModule {
 
 Before
 ```
- return this._kalturaClient.request(new PlaylistExecuteAction({
+ return this._vidiunClient.request(new PlaylistExecuteAction({
          id: this.data.id,
-         acceptedTypes: [KalturaMediaEntry],
+         acceptedTypes: [VidiunMediaEntry],
          responseProfile: responseProfile
        }));
 ```
@@ -257,10 +257,10 @@ Before
 
 After
 ```
-return this._kalturaClient.request(new PlaylistExecuteAction({
+return this._vidiunClient.request(new PlaylistExecuteAction({
          id: this.data.id
        }).setRequestOptions({
-            acceptedTypes: [KalturaMediaEntry],
+            acceptedTypes: [VidiunMediaEntry],
             responseProfile: responseProfile
         })
       ));
@@ -282,13 +282,13 @@ return this._kalturaClient.request(new PlaylistExecuteAction({
 Before
 to compare values of two enum of type string you would do one of the following.
 ```
-value.equals(KalturaConversionProfileType.media)
+value.equals(VidiunConversionProfileType.media)
 ```
 
 After
 The transpiled code is using values of type string and you can use regular operators on those values.
 ```
-value === KalturaConversionProfileType.media
+value === VidiunConversionProfileType.media
 ```
 
 If your IDE supports Find&Replace using regex you can use the following expression `[.]equals\((.+?)\)` and replace with ` === $1` (where $1 is a place holder for the value extract from the expression. This syntax is used in IntelliJ and WebStorm)
@@ -338,24 +338,24 @@ In addition, you no longer need to use `.toString()` to get the value represente
 
 ### Features
 
-* embed generated api into kaltura-client (0446c00)
+* embed generated api into vidiun-client (0446c00)
 
 
 ### BREAKING CHANGES
 
-* * you need to uninstall kaltura-typescript-client (npm uninstall kalutra-typescript-client).
+* * you need to uninstall vidiun-typescript-client (npm uninstall vidiun-typescript-client).
 
 * rename all imports to use the embedded api
 before:
 ```
-import { ... } from 'kaltura-typescript-client'
-import { ... } from 'kaltura-typescript-client/types'
+import { ... } from 'vidiun-typescript-client'
+import { ... } from 'vidiun-typescript-client/types'
 ```
 
 after:
 ```
-import { ... } from '@kaltura-ng/kaltura-client'
-import { ... } from '@kaltura-ng/kaltura-client/api/types'
+import { ... } from '@vidiun-ng/vidiun-client'
+import { ... } from '@vidiun-ng/vidiun-client/api/types'
 ```
 
 
@@ -382,13 +382,13 @@ import { ... } from '@kaltura-ng/kaltura-client/api/types'
 * before:
 The service api provided by the application included `/api_v3/` when provided
 ```
-"https://www.kaltura.com/api_v3/"
+"https://www.vidiun.com/api_v3/"
 ```
 
 after:
 The service api provided by the application shouldn't include `/api_v3/` when provided
 ```
-"https://www.kaltura.com"
+"https://www.vidiun.com"
 ```
 
 
@@ -444,7 +444,7 @@ The service api provided by the application shouldn't include `/api_v3/` when pr
 ### Features
 
 * attach generated schema 'apiVersion' to each request (5e5e2c8)
-* support kaltura object properties of type map (c866ca2)
+* support vidiun object properties of type map (c866ca2)
 * update services/actions (46beb73)
 
 
@@ -470,12 +470,12 @@ The service api provided by the application shouldn't include `/api_v3/` when pr
 
 Before:
 
-import { KalturaPermissionFilter, UserLoginByLoginIdAction } from 'kaltura-typescript-client/types/all';
+import { VidiunPermissionFilter, UserLoginByLoginIdAction } from 'vidiun-typescript-client/types/all';
 
 After:
 
-import { KalturaPermissionFilter } from 'kaltura-typescript-client/types/KalturaPermissionFilter';
-import { UserLoginByLoginIdAction } from 'kaltura-typescript-client/types/UserLoginByLoginIdAction';
+import { VidiunPermissionFilter } from 'vidiun-typescript-client/types/VidiunPermissionFilter';
+import { UserLoginByLoginIdAction } from 'vidiun-typescript-client/types/UserLoginByLoginIdAction';
 
 
 
@@ -485,12 +485,12 @@ import { UserLoginByLoginIdAction } from 'kaltura-typescript-client/types/UserLo
 
 ### Features
 
-* expose global ks and partner id from the client instead of from the configuration object. (fac1eb7)
+* expose global vs and partner id from the client instead of from the configuration object. (fac1eb7)
 
 
 ### BREAKING CHANGES
 
-* the global ks and partner id must be assigned on the client (previously was on the configuration)
+* the global vs and partner id must be assigned on the client (previously was on the configuration)
 
 
 
@@ -505,7 +505,7 @@ import { UserLoginByLoginIdAction } from 'kaltura-typescript-client/types/UserLo
 
 ### Features
 
-* separate dynamic info (ks, partnerid) from configuration info (client tag, endpointUrl) (12bf78e)
+* separate dynamic info (vs, partnerid) from configuration info (client tag, endpointUrl) (12bf78e)
 
 
 
@@ -515,12 +515,12 @@ import { UserLoginByLoginIdAction } from 'kaltura-typescript-client/types/UserLo
 
 ### Features
 
-* **kaltura-clients:** remove configuration objects, assign dynamic data directly on the clients (8a30a72)
+* **vidiun-clients:** remove configuration objects, assign dynamic data directly on the clients (8a30a72)
 
 
 ### BREAKING CHANGES
 
-* **kaltura-clients:** the 'KalturaClientBaseConfiguration' and 'KalturaHttpClientConfiguration' objects were removed.
+* **vidiun-clients:** the 'VidiunClientBaseConfiguration' and 'VidiunHttpClientConfiguration' objects were removed.
 
 Any dynamic data assigned on them should be done directly on the client instance.
 
@@ -532,21 +532,21 @@ Any dynamic data assigned on them should be done directly on the client instance
 
 
 
-# [1.1.0](http://github.com/KalturaGeneratedAPIClientsTypescript/compare/v1.0.0...v1.1.0) (2017-05-09)
+# [1.1.0](http://github.com/VidiunGeneratedAPIClientsTypescript/compare/v1.0.0...v1.1.0) (2017-05-09)
 
 
 ### Bug Fixes
 
-* fix upload file process ([2db951c](http://github.com/KalturaGeneratedAPIClientsTypescript/commit/2db951c))
-* prevent IDE intellisense from importing by default types from the module that bundle the complete library ([61e5c4e](http://github.com/KalturaGeneratedAPIClientsTypescript/commit/61e5c4e))
-* seamlessly add enum types used by requests to the bundle ([c417868](http://github.com/KalturaGeneratedAPIClientsTypescript/commit/c417868))
-* send 'partnerId' only if provided (previously was sending 'undefined' if wan't provided) ([e128dfc](http://github.com/KalturaGeneratedAPIClientsTypescript/commit/e128dfc))
-* setting dependent property in multi-request now uses zero index base. ([1599905](http://github.com/KalturaGeneratedAPIClientsTypescript/commit/1599905))
+* fix upload file process ([2db951c](http://github.com/VidiunGeneratedAPIClientsTypescript/commit/2db951c))
+* prevent IDE intellisense from importing by default types from the module that bundle the complete library ([61e5c4e](http://github.com/VidiunGeneratedAPIClientsTypescript/commit/61e5c4e))
+* seamlessly add enum types used by requests to the bundle ([c417868](http://github.com/VidiunGeneratedAPIClientsTypescript/commit/c417868))
+* send 'partnerId' only if provided (previously was sending 'undefined' if wan't provided) ([e128dfc](http://github.com/VidiunGeneratedAPIClientsTypescript/commit/e128dfc))
+* setting dependent property in multi-request now uses zero index base. ([1599905](http://github.com/VidiunGeneratedAPIClientsTypescript/commit/1599905))
 
 
 ### Features
 
-* notify developer when response from server returned with kaltura object type that wasn't bundled into the application ([78a2f7c](http://github.com/KalturaGeneratedAPIClientsTypescript/commit/78a2f7c))
+* notify developer when response from server returned with vidiun object type that wasn't bundled into the application ([78a2f7c](http://github.com/VidiunGeneratedAPIClientsTypescript/commit/78a2f7c))
 
 
 
@@ -556,16 +556,16 @@ Any dynamic data assigned on them should be done directly on the client instance
 
 ### Features
 
-* **bundling:** we now support bundling only what the app is using ([a7b8ef4](http://github.com/KalturaGeneratedAPIClientsTypescript/commit/a7b8ef4))
+* **bundling:** we now support bundling only what the app is using ([a7b8ef4](http://github.com/VidiunGeneratedAPIClientsTypescript/commit/a7b8ef4))
 
 
 
 
 # 1.0.0-beta.1 (2017-05-07)
 
-- [x] Bundle only used actions, classes and enums (a.k.a kaltura types) in your application to reduce bundle size.
-- [x] Represent each kaltura types as a typed object with simple API.
-- [x] Use generated action classes to easily access Kaltura services.
+- [x] Bundle only used actions, classes and enums (a.k.a vidiun types) in your application to reduce bundle size.
+- [x] Represent each vidiun types as a typed object with simple API.
+- [x] Use generated action classes to easily access Vidiun services.
 - [x] Invoke multi-requests against the server.
   - [x] Handle each request response separately.
   - [x] Expose interceptors to handle multi-request responses together.
@@ -575,13 +575,13 @@ Any dynamic data assigned on them should be done directly on the client instance
    - [x] Dates.
    - [x] Simple types (number, string, boolean).  
    - [x] Enums (both numeric enums or string enums).
-   - [x] Kaltura objects including inheritance and fallback mechanism.
+   - [x] Vidiun objects including inheritance and fallback mechanism.
 - [x] Handle 'readonly' fields, guard against mutating them or sending them to the server.
 - [x] Ability to upload files including abort & retry operations.
 - [x] Hide complex server API syntax such as:
    - [x] Classify objects using 'objectType' property.
    - [x] Mark Field for deletion
 - [x] Share properties among requests to reduce code duplication.
-   - [x] Valid KS
+   - [x] Valid VS
    - [x] Partner Id
    - [x] Client Tag

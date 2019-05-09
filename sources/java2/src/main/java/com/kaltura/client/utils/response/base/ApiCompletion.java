@@ -1,6 +1,6 @@
-package com.kaltura.client.utils.response.base;
+package com.vidiun.client.utils.response.base;
 
-import com.kaltura.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.OnCompletion;
 
 /**
  * Created by tehila.rozin on 7/27/17.

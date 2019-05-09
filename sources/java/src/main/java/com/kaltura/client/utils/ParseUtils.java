@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.utils;
+package com.vidiun.client.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,14 +34,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.kaltura.client.IKalturaLogger;
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.KalturaObjectFactory;
-import com.kaltura.client.KalturaLogger;
+import com.vidiun.client.IVidiunLogger;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.VidiunObjectFactory;
+import com.vidiun.client.VidiunLogger;
 
 public final class ParseUtils {
 	
-	private static IKalturaLogger logger = KalturaLogger.getLogger(ParseUtils.class);
+	private static IVidiunLogger logger = VidiunLogger.getLogger(ParseUtils.class);
 	
 	public static String parseString(String txt) {
 		 return txt;
@@ -87,17 +87,17 @@ public final class ParseUtils {
 		 return txt.equals("0") ? false : true;
 	}
 	
-	public static <T> ArrayList<T> parseArray(Class<T> clz, Node aNode) throws KalturaApiException{
+	public static <T> ArrayList<T> parseArray(Class<T> clz, Node aNode) throws VidiunApiException{
 		ArrayList<T> tmpList = new ArrayList<T>();
 		NodeList subNodeList = aNode.getChildNodes();
 		for (int j = 0; j < subNodeList.getLength(); j++) {
 			Node arrayNode = subNodeList.item(j);
-			tmpList.add((T) KalturaObjectFactory.create((Element) arrayNode, clz));
+			tmpList.add((T) VidiunObjectFactory.create((Element) arrayNode, clz));
 		}
 		return tmpList;
 	}
 
-	public static <T> HashMap<String, T> parseMap(Class<T> clz, Node aNode) throws KalturaApiException{
+	public static <T> HashMap<String, T> parseMap(Class<T> clz, Node aNode) throws VidiunApiException{
 		HashMap<String, T> tmpMap = new HashMap<String, T>();
 		NodeList subNodeList = aNode.getChildNodes();
 		for (int j = 0; j < subNodeList.getLength(); j++) {
@@ -106,13 +106,13 @@ public final class ParseUtils {
 				NodeList nameNodes = ((Element)itemNode).getElementsByTagName("itemKey");
 		        String name = nameNodes.item(0).getTextContent();
 		        
-				tmpMap.put(name, (T) KalturaObjectFactory.create((Element) itemNode, clz));
+				tmpMap.put(name, (T) VidiunObjectFactory.create((Element) itemNode, clz));
 			}
 		}
 		return tmpMap;
 	}
 
-	public static <T> T parseObject(Class<T> clz, Node aNode) throws KalturaApiException{
-		 return (T) KalturaObjectFactory.create((Element)aNode, clz);
+	public static <T> T parseObject(Class<T> clz, Node aNode) throws VidiunApiException{
+		 return (T) VidiunObjectFactory.create((Element)aNode, clz);
 	}
 }

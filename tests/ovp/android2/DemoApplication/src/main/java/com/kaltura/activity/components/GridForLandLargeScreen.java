@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.activity.components;
+package com.vidiun.activity.components;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import com.kaltura.activity.R;
+import com.vidiun.activity.R;
 
 /**
  *

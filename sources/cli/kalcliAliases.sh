@@ -5,11 +5,11 @@
 #                          | ' </ _` | |  _| || | '_/ _` |
 #                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 #
-# This file is part of the Kaltura Collaborative Media Suite which allows users
+# This file is part of the Vidiun Collaborative Media Suite which allows users
 # to do with audio, video, and animation what Wiki platfroms allow them to do with
 # text.
 #
-# Copyright (C) 2006-2011  Kaltura Inc.
+# Copyright (C) 2006-2011  Vidiun Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -28,9 +28,9 @@
 # ===================================================================================================
 BASEDIR=@BASEDIR@
 
-alias genks="php ${BASEDIR}/generateKs.php"
-alias extks="php ${BASEDIR}/extractKs.php"
-alias renewks="php ${BASEDIR}/renewKs.php"
-alias kalcli="php ${BASEDIR}/kalcli.php"
+alias genvs="php ${BASEDIR}/generateVs.php"
+alias extvs="php ${BASEDIR}/extractVs.php"
+alias renewvs="php ${BASEDIR}/renewVs.php"
+alias vidcli="php ${BASEDIR}/vidcli.php"
 alias genipheader="php ${BASEDIR}/genIpHeader.php"
 alias logtokalcli=". ${BASEDIR}/logToCli"

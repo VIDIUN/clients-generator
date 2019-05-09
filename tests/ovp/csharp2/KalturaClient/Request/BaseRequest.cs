@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
-using Kaltura.Types;
+using Vidiun.Types;
 using Newtonsoft.Json.Linq;
 
-namespace Kaltura.Request
+namespace Vidiun.Request
 {
     /// <summary>
     /// This is an OTT Base Request
@@ -42,7 +42,7 @@ namespace Kaltura.Request
             var objectType = result["objectType"];
             if (objectType != null)
             {
-                var isError = objectType.Value<string>() == "KalturaAPIException";
+                var isError = objectType.Value<string>() == "VidiunAPIException";
 
                 if (isError && result["code"] != null && result["message"] != null)
                 {
