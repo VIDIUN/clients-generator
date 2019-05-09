@@ -1,13 +1,13 @@
 {
-  "name": "kaltura-ngx-client",
+  "name": "vidiun-ngx-client",
   "private": true,
   "version": "0.0.0",
-  "description": "Kaltura Angular based client",
+  "description": "Vidiun Angular based client",
   "keywords": [
-    "Kaltura"
+    "Vidiun"
   ],
   "license": "AGPL-3.0",
-  "author": "https://github.com/kaltura-ng/graphs/contributors",
+  "author": "https://github.com/vidiun-ng/graphs/contributors",
   "contributors": [
     {
       "name": "Eran Sakal",
@@ -21,7 +21,7 @@
   "scripts": {
     "build": "ng build && node ./scripts/update-dist-package-json.js",
     "lint": "tslint src/**/*.ts",
-    "deploy": "rm -rf dist && npm run build && cd dist/kaltura-ngx-client && npm pack && npm link",
+    "deploy": "rm -rf dist && npm run build && cd dist/vidiun-ngx-client && npm pack && npm link",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --runInBand"
@@ -70,7 +70,7 @@
   },
   "jest": {
     "preset": "jest-preset-angular",
-    "setupTestFrameworkScriptFile": "<rootDir>/projects/kaltura-ngx-client/src/tests/setup-jest.ts",
+    "setupTestFrameworkScriptFile": "<rootDir>/projects/vidiun-ngx-client/src/tests/setup-jest.ts",
     "moduleFileExtensions": [
       "ts",
       "tsx",

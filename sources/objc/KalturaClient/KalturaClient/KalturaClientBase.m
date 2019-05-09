@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -27,56 +27,56 @@
 // ===================================================================================================
 #import <CommonCrypto/CommonDigest.h>
 #import "ASIFormDataRequest.h"
-#import "KalturaClientBase.h"
-#import "KalturaXmlParsers.h"
+#import "VidiunClientBase.h"
+#import "VidiunXmlParsers.h"
 
 /*
  String constants
  */
-static NSString* const KalturaServiceBaseUrl = @"/api_v3";
-static NSString* const KalturaServiceFormatXml = @"2";
-NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
+static NSString* const VidiunServiceBaseUrl = @"/api_v3";
+static NSString* const VidiunServiceFormatXml = @"2";
+NSString* const VidiunClientErrorDomain = @"VidiunClientErrorDomain";
 
 /*
- Class KalturaBool
+ Class VidiunBool
  */
-@implementation KalturaBool
-+ (KALTURA_BOOL)NO_VALUE
+@implementation VidiunBool
++ (VIDIUN_BOOL)NO_VALUE
 {
 	return 0;
 }
-+ (KALTURA_BOOL)YES_VALUE
++ (VIDIUN_BOOL)YES_VALUE
 {
 	return 1;
 }
-+ (KALTURA_BOOL)NULL_VALUE
++ (VIDIUN_BOOL)NULL_VALUE
 {
 	return CHAR_MAX;
 }
-+ (KALTURA_BOOL)UNDEF_VALUE
++ (VIDIUN_BOOL)UNDEF_VALUE
 {
 	return CHAR_MIN;
 }
 @end
 
 /*
- Class KalturaClientException
+ Class VidiunClientException
  */
-@implementation KalturaClientException
+@implementation VidiunClientException
 @end
 
 /*
- Class KalturaSimpleTypeParser
+ Class VidiunSimpleTypeParser
  */
-@implementation KalturaSimpleTypeParser
+@implementation VidiunSimpleTypeParser
 
-+ (KALTURA_BOOL)parseBool:(NSString*)aStr
++ (VIDIUN_BOOL)parseBool:(NSString*)aStr
 {
     if (aStr == nil)
-        return [KalturaBool NO_VALUE];
+        return [VidiunBool NO_VALUE];
     if ([aStr compare:@"1"] != NSOrderedSame)
-        return [KalturaBool NO_VALUE];
-    return [KalturaBool YES_VALUE];
+        return [VidiunBool NO_VALUE];
+    return [VidiunBool YES_VALUE];
 }
 
 + (int)parseInt:(NSString*)aStr
@@ -96,20 +96,20 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 @end
 
 /*
- Class KalturaObjectBase
+ Class VidiunObjectBase
  */
-@implementation KalturaObjectBase
+@implementation VidiunObjectBase
 
-- (void)toParams:(KalturaParams*)aParams isSuper:(BOOL)aIsSuper
+- (void)toParams:(VidiunParams*)aParams isSuper:(BOOL)aIsSuper
 {
 }
 
 @end
 
 /*
- Class KalturaException
+ Class VidiunException
  */
-@implementation KalturaException : KalturaObjectBase
+@implementation VidiunException : VidiunObjectBase
 
 @synthesize code = _code;
 @synthesize message = _message;
@@ -121,29 +121,29 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     [super dealloc];
 }
 
-- (KalturaFieldType)getTypeOfCode
+- (VidiunFieldType)getTypeOfCode
 {
-    return KFT_String;
+    return VFT_String;
 }
 
-- (KalturaFieldType)getTypeOfMessage
+- (VidiunFieldType)getTypeOfMessage
 {
-    return KFT_String;
+    return VFT_String;
 }
 
 - (NSError*)error
 {
-    return [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorAPIException userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.message, NSLocalizedDescriptionKey, self.code, @"ExceptionCode", nil]];
+    return [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorAPIException userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.message, NSLocalizedDescriptionKey, self.code, @"ExceptionCode", nil]];
 }
 
 @end
 
 /*
- Class KalturaObjectFactory
+ Class VidiunObjectFactory
  */
-@implementation KalturaObjectFactory
+@implementation VidiunObjectFactory
 
-+ (KalturaObjectBase*)createByName:(NSString*)aName withDefaultType:(NSString*)aDefaultType
++ (VidiunObjectBase*)createByName:(NSString*)aName withDefaultType:(NSString*)aDefaultType
 {
     Class objClass = NSClassFromString(aName);
     if (objClass == nil)
@@ -154,7 +154,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 			return nil;
 		}
     }
-    if (![objClass isSubclassOfClass:[KalturaObjectBase class]])
+    if (![objClass isSubclassOfClass:[VidiunObjectBase class]])
     {
         return nil;
     }
@@ -164,9 +164,9 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 @end
 
 /*
- Class KalturaParam
+ Class VidiunParam
  */
-@interface KalturaParam : NSObject
+@interface VidiunParam : NSObject
 
 @property (nonatomic, copy) NSString* key;
 @property (nonatomic, copy) NSString* value;
@@ -175,7 +175,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
 @end
 
-@implementation KalturaParam
+@implementation VidiunParam
 
 @synthesize key = _key;
 @synthesize value = _value;
@@ -199,7 +199,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     [super dealloc];
 }
 
-- (NSComparisonResult)compare:(KalturaParam*)aOtherParam
+- (NSComparisonResult)compare:(VidiunParam*)aOtherParam
 {
     NSComparisonResult keyCompare = [self.key compare:aOtherParam.key];
     if (keyCompare != NSOrderedSame)
@@ -211,9 +211,9 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 @end
 
 /*
- Class KalturaFile
+ Class VidiunFile
  */
-@interface KalturaFile : NSObject
+@interface VidiunFile : NSObject
 
 @property (nonatomic, copy) NSString* key;
 @property (nonatomic, copy) NSString* value;
@@ -222,7 +222,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
 @end
 
-@implementation KalturaFile
+@implementation VidiunFile
 
 @synthesize key = _key;
 @synthesize value = _value;
@@ -249,9 +249,9 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 @end
 
 /*
- Class KalturaParams
+ Class VidiunParams
  */
-@implementation KalturaParams
+@implementation VidiunParams
 
 - (id)init
 {
@@ -294,7 +294,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
 - (NSString*)get:(NSString*)aKey
 {
-    for (KalturaParam* param in self->_params)
+    for (VidiunParam* param in self->_params)
     {
         if ([aKey compare:param.key] == NSOrderedSame)
         {
@@ -306,13 +306,13 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
 - (void)putKey:(NSString*)aKey withString:(NSString*)aVal
 {
-    KalturaParam* param = nil;
+    VidiunParam* param = nil;
     
     if (self->_prefix.length != 0)
     {
         aKey = [[NSString alloc] initWithFormat:@"%@%@", self->_prefix, aKey];
     }
-    param = [[KalturaParam alloc] initWithKey:aKey withValue:aVal];
+    param = [[VidiunParam alloc] initWithKey:aKey withValue:aVal];
     if (self->_prefix.length != 0)
     {
         [aKey release];
@@ -330,7 +330,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
 - (void)addIfDefinedKey:(NSString*)aKey withFileName:(NSString*)aFileName;
 {
-    KalturaFile* param = nil;
+    VidiunFile* param = nil;
     
     if (aFileName == nil)
         return;
@@ -339,7 +339,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     {
         aKey = [[NSString alloc] initWithFormat:@"%@%@", self->_prefix, aKey];
     }
-    param = [[KalturaFile alloc] initWithKey:aKey withFileName:aFileName];
+    param = [[VidiunFile alloc] initWithKey:aKey withFileName:aFileName];
     if (self->_prefix.length != 0)
     {
         [aKey release];
@@ -348,12 +348,12 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     [param release];
 }
 
-- (void)addIfDefinedKey:(NSString*)aKey withBool:(KALTURA_BOOL)aVal
+- (void)addIfDefinedKey:(NSString*)aKey withBool:(VIDIUN_BOOL)aVal
 {
-    if (aVal == KALTURA_UNDEF_BOOL)
+    if (aVal == VIDIUN_UNDEF_BOOL)
         return;
     
-    if (aVal == KALTURA_NULL_BOOL)
+    if (aVal == VIDIUN_NULL_BOOL)
     {
         [self putNullKey:aKey];
     }
@@ -369,10 +369,10 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
 - (void)addIfDefinedKey:(NSString*)aKey withInt:(int)aVal
 {
-    if (aVal == KALTURA_UNDEF_INT)
+    if (aVal == VIDIUN_UNDEF_INT)
         return;
     
-    if (aVal == KALTURA_NULL_INT)
+    if (aVal == VIDIUN_NULL_INT)
     {
         [self putNullKey:aKey];
     }
@@ -384,10 +384,10 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
 - (void)addIfDefinedKey:(NSString*)aKey withFloat:(double)aVal
 {
-    if (isnan(aVal))        // cannot compare to KALTURA_UNDEF_FLOAT since NaN != NaN
+    if (isnan(aVal))        // cannot compare to VIDIUN_UNDEF_FLOAT since NaN != NaN
         return;
 
-    if (aVal == KALTURA_NULL_FLOAT)
+    if (aVal == VIDIUN_NULL_FLOAT)
     {
         [self putNullKey:aKey];
     }
@@ -399,10 +399,10 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
 - (void)addIfDefinedKey:(NSString*)aKey withString:(NSString*)aVal
 {
-    if (aVal == KALTURA_UNDEF_STRING)
+    if (aVal == VIDIUN_UNDEF_STRING)
         return;
     
-    if ([aVal compare:KALTURA_NULL_STRING] == NSOrderedSame)
+    if ([aVal compare:VIDIUN_NULL_STRING] == NSOrderedSame)
     {
         [self putNullKey:aKey];
     }
@@ -412,12 +412,12 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     }
 }
 
-- (void)addIfDefinedKey:(NSString*)aKey withObject:(KalturaObjectBase*)aVal
+- (void)addIfDefinedKey:(NSString*)aKey withObject:(VidiunObjectBase*)aVal
 {
     if (aVal == nil)
         return;
     
-    if ([aVal isMemberOfClass:[KalturaObjectBase class]])
+    if ([aVal isMemberOfClass:[VidiunObjectBase class]])
     {
         [self putNullKey:aKey];
     }
@@ -485,7 +485,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     CC_MD5_CTX md5Ctx;
 
     CC_MD5_Init(&md5Ctx);
-    for (KalturaParam* curParam in self->_params)
+    for (VidiunParam* curParam in self->_params)
     {
         const char* keyPtr = [curParam.key UTF8String];
         const char* valuePtr = [curParam.value UTF8String];
@@ -494,27 +494,27 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     }
     CC_MD5_Final(md5Hash, &md5Ctx);
 
-    NSMutableString* kalSig = [[NSMutableString alloc] initWithCapacity:(CC_MD5_DIGEST_LENGTH * 2)];
+    NSMutableString* vidSig = [[NSMutableString alloc] initWithCapacity:(CC_MD5_DIGEST_LENGTH * 2)];
     for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
-        [kalSig appendFormat:@"%02x", md5Hash[i]];
+        [vidSig appendFormat:@"%02x", md5Hash[i]];
     
-    [self putKey:@"kalsig" withString:kalSig];
+    [self putKey:@"vidsig" withString:vidSig];
     
-    [kalSig release];
+    [vidSig release];
 }
 
 - (void)addToRequest:(ASIFormDataRequest*)aRequest
 {
     while (self->_params.count)
     {
-        KalturaParam* curParam = [self->_params lastObject];
+        VidiunParam* curParam = [self->_params lastObject];
         [aRequest addPostValue:curParam.value forKey:curParam.key];
         [self->_params removeLastObject];
     }
            
     while (self->_files.count)
     {
-        KalturaFile* curFile = [self->_files lastObject];
+        VidiunFile* curFile = [self->_files lastObject];
         [aRequest addFile:curFile.value forKey:curFile.key];
         [self->_files removeLastObject];
     }
@@ -527,16 +527,16 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
         (CFStringRef)origStr, 
         NULL, 
         (CFStringRef)@"!*'();:@&=+$,/?%#[] \"\\<>{}|^~`", 
-        kCFStringEncodingUTF8);
+        vCFStringEncodingUTF8);
 }
 
 - (void)appendQueryString:(NSMutableString*)output
 {
     while (self->_params.count)
     {
-        KalturaParam* curParam = [self->_params lastObject];
-        NSString *encodedKey = [KalturaParams allocUrlEncodedString:curParam.key];
-        NSString *encodedVal = [KalturaParams allocUrlEncodedString:curParam.value];
+        VidiunParam* curParam = [self->_params lastObject];
+        NSString *encodedKey = [VidiunParams allocUrlEncodedString:curParam.key];
+        NSString *encodedVal = [VidiunParams allocUrlEncodedString:curParam.value];
         [output appendFormat:@"%@=%@&", encodedKey, encodedVal];
         [encodedVal release];
         [encodedKey release];
@@ -547,9 +547,9 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 @end
 
 /*
- Class KalturaNSLogger
+ Class VidiunNSLogger
  */
-@implementation KalturaNSLogger
+@implementation VidiunNSLogger
 
 - (void)logMessage:(NSString *)aMsg
 {
@@ -559,13 +559,13 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 @end
 
 /*
- Class KalturaServiceBase
+ Class VidiunServiceBase
  */
-@implementation KalturaServiceBase
+@implementation VidiunServiceBase
 
 @synthesize client = _client;
 
-- (id)initWithClient:(KalturaClientBase*)aClient
+- (id)initWithClient:(VidiunClientBase*)aClient
 {
     self = [super init];
     if (self == nil)
@@ -579,15 +579,15 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 @end
 
 /*
- Class KalturaClientPlugin
+ Class VidiunClientPlugin
  */
-@implementation KalturaClientPlugin
+@implementation VidiunClientPlugin
 @end
 
 /*
- Class KalturaConfiguration
+ Class VidiunConfiguration
  */
-@implementation KalturaConfiguration
+@implementation VidiunConfiguration
 
 @synthesize serviceUrl = _serviceUrl;
 @synthesize clientTag = _clientTag;
@@ -604,7 +604,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
     self.clientTag = @"objCLib:@DATE@";
     self.partnerId = -1;
-    self.serviceUrl = @"http://www.kaltura.com";
+    self.serviceUrl = @"http://www.vidiun.com";
     self.requestTimeout = 120;
 	self.requestHeaders = [[NSDictionary alloc] init];
     
@@ -623,36 +623,36 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 @end
 
 /*
- Class KalturaClientBase
+ Class VidiunClientBase
  */
-@interface KalturaClientBase()
+@interface VidiunClientBase()
 
-- (id)queueService:(NSString*)aService withAction:(NSString*)aAction withParser:(KalturaXmlParserBase*)aParser;
+- (id)queueService:(NSString*)aService withAction:(NSString*)aAction withParser:(VidiunXmlParserBase*)aParser;
 - (id)issueRequestWithQuery:(NSString*)aFormat, ...;
 - (void)logFormat:(NSString *)aFormat, ...;
-+ (void)appendSessionSigWithSecret:(NSString*)aSecret withFields:(NSString*)aKsFields withOutput:(NSMutableString*)aOutput;
++ (void)appendSessionSigWithSecret:(NSString*)aSecret withFields:(NSString*)aVsFields withOutput:(NSMutableString*)aOutput;
 
 @end
 
-@implementation KalturaClientBase
+@implementation VidiunClientBase
 
 @synthesize config = _config;
 @synthesize error = _error;
 @synthesize delegate = _delegate;
 @synthesize uploadProgressDelegate = _uploadProgressDelegate;
 @synthesize downloadProgressDelegate = _downloadProgressDelegate;
-@synthesize ks = _ks;
+@synthesize vs = _vs;
 @synthesize apiVersion = _apiVersion;
 @synthesize params = _params;
 @synthesize responseHeaders = _responseHeaders;
 
-- (id)initWithConfig:(KalturaConfiguration*)aConfig
+- (id)initWithConfig:(VidiunConfiguration*)aConfig
 {
     self = [super init];
     if (self == nil)
         return nil;
 
-    self->_params = [[KalturaParams alloc] init];
+    self->_params = [[VidiunParams alloc] init];
     self.config = aConfig;
     
     return self;
@@ -662,7 +662,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 {
     [self cancelRequest];
     [self->_error release];
-    [self->_ks release];
+    [self->_vs release];
     [self->_apiVersion release];
     [self->_params release];
     [self->_config release];
@@ -718,14 +718,14 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
         [self->_params addIfDefinedKey:@"partnerId" withString:strPartnerId];
         [strPartnerId release];
     }
-    [self->_params addIfDefinedKey:@"ks" withString:self.ks];
+    [self->_params addIfDefinedKey:@"vs" withString:self.vs];
 }
 
 - (void)addGlobalParamsAndSign
 {
     [self->_params setPrefix:@""];
     [self->_params addIfDefinedKey:@"apiVersion" withString:self.apiVersion];
-    [self->_params addIfDefinedKey:@"format" withString:KalturaServiceFormatXml];
+    [self->_params addIfDefinedKey:@"format" withString:VidiunServiceFormatXml];
     [self->_params addIfDefinedKey:@"clientTag" withString:self.config.clientTag];
     [self->_params addIfDefinedKey:@"ignoreNull" withString:@"1"];
     [self->_params sign];
@@ -737,7 +737,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     [self addRequestDefaultParams];
     [self addGlobalParamsAndSign];
     
-    NSMutableString* result = [[NSMutableString alloc] initWithFormat:@"%@%@/service/%@/action/%@?", self.config.serviceUrl, KalturaServiceBaseUrl, aService, aAction];
+    NSMutableString* result = [[NSMutableString alloc] initWithFormat:@"%@%@/service/%@/action/%@?", self.config.serviceUrl, VidiunServiceBaseUrl, aService, aAction];
     [self->_params appendQueryString:result];
     [result autorelease];
     return result;
@@ -746,7 +746,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 - (void)setupRequestWithQuery:(NSString*)aFormat withArguments:(va_list)vaArgs
 {
     NSString* query = [[NSString alloc] initWithFormat:aFormat arguments:vaArgs];
-    NSString* urlStr = [[NSString alloc] initWithFormat:@"%@%@/%@", self.config.serviceUrl, KalturaServiceBaseUrl, query];
+    NSString* urlStr = [[NSString alloc] initWithFormat:@"%@%@/%@", self.config.serviceUrl, VidiunServiceBaseUrl, query];
     NSURL *url = [[NSURL alloc] initWithString:urlStr];
 
     [self logFormat:@"request url: %@", urlStr];
@@ -773,10 +773,10 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 - (void)setupXmlParser
 {
     NSArray* path = [[NSArray alloc] initWithObjects: @"xml", @"result", nil];
-    self->_skipParser = [[KalturaXmlParserSkipPath alloc] initWithSubParser:self->_reqParser withPath:path];
+    self->_skipParser = [[VidiunXmlParserSkipPath alloc] initWithSubParser:self->_reqParser withPath:path];
     [path release];
     
-    self->_xmlParser = [[KalturaLibXmlWrapper alloc] init];
+    self->_xmlParser = [[VidiunLibXmlWrapper alloc] init];
     [self->_skipParser attachToParser:self->_xmlParser withDelegate:self];
 }
 
@@ -803,9 +803,9 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     }
 }
 
-- (void)queueMultiRequestService:(NSString*)aService withAction:(NSString*)aAction withParser:(KalturaXmlParserBase*)aParser
+- (void)queueMultiRequestService:(NSString*)aService withAction:(NSString*)aAction withParser:(VidiunXmlParserBase*)aParser
 {
-    KalturaXmlParserMultirequest* multiReqParser = (KalturaXmlParserMultirequest*)self->_reqParser;
+    VidiunXmlParserMultirequest* multiReqParser = (VidiunXmlParserMultirequest*)self->_reqParser;
     [self->_params addIfDefinedKey:@"service" withString:aService];
     [self->_params addIfDefinedKey:@"action" withString:aAction];
     [multiReqParser addSubParser:aParser];
@@ -815,11 +815,11 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     [newPrefix release];
 }
 
-- (id)queueService:(NSString*)aService withAction:(NSString*)aAction withParser:(KalturaXmlParserBase*)aParser
+- (id)queueService:(NSString*)aService withAction:(NSString*)aAction withParser:(VidiunXmlParserBase*)aParser
 {
     [self addRequestDefaultParams];
     
-    KalturaXmlParserException* excParser = [[KalturaXmlParserException alloc] initWithSubParser:aParser];
+    VidiunXmlParserException* excParser = [[VidiunXmlParserException alloc] initWithSubParser:aParser];
 
     if (self->_isMultiRequest)
     {
@@ -839,11 +839,11 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 {
     if (self->_isMultiRequest)
     {
-        @throw [KalturaClientException exceptionWithName:@"DoubleStartMultiReq" reason:@"startMultiRequest called while already started" userInfo:nil];
+        @throw [VidiunClientException exceptionWithName:@"DoubleStartMultiReq" reason:@"startMultiRequest called while already started" userInfo:nil];
     }
     
     self.error = nil;
-    self->_reqParser = [[KalturaXmlParserMultirequest alloc] init];
+    self->_reqParser = [[VidiunXmlParserMultirequest alloc] init];
     [self->_params setPrefix:@"1:"];
     self->_isMultiRequest = YES;
 }
@@ -852,10 +852,10 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 {
     if (!self->_isMultiRequest)
     {
-        @throw [KalturaClientException exceptionWithName:@"EndWithoutMultiReq" reason:@"doMultiRequest called while not in multirequest" userInfo:nil];
+        @throw [VidiunClientException exceptionWithName:@"EndWithoutMultiReq" reason:@"doMultiRequest called while not in multirequest" userInfo:nil];
     }
     
-    KalturaXmlParserMultirequest* multiReqParser = (KalturaXmlParserMultirequest*)self->_reqParser;
+    VidiunXmlParserMultirequest* multiReqParser = (VidiunXmlParserMultirequest*)self->_reqParser;
     if (![multiReqParser reqCount])
     {
         [self cancelRequest];
@@ -876,38 +876,38 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
 - (void)queueVoidService:(NSString*)aService withAction:(NSString*)aAction
 {
-    KalturaXmlParserSimpleType* parser = [[KalturaXmlParserSimpleType alloc] init];
+    VidiunXmlParserSimpleType* parser = [[VidiunXmlParserSimpleType alloc] init];
     [self queueService:aService withAction:aAction withParser:parser];
     [parser release];
 }
 
-- (KALTURA_BOOL)queueBoolService:(NSString*)aService withAction:(NSString*)aAction
+- (VIDIUN_BOOL)queueBoolService:(NSString*)aService withAction:(NSString*)aAction
 {
-    KalturaXmlParserSimpleType* parser = [[KalturaXmlParserSimpleType alloc] init];
+    VidiunXmlParserSimpleType* parser = [[VidiunXmlParserSimpleType alloc] init];
     id result = [self queueService:aService withAction:aAction withParser:parser];
     [parser release];
-    return [KalturaSimpleTypeParser parseBool:result];
+    return [VidiunSimpleTypeParser parseBool:result];
 }
 
 - (int)queueIntService:(NSString*)aService withAction:(NSString*)aAction
 {
-    KalturaXmlParserSimpleType* parser = [[KalturaXmlParserSimpleType alloc] init];
+    VidiunXmlParserSimpleType* parser = [[VidiunXmlParserSimpleType alloc] init];
     id result = [self queueService:aService withAction:aAction withParser:parser];
     [parser release];
-    return [KalturaSimpleTypeParser parseInt:result];
+    return [VidiunSimpleTypeParser parseInt:result];
 }
 
 - (double)queueFloatService:(NSString*)aService withAction:(NSString*)aAction
 {
-    KalturaXmlParserSimpleType* parser = [[KalturaXmlParserSimpleType alloc] init];
+    VidiunXmlParserSimpleType* parser = [[VidiunXmlParserSimpleType alloc] init];
     id result = [self queueService:aService withAction:aAction withParser:parser];
     [parser release];
-    return [KalturaSimpleTypeParser parseFloat:result];
+    return [VidiunSimpleTypeParser parseFloat:result];
 }
 
 - (NSString*)queueStringService:(NSString*)aService withAction:(NSString*)aAction
 {
-    KalturaXmlParserSimpleType* parser = [[KalturaXmlParserSimpleType alloc] init];
+    VidiunXmlParserSimpleType* parser = [[VidiunXmlParserSimpleType alloc] init];
     id result = [self queueService:aService withAction:aAction withParser:parser];
     [parser release];
     return result;
@@ -915,7 +915,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
 - (id)queueObjectService:(NSString*)aService withAction:(NSString*)aAction withExpectedType:(NSString*)aExpectedType
 {
-    KalturaXmlParserObject* parser = [[KalturaXmlParserObject alloc] initWithExpectedType:aExpectedType];
+    VidiunXmlParserObject* parser = [[VidiunXmlParserObject alloc] initWithExpectedType:aExpectedType];
     id result = [self queueService:aService withAction:aAction withParser:parser];
     [parser release];
     return result;
@@ -923,7 +923,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 
 - (NSMutableArray*)queueArrayService:(NSString*)aService withAction:(NSString*)aAction withExpectedType:(NSString*)aExpectedType
 {
-    KalturaXmlParserArray* parser = [[KalturaXmlParserArray alloc] initWithExpectedType:aExpectedType];
+    VidiunXmlParserArray* parser = [[VidiunXmlParserArray alloc] initWithExpectedType:aExpectedType];
     id result = [self queueService:aService withAction:aAction withParser:parser];
     [parser release];
     return result;
@@ -941,7 +941,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     self->_responseHeaders = [responseHeaders retain];
     
     NSString* serverName = [responseHeaders objectForKey:@"X-Me"];
-    NSString* sessionName = [responseHeaders objectForKey:@"X-Kaltura-Session"];
+    NSString* sessionName = [responseHeaders objectForKey:@"X-Vidiun-Session"];
     [self logFormat:@"server: %@, session: %@", serverName, sessionName];
     
     int statusCode = [request responseStatusCode];
@@ -949,7 +949,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     if (statusCode != 200)
     {
         NSNumber *statusCodeNum = [NSNumber numberWithInt:statusCode];
-        NSError *nsError = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorInvalidHttpCode userInfo:[NSDictionary dictionaryWithObjectsAndKeys: @"Got invalid HTTP status", NSLocalizedDescriptionKey, statusCodeNum, @"StatusCode", nil]];         
+        NSError *nsError = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorInvalidHttpCode userInfo:[NSDictionary dictionaryWithObjectsAndKeys: @"Got invalid HTTP status", NSLocalizedDescriptionKey, statusCodeNum, @"StatusCode", nil]];         
         [self failRequestWithError:nsError];
     }
 }
@@ -969,7 +969,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     [self failRequestWithError:[request error]];
 }
 
-- (void)parsingFinished:(KalturaXmlParserBase*)aParser
+- (void)parsingFinished:(VidiunXmlParserBase*)aParser
 {
     if (self.delegate == nil)
         return;
@@ -981,7 +981,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
         [self.delegate requestFinished:self withResult:result];
 }
 
-- (void)parsingFailed:(KalturaXmlParserBase*)aParser
+- (void)parsingFailed:(VidiunXmlParserBase*)aParser
 {
     [self failRequestWithError:[aParser error]];
 }
@@ -1006,25 +1006,25 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
 + (NSString*)generateSessionWithSecret:(NSString*)aSecret withUserId:(NSString*)aUserId withType:(int)aType withPartnerId:(int)aPartnerId withExpiry:(int)aExpiry withPrivileges:(NSString*)aPrivileges
 {
     int rand = arc4random() % 0x10000;
-    int ksExpiry = (int)[[NSDate date] timeIntervalSince1970] + aExpiry;
-    NSString* ksFields = [[NSString alloc] initWithFormat:@"%d;%d;%d;%d;%d;%@;%@", aPartnerId, aPartnerId, ksExpiry, aType, rand, aUserId, aPrivileges];
+    int vsExpiry = (int)[[NSDate date] timeIntervalSince1970] + aExpiry;
+    NSString* vsFields = [[NSString alloc] initWithFormat:@"%d;%d;%d;%d;%d;%@;%@", aPartnerId, aPartnerId, vsExpiry, aType, rand, aUserId, aPrivileges];
         
-    NSMutableString* ksWithSig = [[NSMutableString alloc] initWithCapacity:(CC_SHA1_DIGEST_LENGTH * 2 + 1 + ksFields.length)];
+    NSMutableString* vsWithSig = [[NSMutableString alloc] initWithCapacity:(CC_SHA1_DIGEST_LENGTH * 2 + 1 + vsFields.length)];
     
-    [KalturaClientBase appendSessionSigWithSecret:aSecret withFields:ksFields withOutput:ksWithSig];
-    [ksWithSig appendString:@"|"];
-    [ksWithSig appendString:ksFields];
+    [VidiunClientBase appendSessionSigWithSecret:aSecret withFields:vsFields withOutput:vsWithSig];
+    [vsWithSig appendString:@"|"];
+    [vsWithSig appendString:vsFields];
     
-    [ksFields release];
+    [vsFields release];
     
-    NSString* result = [ASIHTTPRequest base64forData:[ksWithSig dataUsingEncoding:NSUTF8StringEncoding]];
+    NSString* result = [ASIHTTPRequest base64forData:[vsWithSig dataUsingEncoding:NSUTF8StringEncoding]];
     
-    [ksWithSig release];
+    [vsWithSig release];
     
     return result;
 }
 
-+ (void)appendSessionSigWithSecret:(NSString*)aSecret withFields:(NSString*)aKsFields withOutput:(NSMutableString*)aOutput
++ (void)appendSessionSigWithSecret:(NSString*)aSecret withFields:(NSString*)aVsFields withOutput:(NSMutableString*)aOutput
 {
     unsigned char sha1Hash[CC_SHA1_DIGEST_LENGTH];
     CC_SHA1_CTX sha1Ctx;
@@ -1032,7 +1032,7 @@ NSString* const KalturaClientErrorDomain = @"KalturaClientErrorDomain";
     CC_SHA1_Init(&sha1Ctx);
     const char* secretPtr = [aSecret UTF8String];
     CC_SHA1_Update(&sha1Ctx, secretPtr, (int)strlen(secretPtr));
-    const char* fieldsPtr = [aKsFields UTF8String];
+    const char* fieldsPtr = [aVsFields UTF8String];
     CC_SHA1_Update(&sha1Ctx, fieldsPtr, (int)strlen(fieldsPtr));
     
     CC_SHA1_Final(sha1Hash, &sha1Ctx);

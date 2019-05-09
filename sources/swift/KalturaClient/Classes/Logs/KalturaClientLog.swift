@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2017  Kaltura Inc.
+// Copyright (C) 2006-2017  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,7 +28,7 @@
 
 /**
  * This class was generated using exec.php
- * against an XML schema provided by Kaltura.
+ * against an XML schema provided by Vidiun.
  *
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
  */
@@ -43,9 +43,9 @@ import Log
     logger.error("Object was not initialized")
     
     When the default implementor is assigned the above line will print:
-    KalturaClient: [2017-07-30 10:51:37.284] ViewController.viewDidLoad():24 ERROR: Object was not initialized â�Œ
+    VidiunClient: [2017-07-30 10:51:37.284] ViewController.viewDidLoad():24 ERROR: Object was not initialized â�Œ
  */
-public let logger = KalturaLogger(logger: KalturaClientLogImplementor())
+public let logger = VidiunLogger(logger: VidiunClientLogImplementor())
 
 
 
@@ -58,9 +58,9 @@ public enum LogLevel {
 
 
 /**
- KalturaClientLogProtocol - a protocol which represent a logger that can be used by the "Logger" class.
+ VidiunClientLogProtocol - a protocol which represent a logger that can be used by the "Logger" class.
  */
-public protocol KalturaClientLogProtocol {
+public protocol VidiunClientLogProtocol {
     
     var enabled: Bool {set get}
     var minLevel: LogLevel {set get}
@@ -69,13 +69,13 @@ public protocol KalturaClientLogProtocol {
 
 
 /**
- KalturaLogger - Logger class that designed to be a warpper class to a logger implementor.
- Initialized by the KalturaClientLogProtocol which represent any implementation of logging that can be replaced in the future.
+ VidiunLogger - Logger class that designed to be a warpper class to a logger implementor.
+ Initialized by the VidiunClientLogProtocol which represent any implementation of logging that can be replaced in the future.
  */
-public class KalturaLogger {
-    private var logger: KalturaClientLogProtocol
+public class VidiunLogger {
+    private var logger: VidiunClientLogProtocol
     
-    init(logger: KalturaClientLogProtocol) {
+    init(logger: VidiunClientLogProtocol) {
         self.logger = logger
     }
     
@@ -111,9 +111,9 @@ public class KalturaLogger {
 /**
  Logger implementor - using "Log" framework
  */
-private class KalturaClientLogImplementor: KalturaClientLogProtocol {
+private class VidiunClientLogImplementor: VidiunClientLogProtocol {
     
-    private let logger = Logger(formatter: .KalturaFormatter, theme: nil)
+    private let logger = Logger(formatter: .VidiunFormatter, theme: nil)
     
     public var enabled: Bool {
         get {
@@ -173,7 +173,7 @@ private class KalturaClientLogImplementor: KalturaClientLogProtocol {
 }
 
 extension Formatters {
-    static let KalturaFormatter = Formatter("KalturaClient: [%@] %@.%@:%@ %@: %@", [
+    static let VidiunFormatter = Formatter("VidiunClient: [%@] %@.%@:%@ %@: %@", [
         .date("yyyy-MM-dd HH:mm:ss.SSS"),
         .file(fullPath: false, fileExtension: false),
         .function,

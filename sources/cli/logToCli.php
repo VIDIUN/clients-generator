@@ -6,11 +6,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,7 +28,7 @@
 // @ignore
 // ===================================================================================================
 
-require_once(dirname(__file__) . '/lib/KalturaCommandLineParser.php');
+require_once(dirname(__file__) . '/lib/VidiunCommandLineParser.php');
 
 function print_r_reverse($in) {
     $lines = explode("\n", trim($in));
@@ -110,11 +110,11 @@ function parseMultirequest($parsedParams)
 		}
 		unset($paramsByRequest['common']);
 	}
-	ksort($paramsByRequest);
+	vsort($paramsByRequest);
 	return $paramsByRequest;
 }
 
-function genKalcliCommand($parsedParams)
+function genVidcliCommand($parsedParams)
 {
 	if (!isset($parsedParams['service']))
 		return 'Error: service not defined';
@@ -126,9 +126,9 @@ function genKalcliCommand($parsedParams)
 	$action = $parsedParams['action'];
 	unset($parsedParams['action']);
 	
-	$res = "kalcli -x {$service} {$action}";
+	$res = "vidcli -x {$service} {$action}";
 
-	ksort($parsedParams);
+	vsort($parsedParams);
 	foreach ($parsedParams as $param => $value)
 	{
 		$curParam = "{$param}={$value}";
@@ -173,7 +173,7 @@ function generateOutput($parsedParams, $multireqMode)
 			$requestByParams = parseMultirequest($parsedParams);
 			foreach ($requestByParams as $curParams)
 			{
-				$curCmd = genKalcliCommand($curParams);
+				$curCmd = genVidcliCommand($curParams);
 				echo $curCmd . "\n";
 			}
 			return;
@@ -181,21 +181,21 @@ function generateOutput($parsedParams, $multireqMode)
 		$parsedParams['action'] = 'null';
 	}
 	
-	$curCmd = genKalcliCommand($parsedParams);
+	$curCmd = genVidcliCommand($parsedParams);
 	echo $curCmd . "\n";
 }
 
 // parse the command line
 $commandLineSwitches = array(
-		array(KalturaCommandLineParser::SWITCH_NO_VALUE, 's', 'single', 'Generate a single command for multirequest'),
-		array(KalturaCommandLineParser::SWITCH_NO_VALUE, 'h', 'help', 'Prints usage information'),
+		array(VidiunCommandLineParser::SWITCH_NO_VALUE, 's', 'single', 'Generate a single command for multirequest'),
+		array(VidiunCommandLineParser::SWITCH_NO_VALUE, 'h', 'help', 'Prints usage information'),
 );
 
-$options = KalturaCommandLineParser::parseArguments($commandLineSwitches);
+$options = VidiunCommandLineParser::parseArguments($commandLineSwitches);
 if (isset($options['help']))
 {
 	$usage = "Usage: logToCli [switches]\nOptions:\n";
-	$usage .= KalturaCommandLineParser::getArgumentsUsage($commandLineSwitches);
+	$usage .= VidiunCommandLineParser::getArgumentsUsage($commandLineSwitches);
 	echo $usage; 
 	exit(1);
 }

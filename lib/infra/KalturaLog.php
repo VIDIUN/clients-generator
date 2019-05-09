@@ -3,7 +3,7 @@
  * @package infra
  * @subpackage log
  */
-class KalturaLog
+class VidiunLog
 {
     const EMERG   = 'EMERG';
     const ALERT   = 'ALERT';

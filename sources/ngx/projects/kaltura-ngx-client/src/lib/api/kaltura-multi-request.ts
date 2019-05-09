@@ -1,26 +1,26 @@
-import { KalturaResponse } from "./kaltura-response";
-import { KalturaRequest } from "./kaltura-request";
-import { KalturaRequestBase } from "./kaltura-request-base";
+import { VidiunResponse } from "./vidiun-response";
+import { VidiunRequest } from "./vidiun-request";
+import { VidiunRequestBase } from "./vidiun-request-base";
 
-import { KalturaMultiResponse } from "./kaltura-multi-response";
-import { KalturaAPIException } from "./kaltura-api-exception";
-import { KalturaObjectMetadata } from './kaltura-object-base';
-import { KalturaRequestOptions } from './kaltura-request-options';
+import { VidiunMultiResponse } from "./vidiun-multi-response";
+import { VidiunAPIException } from "./vidiun-api-exception";
+import { VidiunObjectMetadata } from './vidiun-object-base';
+import { VidiunRequestOptions } from './vidiun-request-options';
 import { environment } from '../environment';
 
 
-export class KalturaMultiRequest extends KalturaRequestBase {
+export class VidiunMultiRequest extends VidiunRequestBase {
 
-    protected callback: (response: KalturaMultiResponse) => void;
+    protected callback: (response: VidiunMultiResponse) => void;
 
-    requests: KalturaRequest<any>[] = [];
+    requests: VidiunRequest<any>[] = [];
 
-    constructor(...args: KalturaRequest<any>[]) {
+    constructor(...args: VidiunRequest<any>[]) {
         super({});
         this.requests = args;
     }
 
-    buildRequest(defaultRequestOptions: KalturaRequestOptions): {} {
+    buildRequest(defaultRequestOptions: VidiunRequestOptions): {} {
         const result = super.toRequestObject();
 
         for (let i = 0, length = this.requests.length; i < length; i++) {
@@ -30,7 +30,7 @@ export class KalturaMultiRequest extends KalturaRequestBase {
         return result;
     }
 
-    protected _getMetadata() : KalturaObjectMetadata
+    protected _getMetadata() : VidiunObjectMetadata
     {
         const result = super._getMetadata();
         Object.assign(
@@ -55,39 +55,39 @@ export class KalturaMultiRequest extends KalturaRequestBase {
         return response;
     }
 
-    setCompletion(callback: (response: KalturaMultiResponse) => void): KalturaMultiRequest {
+    setCompletion(callback: (response: VidiunMultiResponse) => void): VidiunMultiRequest {
         this.callback = callback;
         return this;
     }
 
-    handleResponse(responses: any): KalturaMultiResponse {
-        const kalturaResponses: KalturaResponse<any>[] = [];
+    handleResponse(responses: any): VidiunMultiResponse {
+        const vidiunResponses: VidiunResponse<any>[] = [];
 
         const unwrappedResponse = this._unwrapResponse(responses);
         let responseObject = null;
 
         if (!unwrappedResponse || !(unwrappedResponse instanceof Array) || unwrappedResponse.length !== this.requests.length) {
-            const response = new KalturaAPIException(`server response is invalid, expected array of ${this.requests.length}`, 'client::response_type_error', null);
+            const response = new VidiunAPIException(`server response is invalid, expected array of ${this.requests.length}`, 'client::response_type_error', null);
             for (let i = 0, len = this.requests.length; i < len; i++) {
-                kalturaResponses.push(this.requests[i].handleResponse(response));
+                vidiunResponses.push(this.requests[i].handleResponse(response));
             }
         }
         else {
 
             for (let i = 0, len = this.requests.length; i < len; i++) {
                 const serverResponse = unwrappedResponse[i];
-                kalturaResponses.push(this.requests[i].handleResponse(serverResponse));
+                vidiunResponses.push(this.requests[i].handleResponse(serverResponse));
             }
 
             if (this.callback) {
                 try {
-                    this.callback(new KalturaMultiResponse(kalturaResponses));
+                    this.callback(new VidiunMultiResponse(vidiunResponses));
                 } catch (ex) {
                     // do nothing by design
                 }
             }
         }
 
-        return new KalturaMultiResponse(kalturaResponses);
+        return new VidiunMultiResponse(vidiunResponses);
     }
 }

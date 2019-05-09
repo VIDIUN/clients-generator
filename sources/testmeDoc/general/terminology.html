@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-	<title>Kaltura - TestMe Console Documentation</title>
+	<title>Vidiun - TestMe Console Documentation</title>
 	<link rel="stylesheet" type="text/css" href="../css/main.css" />
 </head>
 <body>
 	<div id="doc">
 		<h2>Terminology</h2>
 		<p>The table below provides information on some terms and
-			definitions used in the Kaltura open source video platform, and in
+			definitions used in the Vidiun open source video platform, and in
 			any relevant documentation.</p>
 		<table id="terminology">
 			<colgroup>
@@ -21,10 +21,10 @@
 			</tr>
 			<tr class="odd">
 				<td><a href="#entry">Entry</a></td>
-				<td>An entry is a media entity and its meta-data on the Kaltura
+				<td>An entry is a media entity and its meta-data on the Vidiun
 					servers. It can be an image, a sound clip, a video file or a
 					rough-cut (explained below) wrapped with vast information such as
-					dates, titles, tags, ratings and more. The Kaltura extensive API
+					dates, titles, tags, ratings and more. The Vidiun extensive API
 					enables its partners to create galleries, lists, playlists and more
 					by calling up various entry-related API calls as well as edit this
 					information on the fly.</td>
@@ -32,37 +32,37 @@
 			<tr>
 				<td>Rough-cut</td>
 				<td>A rough-cut is a 'mix' type entry. Similar to a video type
-					entry, you can play a rough-cut in the Kaltura Dynamic Player (KDP)
+					entry, you can play a rough-cut in the Vidiun Dynamic Player (VDP)
 					- It can be a single or a mix of videos, a slide-show, a mix of
 					both and much more.<br /> A rough-cut is an XML unique format
-					invented by Kaltura, similar to Final Cut Pro 'Edit Decision List'
-					but with a twist. Whenever a user uses the Kaltura Editor to create
+					invented by Vidiun, similar to Final Cut Pro 'Edit Decision List'
+					but with a twist. Whenever a user uses the Vidiun Editor to create
 					a mix of videos and images, in and out points, transitions, text
-					overlays, soundtrack, effects and much more - the Kaltura Editor
+					overlays, soundtrack, effects and much more - the Vidiun Editor
 					automatically saves this mix as a rough-cut. The user can then play
-					the rough-cut in a Kaltura video player as if it was an ordinary
+					the rough-cut in a Vidiun video player as if it was an ordinary
 					(yet very cool) video.
 				</td>
 			</tr>
 			<tr class="odd">
 				<td><a href="#widget">Widget</a></td>
-				<td>A widget represents a Kaltura Dynamic Player (KDP) which is
+				<td>A widget represents a Vidiun Dynamic Player (VDP) which is
 					either bound to a specific media clip (in the case of media
-					embedded in an external site) or a KDP that can show a gallery of
+					embedded in an external site) or a VDP that can show a gallery of
 					media clips which can be selected via flashvars and javascript
 					calls.</td>
 			</tr>
 			<tr>
-				<td>KDP</td>
-				<td>The Kaltura Dynamic Player (KDP) is a highly flexible media
+				<td>VDP</td>
+				<td>The Vidiun Dynamic Player (VDP) is a highly flexible media
 					player allowing any developer to create his own skinned and
 					customized version which may include different sets of components.
 				</td>
 			</tr>
 			<tr class="odd">
 				<td>Contributor Wizard</td>
-				<td>The Kaltura Contributor Wizard (aka CW or KCW) also known
-					as the Kaltura Media Uploader, is a customizable wizard enabling
+				<td>The Vidiun Contributor Wizard (aka CW or VCW) also known
+					as the Vidiun Media Uploader, is a customizable wizard enabling
 					end users to upload and import media. The wizard supports multiple
 					file uploads, webcam and microphone recording and importing media
 					from external sources (e.g. YouTube, Flickr, etc.). The wizard lets
@@ -70,15 +70,15 @@
 			</tr>
 			<tr>
 				<td>Standard Editor</td>
-				<td>The Kaltura Standard Editor (aka SE or KSE) is a
+				<td>The Vidiun Standard Editor (aka SE or VSE) is a
 					customizable flash video editor enabling end users to mash up
 					videos and images, add audio tracks and enrich their video mix with
 					transitions.</td>
 			</tr>
 			<tr class="odd">
 				<td><a href="#uiconf">UI Conf</a></td>
-				<td>XML configuration file for various Kaltura components (KDP,
-					KSE, KCW)</td>
+				<td>XML configuration file for various Vidiun components (VDP,
+					VSE, VCW)</td>
 			</tr>
 			<tr>
 				<td>Partner</td>
@@ -87,7 +87,7 @@
 			</tr>
 			<tr class="odd">
 				<td><a href="#user">User (Partner user)</a></td>
-				<td>Representation of a Partner's user in Kaltura's database</td>
+				<td>Representation of a Partner's user in Vidiun's database</td>
 			</tr>
 			<tr>
 				<td>CDN</td>
@@ -97,9 +97,9 @@
 			</tr>
 			<tr class="odd">
 				<td>Notifications</td>
-				<td>Sent by the Kaltura servers to a Partner system. These
+				<td>Sent by the Vidiun servers to a Partner system. These
 					notifications enable a partner system to provide its own searching
-					capabilities and caching for Kaltura stored data. The Kaltura
+					capabilities and caching for Vidiun stored data. The Vidiun
 					servers log required operations and then send notifications
 					asynchronously.</td>
 			</tr>

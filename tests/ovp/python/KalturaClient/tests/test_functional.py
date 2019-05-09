@@ -4,11 +4,11 @@
 #                          | ' </ _` | |  _| || | '_/ _` |
 #                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 #
-# This file is part of the Kaltura Collaborative Media Suite which allows users
+# This file is part of the Vidiun Collaborative Media Suite which allows users
 # to do with audio, video, and animation what Wiki platfroms allow them to do
 # with text.
 #
-# Copyright (C) 2006-2011  Kaltura Inc.
+# Copyright (C) 2006-2011  Vidiun Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -33,35 +33,35 @@ import unittest
 import requests
 
 from .utils import (
-    GetConfig, getTestFile, KalturaBaseTest,
+    GetConfig, getTestFile, VidiunBaseTest,
     ADMIN_SECRET,
     PARTNER_ID,
     USER_NAME,
 )
-from KalturaClient import KalturaClient
-from KalturaClient.exceptions import KalturaException
-from KalturaClient.Plugins.Core import (
+from VidiunClient import VidiunClient
+from VidiunClient.exceptions import VidiunException
+from VidiunClient.Plugins.Core import (
     API_VERSION,
-    KalturaDataEntry,
-    KalturaFilterPager,
-    KalturaMediaEntry,
-    KalturaMediaEntryFilter,
-    KalturaMediaEntryOrderBy,
-    KalturaMediaType,
-    KalturaSessionType,
+    VidiunDataEntry,
+    VidiunFilterPager,
+    VidiunMediaEntry,
+    VidiunMediaEntryFilter,
+    VidiunMediaEntryOrderBy,
+    VidiunMediaType,
+    VidiunSessionType,
 )
-from KalturaClient.Plugins.Metadata import (
-    KalturaMetadataFilter,
-    KalturaMetadataObjectType,
-    KalturaMetadataProfile,
-    KalturaMetadataProfileFilter,
+from VidiunClient.Plugins.Metadata import (
+    VidiunMetadataFilter,
+    VidiunMetadataObjectType,
+    VidiunMetadataProfile,
+    VidiunMetadataProfileFilter,
 )
 
 
 testString = "API Test ver %s" % (API_VERSION,)
 
 
-class SingleRequestTests(KalturaBaseTest):
+class SingleRequestTests(VidiunBaseTest):
     """These Tests Are legacy tests migrated from the first test suite
        TestCode/PythonTester.py into a unittest framework
        Great Examples to work from!
@@ -73,16 +73,16 @@ class SingleRequestTests(KalturaBaseTest):
         ulFile = getTestFile('DemoVideo.flv')
         uploadTokenId = self.client.media.upload(ulFile)
 
-        mediaEntry = KalturaMediaEntry()
+        mediaEntry = VidiunMediaEntry()
         mediaEntry.setName(
             "Media Entry Using Python Client ver %s" % (API_VERSION,))
-        mediaEntry.setMediaType(KalturaMediaType(KalturaMediaType.VIDEO))
+        mediaEntry.setMediaType(VidiunMediaType(VidiunMediaType.VIDEO))
         mediaEntry = self.client.media.addFromUploadedFile(
             mediaEntry, uploadTokenId)
 
         # serve
         DATA_ENTRY_CONTENT = 'bla bla bla'
-        dataEntry = KalturaDataEntry()
+        dataEntry = VidiunDataEntry()
         dataEntry.setName('test data entry')
         dataEntry.setDataContent(DATA_ENTRY_CONTENT)
         addedDataEntry = self.client.data.add(dataEntry)
@@ -101,10 +101,10 @@ class SingleRequestTests(KalturaBaseTest):
         xsdFile = "MetadataSchema.xsd"
 
         # Setup a pager and search to use
-        pager = KalturaFilterPager()
-        search = KalturaMediaEntryFilter()
-        search.setOrderBy(KalturaMediaEntryOrderBy.CREATED_AT_ASC)
-        search.setMediaTypeEqual(KalturaMediaType.VIDEO)  # Video only
+        pager = VidiunFilterPager()
+        search = VidiunMediaEntryFilter()
+        search.setOrderBy(VidiunMediaEntryOrderBy.CREATED_AT_ASC)
+        search.setMediaTypeEqual(VidiunMediaType.VIDEO)  # Video only
         pager.setPageSize(10)
         pager.setPageIndex(1)
 
@@ -114,9 +114,9 @@ class SingleRequestTests(KalturaBaseTest):
         entries = self.client.media.list(search, pager).objects
 
         # make sure we have a metadata profile
-        profile = KalturaMetadataProfile()
+        profile = VidiunMetadataProfile()
         profile.setName('TestProfile %s' % (testString,))
-        MetadataObjectType = KalturaMetadataObjectType.ENTRY
+        MetadataObjectType = VidiunMetadataObjectType.ENTRY
 
         profile.setMetadataObjectType(MetadataObjectType)
         viewsData = ""
@@ -125,10 +125,10 @@ class SingleRequestTests(KalturaBaseTest):
         newProfile = self.client.metadata.metadataProfile.add(
             profile, xsdFh.read(), viewsData)
 
-        # Check if there are any custom fields defined in the KMC
+        # Check if there are any custom fields defined in the VMC
         # (Settings -> Custom Data)
         # for the first item returned by the previous listaction
-        filter = KalturaMetadataProfileFilter()
+        filter = VidiunMetadataProfileFilter()
         metadata = self.client.metadata.metadataProfile.list(
             filter, pager).objects
 
@@ -143,10 +143,10 @@ class SingleRequestTests(KalturaBaseTest):
                 "1. There are no custom fields for video: {}, entryid: "
                 "{}" .format(name, id))
 
-        # Add a custom data entry in the KMC  (Settings -> Custom Data)
-        profile = KalturaMetadataProfile()
+        # Add a custom data entry in the VMC  (Settings -> Custom Data)
+        profile = VidiunMetadataProfile()
         profile.setName('TestProfile %s' % (testString,))
-        profile.setMetadataObjectType(KalturaMetadataObjectType.ENTRY)
+        profile.setMetadataObjectType(VidiunMetadataObjectType.ENTRY)
         viewsData = ""
 
         metadataResult = self.client.metadata.metadataProfile.update(
@@ -155,7 +155,7 @@ class SingleRequestTests(KalturaBaseTest):
         self.assertIsNotNone(metadataResult.xsd)
 
         # Add the custom metadata value to the first video
-        filter2 = KalturaMetadataFilter()
+        filter2 = VidiunMetadataFilter()
         filter2.setObjectIdEqual(entries[0].id)
         xmlData = (
             "<metadata><SubtitleFormat>{}"
@@ -173,7 +173,7 @@ class SingleRequestTests(KalturaBaseTest):
 
         # Now lets change the value (update) of the custom field
         # Get the metadata for the video
-        filter3 = KalturaMetadataFilter()
+        filter3 = VidiunMetadataFilter()
         filter3.setObjectIdEqual(entries[0].id)
         filter3.setMetadataProfileIdEqual(newProfile.id)
         metadataList = self.client.metadata.metadata.list(filter3).objects
@@ -204,7 +204,7 @@ class SingleRequestTests(KalturaBaseTest):
         print("XML: {}".format(xmlquoted))
 
 
-class MultiRequestTests(KalturaBaseTest):
+class MultiRequestTests(VidiunBaseTest):
 
     def setUp(self):
         """These tests require that client.session.start be used
@@ -213,45 +213,45 @@ class MultiRequestTests(KalturaBaseTest):
         """
 
         self.config = GetConfig()
-        self.client = KalturaClient(self.config)
-        self.ks = None
+        self.client = VidiunClient(self.config)
+        self.vs = None
 
     def test_MultiRequest(self):
         """From lines 221- 241 of origional PythonTester.py"""
 
         self.client.startMultiRequest()
-        ks = self.client.session.start(ADMIN_SECRET, USER_NAME,
-                                       KalturaSessionType.ADMIN,
+        vs = self.client.session.start(ADMIN_SECRET, USER_NAME,
+                                       VidiunSessionType.ADMIN,
                                        PARTNER_ID, 86400, "")
-        self.client.setKs(ks)
+        self.client.setVs(vs)
 
         listResult = self.client.baseEntry.list()
 
         multiResult = self.client.doMultiRequest()
         print(multiResult[1].totalCount)
-        self.client.setKs(multiResult[0])
+        self.client.setVs(multiResult[0])
 
         # error
-        with self.assertRaises(KalturaException) as cm:
+        with self.assertRaises(VidiunException) as cm:
             mediaEntry = self.client.media.get('invalid entry id')
         assert(cm.exception.code == 'ENTRY_ID_NOT_FOUND')
 
         # multi request error
-        self.client = KalturaClient(GetConfig())
+        self.client = VidiunClient(GetConfig())
 
         # start a NEW multirequest (could move to separate unit test?)
         self.client.startMultiRequest()
 
-        ks = self.client.session.start(
-            ADMIN_SECRET, USER_NAME, KalturaSessionType.ADMIN, PARTNER_ID,
+        vs = self.client.session.start(
+            ADMIN_SECRET, USER_NAME, VidiunSessionType.ADMIN, PARTNER_ID,
             86400, "")
-        self.client.setKs(ks)
+        self.client.setVs(vs)
 
         mediaEntry = self.client.media.get('invalid entry id')
 
         multiResult = self.client.doMultiRequest()
-        self.client.setKs(multiResult[0])
-        assert(isinstance(multiResult[1], KalturaException))
+        self.client.setVs(multiResult[0])
+        assert(isinstance(multiResult[1], VidiunException))
         assert(multiResult[1].code == 'ENTRY_ID_NOT_FOUND')
 
         # must be called with existing client multirequest session
@@ -260,24 +260,24 @@ class MultiRequestTests(KalturaBaseTest):
     # copied from C# tester
     def _AdvancedMultiRequestExample(self):
         # this is a separate, local client - not 'self.client'
-        client = KalturaClient(
+        client = VidiunClient(
             self.config)  # matches line 154 in PythonTester.py
         client.startMultiRequest()
 
-        from KalturaClient.Plugins.Core import KalturaMixEntry
-        from KalturaClient.Plugins.Core import KalturaEditorType
+        from VidiunClient.Plugins.Core import VidiunMixEntry
+        from VidiunClient.Plugins.Core import VidiunEditorType
 
         # Request 1
-        ks = client.session.start(ADMIN_SECRET, USER_NAME,
-                                  KalturaSessionType.ADMIN,
+        vs = client.session.start(ADMIN_SECRET, USER_NAME,
+                                  VidiunSessionType.ADMIN,
                                   PARTNER_ID, 86400, "")
         # for the current multi request, the result of the first call will be
-        # used as the ks for next calls
-        client.setKs(ks)
+        # used as the vs for next calls
+        client.setVs(vs)
 
-        mixEntry = KalturaMixEntry()
+        mixEntry = VidiunMixEntry()
         mixEntry.setName(".Net Mix %s" % (testString,))
-        mixEntry.setEditorType(KalturaEditorType.SIMPLE)
+        mixEntry.setEditorType(VidiunEditorType.SIMPLE)
 
         # Request 2
         mixEntry = client.mixing.add(mixEntry)
@@ -286,9 +286,9 @@ class MultiRequestTests(KalturaBaseTest):
         ulFile = getTestFile('DemoVideo.flv')
         uploadTokenId = client.media.upload(ulFile)
 
-        mediaEntry = KalturaMediaEntry()
+        mediaEntry = VidiunMediaEntry()
         mediaEntry.setName("Media Entry For Mix %s" % (testString,))
-        mediaEntry.setMediaType(KalturaMediaType.VIDEO)
+        mediaEntry.setMediaType(VidiunMediaType.VIDEO)
 
         # Request 4
         mediaEntry = client.media.addFromUploadedFile(
@@ -300,12 +300,12 @@ class MultiRequestTests(KalturaBaseTest):
         response = client.doMultiRequest()
 
         for subResponse in response:
-            if isinstance(subResponse, KalturaException):
+            if isinstance(subResponse, VidiunException):
                 self.fail("Error occurred: " + subResponse.message)
 
         # when accessing the response object we will use an index and not the
         # response number (response number - 1)
-        assert(isinstance(response[1], KalturaMixEntry))
+        assert(isinstance(response[1], VidiunMixEntry))
         mixEntry = response[1]
 
         print("The new mix entry id is: {}".format(mixEntry.id))

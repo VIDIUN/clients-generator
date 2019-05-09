@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,105 +28,105 @@
 #import <Foundation/Foundation.h>
 #import "ASIHTTPRequestDelegate.h"
 #import "ASIProgressDelegate.h"
-#import "KalturaXmlParsers.h"
+#import "VidiunXmlParsers.h"
 
 /*
  Constants
  */
-#define KALTURA_UNDEF_BOOL      ([KalturaBool UNDEF_VALUE])
-#define KALTURA_UNDEF_INT       INT_MIN
-#define KALTURA_UNDEF_FLOAT     NAN
-#define KALTURA_UNDEF_STRING    (nil)
-#define KALTURA_UNDEF_OBJECT    (nil)
+#define VIDIUN_UNDEF_BOOL      ([VidiunBool UNDEF_VALUE])
+#define VIDIUN_UNDEF_INT       INT_MIN
+#define VIDIUN_UNDEF_FLOAT     NAN
+#define VIDIUN_UNDEF_STRING    (nil)
+#define VIDIUN_UNDEF_OBJECT    (nil)
 
-#define KALTURA_NULL_BOOL   ([KalturaBool NULL_VALUE])
-#define KALTURA_NULL_INT    INT_MAX
-#define KALTURA_NULL_FLOAT  INFINITY
-#define KALTURA_NULL_STRING (@"__null_string__")
-#define KALTURA_NULL_OBJECT ([[[KalturaObjectBase alloc] init] autorelease])
+#define VIDIUN_NULL_BOOL   ([VidiunBool NULL_VALUE])
+#define VIDIUN_NULL_INT    INT_MAX
+#define VIDIUN_NULL_FLOAT  INFINITY
+#define VIDIUN_NULL_STRING (@"__null_string__")
+#define VIDIUN_NULL_OBJECT ([[[VidiunObjectBase alloc] init] autorelease])
 
-extern NSString* const KalturaClientErrorDomain;
+extern NSString* const VidiunClientErrorDomain;
 
-typedef int KALTURA_BOOL;
+typedef int VIDIUN_BOOL;
 
 typedef enum {
-    KalturaClientErrorAPIException = 1,
-    KalturaClientErrorInvalidHttpCode = 2,
-    KalturaClientErrorUnknownObjectType = 3,
-    KalturaClientErrorXmlParsing = 4,
-    KalturaClientErrorUnexpectedTagInSimpleType = 5,
-    KalturaClientErrorUnexpectedArrayTag = 6,
-    KalturaClientErrorUnexpectedMultiReqTag = 7,
-    KalturaClientErrorMissingMultiReqItems = 8,
-    KalturaClientErrorMissingObjectTypeTag = 9,
-    KalturaClientErrorExpectedObjectTypeTag = 10,
-    KalturaClientErrorExpectedPropertyTag = 11,
-    KalturaClientErrorStartTagInSimpleType = 12,
-    KalturaClientErrorEmptyObject = 13,
-} KalturaClientErrorType;
+    VidiunClientErrorAPIException = 1,
+    VidiunClientErrorInvalidHttpCode = 2,
+    VidiunClientErrorUnknownObjectType = 3,
+    VidiunClientErrorXmlParsing = 4,
+    VidiunClientErrorUnexpectedTagInSimpleType = 5,
+    VidiunClientErrorUnexpectedArrayTag = 6,
+    VidiunClientErrorUnexpectedMultiReqTag = 7,
+    VidiunClientErrorMissingMultiReqItems = 8,
+    VidiunClientErrorMissingObjectTypeTag = 9,
+    VidiunClientErrorExpectedObjectTypeTag = 10,
+    VidiunClientErrorExpectedPropertyTag = 11,
+    VidiunClientErrorStartTagInSimpleType = 12,
+    VidiunClientErrorEmptyObject = 13,
+} VidiunClientErrorType;
 
 typedef enum 
 {
-    KFT_Invalid,
-    KFT_Bool,
-    KFT_Int,
-    KFT_Float,
-    KFT_String,
-    KFT_Object,
-    KFT_Array,
-	KFT_Dictionary,
-} KalturaFieldType;
+    VFT_Invalid,
+    VFT_Bool,
+    VFT_Int,
+    VFT_Float,
+    VFT_String,
+    VFT_Object,
+    VFT_Array,
+	VFT_Dictionary,
+} VidiunFieldType;
 
 /*
  Forward declarations
  */
-@protocol KalturaXmlParserDelegate;
+@protocol VidiunXmlParserDelegate;
 @class ASIFormDataRequest;
-@class KalturaXmlParserBase;
-@class KalturaLibXmlWrapper;
-@class KalturaParams;
-@class KalturaClientBase;
+@class VidiunXmlParserBase;
+@class VidiunLibXmlWrapper;
+@class VidiunParams;
+@class VidiunClientBase;
 
 /*
- Class KalturaBool
+ Class VidiunBool
  */
-@interface KalturaBool : NSObject
-+ (KALTURA_BOOL)NO_VALUE;
-+ (KALTURA_BOOL)YES_VALUE;
-+ (KALTURA_BOOL)NULL_VALUE;
-+ (KALTURA_BOOL)UNDEF_VALUE;
+@interface VidiunBool : NSObject
++ (VIDIUN_BOOL)NO_VALUE;
++ (VIDIUN_BOOL)YES_VALUE;
++ (VIDIUN_BOOL)NULL_VALUE;
++ (VIDIUN_BOOL)UNDEF_VALUE;
 @end
 
 /*
- Class KalturaClientException
+ Class VidiunClientException
  */
-@interface KalturaClientException : NSException
+@interface VidiunClientException : NSException
 @end
 
 /*
- Class KalturaSimpleTypeParser
+ Class VidiunSimpleTypeParser
  */
-@interface KalturaSimpleTypeParser : NSObject
+@interface VidiunSimpleTypeParser : NSObject
 
-+ (KALTURA_BOOL)parseBool:(NSString*)aStr;
++ (VIDIUN_BOOL)parseBool:(NSString*)aStr;
 + (int)parseInt:(NSString*)aStr;
 + (double)parseFloat:(NSString*)aStr;
 
 @end
 
 /*
- Class KalturaObjectBase
+ Class VidiunObjectBase
  */
-@interface KalturaObjectBase : NSObject
+@interface VidiunObjectBase : NSObject
 
-- (void)toParams:(KalturaParams*)aParams isSuper:(BOOL)aIsSuper;
+- (void)toParams:(VidiunParams*)aParams isSuper:(BOOL)aIsSuper;
 
 @end
 
 /*
- Class KalturaException
+ Class VidiunException
  */
-@interface KalturaException : KalturaObjectBase
+@interface VidiunException : VidiunObjectBase
 
 @property (nonatomic, copy) NSString* code;
 @property (nonatomic, copy) NSString* message;
@@ -136,18 +136,18 @@ typedef enum
 @end
 
 /*
- Class KalturaObjectFactory
+ Class VidiunObjectFactory
  */
-@interface KalturaObjectFactory : NSObject
+@interface VidiunObjectFactory : NSObject
 
-+ (KalturaObjectBase*)createByName:(NSString*)aName withDefaultType:(NSString*)aDefaultType;
++ (VidiunObjectBase*)createByName:(NSString*)aName withDefaultType:(NSString*)aDefaultType;
 
 @end
 
 /*
- Class KalturaParams
+ Class VidiunParams
  */
-@interface KalturaParams : NSObject
+@interface VidiunParams : NSObject
 {
     NSMutableArray* _params;
     NSMutableArray* _files;
@@ -159,11 +159,11 @@ typedef enum
 - (void)putKey:(NSString*)aKey withString:(NSString*)aVal;
 - (void)putNullKey:(NSString*)aKey;
 - (void)addIfDefinedKey:(NSString*)aKey withFileName:(NSString*)aFileName;
-- (void)addIfDefinedKey:(NSString*)aKey withBool:(KALTURA_BOOL)aVal;
+- (void)addIfDefinedKey:(NSString*)aKey withBool:(VIDIUN_BOOL)aVal;
 - (void)addIfDefinedKey:(NSString*)aKey withInt:(int)aVal;
 - (void)addIfDefinedKey:(NSString*)aKey withFloat:(double)aVal;
 - (void)addIfDefinedKey:(NSString*)aKey withString:(NSString*)aVal;
-- (void)addIfDefinedKey:(NSString*)aKey withObject:(KalturaObjectBase*)aVal;
+- (void)addIfDefinedKey:(NSString*)aKey withObject:(VidiunObjectBase*)aVal;
 - (void)addIfDefinedKey:(NSString*)aKey withArray:(NSArray*)aVal;
 - (void)addIfDefinedKey:(NSString*)aKey withDictionary:(NSDictionary*)aVal;
 - (void)sign;
@@ -173,87 +173,87 @@ typedef enum
 @end
 
 /*
- Protocol KalturaLogger
+ Protocol VidiunLogger
  */
-@protocol KalturaLogger <NSObject>
+@protocol VidiunLogger <NSObject>
 
 - (void)logMessage:(NSString*)aMsg;
 
 @end
 
 /*
- Class KalturaNSLogger
+ Class VidiunNSLogger
  */
-@interface KalturaNSLogger: NSObject <KalturaLogger>
+@interface VidiunNSLogger: NSObject <VidiunLogger>
 
 @end
 
 /*
- Class KalturaServiceBase
+ Class VidiunServiceBase
  */
-@interface KalturaServiceBase : NSObject
+@interface VidiunServiceBase : NSObject
 
-@property (nonatomic, assign) KalturaClientBase* client;
+@property (nonatomic, assign) VidiunClientBase* client;
 
-- (id)initWithClient:(KalturaClientBase*)aClient;
+- (id)initWithClient:(VidiunClientBase*)aClient;
 
 @end
 
 /*
- Class KalturaClientPlugin
+ Class VidiunClientPlugin
  */
-@interface KalturaClientPlugin : NSObject
+@interface VidiunClientPlugin : NSObject
 @end
 
 /*
- Class KalturaConfiguration
+ Class VidiunConfiguration
  */
-@interface KalturaConfiguration : NSObject
+@interface VidiunConfiguration : NSObject
 
 @property (nonatomic, copy) NSString* serviceUrl;
 @property (nonatomic, copy) NSString* clientTag;
 @property (nonatomic, assign) int partnerId;
 @property (nonatomic, assign) int requestTimeout;
-@property (nonatomic, retain) id<KalturaLogger> logger;
+@property (nonatomic, retain) id<VidiunLogger> logger;
 @property (nonatomic, copy) NSDictionary* requestHeaders;
 
 @end
 
 /*
- Protocol KalturaClientDelegate
+ Protocol VidiunClientDelegate
  */
-@protocol KalturaClientDelegate
+@protocol VidiunClientDelegate
 
-- (void)requestFinished:(KalturaClientBase*)aClient withResult:(id)result;
-- (void)requestFailed:(KalturaClientBase*)aClient;
+- (void)requestFinished:(VidiunClientBase*)aClient withResult:(id)result;
+- (void)requestFailed:(VidiunClientBase*)aClient;
 
 @end
 
 /*
- Class KalturaClientBase
+ Class VidiunClientBase
  */
-@interface KalturaClientBase : NSObject <ASIHTTPRequestDelegate, KalturaXmlParserDelegate>
+@interface VidiunClientBase : NSObject <ASIHTTPRequestDelegate, VidiunXmlParserDelegate>
 {
     BOOL _isMultiRequest;
-    KalturaXmlParserBase* _reqParser;
-    KalturaXmlParserBase* _skipParser;
+    VidiunXmlParserBase* _reqParser;
+    VidiunXmlParserBase* _skipParser;
     ASIFormDataRequest *_request;
-    KalturaLibXmlWrapper* _xmlParser;
+    VidiunLibXmlWrapper* _xmlParser;
     NSDate* _apiStartTime;
 }
 
-@property (nonatomic, retain) KalturaConfiguration* config;
+@property (nonatomic, retain) VidiunConfiguration* config;
 @property (nonatomic, retain) NSError* error;
-@property (nonatomic, assign) id<KalturaClientDelegate> delegate;
+@property (nonatomic, assign) id<VidiunClientDelegate> delegate;
 @property (nonatomic, assign) id<ASIProgressDelegate> uploadProgressDelegate;
 @property (nonatomic, assign) id<ASIProgressDelegate> downloadProgressDelegate;
-@property (nonatomic, copy) NSString* ks;
+@property (nonatomic, copy) NSString* vs;
 @property (nonatomic, copy) NSString* apiVersion;
-@property (nonatomic, readonly) KalturaParams* params;
+@property (nonatomic, readonly) VidiunParams* params;
 @property (nonatomic, readonly) NSDictionary* responseHeaders;
 
     // public messages
-- (id)initWithConfig:(KalturaConfiguration*)aConfig;
+- (id)initWithConfig:(VidiunConfiguration*)aConfig;
 - (void)startMultiRequest;
 - (NSArray*)doMultiRequest;
 - (void)cancelRequest;
@@ -262,7 +262,7 @@ typedef enum
     // messages for use of auto-gen service code
 - (NSString*)queueServeService:(NSString*)aService withAction:(NSString*)aAction;
 - (void)queueVoidService:(NSString*)aService withAction:(NSString*)aAction;
-- (KALTURA_BOOL)queueBoolService:(NSString*)aService withAction:(NSString*)aAction;
+- (VIDIUN_BOOL)queueBoolService:(NSString*)aService withAction:(NSString*)aAction;
 - (int)queueIntService:(NSString*)aService withAction:(NSString*)aAction;
 - (double)queueFloatService:(NSString*)aService withAction:(NSString*)aAction;
 - (NSString*)queueStringService:(NSString*)aService withAction:(NSString*)aAction;

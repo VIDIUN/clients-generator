@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 //<editor-fold defaultstate="collapsed" desc="comment">
 import android.content.pm.ActivityInfo;
@@ -11,11 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kaltura.bar.ActionBar;
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.AdminUser;
-import com.kaltura.utils.ApiHelper;
-import com.kaltura.utils.Utils;
+import com.vidiun.bar.ActionBar;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.AdminUser;
+import com.vidiun.utils.ApiHelper;
+import com.vidiun.utils.Utils;
 //</editor-fold>
 
 public class Settings extends TemplateActivity {
@@ -38,8 +38,8 @@ public class Settings extends TemplateActivity {
         etPassword = (EditText) findViewById(R.id.et_login_password);
         etEmail.setText("user@email.com");
         etPassword.setText("password");
-        ApiHelper.setHost("http://www.kaltura.com/");
-        ApiHelper.setCdnHost("http://cdnbakmi.kaltura.com/");
+        ApiHelper.setHost("http://www.vidiun.com/");
+        ApiHelper.setCdnHost("http://cdnbakmi.vidiun.com/");
     }
 
     /**

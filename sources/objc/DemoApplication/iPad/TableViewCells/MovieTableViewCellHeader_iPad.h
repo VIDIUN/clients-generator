@@ -1,9 +1,9 @@
 //
 //  MovieTableViewCellHeader_iPad.h
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 14.03.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -11,17 +11,17 @@
 @interface MovieTableViewCellHeader_iPad : UITableViewCell {
     
     IBOutlet UIView *cell1View;
-    IBOutlet KalturaThumbView *cell1Image;
+    IBOutlet VidiunThumbView *cell1Image;
     IBOutlet UILabel *cell1Label1;
     IBOutlet UILabel *cell1Label2;
     
     IBOutlet UIView *cell2View;
-    IBOutlet KalturaThumbView *cell2Image;
+    IBOutlet VidiunThumbView *cell2Image;
     IBOutlet UILabel *cell2Label1;
     IBOutlet UILabel *cell2Label2;
     
     IBOutlet UIView *cell3View;
-    IBOutlet KalturaThumbView *cell3Image;
+    IBOutlet VidiunThumbView *cell3Image;
     IBOutlet UILabel *cell3Label1;
     IBOutlet UILabel *cell3Label2;
     
@@ -31,9 +31,9 @@
 
 }
 
-- (void)updateCell1:(KalturaMediaEntry *)mediaEntry;
-- (void)updateCell2:(KalturaMediaEntry *)mediaEntry;
-- (void)updateCell3:(KalturaMediaEntry *)mediaEntry;
+- (void)updateCell1:(VidiunMediaEntry *)mediaEntry;
+- (void)updateCell2:(VidiunMediaEntry *)mediaEntry;
+- (void)updateCell3:(VidiunMediaEntry *)mediaEntry;
 
 - (IBAction)selectCellView:(UIButton *)button;
 - (IBAction)playButtonPressed:(UIButton *)button;

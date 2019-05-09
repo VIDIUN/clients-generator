@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -31,9 +31,9 @@ using System.Text;
 using System.Web;
 using System.Globalization;
 
-namespace Kaltura
+namespace Vidiun
 {
-    public class KalturaParam : IKalturaSerializable
+    public class VidiunParam : IVidiunSerializable
     {
 
         #region Private Fields
@@ -60,33 +60,33 @@ namespace Kaltura
 
         #region CTor
 
-        public KalturaParam(string value)
+        public VidiunParam(string value)
         {
             _Value = value;
             _ParamType = PARAM_TYPE_STRING;
         }
-        public KalturaParam(bool value)
+        public VidiunParam(bool value)
         {
             _BoolValue = value;
             _ParamType = PARAM_TYPE_BOOL;
         }
-        public KalturaParam(long value)
+        public VidiunParam(long value)
         {
             _LongValue = value;
             _ParamType = PARAM_TYPE_LONG;
         }
-        public KalturaParam(int value)
+        public VidiunParam(int value)
         {
             _IntValue = value;
             _ParamType = PARAM_TYPE_INT;
         }
-        public KalturaParam(float value)
+        public VidiunParam(float value)
         {
             _FloatValue = value;
             _ParamType = PARAM_TYPE_FLOAT;
         }
 
-        public KalturaParam(double value)
+        public VidiunParam(double value)
         {
             _DoubleValue = value;
             _ParamType = PARAM_TYPE_DOUBLE;

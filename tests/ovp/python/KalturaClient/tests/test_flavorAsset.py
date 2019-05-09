@@ -2,12 +2,12 @@ from __future__ import absolute_import
 
 import unittest
 
-from .utils import KalturaBaseTest
+from .utils import VidiunBaseTest
 
-from KalturaClient.Plugins.Core import KalturaFlavorAssetListResponse
+from VidiunClient.Plugins.Core import VidiunFlavorAssetListResponse
 
 
-class FlavorAssetTests(KalturaBaseTest):
+class FlavorAssetTests(VidiunBaseTest):
 
     def test_instantiate(self):
         flavAsst = self.client.flavorAsset

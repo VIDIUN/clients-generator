@@ -3,37 +3,37 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script src="jquery-3.1.0.min.js"></script>
-<script src="KalturaClient.min.js"></script>
-<script src="KalturaSessionService.min.js"></script>
-<script src="KalturaMediaService.min.js"></script>
-<script src="KalturaUploadTokenService.min.js"></script>
+<script src="VidiunClient.min.js"></script>
+<script src="VidiunSessionService.min.js"></script>
+<script src="VidiunMediaService.min.js"></script>
+<script src="VidiunUploadTokenService.min.js"></script>
 <script type="text/javascript">
 
 	
 	var client;
 
-	var session_start_cb = function (success, ks){
+	var session_start_cb = function (success, vs){
 		if(!success)
-			alert(ks.message);
+			alert(vs.message);
 	
-		client.setKs(ks);
-		document.getElementById("ks").value = ks;
-		alert("Seesion started: " + ks);
+		client.setVs(vs);
+		document.getElementById("vs").value = vs;
+		alert("Seesion started: " + vs);
 	};
 
 	function session_start(){
-		var config = new KalturaConfiguration(document.getElementById("partnerId").value);
-		config.serviceUrl = "http://www.kaltura.com";
+		var config = new VidiunConfiguration(document.getElementById("partnerId").value);
+		config.serviceUrl = "http://www.vidiun.com";
 		
-		client = new KalturaClient(config);
+		client = new VidiunClient(config);
 		
 		var secret = document.getElementById("secret").value;
 		var userId = null;
-		var type = 0; // KalturaSessionType.USER
+		var type = 0; // VidiunSessionType.USER
 		var partnerId = document.getElementById("partnerId").value;
 		var expiry = null;
 		var privileges = null;
-		KalturaSessionService.start(secret, userId, type, partnerId, expiry, privileges)
+		VidiunSessionService.start(secret, userId, type, partnerId, expiry, privileges)
 			.completion(session_start_cb)
 			.execute(client);
 	}
@@ -48,13 +48,13 @@
 
 	function media_add(){
 		var entry = {
-			objectType: "KalturaMediaEntry",
-			mediaType: 1, // KalturaMediaType.VIDEO
+			objectType: "VidiunMediaEntry",
+			mediaType: 1, // VidiunMediaType.VIDEO
 			name: document.getElementById("name").value,
 			description: document.getElementById("description").value,
 		}
 
-		KalturaMediaService.add(entry)
+		VidiunMediaService.add(entry)
 			.completion(media_add_cb)
 			.execute(client);
 	}
@@ -65,17 +65,17 @@
 		var filename = filepath.replace(/^.*[\\\/]/, '');
 		
 		var uploadToken = {
-			objectType: "KalturaUploadToken",
+			objectType: "VidiunUploadToken",
 			fileName: filename
 		}
 
-		KalturaUploadTokenService.add(uploadToken)
+		VidiunUploadTokenService.add(uploadToken)
 			.completion(upload_token_add_cb)
 			.execute(client);
 	}
 
 	function upload_token_add_cb(success, uploadToken){
-		KalturaUploadTokenService.upload(uploadToken.id, document.getElementById("fileData"))
+		VidiunUploadTokenService.upload(uploadToken.id, document.getElementById("fileData"))
 			.completion(upload_token_upload_cb)
 			.execute(client);
 	}
@@ -86,13 +86,13 @@
 
 	function media_delete(){
 		var entryId = document.getElementById("entryId").value;		
-		KalturaMediaService.deleteAction(entryId)
+		VidiunMediaService.deleteAction(entryId)
 			.execute(client);
 	}
 
 	function media_delete_error_with_cb(){
 		var entryId = "kishkush";
-		KalturaMediaService.deleteAction(entryId).execute(client, function(success, results){
+		VidiunMediaService.deleteAction(entryId).execute(client, function(success, results){
 			if(success) {
 				alert("Error was expected");
 			}
@@ -104,20 +104,20 @@
 
 	function media_delete_error_without_cb(){
 		var entryId = "kishkush";
-		KalturaMediaService.deleteAction(entryId).execute(client);
+		VidiunMediaService.deleteAction(entryId).execute(client);
 	}
 
 	function multirequest_multi_callback(){
 		var entry = {
-			objectType: "KalturaMediaEntry",
-			mediaType: 1, // KalturaMediaType.VIDEO
+			objectType: "VidiunMediaEntry",
+			mediaType: 1, // VidiunMediaType.VIDEO
 			name: document.getElementById("name").value,
 			description: document.getElementById("description").value,
 		}
 
-		KalturaMediaService.add(entry)
+		VidiunMediaService.add(entry)
 			.completion(media_add_cb)
-			.add(KalturaMediaService.deleteAction("{1:result:id}")
+			.add(VidiunMediaService.deleteAction("{1:result:id}")
 				.completion(function(success, error){
 					if(!success) {
 						alert(error.message);
@@ -131,14 +131,14 @@
 
 	function multirequest_single_callback(){
 		var entry = {
-			objectType: "KalturaMediaEntry",
-			mediaType: 1, // KalturaMediaType.VIDEO
+			objectType: "VidiunMediaEntry",
+			mediaType: 1, // VidiunMediaType.VIDEO
 			name: document.getElementById("name").value,
 			description: document.getElementById("description").value,
 		}
 
-		KalturaMediaService.add(entry)
-			.add(KalturaMediaService.deleteAction("{1:result:id}"))
+		VidiunMediaService.add(entry)
+			.add(VidiunMediaService.deleteAction("{1:result:id}"))
 			.execute(client, function(success, results){
 				if(results.message) { // general transport error
 					alert(results.message);
@@ -162,16 +162,16 @@
 
 	function multirequest_different_style(){
 		var entry = {
-			objectType: "KalturaMediaEntry",
-			mediaType: 1, // KalturaMediaType.VIDEO
+			objectType: "VidiunMediaEntry",
+			mediaType: 1, // VidiunMediaType.VIDEO
 			name: document.getElementById("name").value,
 			description: document.getElementById("description").value,
 		}
 
-		var addRequestBuilder = KalturaMediaService.add(entry);
-		var deleteRequestBuilder = KalturaMediaService.deleteAction("{1:result:id}").completion();
+		var addRequestBuilder = VidiunMediaService.add(entry);
+		var deleteRequestBuilder = VidiunMediaService.deleteAction("{1:result:id}").completion();
 		
-		var multiRequestBuilder = new KalturaMultiRequestBuilder(client);
+		var multiRequestBuilder = new VidiunMultiRequestBuilder(client);
 		multiRequestBuilder.add(addRequestBuilder);
 		multiRequestBuilder.add(deleteRequestBuilder);
 		
@@ -211,7 +211,7 @@
 		</tr>
 	</table>
 	<br/>
-	<input type="text" id="ks" size="120" />
+	<input type="text" id="vs" size="120" />
 	<br/>
 	<table>
 		<tr>

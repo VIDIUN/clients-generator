@@ -348,7 +348,7 @@ class TestmeGenerator extends ClientGeneratorFromXml
 		$this->appendLine('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">');
 		$this->appendLine('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">');
 		$this->appendLine('<head>');
-		$this->appendLine('	<title>Kaltura - Test Me Console</title>');
+		$this->appendLine('	<title>Vidiun - Test Me Console</title>');
 		$this->appendLine('	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />');
 		$this->appendLine('	<link rel="stylesheet" type="text/css" href="css/main.css" />');
 		$this->appendLine('	<link rel="stylesheet" type="text/css" href="css/code.example.css" />');
@@ -357,12 +357,12 @@ class TestmeGenerator extends ClientGeneratorFromXml
 		$this->appendLine('	<script type="text/javascript" src="js/jquery-1.3.1.min.js"></script>');
 		$this->appendLine('	<script type="text/javascript" src="js/jquery.tooltip.js"></script>');
 		$this->appendLine('	<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>');
-		$this->appendLine('	<script type="text/javascript" src="js/kCodeExample.js"></script>');
-		$this->appendLine('	<script type="text/javascript" src="js/kField.js"></script>');
-		$this->appendLine('	<script type="text/javascript" src="js/kDialog.js"></script>');
-		$this->appendLine('	<script type="text/javascript" src="js/kTestMe.js"></script>');
+		$this->appendLine('	<script type="text/javascript" src="js/vCodeExample.js"></script>');
+		$this->appendLine('	<script type="text/javascript" src="js/vField.js"></script>');
+		$this->appendLine('	<script type="text/javascript" src="js/vDialog.js"></script>');
+		$this->appendLine('	<script type="text/javascript" src="js/vTestMe.js"></script>');
 		$this->appendLine('	<script type="text/javascript" src="js/ace-builds/src/ace.js"></script>');
-		$this->appendLine('	<script type="text/javascript" src="js/kPrettify.js"></script>');
+		$this->appendLine('	<script type="text/javascript" src="js/vPrettify.js"></script>');
 		$this->appendLine('	<script type="text/javascript">');
 		
 		$services = array();
@@ -377,7 +377,7 @@ class TestmeGenerator extends ClientGeneratorFromXml
 			$pluginName = $serviceNode->getAttribute('plugin');
 			$deprecated = $serviceNode->getAttribute('deprecated') ? 'true' : 'false';
 
-			$this->appendLine("		kTestMe.registerService(\"$serviceId\", \"$serviceName\", \"$pluginName\", $deprecated);");
+			$this->appendLine("		vTestMe.registerService(\"$serviceId\", \"$serviceName\", \"$pluginName\", $deprecated);");
 
 			$services[] = $serviceNode->getAttribute('name');
 		}
@@ -430,7 +430,7 @@ class TestmeGenerator extends ClientGeneratorFromXml
 		$this->appendLine('				format = "txt";');
 		$this->appendLine('			}');
 		$this->appendLine('			document.getElementById("response").contentWindow.setAceEditorWithText(text, format);');
-		$this->appendLine('			kTestMe.onResponse(text, format);');
+		$this->appendLine('			vTestMe.onResponse(text, format);');
 		$this->appendLine('		}');
 		$this->appendLine('');
 		$this->appendLine('	</script>');
@@ -439,7 +439,7 @@ class TestmeGenerator extends ClientGeneratorFromXml
 		if($includeMenu)
 		{
 			$this->appendLine('<body class="body-bg">');
-			$this->appendLine('	<ul id="kmcSubMenu">');
+			$this->appendLine('	<ul id="vmcSubMenu">');
 			$this->appendLine('		<li class="active"><a href="#">Test Console</a></li>');
 			$this->appendLine('		<li><a href="../testmeDoc/">API Documentation</a></li>');
 			$this->appendLine('		<li><a href="../xsdDoc/">XML Schema</a></li>');

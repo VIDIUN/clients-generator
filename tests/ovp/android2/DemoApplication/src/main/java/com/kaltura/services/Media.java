@@ -1,25 +1,25 @@
-package com.kaltura.services;
+package com.vidiun.services;
 
 import java.io.File;
 import java.util.List;
 
 import android.util.Log;
 
-import com.kaltura.client.Client;
-import com.kaltura.client.enums.EntryType;
-import com.kaltura.client.enums.MediaType;
-import com.kaltura.client.services.BaseEntryService;
-import com.kaltura.client.services.MediaService;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.BaseEntry;
-import com.kaltura.client.types.FilterPager;
-import com.kaltura.client.types.MediaEntry;
-import com.kaltura.client.types.MediaEntryFilter;
-import com.kaltura.client.types.ListResponse;
-import com.kaltura.client.utils.request.RequestBuilder;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
-import com.kaltura.utils.ApiHelper;
+import com.vidiun.client.Client;
+import com.vidiun.client.enums.EntryType;
+import com.vidiun.client.enums.MediaType;
+import com.vidiun.client.services.BaseEntryService;
+import com.vidiun.client.services.MediaService;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.BaseEntry;
+import com.vidiun.client.types.FilterPager;
+import com.vidiun.client.types.MediaEntry;
+import com.vidiun.client.types.MediaEntryFilter;
+import com.vidiun.client.types.ListResponse;
+import com.vidiun.client.utils.request.RequestBuilder;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
+import com.vidiun.utils.ApiHelper;
 
 /**
  * Media service lets you upload and manage media files (images / videos &
@@ -28,7 +28,7 @@ import com.kaltura.utils.ApiHelper;
 public class Media {
 
     /**
-     * Get a list of all media data from the kaltura server
+     * Get a list of all media data from the vidiun server
      *
      * @param TAG constant in your class
      * @param mediaType Type of entries

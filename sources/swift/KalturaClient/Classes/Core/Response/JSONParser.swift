@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2017  Kaltura Inc.
+// Copyright (C) 2006-2017  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,26 +28,26 @@
 
 /**
  * This class was generated using exec.php
- * against an XML schema provided by Kaltura.
+ * against an XML schema provided by Vidiun.
  *
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
  */
 
 internal class JSONParser{
     
-    private static var kalturaRegex:NSRegularExpression?
+    private static var vidiunRegex:NSRegularExpression?
     private static var moduleName:String?
     
     // handling reflection:
-    private static func getKalturaRegex() -> NSRegularExpression? {
-        if kalturaRegex == nil {
+    private static func getVidiunRegex() -> NSRegularExpression? {
+        if vidiunRegex == nil {
             do{
-                kalturaRegex = try NSRegularExpression(pattern: "^Kaltura")
+                vidiunRegex = try NSRegularExpression(pattern: "^Vidiun")
             }
             catch {
             }
         }
-        return kalturaRegex
+        return vidiunRegex
     }
     
     private static func getModuleName() -> String {
@@ -60,7 +60,7 @@ internal class JSONParser{
     }
     
     private static func getObjectType(_ objectType: String) -> ObjectBase.Type? {
-        if let regex = getKalturaRegex() {
+        if let regex = getVidiunRegex() {
             let className = regex.stringByReplacingMatches(in: objectType, options: NSRegularExpression.MatchingOptions(), range: NSMakeRange(0, 10), withTemplate: "")
             
             let fullClassName = "\(getModuleName()).\(className)"
@@ -170,7 +170,7 @@ internal class JSONParser{
     
     internal static func parse<T>(array: Any) throws -> [T]? {
         if let dict = array as? [String: Any] {
-            if dict["objectType"] as? String == "KalturaAPIException" {
+            if dict["objectType"] as? String == "VidiunAPIException" {
                 throw try parse(object: dict) as ApiException
             }
             
@@ -194,7 +194,7 @@ internal class JSONParser{
     }
     internal static func parse<T>(json: Any) throws -> T? {
         
-        if let dict = json as? [String: Any], dict["objectType"] as? String == "KalturaAPIException" {
+        if let dict = json as? [String: Any], dict["objectType"] as? String == "VidiunAPIException" {
             throw try parse(object: dict) as ApiException
         }
         if let type: ObjectBase.Type = T.self as? ObjectBase.Type {

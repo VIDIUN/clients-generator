@@ -1,9 +1,9 @@
 //
 //  CategoryViewController_iPhone.h
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 28.02.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -21,7 +21,7 @@
     
     IBOutlet UILabel *labelTitle;
 
-    KalturaCategory *category;
+    VidiunCategory *category;
     
     NSMutableArray *media;
     
@@ -44,7 +44,7 @@
 - (void)openMediaInfoByIndex:(int)index;
 - (void)playButtonPressed;
 
-@property (nonatomic, retain) KalturaCategory *category;
+@property (nonatomic, retain) VidiunCategory *category;
 @property (nonatomic, retain) NSMutableArray *media;
 @property BOOL mostPopular;
 

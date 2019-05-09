@@ -7,13 +7,13 @@ class ClassesGenerator extends TypescriptGeneratorBase
 {
     private $framework = null;
     private $disableDateParsing = false;
-    private $targetKalturaServer;
+    private $targetVidiunServer;
 
-    function __construct($serverMetadata, $framework, $disableDateParsing, $targetKalturaServer)
+    function __construct($serverMetadata, $framework, $disableDateParsing, $targetVidiunServer)
     {
         parent::__construct($serverMetadata);
 
-		$this->targetKalturaServer = $targetKalturaServer;
+		$this->targetVidiunServer = $targetVidiunServer;
         $this->framework = $framework;
         $this->disableDateParsing = $disableDateParsing;
 
@@ -48,11 +48,11 @@ class ClassesGenerator extends TypescriptGeneratorBase
             return null;
         }
 
-        $fileContent = file_get_contents(__DIR__ . "/ngx-templates/kaltura-client.service.template.ts");
-        $fileContent = str_replace("_FORMAT_TYPES_TOKEN_", "KalturaResponseType", $fileContent);
+        $fileContent = file_get_contents(__DIR__ . "/ngx-templates/vidiun-client.service.template.ts");
+        $fileContent = str_replace("_FORMAT_TYPES_TOKEN_", "VidiunResponseType", $fileContent);
 
         $file = new GeneratedFileData();
-        $file->path = "../kaltura-client.service.ts";
+        $file->path = "../vidiun-client.service.ts";
         $file->content = $fileContent;
         return $file;
     }
@@ -60,24 +60,24 @@ class ClassesGenerator extends TypescriptGeneratorBase
     function createRequestOptionsFile()
     {
         $createClassArgs = new stdClass();
-        $createClassArgs->name = "KalturaRequestOptions";
+        $createClassArgs->name = "VidiunRequestOptions";
         $createClassArgs->description = "";
-        $createClassArgs->base = "KalturaObjectBase";
+        $createClassArgs->base = "VidiunObjectBase";
         $createClassArgs->basePath = "./";
         $createClassArgs->enumPath = "./types/";
         $createClassArgs->typesPath = "./types/";
         $createClassArgs->importedItems = array();
         $createClassArgs->customMetadataProperties = array();
 
-        // create a property named 'acceptedTypes' which holds relevant 'KalturaObjectBase' to that request.
+        // create a property named 'acceptedTypes' which holds relevant 'VidiunObjectBase' to that request.
         // note that this property is marked as local property
         $acceptedTypes = new stdClass();
         $acceptedTypes->name = "acceptedTypes";
         $acceptedTypes->localProperty = true;
-        $acceptedTypes->customDeclaration = "{new(...args: any[]) : KalturaObjectBase}[]";
+        $acceptedTypes->customDeclaration = "{new(...args: any[]) : VidiunObjectBase}[]";
         $acceptedTypes->optional = true;
-        $acceptedTypes->type = KalturaServerTypes::ArrayOfObjects;
-        $acceptedTypes->typeClassName = "KalturaObjectBase";
+        $acceptedTypes->type = VidiunServerTypes::ArrayOfObjects;
+        $acceptedTypes->typeClassName = "VidiunObjectBase";
         $customProperties = array();
         $customProperties[] = $acceptedTypes;
 
@@ -97,7 +97,7 @@ class ClassesGenerator extends TypescriptGeneratorBase
         $isAngularFramework = $this->framework === 'ngx';
 
         $fileContent = "{$this->getBanner()}
-import { KalturaObjectMetadata } from './kaltura-object-base';
+import { VidiunObjectMetadata } from './vidiun-object-base';
 {$generatedCode[0]}
 {$this->utils->ifExp($isAngularFramework, "import { InjectionToken } from '@angular/core';", "")}
 ";
@@ -105,7 +105,7 @@ import { KalturaObjectMetadata } from './kaltura-object-base';
         if($isAngularFramework)
         {
             $fileContent .= "
-export const KALTURA_CLIENT_DEFAULT_REQUEST_OPTIONS: InjectionToken<KalturaRequestOptionsArgs> = new InjectionToken('kaltura client default request options');
+export const VIDIUN_CLIENT_DEFAULT_REQUEST_OPTIONS: InjectionToken<VidiunRequestOptionsArgs> = new InjectionToken('vidiun client default request options');
 
 ";
         }
@@ -113,17 +113,17 @@ export const KALTURA_CLIENT_DEFAULT_REQUEST_OPTIONS: InjectionToken<KalturaReque
         $fileContent .= $generatedCode[1];
 
         $file = new GeneratedFileData();
-        $file->path = "kaltura-request-options.ts";
+        $file->path = "vidiun-request-options.ts";
         $file->content = $fileContent;
         return $file;
     }
 
     function createEnvironmentsFile()
     {
-        $nestedResponse = $this->targetKalturaServer === 'ott' ? 'true' : 'false';
-        $requestFileFormat = $this->targetKalturaServer === 'ott' ? '20' : '1';
-        $avoidQueryString = $this->targetKalturaServer === 'ott' ? 'true' : 'false';
-        $customErrorInHttp500 = $this->targetKalturaServer === 'ott' ? 'true' : 'false';
+        $nestedResponse = $this->targetVidiunServer === 'ott' ? 'true' : 'false';
+        $requestFileFormat = $this->targetVidiunServer === 'ott' ? '20' : '1';
+        $avoidQueryString = $this->targetVidiunServer === 'ott' ? 'true' : 'false';
+        $customErrorInHttp500 = $this->targetVidiunServer === 'ott' ? 'true' : 'false';
         $fileContent = "export interface Environment {
     request: {
         apiVersion: string,
@@ -161,7 +161,7 @@ export const environment: Environment = {
         $createClassArgs = new stdClass();
         $createClassArgs->name = $class->name;
         $createClassArgs->description = $class->description;
-        $createClassArgs->base = $class->base ? $class->base : 'KalturaObjectBase';
+        $createClassArgs->base = $class->base ? $class->base : 'VidiunObjectBase';
         $createClassArgs->baseIsGenerated = $class->base ? true : false;
 
         $createClassArgs->basePath = $class->base ? "./" : "../";
@@ -169,7 +169,7 @@ export const environment: Environment = {
         $createClassArgs->typesPath = "./";
         $createClassArgs->properties = $class->properties;
         $createClassArgs->importedItems = array();
-        $createClassArgs->customMetadataProperties[] = $this->createMetadataProperty('objectType',false,KalturaServerTypes::Simple,'constant', $class->name);
+        $createClassArgs->customMetadataProperties[] = $this->createMetadataProperty('objectType',false,VidiunServerTypes::Simple,'constant', $class->name);
         $createClassArgs->requireDataInCtor = false;
 
         $generatedCode = $this->createClassExp($createClassArgs);
@@ -178,10 +178,10 @@ export const environment: Environment = {
         $imports = "";
         if($isAngularFramework)
         {
-            $imports .= "import { KalturaObjectMetadata, typesMappingStorage } from '../kaltura-object-base';";
+            $imports .= "import { VidiunObjectMetadata, typesMappingStorage } from '../vidiun-object-base';";
         } else {
-            $imports .= "import { KalturaObjectMetadata } from '../kaltura-object-base';
-import { KalturaTypesFactory } from '../kaltura-types-factory';";
+            $imports .= "import { VidiunObjectMetadata } from '../vidiun-object-base';
+import { VidiunTypesFactory } from '../vidiun-types-factory';";
         }
         $fileContent = "{$this->getBanner()}
 {$imports}
@@ -193,7 +193,7 @@ import { KalturaTypesFactory } from '../kaltura-types-factory';";
         {
 			$fileContent .= "typesMappingStorage['$class->name'] = $classFunctionName;";
 		} else {
-			$fileContent .= "KalturaTypesFactory.registerType('$class->name',$classFunctionName);
+			$fileContent .= "VidiunTypesFactory.registerType('$class->name',$classFunctionName);
 ";
 		}
 
@@ -210,7 +210,7 @@ import { KalturaTypesFactory } from '../kaltura-types-factory';";
         $isAngularFramework = $this->framework === 'ngx';
         $className = ucfirst($service->name) . ucfirst($serviceAction->name) . "Action";
 
-        $importedItems = array($className,'KalturaRequest');
+        $importedItems = array($className,'VidiunRequest');
 
         $getImportExpForTypeArgs = new stdClass();
         $getImportExpForTypeArgs->enumPath = "./";
@@ -230,26 +230,26 @@ import { KalturaTypesFactory } from '../kaltura-types-factory';";
         $createClassArgs->typesPath = "./";
         $createClassArgs->properties = $serviceAction->params;
         $createClassArgs->importedItems = &$importedItems;
-        $createClassArgs->customMetadataProperties[] = $this->createMetadataProperty('service',false,KalturaServerTypes::Simple,'constant', $service->id);
-        $createClassArgs->customMetadataProperties[] = $this->createMetadataProperty('action',false,KalturaServerTypes::Simple,'constant', $serviceAction->name);
+        $createClassArgs->customMetadataProperties[] = $this->createMetadataProperty('service',false,VidiunServerTypes::Simple,'constant', $service->id);
+        $createClassArgs->customMetadataProperties[] = $this->createMetadataProperty('action',false,VidiunServerTypes::Simple,'constant', $serviceAction->name);
 
-        if ($serviceAction->resultType === KalturaServerTypes::File)
+        if ($serviceAction->resultType === VidiunServerTypes::File)
         {
             $actionNG2ResultType = "{ url: string }";
-            $baseFullType = "KalturaFileRequest";
-            $baseType = "KalturaFileRequest";
+            $baseFullType = "VidiunFileRequest";
+            $baseType = "VidiunFileRequest";
 
         }else if ($this->hasFileProperty($serviceAction->params))
         {
             $actionNG2ResultType = $this->toNG2TypeExp($serviceAction->resultType, $serviceAction->resultClassName);
-            $baseFullType = "KalturaUploadRequest<{$actionNG2ResultType}>";
-            $baseType = "KalturaUploadRequest";
+            $baseFullType = "VidiunUploadRequest<{$actionNG2ResultType}>";
+            $baseType = "VidiunUploadRequest";
         }
         else
         {
             $actionNG2ResultType = $this->toNG2TypeExp($serviceAction->resultType, $serviceAction->resultClassName);
-            $baseFullType = "KalturaRequest<{$actionNG2ResultType}>";
-            $baseType = "KalturaRequest";
+            $baseFullType = "VidiunRequest<{$actionNG2ResultType}>";
+            $baseType = "VidiunRequest";
         }
 
         $createClassArgs->base = "{$baseFullType}";
@@ -261,7 +261,7 @@ import { KalturaTypesFactory } from '../kaltura-types-factory';";
  * {$this->utils->buildExpression($classDescription,NewLine . ' * ')}
  *
  * Server response type:         {$actionNG2ResultType}
- * Server failure response type: KalturaAPIException";
+ * Server failure response type: VidiunAPIException";
 
         if (!$isAngularFramework)
         {
@@ -275,7 +275,7 @@ import { KalturaTypesFactory } from '../kaltura-types-factory';";
         $resultType = $this->toApplicationType($serviceAction->resultType, $serviceAction->resultClassName);
 
         // calculate ctor super execution argument
-        if ($serviceAction->resultType === KalturaServerTypes::File)
+        if ($serviceAction->resultType === VidiunServerTypes::File)
         {
             $createClassArgs->superArgs = "";
         }else
@@ -293,7 +293,7 @@ import { KalturaTypesFactory } from '../kaltura-types-factory';";
 
 
         $fileContent = "{$this->getBanner()}
-import { KalturaObjectMetadata } from '../kaltura-object-base';
+import { VidiunObjectMetadata } from '../vidiun-object-base';
 {$importResultType}
 
 {$generatedCode[0]}
@@ -380,7 +380,7 @@ export class {$classTypeName} extends {$this->utils->ifExp($base, $base,'')} {
     $generatedBody .= "
     }
 
-    protected _getMetadata() : KalturaObjectMetadata
+    protected _getMetadata() : VidiunObjectMetadata
     {
         const result = super._getMetadata();
         Object.assign(
@@ -425,7 +425,7 @@ export class {$classTypeName} extends {$this->utils->ifExp($base, $base,'')} {
                 if (isset($property->customDeclaration))
                 {
                     $ng2ParamType = $property->customDeclaration;
-                } else if ($property->type === KalturaServerTypes::File) {
+                } else if ($property->type === VidiunServerTypes::File) {
                     $ng2ParamType = "File";
                 }else {
                     $ng2ParamType = $this->toNG2TypeExp($property->type, $property->typeClassName);
@@ -486,21 +486,21 @@ export class {$classTypeName} extends {$this->utils->ifExp($base, $base,'')} {
 
         $result = null;
         switch ($type) {
-            case KalturaServerTypes::EnumOfInt:
-            case KalturaServerTypes::EnumOfString:
+            case VidiunServerTypes::EnumOfInt:
+            case VidiunServerTypes::EnumOfString:
             if (in_array($typeClassName,$importedItems) === false) {
                 $importedItems[] = $typeClassName;
                 $fileName = $typeClassName; //$this->utils->toLispCase($typeClassName);
                 $result = "import { {$typeClassName} } from '{$enumPath}{$fileName}';";
             }
             break;
-            case KalturaServerTypes::Object:
-            case KalturaServerTypes::ArrayOfObjects:
-            case KalturaServerTypes::MapOfObjects:
+            case VidiunServerTypes::Object:
+            case VidiunServerTypes::ArrayOfObjects:
+            case VidiunServerTypes::MapOfObjects:
                 if (!in_array($typeClassName,$importedItems)) {
                     $importedItems[] = $typeClassName;
 
-                    if ($typeClassName === 'KalturaObjectBase')
+                    if ($typeClassName === 'VidiunObjectBase')
                     {
                         $typesPath = "../";
                         $fileName = $this->utils->toLispCase($typeClassName);
@@ -526,10 +526,10 @@ export class {$classTypeName} extends {$this->utils->ifExp($base, $base,'')} {
         $result->subType = null;
 
         switch ($type) {
-            case KalturaServerTypes::File:
+            case VidiunServerTypes::File:
                 $result->type = 'f';
                 break;
-            case KalturaServerTypes::Simple:
+            case VidiunServerTypes::Simple:
                 switch ($typeClassName) {
                     case "constant":
                         $result->type = "c";
@@ -549,30 +549,30 @@ export class {$classTypeName} extends {$this->utils->ifExp($base, $base,'')} {
                         throw new Exception("toApplicationType: Unknown simple type {$typeClassName}");
                 }
                 break;
-            case KalturaServerTypes::ArrayOfObjects:
+            case VidiunServerTypes::ArrayOfObjects:
                 $result->type = "a";
                 $result->subType = $typeClassName;
                 break;
-            case KalturaServerTypes::MapOfObjects:
+            case VidiunServerTypes::MapOfObjects:
                 $result->type = "m";
                 $result->subType = $typeClassName;
                 break;
-            case KalturaServerTypes::EnumOfInt:
+            case VidiunServerTypes::EnumOfInt:
                 $result->type = "en";
                 $result->subType = $typeClassName;
                 break;
-            case KalturaServerTypes::EnumOfString:
+            case VidiunServerTypes::EnumOfString:
                 $result->type = "es";
                 $result->subType = $typeClassName;
                 break;
-            case KalturaServerTypes::Object:
+            case VidiunServerTypes::Object:
                 $result->type = "o";
                 $result->subType = $typeClassName;
                 break;
-            case KalturaServerTypes::Date:
+            case VidiunServerTypes::Date:
                 $result->type = "d";
                 break;
-            case KalturaServerTypes::Void:
+            case VidiunServerTypes::Void:
                 $result->type = "v";
                 break;
             default:
@@ -584,7 +584,7 @@ export class {$classTypeName} extends {$this->utils->ifExp($base, $base,'')} {
 
     private function hasFileProperty($array)
     {
-        $searchedValue = KalturaServerTypes::File;
+        $searchedValue = VidiunServerTypes::File;
         $neededObject = array_filter(
             $array,
             function ($e) use (&$searchedValue) {

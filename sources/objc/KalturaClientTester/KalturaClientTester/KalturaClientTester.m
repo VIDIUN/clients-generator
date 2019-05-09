@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -26,9 +26,9 @@
 // @ignore
 // ===================================================================================================
 #import <objc/runtime.h>
-#import "KalturaMetadataClientPlugin.h"
-#import "KalturaClientTester.h"
-#import "KalturaClient.h"
+#import "VidiunMetadataClientPlugin.h"
+#import "VidiunClientTester.h"
+#import "VidiunClient.h"
 #import "ASIHTTPRequest.h"
 
 // Account specific constants
@@ -41,12 +41,12 @@
 #define UPLOAD_FILENAME (@"DemoVideo.flv")
 #define ENTRY_NAME (@"Media entry uploaded from ObjC client")
 #define DEFAULT_SERVICE_URL (@"@SERVICE_URL@")
-#define KALTURA_CLIENT_TEST_URL (@"@SERVICE_URL@/clientTest")
+#define VIDIUN_CLIENT_TEST_URL (@"@SERVICE_URL@/clientTest")
 
 /*
- KalturaTestDetails
+ VidiunTestDetails
  */
-@interface KalturaTestDetails : NSObject
+@interface VidiunTestDetails : NSObject
 
 @property (nonatomic, retain) NSString* name;
 @property (nonatomic, assign) SEL sel;
@@ -54,7 +54,7 @@
 
 @end
 
-@implementation KalturaTestDetails
+@implementation VidiunTestDetails
 
 @synthesize name = _name;
 @synthesize sel = _sel;
@@ -69,20 +69,20 @@
 @end
 
 /*
- KalturaCallbackDelegate
+ VidiunCallbackDelegate
  */
-@implementation KalturaCallbackDelegate
+@implementation VidiunCallbackDelegate
 
 @synthesize target = _target;
 @synthesize failedSel = _failedSel;
 @synthesize finishedSel = _finishedSel;
 
-- (void)requestFailed:(KalturaClientBase *)aClient
+- (void)requestFailed:(VidiunClientBase *)aClient
 {
     [self.target performSelector:self.failedSel withObject:aClient];
 }
 
-- (void)requestFinished:(KalturaClientBase *)aClient withResult:(id)result
+- (void)requestFinished:(VidiunClientBase *)aClient withResult:(id)result
 {
     [self.target performSelector:self.finishedSel withObject:aClient withObject:result];
 }
@@ -90,16 +90,16 @@
 @end
 
 /*
- KalturaDownloadDelegate
+ VidiunDownloadDelegate
  */
-@interface KalturaProgressDelegate : NSObject <ASIProgressDelegate> 
+@interface VidiunProgressDelegate : NSObject <ASIProgressDelegate> 
 
 @property (nonatomic, assign) BOOL receiveBytesCalled;
 @property (nonatomic, assign) BOOL sendBytesCalled;
 
 @end
 
-@implementation KalturaProgressDelegate
+@implementation VidiunProgressDelegate
 
 @synthesize receiveBytesCalled = _receiveBytesCalled;
 @synthesize sendBytesCalled = _sendBytesCalled;
@@ -118,16 +118,16 @@
 
 
 /*
- KalturaClientTester
+ VidiunClientTester
  */
-@interface KalturaClientTester()
+@interface VidiunClientTester()
 
 - (void)setUp;
 - (void)tearDown;
 
 @end
 
-@implementation KalturaClientTester
+@implementation VidiunClientTester
 
 @synthesize delegate = _delegate;
 
@@ -146,7 +146,7 @@
         if (0 != strncmp(curName, "test", 4))
             continue;
         
-        KalturaTestDetails* details = [[KalturaTestDetails alloc] init];
+        VidiunTestDetails* details = [[VidiunTestDetails alloc] init];
         details.name = [NSString stringWithUTF8String:curName];
         details.sel = curSel;
         details.isSync = (0 != strncmp(curName, "testAsync", 9));
@@ -157,7 +157,7 @@
     free(methodList);
 }
 
-- (id)initWithDelegate:(id <KalturaClientTesterDelegate>)aDelegate;
+- (id)initWithDelegate:(id <VidiunClientTesterDelegate>)aDelegate;
 {
     self = [super init];
     if (self == nil)
@@ -165,18 +165,18 @@
     
     self->_delegate = aDelegate;
     
-    KalturaConfiguration* config = [[KalturaConfiguration alloc] init];
-    KalturaNSLogger* logger = [[KalturaNSLogger alloc] init];
+    VidiunConfiguration* config = [[VidiunConfiguration alloc] init];
+    VidiunNSLogger* logger = [[VidiunNSLogger alloc] init];
     config.logger = logger;
     config.serviceUrl = DEFAULT_SERVICE_URL;
     [logger release];           // retained on config
     config.partnerId = PARTNER_ID;
-    self->_client = [[KalturaClient alloc] initWithConfig:config];
+    self->_client = [[VidiunClient alloc] initWithConfig:config];
     [config release];           // retained on the client
     
-    self->_client.ks = [KalturaClient generateSessionWithSecret:ADMIN_SECRET withUserId:USER_ID withType:[KalturaSessionType ADMIN] withPartnerId:PARTNER_ID withExpiry:86400 withPrivileges:@""];
+    self->_client.vs = [VidiunClient generateSessionWithSecret:ADMIN_SECRET withUserId:USER_ID withType:[VidiunSessionType ADMIN] withPartnerId:PARTNER_ID withExpiry:86400 withPrivileges:@""];
     
-    self->_clientDelegate = [[KalturaCallbackDelegate alloc] init];
+    self->_clientDelegate = [[VidiunCallbackDelegate alloc] init];
     self->_clientDelegate.target = self;
 
     [self initTestsArray];
@@ -273,25 +273,25 @@
     [self startNextTest];
 }
 
-- (KalturaBaseEntry*)uploadEntryWithFileName:(NSString*)fileBase withFileExt:(NSString*)fileExt withMediaType:(int)mediaType
+- (VidiunBaseEntry*)uploadEntryWithFileName:(NSString*)fileBase withFileExt:(NSString*)fileExt withMediaType:(int)mediaType
 {
     NSString* fileName = [NSString stringWithFormat:@"%@.%@", fileBase, fileExt];
     
     // return: object, params: object
-    KalturaUploadToken* token = [[[KalturaUploadToken alloc] init] autorelease];
+    VidiunUploadToken* token = [[[VidiunUploadToken alloc] init] autorelease];
     token.fileName = fileName;
     token = [self->_client.uploadToken addWithUploadToken:token];
     assert(self->_client.error == nil);
     
     // return: object, params: object
-    KalturaMediaEntry* entry = [[[KalturaMediaEntry alloc] init] autorelease];
+    VidiunMediaEntry* entry = [[[VidiunMediaEntry alloc] init] autorelease];
     entry.name = fileName;
     entry.mediaType = mediaType;
     entry = [self->_client.media addWithEntry:entry];
     assert(self->_client.error == nil);
    
     // return: object, params: string, object
-    KalturaUploadedFileTokenResource* resource = [[[KalturaUploadedFileTokenResource alloc] init] autorelease];
+    VidiunUploadedFileTokenResource* resource = [[[VidiunUploadedFileTokenResource alloc] init] autorelease];
     resource.token = token.id;
     entry = [self->_client.media addContentWithEntryId:entry.id withResource:resource];
     assert(self->_client.error == nil);
@@ -308,12 +308,12 @@
     return entry;
 }
 
-- (void)unexpRequestFailed:(KalturaClientBase *)aClient
+- (void)unexpRequestFailed:(VidiunClientBase *)aClient
 {
     assert(NO);
 }
 
-- (void)unexpRequestFinished:(KalturaClientBase *)aClient withResult:(id)result
+- (void)unexpRequestFinished:(VidiunClientBase *)aClient withResult:(id)result
 {
     assert(NO);
 }
@@ -321,19 +321,19 @@
 - (void)setUp
 {
     // -- create an image entry since it's immediately ready
-    self->_imageEntry = [[self uploadEntryWithFileName:@"DemoImage" withFileExt:@"jpg" withMediaType:[KalturaMediaType IMAGE]] retain];
+    self->_imageEntry = [[self uploadEntryWithFileName:@"DemoImage" withFileExt:@"jpg" withMediaType:[VidiunMediaType IMAGE]] retain];
 
     // -- create a video entry
-    self->_videoEntry = [[self uploadEntryWithFileName:@"DemoVideo" withFileExt:@"flv" withMediaType:[KalturaMediaType VIDEO]] retain];
+    self->_videoEntry = [[self uploadEntryWithFileName:@"DemoVideo" withFileExt:@"flv" withMediaType:[VidiunMediaType VIDEO]] retain];
     
-    KalturaFlavorAsset* firstFlavor = nil;
+    VidiunFlavorAsset* firstFlavor = nil;
     for(;;)
     {
         NSArray* flavorArray = [self->_client.flavorAsset getByEntryIdWithEntryId:self->_videoEntry.id];
         assert(self->_client.error == nil);
         assert(flavorArray.count > 0);
         firstFlavor = [flavorArray objectAtIndex:0];
-        if (firstFlavor.status == [KalturaFlavorAssetStatus READY])
+        if (firstFlavor.status == [VidiunFlavorAssetStatus READY])
             break;
         
         [NSThread sleepForTimeInterval:10];     
@@ -364,35 +364,35 @@
     assert(self->_client.error == nil);
     
     // return: object, params: object
-    KalturaUploadToken* token = [[[KalturaUploadToken alloc] init] autorelease];
+    VidiunUploadToken* token = [[[VidiunUploadToken alloc] init] autorelease];
     token.fileName = UPLOAD_FILENAME;
     token = [self->_client.uploadToken addWithUploadToken:token];
     assert(self->_client.error == nil);
     assert(token.id.length > 0);
     assert([token.fileName compare:UPLOAD_FILENAME] == NSOrderedSame);
-    assert(token.status == [KalturaUploadTokenStatus PENDING]);
+    assert(token.status == [VidiunUploadTokenStatus PENDING]);
     assert(token.partnerId == PARTNER_ID);
     assert([token.userId compare:USER_ID] == NSOrderedSame);
     assert(isnan(token.fileSize));
     
     // return: object, params: object
-    KalturaMediaEntry* entry = [[[KalturaMediaEntry alloc] init] autorelease];
+    VidiunMediaEntry* entry = [[[VidiunMediaEntry alloc] init] autorelease];
     entry.name = ENTRY_NAME;
-    entry.mediaType = [KalturaMediaType VIDEO];
+    entry.mediaType = [VidiunMediaType VIDEO];
     entry = [self->_client.media addWithEntry:entry];
     assert(self->_client.error == nil);
     assert(entry.id.length > 0);
-    assert([[KalturaEntryStatus NO_CONTENT] compare:entry.status] == NSOrderedSame);
+    assert([[VidiunEntryStatus NO_CONTENT] compare:entry.status] == NSOrderedSame);
     assert([entry.name compare:ENTRY_NAME] == NSOrderedSame);
     assert(entry.partnerId == PARTNER_ID);
     assert([entry.userId compare:USER_ID] == NSOrderedSame);
     
     // return: object, params: string, object
-    KalturaUploadedFileTokenResource* resource = [[[KalturaUploadedFileTokenResource alloc] init] autorelease];
+    VidiunUploadedFileTokenResource* resource = [[[VidiunUploadedFileTokenResource alloc] init] autorelease];
     resource.token = token.id;
     entry = [self->_client.media addContentWithEntryId:entry.id withResource:resource];
     assert(self->_client.error == nil);
-    assert([[KalturaEntryStatus IMPORT] compare:entry.status] == NSOrderedSame);
+    assert([[VidiunEntryStatus IMPORT] compare:entry.status] == NSOrderedSame);
     
     // approve the entry, required when the account has content moderation enabled
     [self->_client.media approveWithEntryId:entry.id];
@@ -402,14 +402,14 @@
     NSString* uploadFilePath = [[NSBundle mainBundle] pathForResource:@"DemoVideo" ofType:@"flv"];
     token = [self->_client.uploadToken uploadWithUploadTokenId:token.id withFileData:uploadFilePath];
     assert(self->_client.error == nil);
-    assert(token.status == [KalturaUploadTokenStatus CLOSED]);
+    assert(token.status == [VidiunUploadTokenStatus CLOSED]);
     
     // return: array, params: string
     NSArray* flavorArray = [self->_client.flavorAsset getByEntryIdWithEntryId:entry.id];
     assert(self->_client.error == nil);
     assert(flavorArray.count > 0);
     BOOL foundSource = NO;
-    for (KalturaFlavorAsset* asset in flavorArray)
+    for (VidiunFlavorAsset* asset in flavorArray)
     {
         if (asset.flavorParamsId != 0)
             continue;
@@ -422,9 +422,9 @@
     assert(foundSource);
     
     // return: int, params: object
-    KalturaMediaEntryFilter* mediaFilter = [[[KalturaMediaEntryFilter alloc] init] autorelease];
+    VidiunMediaEntryFilter* mediaFilter = [[[VidiunMediaEntryFilter alloc] init] autorelease];
     mediaFilter.idEqual = entry.id;
-    mediaFilter.statusNotEqual = [KalturaEntryStatus DELETED];
+    mediaFilter.statusNotEqual = [VidiunEntryStatus DELETED];
     int entryCount = [self->_client.media countWithFilter:mediaFilter];
     assert(self->_client.error == nil);
     assert(entryCount == 1);
@@ -439,33 +439,33 @@
     assert(entryCount == 0);
     
     // return: object, params: array, int
-    KalturaMediaEntryFilterForPlaylist* playlistFilter = [[[KalturaMediaEntryFilterForPlaylist alloc] init] autorelease];
+    VidiunMediaEntryFilterForPlaylist* playlistFilter = [[[VidiunMediaEntryFilterForPlaylist alloc] init] autorelease];
     playlistFilter.idEqual = self->_imageEntry.id;
     NSArray* filterArray = [NSArray arrayWithObject:playlistFilter];
     /*NSArray* playlistExecute = */ [self->_client.playlist executeFromFiltersWithFilters:filterArray withTotalResults:10];
     assert(self->_client.error == nil);
     /* TODO: fix this test
 	assert(playlistExecute.count == 1);
-    KalturaBaseEntry* firstPlaylistEntry = [playlistExecute objectAtIndex:0];
+    VidiunBaseEntry* firstPlaylistEntry = [playlistExecute objectAtIndex:0];
     assert([firstPlaylistEntry.id compare:self->_imageEntry.id] == NSOrderedSame);*/
     
     // return: file, params: string, int, bool
     NSString *serveUrl = [self->_client.data serveWithEntryId:@"12345" withVersion:5 withForceProxy:YES];
-    NSString *encodedKs = (NSString*)CFURLCreateStringByAddingPercentEscapes(
+    NSString *encodedVs = (NSString*)CFURLCreateStringByAddingPercentEscapes(
         NULL, 
-        (CFStringRef)self->_client.ks, 
+        (CFStringRef)self->_client.vs, 
         NULL, 
         (CFStringRef)@"!*'();:@&=+$,/?%#[] \"\\<>{}|^~`", 
-        kCFStringEncodingUTF8);
+        vCFStringEncodingUTF8);
     NSString *encodedClientTag = (NSString*)CFURLCreateStringByAddingPercentEscapes(
         NULL, 
         (CFStringRef)self->_client.config.clientTag, 
         NULL, 
         (CFStringRef)@"!*'();:@&=+$,/?%#[] \"\\<>{}|^~`", 
-        kCFStringEncodingUTF8);
-    NSString* expectedPrefix = [NSString stringWithFormat:@"%@/api_v3/service/data/action/serve?kalsig=", self->_client.config.serviceUrl];
-    NSString* expectedPostfix = [NSString stringWithFormat:@"&version=5&partnerId=%d&ks=%@&ignoreNull=1&format=2&forceProxy=1&entryId=12345&clientTag=%@&apiVersion=%@&", PARTNER_ID, encodedKs, encodedClientTag, self->_client.apiVersion];
-    [encodedKs release];
+        vCFStringEncodingUTF8);
+    NSString* expectedPrefix = [NSString stringWithFormat:@"%@/api_v3/service/data/action/serve?vidsig=", self->_client.config.serviceUrl];
+    NSString* expectedPostfix = [NSString stringWithFormat:@"&version=5&partnerId=%d&vs=%@&ignoreNull=1&format=2&forceProxy=1&entryId=12345&clientTag=%@&apiVersion=%@&", PARTNER_ID, encodedVs, encodedClientTag, self->_client.apiVersion];
+    [encodedVs release];
     [encodedClientTag release];
     assert([serveUrl hasPrefix:expectedPrefix]);
     assert([serveUrl hasSuffix:expectedPostfix]);
@@ -480,20 +480,20 @@
     [self->_client.system ping];
     
     // return: object, params: object
-    KalturaUploadToken* token = [[[KalturaUploadToken alloc] init] autorelease];
+    VidiunUploadToken* token = [[[VidiunUploadToken alloc] init] autorelease];
     token.fileName = UPLOAD_FILENAME;
     [self->_client.uploadToken addWithUploadToken:token];
     NSString* tokenId = @"{2:result:id}";
     
     // return: object, params: object
-    KalturaMediaEntry* entry = [[[KalturaMediaEntry alloc] init] autorelease];
+    VidiunMediaEntry* entry = [[[VidiunMediaEntry alloc] init] autorelease];
     entry.name = ENTRY_NAME;
-    entry.mediaType = [KalturaMediaType VIDEO];
+    entry.mediaType = [VidiunMediaType VIDEO];
     [self->_client.media addWithEntry:entry];
     NSString* entryId = @"{3:result:id}";
     
     // return: object, params: string, object
-    KalturaUploadedFileTokenResource* resource = [[[KalturaUploadedFileTokenResource alloc] init] autorelease];
+    VidiunUploadedFileTokenResource* resource = [[[VidiunUploadedFileTokenResource alloc] init] autorelease];
     resource.token = tokenId;
     [self->_client.media addContentWithEntryId:entryId withResource:resource];
     
@@ -505,16 +505,16 @@
     [self->_client.flavorAsset getByEntryIdWithEntryId:entryId];
     
     // return: int, params: object
-    KalturaMediaEntryFilter* mediaFilter = [[[KalturaMediaEntryFilter alloc] init] autorelease];
+    VidiunMediaEntryFilter* mediaFilter = [[[VidiunMediaEntryFilter alloc] init] autorelease];
     mediaFilter.idEqual = entryId;
-    mediaFilter.statusNotEqual = [KalturaEntryStatus DELETED];
+    mediaFilter.statusNotEqual = [VidiunEntryStatus DELETED];
     [self->_client.media countWithFilter:mediaFilter];
     
     // return: void
     [self->_client.media deleteWithEntryId:entryId];
     
     // return: object, params: array, int
-    KalturaMediaEntryFilterForPlaylist* playlistFilter = [[[KalturaMediaEntryFilterForPlaylist alloc] init] autorelease];
+    VidiunMediaEntryFilterForPlaylist* playlistFilter = [[[VidiunMediaEntryFilterForPlaylist alloc] init] autorelease];
     playlistFilter.idEqual = self->_imageEntry.id;
     NSArray* filterArray = [NSArray arrayWithObject:playlistFilter];
     [self->_client.playlist executeFromFiltersWithFilters:filterArray withTotalResults:10];
@@ -530,35 +530,35 @@
     assert([pingResult compare:@"1"] == NSOrderedSame);
     
     // uploadToken.add
-    KalturaUploadToken* token = [results objectAtIndex:1];
+    VidiunUploadToken* token = [results objectAtIndex:1];
     assert(token.id.length > 0);
     assert([token.fileName compare:UPLOAD_FILENAME] == NSOrderedSame);
-    assert(token.status == [KalturaUploadTokenStatus PENDING]);
+    assert(token.status == [VidiunUploadTokenStatus PENDING]);
     assert(token.partnerId == PARTNER_ID);
     assert([token.userId compare:USER_ID] == NSOrderedSame);
     assert(isnan(token.fileSize));
     
     // media.add
-    KalturaMediaEntry* entry = [results objectAtIndex:2];
+    VidiunMediaEntry* entry = [results objectAtIndex:2];
     assert(entry.id.length > 0);
-    assert([[KalturaEntryStatus NO_CONTENT] compare:entry.status] == NSOrderedSame);
+    assert([[VidiunEntryStatus NO_CONTENT] compare:entry.status] == NSOrderedSame);
     assert([entry.name compare:ENTRY_NAME] == NSOrderedSame);
     assert(entry.partnerId == PARTNER_ID);
     assert([entry.userId compare:USER_ID] == NSOrderedSame);
     
     // media.addContent
     entry = [results objectAtIndex:3];
-    assert([[KalturaEntryStatus IMPORT] compare:entry.status] == NSOrderedSame);
+    assert([[VidiunEntryStatus IMPORT] compare:entry.status] == NSOrderedSame);
     
     // uploadToken.upload
     token = [results objectAtIndex:4];
-    assert(token.status == [KalturaUploadTokenStatus CLOSED]);
+    assert(token.status == [VidiunUploadTokenStatus CLOSED]);
     
     // flavorAsset.getByEntryId
     NSArray* flavorArray = [results objectAtIndex:5];
     assert(flavorArray.count > 0);
     BOOL foundSource = NO;
-    for (KalturaFlavorAsset* asset in flavorArray)
+    for (VidiunFlavorAsset* asset in flavorArray)
     {
         if (asset.flavorParamsId != 0)
             continue;
@@ -579,7 +579,7 @@
     /* TODO: fix this test
 	NSArray* playlistExecute = [results objectAtIndex:8];
     assert(playlistExecute.count == 1);
-    KalturaBaseEntry* firstPlaylistEntry = [playlistExecute objectAtIndex:0];
+    VidiunBaseEntry* firstPlaylistEntry = [playlistExecute objectAtIndex:0];
     assert([firstPlaylistEntry.id compare:self->_imageEntry.id] == NSOrderedSame);*/
 }
 
@@ -600,24 +600,24 @@
 }
 
 // validates: 
-//      kalsig is generated
+//      vidsig is generated
 //      objectType is included for objects
 //      serialization of all types
 //      serialization of empty/null variables
 - (void)testPremadeRequest
 {
     // init a client with fixed values
-    KalturaConfiguration* config = [[KalturaConfiguration alloc] init];
-    KalturaNSLogger* logger = [[KalturaNSLogger alloc] init];
+    VidiunConfiguration* config = [[VidiunConfiguration alloc] init];
+    VidiunNSLogger* logger = [[VidiunNSLogger alloc] init];
     config.logger = logger;
     config.serviceUrl = DEFAULT_SERVICE_URL;
     config.clientTag = @"testTag";
     [logger release];           // retained on config
     config.partnerId = 56789;
-    KalturaClient* client = [[KalturaClient alloc] initWithConfig:config];
+    VidiunClient* client = [[VidiunClient alloc] initWithConfig:config];
     [config release];           // retained on the client
     client.apiVersion = @"9.8.7";
-    client.ks = @"abcdef";
+    client.vs = @"abcdef";
     
     // add all basic types
     // Note: not testing float since its formatting may change between platforms
@@ -626,27 +626,27 @@
     [client.params addIfDefinedKey:@"string" withString:@"strVal"];
     
     // object
-    KalturaMediaEntry* entry = [[[KalturaMediaEntry alloc] init] autorelease];
+    VidiunMediaEntry* entry = [[[VidiunMediaEntry alloc] init] autorelease];
     entry.name = @"abcd";
     [client.params addIfDefinedKey:@"object" withObject:entry];
     
     // array
-    KalturaString* string = [[[KalturaString alloc] init] autorelease];
+    VidiunString* string = [[[VidiunString alloc] init] autorelease];
     string.value = @"dummy";
     NSArray* array = [NSArray arrayWithObject:string];
     [client.params addIfDefinedKey:@"array" withArray:array];
     
     // null / empty items
-    [client.params addIfDefinedKey:@"emptyBool" withBool:KALTURA_NULL_BOOL];
-    [client.params addIfDefinedKey:@"emptyInt" withInt:KALTURA_NULL_INT];
-    [client.params addIfDefinedKey:@"emptyFloat" withFloat:KALTURA_NULL_FLOAT];
-    [client.params addIfDefinedKey:@"emptyString" withString:KALTURA_NULL_STRING];
-    [client.params addIfDefinedKey:@"emptyObject" withObject:KALTURA_NULL_OBJECT];
+    [client.params addIfDefinedKey:@"emptyBool" withBool:VIDIUN_NULL_BOOL];
+    [client.params addIfDefinedKey:@"emptyInt" withInt:VIDIUN_NULL_INT];
+    [client.params addIfDefinedKey:@"emptyFloat" withFloat:VIDIUN_NULL_FLOAT];
+    [client.params addIfDefinedKey:@"emptyString" withString:VIDIUN_NULL_STRING];
+    [client.params addIfDefinedKey:@"emptyObject" withObject:VIDIUN_NULL_OBJECT];
     [client.params addIfDefinedKey:@"emptyArray" withArray:[NSArray array]];
     
     // verify
     NSString* result = [client queueServeService:@"test" withAction:@"testAct"];
-    NSString* expectedResult = [NSString stringWithFormat:@"%@/api_v3/service/test/action/testAct?kalsig=b2e9bd151b7edf43c2e210e45ffb15fd&string=strVal&partnerId=56789&object%%3AobjectType=KalturaMediaEntry&object%%3Aname=abcd&ks=abcdef&int=1234&ignoreNull=1&format=2&emptyString__null=&emptyObject__null=&emptyInt__null=&emptyFloat__null=&emptyBool__null=&emptyArray%%3A-=&clientTag=testTag&bool=0&array%%3A0%%3Avalue=dummy&array%%3A0%%3AobjectType=KalturaString&apiVersion=9.8.7", DEFAULT_SERVICE_URL];
+    NSString* expectedResult = [NSString stringWithFormat:@"%@/api_v3/service/test/action/testAct?vidsig=b2e9bd151b7edf43c2e210e45ffb15fd&string=strVal&partnerId=56789&object%%3AobjectType=VidiunMediaEntry&object%%3Aname=abcd&vs=abcdef&int=1234&ignoreNull=1&format=2&emptyString__null=&emptyObject__null=&emptyInt__null=&emptyFloat__null=&emptyBool__null=&emptyArray%%3A-=&clientTag=testTag&bool=0&array%%3A0%%3Avalue=dummy&array%%3A0%%3AobjectType=VidiunString&apiVersion=9.8.7", DEFAULT_SERVICE_URL];
     assert([result compare:expectedResult] == NSOrderedSame);
     
     // cleanup
@@ -655,7 +655,7 @@
 
 - (void)testHttps
 {
-    self->_client.config.serviceUrl = @"https://www.kaltura.com";
+    self->_client.config.serviceUrl = @"https://www.vidiun.com";
     [self testSyncFlow];
 }
 
@@ -671,7 +671,7 @@
 
 - (void)testInvalidServerDnsName
 {
-    self->_client.config.serviceUrl = @"http://www.nonexistingkaltura.com";
+    self->_client.config.serviceUrl = @"http://www.nonexistingvidiun.com";
     [self->_client.system ping];
     NSError* error = self->_client.error;
     
@@ -689,18 +689,18 @@
     assert(error.code == ASIInternalErrorWhileBuildingRequestType);
 }
 
-- (void)assertKalturaError:(NSError*)error withCode:(int)code
+- (void)assertVidiunError:(NSError*)error withCode:(int)code
 {
     assert(error != nil);
-    assert([error.domain compare:KalturaClientErrorDomain] == NSOrderedSame);
+    assert([error.domain compare:VidiunClientErrorDomain] == NSOrderedSame);
     assert(error.code == code);
 }
 
 - (void)testSyncApiError
 {
-    KalturaBaseEntry* entry = [self->_client.baseEntry getWithEntryId:@"NonExistingEntry"];
+    VidiunBaseEntry* entry = [self->_client.baseEntry getWithEntryId:@"NonExistingEntry"];
     assert(entry == nil);
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorAPIException];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorAPIException];
 }
 
 - (void)testSyncMultiReqApiError
@@ -717,7 +717,7 @@
     assert([res1 compare:@"1"] == NSOrderedSame);
     
     NSError* res2 = [results objectAtIndex:1];
-    [self assertKalturaError:res2 withCode:KalturaClientErrorAPIException];
+    [self assertVidiunError:res2 withCode:VidiunClientErrorAPIException];
     
     NSString* res3 = [results objectAtIndex:2];
     assert([res3 compare:@"1"] == NSOrderedSame);
@@ -725,125 +725,125 @@
 
 - (void)testXmlParsingError
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml>"];
     [self->_client.system ping];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorXmlParsing];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorXmlParsing];
 }
 
 - (void)testTagInSimpleType
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><sometag></sometag></result></xml>"];
     [self->_client.system ping];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorStartTagInSimpleType];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorStartTagInSimpleType];
 }
 
 - (void)testEmptyObjectOrException
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result></result></xml>"];
     [self->_client.baseEntry getWithEntryId:@"1234"];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorEmptyObject];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorEmptyObject];
 }
 
 - (void)testEmptyObject
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
-    [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><objectType>KalturaPlaylist</objectType><filters><item/></filters></result></xml>"];
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
+    [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><objectType>VidiunPlaylist</objectType><filters><item/></filters></result></xml>"];
     [self->_client.playlist getWithId:@"1234"];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorMissingObjectTypeTag];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorMissingObjectTypeTag];
 }
 
 - (void)testTagInSimpleObjectProperty
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
-    [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><objectType>KalturaPlaylist</objectType><id><sometag/></id></result></xml>"];
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
+    [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><objectType>VidiunPlaylist</objectType><id><sometag/></id></result></xml>"];
     [self->_client.playlist getWithId:@"1234"];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorUnexpectedTagInSimpleType];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorUnexpectedTagInSimpleType];
 }
 
 - (void)testTagInObjectDoesntStartWithType
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><id>1234</id></result></xml>"];
     [self->_client.playlist getWithId:@"1234"];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorExpectedObjectTypeTag];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorExpectedObjectTypeTag];
 }
 
 - (void)testCharsInsteadOfObject
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result>1234</result></xml>"];
     [self->_client.playlist getWithId:@"1234"];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorExpectedPropertyTag];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorExpectedPropertyTag];
 }
 
 - (void)testUnknownObjectType
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><objectType>UnknownObjectType</objectType></result></xml>"];
     [self->_client queueObjectService:@"playlist" withAction:@"get" withExpectedType:@"AnotherUnknownObject"];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorUnknownObjectType];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorUnknownObjectType];
 }
 
-- (void)testNonKalturaObjectType
+- (void)testNonVidiunObjectType
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><objectType>NSString</objectType></result></xml>"];
     [self->_client.playlist getWithId:@"1234"];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorUnknownObjectType];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorUnknownObjectType];
 }
 
 - (void)testArrayTagIsNotItem
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><sometag/></result></xml>"];
     [self->_client.flavorAsset getByEntryIdWithEntryId:@"1234"];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorUnexpectedArrayTag];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorUnexpectedArrayTag];
 }
 
 - (void)testMultiReqTagNotItem
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><sometag/></result></xml>"];
     [self->_client startMultiRequest];
     [self->_client.system ping];
     [self->_client doMultiRequest];
         
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorUnexpectedMultiReqTag];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorUnexpectedMultiReqTag];
 }
 
 - (void)testMultiReqTooManyItems
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><item>1</item><item>1</item></result></xml>"];
     [self->_client startMultiRequest];
     [self->_client.system ping];
     [self->_client doMultiRequest];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorUnexpectedMultiReqTag];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorUnexpectedMultiReqTag];
 }
 
 - (void)testMultiReqNotEnoughItems
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result></result></xml>"];
     [self->_client startMultiRequest];
     [self->_client.system ping];
     [self->_client doMultiRequest];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorMissingMultiReqItems];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorMissingMultiReqItems];
 }
 
 - (void)testInvalidHttpStatus
@@ -851,7 +851,7 @@
     self->_client.config.serviceUrl = @"http://www.google.com/nonExistingFolder";
     [self->_client.system ping];
     
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorInvalidHttpCode];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorInvalidHttpCode];
 }
 
 - (void)testDoubleMultiReqStart
@@ -861,7 +861,7 @@
     {
         [self->_client startMultiRequest];
     }
-    @catch (KalturaClientException *exception) 
+    @catch (VidiunClientException *exception) 
     {
         assert([exception.name compare:@"DoubleStartMultiReq"] == NSOrderedSame);
         [self->_client cancelRequest];
@@ -877,7 +877,7 @@
     {
         [self->_client doMultiRequest];
     }
-    @catch (KalturaClientException *exception) 
+    @catch (VidiunClientException *exception) 
     {
         assert([exception.name compare:@"EndWithoutMultiReq"] == NSOrderedSame);
         [self->_client cancelRequest];
@@ -890,7 +890,7 @@
 - (void)testApiTimeout
 {
     self->_client.config.requestTimeout = 1;
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"sleepTime" withString:@"10"];
     [self->_client.system ping];    
     self->_client.config.requestTimeout = 120;
@@ -905,16 +905,16 @@
 
 - (void)testUsePlugin
 {
-    KalturaMetadataClientPlugin* metadata = [[KalturaMetadataClientPlugin alloc] initWithClient:self->_client];
-    KalturaMetadataProfile* profile = [[[KalturaMetadataProfile alloc] init] autorelease];
-    profile.metadataObjectType = [KalturaMetadataObjectType ENTRY];
+    VidiunMetadataClientPlugin* metadata = [[VidiunMetadataClientPlugin alloc] initWithClient:self->_client];
+    VidiunMetadataProfile* profile = [[[VidiunMetadataProfile alloc] init] autorelease];
+    profile.metadataObjectType = [VidiunMetadataObjectType ENTRY];
     profile.name = @"Test metadata profile";
     NSString* xsdFilePath = [[NSBundle mainBundle] pathForResource:@"MetadataSchema" ofType:@"xsd"];
     NSString* xsdFileData = [[[NSString alloc] initWithContentsOfFile:xsdFilePath encoding:NSUTF8StringEncoding error:nil] autorelease];    
     profile = [metadata.metadataProfile addWithMetadataProfile:profile withXsdData:xsdFileData];
     assert(self->_client.error == nil);
 
-    KalturaMetadata* metadataObj = [metadata.metadata addWithMetadataProfileId:profile.id withObjectType:[KalturaMetadataObjectType ENTRY] withObjectId:self->_imageEntry.id withXmlData:METADATA_XML];
+    VidiunMetadata* metadataObj = [metadata.metadata addWithMetadataProfileId:profile.id withObjectType:[VidiunMetadataObjectType ENTRY] withObjectId:self->_imageEntry.id withXmlData:METADATA_XML];
     assert(self->_client.error == nil);
     
     metadataObj = [metadata.metadata getWithId:metadataObj.id];
@@ -933,12 +933,12 @@
 - (void)testOptionalParameters
 {
     // int, string
-    NSString* ks = [self->_client.session startWithSecret:ADMIN_SECRET withUserId:USER_ID withType:[KalturaSessionType ADMIN] withPartnerId:PARTNER_ID];
+    NSString* vs = [self->_client.session startWithSecret:ADMIN_SECRET withUserId:USER_ID withType:[VidiunSessionType ADMIN] withPartnerId:PARTNER_ID];
     assert(self->_client.error == nil);
-    assert(ks.length > 40);     // 40 is the signature length
+    assert(vs.length > 40);     // 40 is the signature length
     
     // bool
-    KalturaFlavorAsset* firstFlavor = nil;
+    VidiunFlavorAsset* firstFlavor = nil;
     NSArray* flavorArray = [self->_client.flavorAsset getByEntryIdWithEntryId:self->_videoEntry.id];
     firstFlavor = [flavorArray objectAtIndex:0];
     NSString* downloadUrl = [self->_client.flavorAsset getDownloadUrlWithId:firstFlavor.id];
@@ -946,9 +946,9 @@
     assert(downloadUrl.length > 0);
 
     // object
-    KalturaMediaEntryFilter* mediaFilter = [[[KalturaMediaEntryFilter alloc] init] autorelease];
-    mediaFilter.statusNotEqual = [KalturaEntryStatus DELETED];
-    KalturaMediaListResponse* listResult = [self->_client.media listWithFilter:mediaFilter];
+    VidiunMediaEntryFilter* mediaFilter = [[[VidiunMediaEntryFilter alloc] init] autorelease];
+    mediaFilter.statusNotEqual = [VidiunEntryStatus DELETED];
+    VidiunMediaListResponse* listResult = [self->_client.media listWithFilter:mediaFilter];
     assert(self->_client.error == nil);
     assert(listResult.totalCount > 0);
     
@@ -974,9 +974,9 @@
     [self startNextTest];
 }
 
-- (void)callback_testAsyncApiError_RequestFailed:(KalturaClientBase *)aClient
+- (void)callback_testAsyncApiError_RequestFailed:(VidiunClientBase *)aClient
 {
-    [self assertKalturaError:aClient.error withCode:KalturaClientErrorAPIException];
+    [self assertVidiunError:aClient.error withCode:VidiunClientErrorAPIException];
     
     [self startNextTest];
 }
@@ -986,7 +986,7 @@
     [self->_client.media getWithEntryId:@"NonExistingEntry"];
 }
 
-- (void)callback_testAsyncInvalidServerDnsName_RequestFailed:(KalturaClientBase *)aClient
+- (void)callback_testAsyncInvalidServerDnsName_RequestFailed:(VidiunClientBase *)aClient
 {
     assert([aClient.error.domain compare:NetworkRequestErrorDomain] == NSOrderedSame);
     
@@ -995,25 +995,25 @@
 
 - (void)testAsyncInvalidServerDnsName
 {
-    self->_client.config.serviceUrl = @"http://www.nonexistingkaltura.com";
+    self->_client.config.serviceUrl = @"http://www.nonexistingvidiun.com";
     [self->_client.system ping];
 }
 
-- (void)callback_testAsyncXmlParsingError_RequestFailed:(KalturaClientBase *)aClient
+- (void)callback_testAsyncXmlParsingError_RequestFailed:(VidiunClientBase *)aClient
 {
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorXmlParsing];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorXmlParsing];
     
     [self startNextTest];
 }
 
 - (void)testAsyncXmlParsingError
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml>"];
     [self->_client.system ping];
 }
 
-- (void)callback_testAsyncMultiReqFlow_RequestFinished:(KalturaClientBase *)aClient withResult:(id)aResult
+- (void)callback_testAsyncMultiReqFlow_RequestFinished:(VidiunClientBase *)aClient withResult:(id)aResult
 {
     assert(self->_client.error == nil);
     [self validateSyncMultiReqFlow:aResult];
@@ -1026,9 +1026,9 @@
     [self buildSyncMultiReqFlow];
 }
 
-- (void)callback_testAsyncInvalidHttpStatus_RequestFailed:(KalturaClientBase *)aClient
+- (void)callback_testAsyncInvalidHttpStatus_RequestFailed:(VidiunClientBase *)aClient
 {
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorInvalidHttpCode];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorInvalidHttpCode];
 
     [self startNextTest];
 }
@@ -1039,23 +1039,23 @@
     [self->_client.system ping];
 }
 
-- (void)callback_testAsyncMultiReqXmlParsingError_RequestFailed:(KalturaClientBase *)aClient
+- (void)callback_testAsyncMultiReqXmlParsingError_RequestFailed:(VidiunClientBase *)aClient
 {
-    [self assertKalturaError:self->_client.error withCode:KalturaClientErrorXmlParsing];
+    [self assertVidiunError:self->_client.error withCode:VidiunClientErrorXmlParsing];
     
     [self startNextTest];
 }
 
 - (void)testAsyncMultiReqXmlParsingError
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml>"];
     [self->_client startMultiRequest];
     [self->_client.system ping];
     [self->_client doMultiRequest];
 }
 
-- (void)callback_testAsyncMultiReqApiError_RequestFinished:(KalturaClientBase *)aClient withResult:(id)aResults
+- (void)callback_testAsyncMultiReqApiError_RequestFinished:(VidiunClientBase *)aClient withResult:(id)aResults
 {
     NSArray* results = aResults;
     assert(self->_client.error == nil);
@@ -1065,7 +1065,7 @@
     assert([res1 compare:@"1"] == NSOrderedSame);
     
     NSError* res2 = [results objectAtIndex:1];
-    [self assertKalturaError:res2 withCode:KalturaClientErrorAPIException];
+    [self assertVidiunError:res2 withCode:VidiunClientErrorAPIException];
     
     NSString* res3 = [results objectAtIndex:2];
     assert([res3 compare:@"1"] == NSOrderedSame);
@@ -1082,7 +1082,7 @@
     [self->_client doMultiRequest];
 }
 
-- (void)callback_testAsyncEmptyMultirequest_RequestFinished:(KalturaClientBase *)aClient withResult:(id)aResults
+- (void)callback_testAsyncEmptyMultirequest_RequestFinished:(VidiunClientBase *)aClient withResult:(id)aResults
 {
     NSArray* results = aResults;
     assert(self->_client.error == nil);
@@ -1097,7 +1097,7 @@
     [self->_client doMultiRequest];
 }
 
-- (void)callback_testAsyncBoolType_RequestFinished:(KalturaClientBase *)aClient withResult:(id)aResults
+- (void)callback_testAsyncBoolType_RequestFinished:(VidiunClientBase *)aClient withResult:(id)aResults
 {
     NSString* result = aResults;
     assert([result compare:@"1"] == NSOrderedSame);    
@@ -1110,7 +1110,7 @@
     [self->_client.system ping];
 }
 
-- (void)callback_testAsyncIntType_RequestFinished:(KalturaClientBase *)aClient withResult:(id)aResults
+- (void)callback_testAsyncIntType_RequestFinished:(VidiunClientBase *)aClient withResult:(id)aResults
 {
     NSString* result = aResults;
     assert(self->_client.error == nil);
@@ -1121,13 +1121,13 @@
 
 - (void)testAsyncIntType
 {
-    KalturaMediaEntryFilter* mediaFilter = [[[KalturaMediaEntryFilter alloc] init] autorelease];
+    VidiunMediaEntryFilter* mediaFilter = [[[VidiunMediaEntryFilter alloc] init] autorelease];
     mediaFilter.idEqual = self->_imageEntry.id;
-    mediaFilter.statusNotEqual = [KalturaEntryStatus DELETED];
+    mediaFilter.statusNotEqual = [VidiunEntryStatus DELETED];
     [self->_client.media countWithFilter:mediaFilter];
 }
 
-- (void)callback_testAsyncStringType_RequestFinished:(KalturaClientBase *)aClient withResult:(id)aResults
+- (void)callback_testAsyncStringType_RequestFinished:(VidiunClientBase *)aClient withResult:(id)aResults
 {
     NSString* result = aResults;
     assert(self->_client.error == nil);
@@ -1138,12 +1138,12 @@
 
 - (void)testAsyncStringType
 {
-    [self->_client.session startWithSecret:ADMIN_SECRET withUserId:USER_ID withType:[KalturaSessionType ADMIN] withPartnerId:PARTNER_ID];
+    [self->_client.session startWithSecret:ADMIN_SECRET withUserId:USER_ID withType:[VidiunSessionType ADMIN] withPartnerId:PARTNER_ID];
 }
 
-- (void)callback_testAsyncObjectType_RequestFinished:(KalturaClientBase *)aClient withResult:(id)aResults
+- (void)callback_testAsyncObjectType_RequestFinished:(VidiunClientBase *)aClient withResult:(id)aResults
 {
-    KalturaBaseEntry* result = aResults;
+    VidiunBaseEntry* result = aResults;
     assert(self->_client.error == nil);
     assert([result.id compare:self->_imageEntry.id] == NSOrderedSame);
     
@@ -1155,13 +1155,13 @@
     [self->_client.baseEntry getWithEntryId:self->_imageEntry.id];
 }
 
-- (void)callback_testAsyncArrayType_RequestFinished:(KalturaClientBase *)aClient withResult:(id)aResults
+- (void)callback_testAsyncArrayType_RequestFinished:(VidiunClientBase *)aClient withResult:(id)aResults
 {
     NSArray* flavorArray = aResults;
     assert(self->_client.error == nil);
     assert(flavorArray.count > 0);
     BOOL foundSource = NO;
-    for (KalturaFlavorAsset* asset in flavorArray)
+    for (VidiunFlavorAsset* asset in flavorArray)
     {
         if (asset.flavorParamsId != 0)
             continue;
@@ -1181,13 +1181,13 @@
     [self->_client.flavorAsset getByEntryIdWithEntryId:self->_videoEntry.id];
 }
 
-- (void)callback_testAsyncVoidType_RequestFinished:(KalturaClientBase *)aClient withResult:(id)aResults
+- (void)callback_testAsyncVoidType_RequestFinished:(VidiunClientBase *)aClient withResult:(id)aResults
 {
     NSString* result = aResults;
     assert(self->_client.error == nil);
     assert(result.length == 0);
 
-    self->_client.ks = [KalturaClient generateSessionWithSecret:ADMIN_SECRET withUserId:USER_ID withType:[KalturaSessionType ADMIN] withPartnerId:PARTNER_ID withExpiry:86400 withPrivileges:@""];
+    self->_client.vs = [VidiunClient generateSessionWithSecret:ADMIN_SECRET withUserId:USER_ID withType:[VidiunSessionType ADMIN] withPartnerId:PARTNER_ID withExpiry:86400 withPrivileges:@""];
 
     [self startNextTest];
 }
@@ -1199,52 +1199,52 @@
 
 - (void)testUnknownObjectReturned
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><objectType>UnknownObjectType</objectType><id>abcdef</id></result></xml>"];
-    KalturaBaseEntry* result = [self->_client.baseEntry getWithEntryId:self->_imageEntry.id];
+    VidiunBaseEntry* result = [self->_client.baseEntry getWithEntryId:self->_imageEntry.id];
     assert(self->_client.error == nil);
-    assert([result isKindOfClass:[KalturaBaseEntry class]]);
+    assert([result isKindOfClass:[VidiunBaseEntry class]]);
     assert([result.id compare:@"abcdef"] == NSOrderedSame);
 }
 
 - (void)testUnknownArrayObjectReturned
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
     [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><item><objectType>UnknownObjectType</objectType><id>abcdef</id></item></result></xml>"];
     NSArray* result = [self->_client.flavorAsset getByEntryIdWithEntryId:self->_videoEntry.id];
     assert(self->_client.error == nil);
     assert(result.count == 1);
-    KalturaFlavorAsset* asset = [result objectAtIndex:0];
-    assert([asset isKindOfClass:[KalturaFlavorAsset class]]);
+    VidiunFlavorAsset* asset = [result objectAtIndex:0];
+    assert([asset isKindOfClass:[VidiunFlavorAsset class]]);
     assert([asset.id compare:@"abcdef"] == NSOrderedSame);
 }
 
 - (void)testUnknownNestedObjectObjectReturned
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
-    [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><objectType>KalturaConversionProfile</objectType><cropDimensions><objectType>UnknownObjectType</objectType><left>1234</left></cropDimensions></result></xml>"];
-    KalturaConversionProfile* result = [self->_client.conversionProfile getWithId:1];
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
+    [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><objectType>VidiunConversionProfile</objectType><cropDimensions><objectType>UnknownObjectType</objectType><left>1234</left></cropDimensions></result></xml>"];
+    VidiunConversionProfile* result = [self->_client.conversionProfile getWithId:1];
     assert(self->_client.error == nil);
-    KalturaCropDimensions* dimensions = result.cropDimensions;
-    assert([dimensions isKindOfClass:[KalturaCropDimensions class]]);
+    VidiunCropDimensions* dimensions = result.cropDimensions;
+    assert([dimensions isKindOfClass:[VidiunCropDimensions class]]);
     assert(dimensions.left == 1234);
 }
 
 - (void)testUnknownNestedArrayObjectReturned
 {
-    self->_client.config.serviceUrl = KALTURA_CLIENT_TEST_URL;
-    [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><objectType>KalturaBaseEntryListResponse</objectType><objects><item><objectType>UnknownObjectType</objectType><id>abcdef</id></item></objects></result></xml>"];
-    KalturaBaseEntryListResponse* result = [self->_client.baseEntry list];
+    self->_client.config.serviceUrl = VIDIUN_CLIENT_TEST_URL;
+    [self->_client.params addIfDefinedKey:@"responseBuffer" withString:@"<xml><result><objectType>VidiunBaseEntryListResponse</objectType><objects><item><objectType>UnknownObjectType</objectType><id>abcdef</id></item></objects></result></xml>"];
+    VidiunBaseEntryListResponse* result = [self->_client.baseEntry list];
     assert(self->_client.error == nil);
     assert(result.objects.count == 1);
-    KalturaBaseEntry* entry = [result.objects objectAtIndex:0];
-    assert([entry isKindOfClass:[KalturaBaseEntry class]]);
+    VidiunBaseEntry* entry = [result.objects objectAtIndex:0];
+    assert([entry isKindOfClass:[VidiunBaseEntry class]]);
     assert([entry.id compare:@"abcdef"] == NSOrderedSame);
 }
 
 - (void)testDownloadDelegateSanity
 {
-    KalturaProgressDelegate* delegate = [[[KalturaProgressDelegate alloc] init] autorelease];
+    VidiunProgressDelegate* delegate = [[[VidiunProgressDelegate alloc] init] autorelease];
     self->_client.downloadProgressDelegate = delegate;
     [self->_client.baseEntry getWithEntryId:self->_imageEntry.id];
     self->_client.downloadProgressDelegate = nil;
@@ -1254,7 +1254,7 @@
 
 - (void)testUploadDelegateSanity
 {
-    KalturaProgressDelegate* delegate = [[[KalturaProgressDelegate alloc] init] autorelease];
+    VidiunProgressDelegate* delegate = [[[VidiunProgressDelegate alloc] init] autorelease];
     self->_client.uploadProgressDelegate = delegate;
     [self->_client.baseEntry getWithEntryId:self->_imageEntry.id];
     self->_client.uploadProgressDelegate = nil;

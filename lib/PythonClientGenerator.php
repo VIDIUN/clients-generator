@@ -41,13 +41,13 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 		$xpath = new DOMXPath($this->_doc);
 		if ($pluginName == '')
 		{
-			$pluginClassName = "KalturaCoreClient";
-			$outputFileName = "KalturaClient/Plugins/Core.py";
+			$pluginClassName = "VidiunCoreClient";
+			$outputFileName = "VidiunClient/Plugins/Core.py";
 		}
 		else 
 		{
-			$pluginClassName = "Kaltura" . ucfirst($pluginName) . "ClientPlugin";
-			$outputFileName = "KalturaClient/Plugins/".ucfirst($pluginName).".py";
+			$pluginClassName = "Vidiun" . ucfirst($pluginName) . "ClientPlugin";
+			$outputFileName = "VidiunClient/Plugins/".ucfirst($pluginName).".py";
 		}
 		
     	$this->startNewTextBlock();
@@ -76,12 +76,12 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine('    getXmlNodeFloat,');
 		$this->appendLine('    getXmlNodeInt,');
 		$this->appendLine('    getXmlNodeText,');
-		$this->appendLine('    KalturaClientPlugin,');
-		$this->appendLine('    KalturaEnumsFactory,');
-		$this->appendLine('    KalturaObjectBase,');
-		$this->appendLine('    KalturaObjectFactory,');
-		$this->appendLine('    KalturaParams,');
-		$this->appendLine('    KalturaServiceBase,');
+		$this->appendLine('    VidiunClientPlugin,');
+		$this->appendLine('    VidiunEnumsFactory,');
+		$this->appendLine('    VidiunObjectBase,');
+		$this->appendLine('    VidiunObjectFactory,');
+		$this->appendLine('    VidiunParams,');
+		$this->appendLine('    VidiunServiceBase,');
 		$this->appendLine(')');
 		$this->appendLine('');
 
@@ -139,7 +139,7 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 		
 		$this->appendLine('########## main ##########');
 				
-		$this->appendLine("class $pluginClassName(KalturaClientPlugin):");
+		$this->appendLine("class $pluginClassName(VidiunClientPlugin):");
 		$this->appendLine("    # $pluginClassName");
 		$this->appendLine('    instance = None');
 		$this->appendLine('');
@@ -151,13 +151,13 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("            $pluginClassName.instance = $pluginClassName()");
 		$this->appendLine("        return $pluginClassName.instance");
 		$this->appendLine('');
-		$this->appendLine('    # @return array<KalturaServiceBase>');
+		$this->appendLine('    # @return array<VidiunServiceBase>');
 		$this->appendLine('    def getServices(self):');
 		$this->appendLine('        return {');
 		foreach($services as $service)
 		{
 			$serviceName = ucfirst($service);
-			$this->appendLine("            '$service': Kaltura{$serviceName}Service,");
+			$this->appendLine("            '$service': Vidiun{$serviceName}Service,");
 		}
 		$this->appendLine('        }');
 		$this->appendLine('');
@@ -269,7 +269,7 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 		if ($classNode->hasAttribute("base"))
 			$this->appendLine("class $type(" . $classNode->getAttribute("base") . "):");
 		else
-			$this->appendLine("class $type(KalturaObjectBase):");
+			$this->appendLine("class $type(VidiunObjectBase):");
 			
 		$description = $this->buildMultilineString($classNode->getAttribute("description"), "    ");
 		if ($description)
@@ -331,7 +331,7 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 		if ($classNode->hasAttribute("base"))
 			$base = $classNode->getAttribute ( "base" );
 		else
-			$base = "KalturaObjectBase";
+			$base = "VidiunObjectBase";
 
 		$initParams = $this->getCtorArguments($classNode, ",\n            ", "=NotImplemented");
 		$baseInitParams = $this->getCtorArguments($this->getParentClassNode($classNode), ",\n            ");
@@ -405,7 +405,7 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 		if ($classNode->hasAttribute("base"))
 			$base = $classNode->getAttribute ( "base" );
 		else
-			$base = "KalturaObjectBase";
+			$base = "VidiunObjectBase";
 			
 		$this->appendLine("    PROPERTY_LOADERS = {");
 		
@@ -432,7 +432,7 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 					if ($isEnum) 
 					{
 						$enumType = $propertyNode->getAttribute ( "enumType" );
-						$curLine .= "(KalturaEnumsFactory.createInt, \"$enumType\")";
+						$curLine .= "(VidiunEnumsFactory.createInt, \"$enumType\")";
 					} 
 					else
 					{
@@ -443,7 +443,7 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 					if ($isEnum) 
 					{
 						$enumType = $propertyNode->getAttribute ( "enumType" );
-						$curLine .= "(KalturaEnumsFactory.createString, \"$enumType\")";
+						$curLine .= "(VidiunEnumsFactory.createString, \"$enumType\")";
 					} 
 					else
 					{
@@ -460,24 +460,24 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 					$arrayType = $propertyNode->getAttribute ( "arrayType" );
 					if($arrayType == $type)
 					{
-						$arrayType = 'KalturaObjectBase';
+						$arrayType = 'VidiunObjectBase';
 					}
-					$curLine .= "(KalturaObjectFactory.createArray, '$arrayType')";
+					$curLine .= "(VidiunObjectFactory.createArray, '$arrayType')";
 					break;
 				case "map" :
 					$arrayType = $propertyNode->getAttribute ( "arrayType" );
 					if($arrayType == $type)
 					{
-						$arrayType = 'KalturaObjectBase';
+						$arrayType = 'VidiunObjectBase';
 					}
-					$curLine .= "(KalturaObjectFactory.createMap, '$arrayType')";
+					$curLine .= "(VidiunObjectFactory.createMap, '$arrayType')";
 					break;
 				default : // sub object
 					if($propType == $type)
 					{
-						$propType = 'KalturaObjectBase';
+						$propType = 'VidiunObjectBase';
 					}
-					$curLine .= "(KalturaObjectFactory.create, '$propType')";
+					$curLine .= "(VidiunObjectFactory.create, '$propType')";
 					break;
 			}
 			$curLine .= ", ";
@@ -497,11 +497,11 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 		if ($classNode->hasAttribute("base"))
 			$base = $classNode->getAttribute ( "base" );
 		else
-			$base = "KalturaObjectBase";
+			$base = "VidiunObjectBase";
 		
 		$this->appendLine ( "    def toParams(self):" );
-		$this->appendLine ( "        kparams = $base.toParams(self)" );
-		$this->appendLine ( "        kparams.put(\"objectType\", \"$type\")" );
+		$this->appendLine ( "        vparams = $base.toParams(self)" );
+		$this->appendLine ( "        vparams.put(\"objectType\", \"$type\")" );
 		
 		foreach ( $classNode->childNodes as $propertyNode ) 
 		{
@@ -522,37 +522,37 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 				case "int" :
 					if ($isEnum)
 					{
-						$this->appendLine ( "        kparams.addIntEnumIfDefined(\"$propName\", self.$memberName)" );
+						$this->appendLine ( "        vparams.addIntEnumIfDefined(\"$propName\", self.$memberName)" );
 					}
 					else
-						$this->appendLine ( "        kparams.addIntIfDefined(\"$propName\", self.$memberName)" );
+						$this->appendLine ( "        vparams.addIntIfDefined(\"$propName\", self.$memberName)" );
 					break;
 				case "string" :
 					if ($isEnum)
 					{
-						$this->appendLine ( "        kparams.addStringEnumIfDefined(\"$propName\", self.$memberName)" );
+						$this->appendLine ( "        vparams.addStringEnumIfDefined(\"$propName\", self.$memberName)" );
 					}
 					else
-						$this->appendLine ( "        kparams.addStringIfDefined(\"$propName\", self.$memberName)" );
+						$this->appendLine ( "        vparams.addStringIfDefined(\"$propName\", self.$memberName)" );
 					break;
 				case "bool" :
-					$this->appendLine ( "        kparams.addBoolIfDefined(\"$propName\", self.$memberName)" );
+					$this->appendLine ( "        vparams.addBoolIfDefined(\"$propName\", self.$memberName)" );
 					break;
 				case "float" :
-					$this->appendLine ( "        kparams.addFloatIfDefined(\"$propName\", self.$memberName)" );
+					$this->appendLine ( "        vparams.addFloatIfDefined(\"$propName\", self.$memberName)" );
 					break;
 				case "array":
-					$this->appendLine("        kparams.addArrayIfDefined(\"$propName\", self.$memberName)");
+					$this->appendLine("        vparams.addArrayIfDefined(\"$propName\", self.$memberName)");
 					break;
 				case "map":
-					$this->appendLine("        kparams.addMapIfDefined(\"$propName\", self.$memberName)");
+					$this->appendLine("        vparams.addMapIfDefined(\"$propName\", self.$memberName)");
 					break;
 				default :
-					$this->appendLine ( "        kparams.addObjectIfDefined(\"$propName\", self.$memberName)" );
+					$this->appendLine ( "        vparams.addObjectIfDefined(\"$propName\", self.$memberName)" );
 					break;
 			}
 		}
-		$this->appendLine ( "        return kparams" );
+		$this->appendLine ( "        return vparams" );
 		$this->appendLine ();
 	}
 	
@@ -564,7 +564,7 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 			
 		$serviceName = $serviceNode->getAttribute("name");
 		
-		$serviceClassName = "Kaltura".$this->upperCaseFirstLetter($serviceName)."Service";
+		$serviceClassName = "Vidiun".$this->upperCaseFirstLetter($serviceName)."Service";
 		$this->appendLine();
 		
 		if($this->generateDocs)
@@ -573,14 +573,14 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine("# @subpackage $this->subpackage");
 		}
 		
-		$this->appendLine("class $serviceClassName(KalturaServiceBase):");
+		$this->appendLine("class $serviceClassName(VidiunServiceBase):");
 		
 		$description = $this->buildMultilineString($serviceNode->getAttribute("description"), "    ");
 		if ($description)
 			$this->appendLine($description . "\n");
 			
 		$this->appendLine("    def __init__(self, client = None):");
-		$this->appendLine("        KalturaServiceBase.__init__(self, client)");
+		$this->appendLine("        VidiunServiceBase.__init__(self, client)");
 		
 		$actionNodes = $serviceNode->childNodes;
 		foreach($actionNodes as $actionNode)
@@ -617,7 +617,7 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 		if ($description)
 			$this->appendLine($description . "\n");
 			
-		$this->appendLine("        kparams = KalturaParams()");
+		$this->appendLine("        vparams = VidiunParams()");
 		$haveFiles = false;
 		foreach($paramNodes as $paramNode)
 		{
@@ -636,36 +636,36 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 			switch ($paramType) 
 			{
 				case "string" :
-					$this->appendLine ( "        kparams.addStringIfDefined(\"$paramName\", " . $argName . ")" );
+					$this->appendLine ( "        vparams.addStringIfDefined(\"$paramName\", " . $argName . ")" );
 					break;
 				case "float" :
-					$this->appendLine ( "        kparams.addFloatIfDefined(\"$paramName\", " . $argName . ")" );
+					$this->appendLine ( "        vparams.addFloatIfDefined(\"$paramName\", " . $argName . ")" );
 					break;
 				case "bigint":
 				case "int" :
-					$this->appendLine ( "        kparams.addIntIfDefined(\"$paramName\", " . $argName . ");" );
+					$this->appendLine ( "        vparams.addIntIfDefined(\"$paramName\", " . $argName . ");" );
 					break;
 				case "bool" :
-					$this->appendLine ( "        kparams.addBoolIfDefined(\"$paramName\", " . $argName . ");" );
+					$this->appendLine ( "        vparams.addBoolIfDefined(\"$paramName\", " . $argName . ");" );
 					break;
 				case "array" :
-					$this->appendLine("        kparams.addArrayIfDefined(\"$paramName\", $argName)");
+					$this->appendLine("        vparams.addArrayIfDefined(\"$paramName\", $argName)");
 					break;
 				case "map" :
-					$this->appendLine("        kparams.addMapIfDefined(\"$paramName\", $argName)");
+					$this->appendLine("        vparams.addMapIfDefined(\"$paramName\", $argName)");
 					break;
 				case "file" :
-					$this->appendLine ( "        kfiles = {\"$paramName\": " . $argName . "}" );
+					$this->appendLine ( "        vfiles = {\"$paramName\": " . $argName . "}" );
 					break;
 				default : // for objects
-					$this->appendLine("        kparams.addObjectIfDefined(\"$paramName\", $argName)");
+					$this->appendLine("        vparams.addObjectIfDefined(\"$paramName\", $argName)");
 					break;
 			}
 		}
 		
 	    if($resultType == 'file')
 	    {
-			$this->appendLine("        self.client.queueServiceActionCall('" . strtolower($serviceId) . "', '$action', None ,kparams)");
+			$this->appendLine("        self.client.queueServiceActionCall('" . strtolower($serviceId) . "', '$action', None ,vparams)");
 			$this->appendLine('        return self.client.getServeUrl()');
 	    }
 	    else
@@ -677,9 +677,9 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 	    		$fallbackClass = $resultType;
 	    	
 			if ($haveFiles)
-				$this->appendLine("        self.client.queueServiceActionCall(\"".strtolower($serviceId)."\", \"$action\", \"$fallbackClass\", kparams, kfiles)");
+				$this->appendLine("        self.client.queueServiceActionCall(\"".strtolower($serviceId)."\", \"$action\", \"$fallbackClass\", vparams, vfiles)");
 			else
-				$this->appendLine("        self.client.queueServiceActionCall(\"".strtolower($serviceId)."\", \"$action\", \"$fallbackClass\", kparams)");
+				$this->appendLine("        self.client.queueServiceActionCall(\"".strtolower($serviceId)."\", \"$action\", \"$fallbackClass\", vparams)");
 			$this->appendLine("        if self.client.isMultiRequest():");
 			$this->appendLine("            return self.client.getMultiRequestResult()");
 			$this->appendLine("        resultNode = self.client.doQueue()");
@@ -690,11 +690,11 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 				{
 					case "array" :
 						$arrayType = $resultNode->getAttribute ( "arrayType" );
-						$this->appendLine ( "        return KalturaObjectFactory.createArray(resultNode, '$arrayType')" );
+						$this->appendLine ( "        return VidiunObjectFactory.createArray(resultNode, '$arrayType')" );
 						break;
 					case "map" :
 						$arrayType = $resultNode->getAttribute ( "arrayType" );
-						$this->appendLine ( "        return KalturaObjectFactory.createMap(resultNode, '$arrayType')" );
+						$this->appendLine ( "        return VidiunObjectFactory.createMap(resultNode, '$arrayType')" );
 						break;
 					case "bigint":
 					case "int" :
@@ -710,7 +710,7 @@ class PythonClientGenerator extends ClientGeneratorFromXml
 						$this->appendLine ( "        return getXmlNodeText(resultNode)" );
 						break;
 					default :
-						$this->appendLine ( "        return KalturaObjectFactory.create(resultNode, '$resultType')" );
+						$this->appendLine ( "        return VidiunObjectFactory.create(resultNode, '$resultType')" );
 						break;
 				}
 			}

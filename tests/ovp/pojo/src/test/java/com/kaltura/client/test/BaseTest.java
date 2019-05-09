@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 
 import java.io.InputStream;
@@ -37,41 +37,41 @@ import java.util.UUID;
 
 import junit.framework.TestCase;
 
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.KalturaClient;
-import com.kaltura.client.KalturaConfiguration;
-import com.kaltura.client.enums.KalturaEntryStatus;
-import com.kaltura.client.enums.KalturaMediaType;
-import com.kaltura.client.enums.KalturaSessionType;
-import com.kaltura.client.services.KalturaMediaService;
-import com.kaltura.client.types.KalturaMediaEntry;
-import com.kaltura.client.types.KalturaUploadToken;
-import com.kaltura.client.types.KalturaUploadedFileTokenResource;
-import com.kaltura.client.IKalturaLogger;
-import com.kaltura.client.KalturaLogger;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.VidiunClient;
+import com.vidiun.client.VidiunConfiguration;
+import com.vidiun.client.enums.VidiunEntryStatus;
+import com.vidiun.client.enums.VidiunMediaType;
+import com.vidiun.client.enums.VidiunSessionType;
+import com.vidiun.client.services.VidiunMediaService;
+import com.vidiun.client.types.VidiunMediaEntry;
+import com.vidiun.client.types.VidiunUploadToken;
+import com.vidiun.client.types.VidiunUploadedFileTokenResource;
+import com.vidiun.client.IVidiunLogger;
+import com.vidiun.client.VidiunLogger;
 
 public class BaseTest extends TestCase {
-	protected KalturaTestConfig testConfig;
+	protected VidiunTestConfig testConfig;
 	
-	protected KalturaConfiguration kalturaConfig = new KalturaConfiguration();
-	protected KalturaClient client;
+	protected VidiunConfiguration vidiunConfig = new VidiunConfiguration();
+	protected VidiunClient client;
 	
 	// keeps track of test vids we upload so they can be cleaned up at the end
 	protected List<String> testIds = new ArrayList<String>();
 
 	protected boolean doCleanup = true;
 
-	private static IKalturaLogger logger = KalturaLogger.getLogger(BaseTest.class);
+	private static IVidiunLogger logger = VidiunLogger.getLogger(BaseTest.class);
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		testConfig = new KalturaTestConfig();
+		testConfig = new VidiunTestConfig();
 		
 		// Create client
-		this.kalturaConfig.setEndpoint(testConfig.getServiceUrl());
-		this.client = new KalturaClient(this.kalturaConfig);
+		this.vidiunConfig.setEndpoint(testConfig.getServiceUrl());
+		this.client = new VidiunClient(this.vidiunConfig);
 	}
 	
 	@Override
@@ -83,7 +83,7 @@ public class BaseTest extends TestCase {
 		if (logger.isEnabled())
 			logger.info("Cleaning up test entries after test");
 		
-		KalturaMediaService mediaService = this.client.getMediaService();
+		VidiunMediaService mediaService = this.client.getMediaService();
 		for (String id : this.testIds) {
 			if (logger.isEnabled())
 				logger.info("Deleting " + id);
@@ -100,14 +100,14 @@ public class BaseTest extends TestCase {
 	
 	
 	public void startUserSession() throws Exception{
-		startSession(KalturaSessionType.USER);
+		startSession(VidiunSessionType.USER);
 	}
 	
 	public void startAdminSession() throws Exception{
-		startSession(KalturaSessionType.ADMIN);
+		startSession(VidiunSessionType.ADMIN);
 	}
 	
-	protected void startSession(KalturaSessionType type) throws Exception {
+	protected void startSession(VidiunSessionType type) throws Exception {
 		
 		String sessionId = client.generateSessionV2(testConfig.getAdminSecret(), testConfig.getUserId(), type, testConfig.getPartnerId(), 86400, "");
 		if (logger.isEnabled()){
@@ -117,17 +117,17 @@ public class BaseTest extends TestCase {
 		client.setSessionId(sessionId);
 	}
 	
-	public static void closeSession(KalturaClient client) throws KalturaApiException {
+	public static void closeSession(VidiunClient client) throws VidiunApiException {
 		client.getSessionService().end();
 	}
 	
 	// Entry utils
 	
-	public KalturaMediaEntry addTestImage(BaseTest container, String name) throws KalturaApiException, IOException, FileNotFoundException
+	public VidiunMediaEntry addTestImage(BaseTest container, String name) throws VidiunApiException, IOException, FileNotFoundException
 	{
-		KalturaMediaEntry entry = new KalturaMediaEntry();
+		VidiunMediaEntry entry = new VidiunMediaEntry();
 		entry.setName(name);
-		entry.setMediaType(KalturaMediaType.IMAGE);
+		entry.setMediaType(VidiunMediaType.IMAGE);
 		entry.setReferenceId(getUniqueString());
 		
 		InputStream fileData = TestUtils.getTestImage();
@@ -135,14 +135,14 @@ public class BaseTest extends TestCase {
 		entry = client.getMediaService().add(entry);
 		
 		// Upload token
-		KalturaUploadToken uploadToken = new KalturaUploadToken();
+		VidiunUploadToken uploadToken = new VidiunUploadToken();
 		uploadToken.setFileName(testConfig.getUploadImage());
 		uploadToken.setFileSize(fileSize);
-		KalturaUploadToken token = client.getUploadTokenService().add(uploadToken);
+		VidiunUploadToken token = client.getUploadTokenService().add(uploadToken);
 		assertNotNull(token);
 		
 		// Define content
-		KalturaUploadedFileTokenResource resource = new KalturaUploadedFileTokenResource();
+		VidiunUploadedFileTokenResource resource = new VidiunUploadedFileTokenResource();
 		resource.setToken(token.getId());
 		entry = client.getMediaService().addContent(entry.getId(), resource);
 		assertNotNull(entry);
@@ -157,19 +157,19 @@ public class BaseTest extends TestCase {
 	protected String getUniqueString() {
 		return UUID.randomUUID().toString();
 	}
-	public static KalturaMediaEntry getProcessedEntry(KalturaClient client, String id) throws Exception {
+	public static VidiunMediaEntry getProcessedEntry(VidiunClient client, String id) throws Exception {
 		return getProcessedEntry(client, id, false);
 	}
 	
-	public static KalturaMediaEntry getProcessedEntry(KalturaClient client, String id,
-			Boolean checkReady) throws KalturaApiException {
+	public static VidiunMediaEntry getProcessedEntry(VidiunClient client, String id,
+			Boolean checkReady) throws VidiunApiException {
 		int maxTries = 50;
 		int sleepInterval = 30 * 1000;
 		int counter = 0;
-		KalturaMediaEntry retrievedEntry = null;
-		KalturaMediaService mediaService = client.getMediaService();
+		VidiunMediaEntry retrievedEntry = null;
+		VidiunMediaService mediaService = client.getMediaService();
 		retrievedEntry = mediaService.get(id);
-		while (checkReady && retrievedEntry.getStatus() != KalturaEntryStatus.READY) {
+		while (checkReady && retrievedEntry.getStatus() != VidiunEntryStatus.READY) {
 
 			counter++;
 

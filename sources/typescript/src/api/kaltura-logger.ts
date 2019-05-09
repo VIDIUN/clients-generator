@@ -11,7 +11,7 @@ export const LoggerSettings = {
     logLevel : LogLevels.warn
 };
 
-export class KalturaLogger
+export class VidiunLogger
 {
     constructor(private _name: string)
     {
@@ -21,7 +21,7 @@ export class KalturaLogger
     {
         if (LoggerSettings.logLevel <= LogLevels.warn)
         {
-            console.warn(`[kaltura-client/${this._name}]: ${message}`);
+            console.warn(`[vidiun-client/${this._name}]: ${message}`);
         }
     }
 
@@ -29,7 +29,7 @@ export class KalturaLogger
     {
         if (LoggerSettings.logLevel <= LogLevels.info)
         {
-            console.info(`[kaltura-client/${this._name}]: ${message}`);
+            console.info(`[vidiun-client/${this._name}]: ${message}`);
         }
     }
 
@@ -37,7 +37,7 @@ export class KalturaLogger
     {
         if (LoggerSettings.logLevel <= LogLevels.error)
         {
-            console.error(`[kaltura-client/${this._name}]: ${message}`);
+            console.error(`[vidiun-client/${this._name}]: ${message}`);
         }
     }
 }

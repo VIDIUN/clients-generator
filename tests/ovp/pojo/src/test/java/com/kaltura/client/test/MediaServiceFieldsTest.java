@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,19 +25,19 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import java.util.ArrayList;
 
-import com.kaltura.client.enums.KalturaContainerFormat;
-import com.kaltura.client.enums.KalturaNullableBoolean;
-import com.kaltura.client.enums.KalturaSiteRestrictionType;
-import com.kaltura.client.types.KalturaAccessControl;
-import com.kaltura.client.types.KalturaBaseRestriction;
-import com.kaltura.client.types.KalturaConversionProfile;
-import com.kaltura.client.types.KalturaCountryRestriction;
-import com.kaltura.client.types.KalturaSiteRestriction;
-import com.kaltura.client.types.KalturaThumbParams;
+import com.vidiun.client.enums.VidiunContainerFormat;
+import com.vidiun.client.enums.VidiunNullableBoolean;
+import com.vidiun.client.enums.VidiunSiteRestrictionType;
+import com.vidiun.client.types.VidiunAccessControl;
+import com.vidiun.client.types.VidiunBaseRestriction;
+import com.vidiun.client.types.VidiunConversionProfile;
+import com.vidiun.client.types.VidiunCountryRestriction;
+import com.vidiun.client.types.VidiunSiteRestriction;
+import com.vidiun.client.types.VidiunThumbParams;
 
 public class MediaServiceFieldsTest extends BaseTest {
 
@@ -50,12 +50,12 @@ public class MediaServiceFieldsTest extends BaseTest {
 
 		startAdminSession();
 
-		final String testString = "Kaltura test string";
+		final String testString = "Vidiun test string";
 		final int testInt = 42;
-		final KalturaNullableBoolean testEnumAsInt = KalturaNullableBoolean.FALSE_VALUE;
-		final KalturaContainerFormat testEnumAsString = KalturaContainerFormat.ISMV;
+		final VidiunNullableBoolean testEnumAsInt = VidiunNullableBoolean.FALSE_VALUE;
+		final VidiunContainerFormat testEnumAsString = VidiunContainerFormat.ISMV;
 
-		KalturaThumbParams params = new KalturaThumbParams();
+		VidiunThumbParams params = new VidiunThumbParams();
 		params.setName(testString);
 		params.setDescription(testString);
 		params.setDensity(testInt);
@@ -71,7 +71,7 @@ public class MediaServiceFieldsTest extends BaseTest {
 		assertEquals(testEnumAsString, params.getFormat());
 
 		// Null value not passed
-		KalturaThumbParams params2 = new KalturaThumbParams();
+		VidiunThumbParams params2 = new VidiunThumbParams();
 		params2.setDescription(null);
 		params2.setDensity(Integer.MIN_VALUE);
 		params2.setIsSystemDefault(null);
@@ -95,9 +95,9 @@ public class MediaServiceFieldsTest extends BaseTest {
 
 		startAdminSession();
 
-		final String testString = "Kaltura test string";
+		final String testString = "Vidiun test string";
 
-		KalturaThumbParams params = new KalturaThumbParams();
+		VidiunThumbParams params = new VidiunThumbParams();
 		params.setName(testString);
 		params.setDescription(testString);
 
@@ -107,7 +107,7 @@ public class MediaServiceFieldsTest extends BaseTest {
 		assertEquals(testString, params.getDescription());
 
 		// Set to null
-		KalturaThumbParams params2 = new KalturaThumbParams();
+		VidiunThumbParams params2 = new VidiunThumbParams();
 		params2.setDescription("__null_string__");
 
 		params2 = client.getThumbParamsService().update(params.getId(), params2);
@@ -126,8 +126,8 @@ public class MediaServiceFieldsTest extends BaseTest {
 		startAdminSession();
 		final int testInt = 42;
 
-		KalturaConversionProfile profile = new KalturaConversionProfile();
-		profile.setName("Kaltura test string");
+		VidiunConversionProfile profile = new VidiunConversionProfile();
+		profile.setName("Vidiun test string");
 		profile.setFlavorParamsIds("0");
 		profile.setStorageProfileId(testInt);
 
@@ -137,7 +137,7 @@ public class MediaServiceFieldsTest extends BaseTest {
 		assertEquals(testInt, profile.getStorageProfileId());
 
 		// Set to null
-		KalturaConversionProfile profile2 = new KalturaConversionProfile();
+		VidiunConversionProfile profile2 = new VidiunConversionProfile();
 		profile2.setStorageProfileId(Integer.MAX_VALUE);
 
 		profile2 = client.getConversionProfileService().update(profile.getId(), profile2);
@@ -154,17 +154,17 @@ public class MediaServiceFieldsTest extends BaseTest {
 	 */
 	public void testArrayConversion() throws Exception {
 		
-		KalturaSiteRestriction resA = new KalturaSiteRestriction();
-		resA.setSiteRestrictionType(KalturaSiteRestrictionType.RESTRICT_SITE_LIST);
+		VidiunSiteRestriction resA = new VidiunSiteRestriction();
+		resA.setSiteRestrictionType(VidiunSiteRestrictionType.RESTRICT_SITE_LIST);
 		resA.setSiteList("ResA");
-		KalturaCountryRestriction resB = new KalturaCountryRestriction();
+		VidiunCountryRestriction resB = new VidiunCountryRestriction();
 		resB.setCountryList("IllegalCountry");
 		
-		ArrayList<KalturaBaseRestriction> restrictions = new ArrayList<KalturaBaseRestriction>();
+		ArrayList<VidiunBaseRestriction> restrictions = new ArrayList<VidiunBaseRestriction>();
 		restrictions.add(resA);
 		restrictions.add(resB);
 		
-		KalturaAccessControl accessControl = new KalturaAccessControl();
+		VidiunAccessControl accessControl = new VidiunAccessControl();
 		accessControl.setName("test access control");
 		accessControl.setRestrictions(restrictions);
 		
@@ -175,15 +175,15 @@ public class MediaServiceFieldsTest extends BaseTest {
 		assertEquals(2, accessControl.getRestrictions().size());
 		
 		// Test null update - shouldn't update
-		KalturaAccessControl accessControl2 = new KalturaAccessControl();
+		VidiunAccessControl accessControl2 = new VidiunAccessControl();
 		accessControl2.setRestrictions(null); 
 		accessControl2 = client.getAccessControlService().update(accessControl.getId(), accessControl2);
 		
 		assertEquals(2, accessControl2.getRestrictions().size());
 		
 		// Test update Empty array - should update
-		KalturaAccessControl accessControl3 = new KalturaAccessControl();
-		accessControl3.setRestrictions(new ArrayList<KalturaBaseRestriction>()); 
+		VidiunAccessControl accessControl3 = new VidiunAccessControl();
+		accessControl3.setRestrictions(new ArrayList<VidiunBaseRestriction>()); 
 		accessControl3 = client.getAccessControlService().update(accessControl.getId(), accessControl3);
 		
 		assertEquals(0, accessControl3.getRestrictions().size());

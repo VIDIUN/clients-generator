@@ -31,7 +31,7 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 		foreach($classNodes as $classNode)
 		{
 			$type = $classNode->getAttribute('name');
-			if(!$this->shouldIncludeType($type) || $type == 'KalturaObject')
+			if(!$this->shouldIncludeType($type) || $type == 'VidiunObject')
 				continue;
 					
 			$this->writeClass($classNode);
@@ -86,7 +86,7 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 		$this->appendLine('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">');
 		$this->appendLine('<head>');
 		$this->appendLine('	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />');
-		$this->appendLine('	<title>Kaltura - TestMe Console Documentation</title>');
+		$this->appendLine('	<title>Vidiun - TestMe Console Documentation</title>');
 		
 		$this->appendLine('	<link rel="stylesheet" type="text/css" href="' . $cssPrefix . 'css/main.css" />');
 		
@@ -113,7 +113,7 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 		$this->appendHeader();
 		
 		$this->appendLine('	<div id="doc">');
-		$this->appendLine('		<h2>Kaltura API</h2>');
+		$this->appendLine('		<h2>Vidiun API</h2>');
 		$this->appendLine('		<table class="action" width="80%">');
 		$this->appendLine('			<tr>');
 		$this->appendLine("				<th class=\"service_action_title\">$type ($enumType)</th>");
@@ -234,7 +234,7 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 			$this->appendLine('						<tbody>');
 			$this->appendLine('							<tr>');
 			$this->appendLine('								<td class="inheritedFrom">');
-			$this->appendLine('									<b><img class="base-attribute" src="../images/collapsed.gif" alt="KalturaObjectBase" /> Inherited from KalturaObjectBase</b>');
+			$this->appendLine('									<b><img class="base-attribute" src="../images/collapsed.gif" alt="VidiunObjectBase" /> Inherited from VidiunObjectBase</b>');
 			$this->appendLine('								</td>');
 			$this->appendLine('							</tr>');
 			$this->appendLine('						</tbody>');
@@ -250,7 +250,7 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 			$this->appendLine('							</tr>');
 			$this->appendLine('							<tr>');
 			$this->appendLine('								<td>relatedObjects</td>');
-			$this->appendLine('								<td>map of <a href="KalturaListResponse.html">KalturaListResponse</a></td>');
+			$this->appendLine('								<td>map of <a href="VidiunListResponse.html">VidiunListResponse</a></td>');
 			$this->appendLine('								<td></td>');
 			$this->appendLine('								<td></td>');
 			$this->appendLine('								<td></td>');
@@ -310,7 +310,7 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 			
 			$restrictions = implode('<br/>', $restrictions);
 
-			if($name == 'orderBy' && $this->endsWith($class, 'Filter') && $class != 'KalturaFilter')
+			if($name == 'orderBy' && $this->endsWith($class, 'Filter') && $class != 'VidiunFilter')
 			{
 				$enumType = $this->getOrderByEnum($class);
 				if($enumType)
@@ -319,8 +319,8 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 			elseif($type == 'array' || $type == 'map')
 			{
 				$arrayType = $propertyNode->getAttribute("arrayType");
-				if($arrayType == 'KalturaObject')
-					$arrayType = 'KalturaObjectBase';
+				if($arrayType == 'VidiunObject')
+					$arrayType = 'VidiunObjectBase';
 				
 				$type = "$type of <a href=\"$arrayType.html\">$arrayType</a>";
 			}
@@ -376,7 +376,7 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 		$this->appendLine('	</script>');
 		
 		$this->appendLine('	<div id="doc">');
-		$this->appendLine('		<h2>Kaltura API</h2>');
+		$this->appendLine('		<h2>Vidiun API</h2>');
 		$this->appendLine('		<table class="action" width="80%">');
 		$this->appendLine('			<tr>');
 		$this->appendLine('				<th class="service_action_title">' . $type . '</th>');
@@ -436,8 +436,8 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 		
 		$this->appendFooter();
 		
-		if($type == 'KalturaObject')
-			$type = 'KalturaObjectBase';
+		if($type == 'VidiunObject')
+			$type = 'VidiunObjectBase';
 		
 		$this->closeFile();
 	}
@@ -457,7 +457,7 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 		$this->appendHeader();
 		
 		$this->appendLine('	<div id="doc">');
-		$this->appendLine('		<h2>Kaltura API</h2>');
+		$this->appendLine('		<h2>Vidiun API</h2>');
 		$this->appendLine('		<table id="serviceInfo">');
 		$this->appendLine('			<tr>');
 		$this->appendLine('				<td class="title">Service Name</td>');
@@ -607,7 +607,7 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 		$this->appendHeader();
 		
 		$this->appendLine('	<div id="doc">');
-		$this->appendLine('		<h2>Kaltura API</h2>');
+		$this->appendLine('		<h2>Vidiun API</h2>');
 		$this->appendLine('		<table class="action">');
 		$this->appendLine('			<tr>');
 		$this->appendLine("				<th colspan=\"5\" class=\"service_action_title\">$serviceTitle</th>");
@@ -708,7 +708,7 @@ class TestmeDocGenerator extends ClientGeneratorFromXml
 		$this->appendLine('				<td colspan="5" class="title">Example HTTP Hit</td>');
 		$this->appendLine('			</tr>');
 		$this->appendLine('			<tr>');
-		$this->appendLine("				<td colspan=\"5\">http://www.kaltura.com/api_v3/service/$serviceId/action/$actionId<br />");
+		$this->appendLine("				<td colspan=\"5\">http://www.vidiun.com/api_v3/service/$serviceId/action/$actionId<br />");
 		$this->appendLine('				<strong>JSON object:</strong>');
 		$this->appendLine('				<pre>');
 		$this->appendLine('				<div class="post_fields">');

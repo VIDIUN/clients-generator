@@ -1,5 +1,5 @@
 
-export class KalturaClientUtils
+export class VidiunClientUtils
 {
     static fromServerDate(value : number) : Date
     {

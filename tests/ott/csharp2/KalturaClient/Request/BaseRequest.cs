@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
-using Kaltura.Types;
+using Vidiun.Types;
 using Newtonsoft.Json.Linq;
 
-namespace Kaltura.Request
+namespace Vidiun.Request
 {
     /// <summary>
     /// This is an OTT Base Request

@@ -26,7 +26,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 		case "" :
 			return "void";
 		case "bool" :
-			return "KALTURA_BOOL";
+			return "VIDIUN_BOOL";
 		case "bigint" :
 		case "int" :
 			return "int";
@@ -70,12 +70,12 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 		switch ($propType)
 		{
 		case "bool" :
-			return "KALTURA_UNDEF_BOOL";
+			return "VIDIUN_UNDEF_BOOL";
 		case "bigint":
 		case "int" :
-			return "KALTURA_UNDEF_INT";
+			return "VIDIUN_UNDEF_INT";
 		case "float" :
-			return "KALTURA_UNDEF_FLOAT";
+			return "VIDIUN_UNDEF_FLOAT";
 		default : // file, string, array, object
 			return null;
 		}
@@ -157,9 +157,9 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 	function getPluginClassName($pluginName)
 	{
 		if ($pluginName == '')
-			return "KalturaClient";
+			return "VidiunClient";
 		
-		return "Kaltura" . $this->upperCaseFirstLetter($pluginName) . "ClientPlugin";
+		return "Vidiun" . $this->upperCaseFirstLetter($pluginName) . "ClientPlugin";
 	}
 	
 	protected function appendHText($txt = "")
@@ -295,7 +295,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 		if ($classNode->hasAttribute("base"))
 			$baseClass = $classNode->getAttribute("base");
 		else
-			$baseClass = 'KalturaObjectBase';
+			$baseClass = 'VidiunObjectBase';
 			
 		$extCode = $this->getClassExtProperties($classNode);
 		if ($extCode)
@@ -460,10 +460,10 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 			$propName = $propertyNode->getAttribute ( "name" );
 			$propName = $this->upperCaseFirstLetter($propName);
 
-			$this->appendHLine("- (KalturaFieldType)getTypeOf$propName;");
-			$this->appendMLine("- (KalturaFieldType)getTypeOf$propName");
+			$this->appendHLine("- (VidiunFieldType)getTypeOf$propName;");
+			$this->appendMLine("- (VidiunFieldType)getTypeOf$propName");
 			$this->appendMLine("{");
-			$this->appendMLine("    return KFT_$propType;");
+			$this->appendMLine("    return VFT_$propType;");
 			$this->appendMLine("}\n");
 			
 			$objectType = '';
@@ -504,7 +504,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 			$propName = $propertyNode->getAttribute ( "name" );
 			$ucPropName = $this->upperCaseFirstLetter($propName);
 			$propName = $this->renameReservedProperties($propName);
-			$propValue = "[KalturaSimpleTypeParser parse$propType:aPropVal]";
+			$propValue = "[VidiunSimpleTypeParser parse$propType:aPropVal]";
 			
 			$this->appendHLine("- (void)set{$ucPropName}FromString:(NSString*)aPropVal;");
 			$this->appendMLine("- (void)set{$ucPropName}FromString:(NSString*)aPropVal");
@@ -518,7 +518,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 	{
 		$type = $classNode->getAttribute ( "name" );
 		
-		$this->appendMLine( "- (void)toParams:(KalturaParams*)aParams isSuper:(BOOL)aIsSuper" );
+		$this->appendMLine( "- (void)toParams:(VidiunParams*)aParams isSuper:(BOOL)aIsSuper" );
 		$this->appendMLine( "{" );
 		$this->appendMLine( "    [super toParams:aParams isSuper:YES];" );
 		$this->appendMLine( "    if (!aIsSuper)" );
@@ -551,7 +551,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 				
 		$serviceName = $serviceNode->getAttribute("name");
 		
-		$serviceClassName = "Kaltura".$this->upperCaseFirstLetter($serviceName)."Service";
+		$serviceClassName = "Vidiun".$this->upperCaseFirstLetter($serviceName)."Service";
 		
 		if($this->generateDocs)
 		{
@@ -565,7 +565,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 
 		$this->handleAliasAction($serviceNode->childNodes);
 
-		$this->appendHLine("@interface $serviceClassName : KalturaServiceBase");
+		$this->appendHLine("@interface $serviceClassName : VidiunServiceBase");
 		$this->appendMLine("@implementation $serviceClassName");
 					
 		$actionNodes = $serviceNode->childNodes;
@@ -787,7 +787,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 		
 		if ($pluginName != '')
 		{
-			$this->appendHLine('#import "../KalturaClient.h"');
+			$this->appendHLine('#import "../VidiunClient.h"');
 
 			$xpath = new DOMXPath($this->_doc);
 			$dependencyNodes = $xpath->query("/xml/plugins/plugin[@name = '$pluginName']/dependency");
@@ -799,7 +799,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 		}
 		else 
 		{
-			$this->appendHLine('#import "KalturaClientBase.h"');
+			$this->appendHLine('#import "VidiunClientBase.h"');
 		}
 		$this->appendHLine('');
 
@@ -819,16 +819,16 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 		if (!$services)
 			return;
 		
-		if ($pluginClassName == "KalturaClient")
-			$baseClassName = "KalturaClientBase";
+		if ($pluginClassName == "VidiunClient")
+			$baseClassName = "VidiunClientBase";
 		else
-			$baseClassName = "KalturaClientPlugin";
+			$baseClassName = "VidiunClientPlugin";
 			
 		$this->appendHLine("@interface $pluginClassName : $baseClassName");	
 		$this->appendHLine("{");	
 		foreach ($services as $serviceName)
 		{
-			$serviceClassName = "Kaltura".$this->upperCaseFirstLetter($serviceName)."Service";
+			$serviceClassName = "Vidiun".$this->upperCaseFirstLetter($serviceName)."Service";
 			$this->appendHLine("	$serviceClassName* _$serviceName;");
 		}
 		$this->appendHLine("}");	
@@ -836,29 +836,29 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 		$this->appendMLine("@implementation $pluginClassName");
 		
 		// properties
-		if ($pluginClassName != "KalturaClient")
+		if ($pluginClassName != "VidiunClient")
 		{
-			$this->appendHLine("@property (nonatomic, assign) KalturaClientBase* client;");
+			$this->appendHLine("@property (nonatomic, assign) VidiunClientBase* client;");
 			$this->appendMLine("@synthesize client = _client;");
 		}
 		
 		foreach ($services as $serviceName)
 		{
-			$serviceClassName = "Kaltura".$this->upperCaseFirstLetter($serviceName)."Service";
+			$serviceClassName = "Vidiun".$this->upperCaseFirstLetter($serviceName)."Service";
 			$this->appendHLine("@property (nonatomic, readonly) $serviceClassName* $serviceName;");
 		}
 		$this->appendMLine();
 		
 		// init
-		if ($pluginClassName == "KalturaClient")
+		if ($pluginClassName == "VidiunClient")
 		{
-			$initParams = "WithConfig:(KalturaConfiguration*)aConfig";
+			$initParams = "WithConfig:(VidiunConfiguration*)aConfig";
 			$initSuperParams = "WithConfig:aConfig";
 			$clientVar = "self";
 		}
 		else
 		{
-			$initParams = "WithClient:(KalturaClient*)aClient";
+			$initParams = "WithClient:(VidiunClient*)aClient";
 			$initSuperParams = "";
 			$clientVar = "self.client";
 		}
@@ -868,7 +868,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 		$this->appendMLine("    self = [super init{$initSuperParams}];");
 		$this->appendMLine("    if (self == nil)");
 		$this->appendMLine("        return nil;");
-		if ($pluginClassName == "KalturaClient")
+		if ($pluginClassName == "VidiunClient")
 		{
 			$this->appendMLine("    self.apiVersion = API_VERSION;");
 		}
@@ -882,7 +882,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 
 		foreach ($services as $serviceName)
 		{
-			$serviceClassName = "Kaltura".$this->upperCaseFirstLetter($serviceName)."Service";
+			$serviceClassName = "Vidiun".$this->upperCaseFirstLetter($serviceName)."Service";
 			$this->appendMLine("- ($serviceClassName*)$serviceName");
 			$this->appendMLine("{");
 			$this->appendMLine("    if (self->_$serviceName == nil)");
@@ -916,7 +916,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 		}
 		else 
 		{
-			$this->_outputFileBase = "KalturaPlugins/$pluginClassName";
+			$this->_outputFileBase = "VidiunPlugins/$pluginClassName";
 		}
 
 		$this->writePluginHeader($pluginName);	
@@ -971,8 +971,8 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 			$this->addPluginFileToProject($pluginClassName, 'h');
 			$this->addPluginFileToProject($pluginClassName, 'm');
 		}
-		$this->addFile("KalturaClient/KalturaClient/{$this->_outputFileBase}.h", $this->_hFileData);
-		$this->addFile("KalturaClient/KalturaClient/{$this->_outputFileBase}.m", $this->_mFileData);
+		$this->addFile("VidiunClient/VidiunClient/{$this->_outputFileBase}.h", $this->_hFileData);
+		$this->addFile("VidiunClient/VidiunClient/{$this->_outputFileBase}.m", $this->_mFileData);
 		$this->_hFileData = '';
 		$this->_mFileData = '';
 	}
@@ -1030,7 +1030,7 @@ class ObjCClientGenerator extends ClientGeneratorFromXml
 	
 	function writeProjectFile()
 	{
-		$projectFilePath = 'KalturaClient/KalturaClient.xcodeproj/project.pbxproj';
+		$projectFilePath = 'VidiunClient/VidiunClient.xcodeproj/project.pbxproj';
 		$projectFileData = file_get_contents($this->_sourcePath . "/" . $projectFilePath);
 		foreach ($this->_projectSections as $sectionName => $sectionData)
 		{

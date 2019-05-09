@@ -1,6 +1,6 @@
 <?php
 
-class SampleLoggerImplementation implements Kaltura_Client_ILogger
+class SampleLoggerImplementation implements Vidiun_Client_ILogger
 {
 	public function log($msg)
 	{

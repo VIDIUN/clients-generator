@@ -5,11 +5,11 @@
 //						  | ' </ _` | |  _| || | '_/ _` |
 //						  |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -30,27 +30,27 @@
 /**
  * @namespace
  */
-namespace Kaltura\Client;
+namespace Vidiun\Client;
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
 class Base
 {
-	// KS V2 constants
+	// VS V2 constants
 	const RANDOM_SIZE = 16;
 
 	const FIELD_EXPIRY =			  '_e';
 	const FIELD_TYPE =				'_t';
 	const FIELD_USER =				'_u';
 
-	const KALTURA_SERVICE_FORMAT_JSON = 1;
-	const KALTURA_SERVICE_FORMAT_XML  = 2;
-	const KALTURA_SERVICE_FORMAT_PHP  = 3;
+	const VIDIUN_SERVICE_FORMAT_JSON = 1;
+	const VIDIUN_SERVICE_FORMAT_XML  = 2;
+	const VIDIUN_SERVICE_FORMAT_PHP  = 3;
 
 	/**
-	 * @var \Kaltura\Client\Configuration
+	 * @var \Vidiun\Client\Configuration
 	 */
 	protected $config;
 
@@ -75,7 +75,7 @@ class Base
 	private $multiRequestReturnType = null;
 
 	/**
-	 * @var array<\Kaltura\Client\ServiceActionCall>
+	 * @var array<\Vidiun\Client\ServiceActionCall>
 	 */
 	private $callsQueue = array();
 
@@ -85,9 +85,9 @@ class Base
 	private $responseHeaders = array();
 
 	/**
-	 * Kaltura client constructor
+	 * Vidiun client constructor
 	 *
-	 * @param \Kaltura\Client\Configuration $config
+	 * @param \Vidiun\Client\Configuration $config
 	 */
 	public function __construct(Configuration $config)
 	{
@@ -133,7 +133,7 @@ class Base
 
 		$params = array_merge($params, $call->params);
 		$signature = $this->signature($params);
-		$this->addParam($params, "kalsig", $signature);
+		$this->addParam($params, "vidsig", $signature);
 
 		$url = $this->config->getServiceUrl() . "/api_v3/service/{$call->service}/action/{$call->action}";
 		$url .= '?' . http_build_query($params);
@@ -214,7 +214,7 @@ class Base
 		$this->callsQueue = array();
 
 		$signature = $this->signature($params);
-		$this->addParam($params, "kalsig", $signature);
+		$this->addParam($params, "vidsig", $signature);
 
 		list($postResult, $errorCode, $error) = $this->doHttpRequest($url, $params, $files);
 
@@ -234,7 +234,7 @@ class Base
 				$splittedHeader = explode(':', $curHeader, 2);
 				if ($splittedHeader[0] == 'X-Me')
 					$serverName = trim($splittedHeader[1]);
-				else if ($splittedHeader[0] == 'X-Kaltura-Session')
+				else if ($splittedHeader[0] == 'X-Vidiun-Session')
 					$serverSession = trim($splittedHeader[1]);
 			}
 			if (!is_null($serverName) || !is_null($serverSession))
@@ -242,7 +242,7 @@ class Base
 
 			$this->log("result (serialized): " . $postResult);
 
-			if ($this->config->getFormat() != self::KALTURA_SERVICE_FORMAT_XML)
+			if ($this->config->getFormat() != self::VIDIUN_SERVICE_FORMAT_XML)
 			{
 				$this->resetRequest();
 				throw $this->getClientException( "unsupported format: $postResult", ClientException::ERROR_FORMAT_NOT_SUPPORTED);
@@ -265,12 +265,12 @@ class Base
 	 * @param int $flags
 	 * @return boolean
 	 */
-	protected function ksortRecursive(&$array, $flags = null)
+	protected function vsortRecursive(&$array, $flags = null)
 	{
-		ksort($array, $flags);
+		vsort($array, $flags);
 		foreach($array as &$arr) {
 			if(is_array($arr))
-				$this->ksortRecursive($arr, $flags);
+				$this->vsortRecursive($arr, $flags);
 		}
 		return true;
 	}
@@ -283,7 +283,7 @@ class Base
 	 */
 	private function signature($params)
 	{
-		$this->ksortRecursive($params);
+		$this->vsortRecursive($params);
 		return md5($this->jsonEncode($params));
 	}
 
@@ -317,11 +317,11 @@ class Base
 		$params = $this->jsonEncode($params);
 		$this->log("curl: $url");
 		$this->log("post: $params");
-		if($this->config->getFormat() == self::KALTURA_SERVICE_FORMAT_JSON)
+		if($this->config->getFormat() == self::VIDIUN_SERVICE_FORMAT_JSON)
 		{
 			$requestHeaders[] = 'Accept: application/json';
 		}
-		elseif($this->config->getFormat() == self::KALTURA_SERVICE_FORMAT_XML)
+		elseif($this->config->getFormat() == self::VIDIUN_SERVICE_FORMAT_XML)
 		{
 			$requestHeaders[] = 'Accept: application/xml';
 		}
@@ -425,9 +425,9 @@ class Base
 		}
 	}
 
-	public function setClientConfiguration(\Kaltura\Client\Type\ClientConfiguration $configuration)
+	public function setClientConfiguration(\Vidiun\Client\Type\ClientConfiguration $configuration)
 	{
-		$params = get_class_vars('\Kaltura\Client\Type\ClientConfiguration');
+		$params = get_class_vars('\Vidiun\Client\Type\ClientConfiguration');
 		foreach($params as $param)
 		{
 			if(is_null($configuration->$param))
@@ -444,9 +444,9 @@ class Base
 		}
 	}
 
-	public function setRequestConfiguration(\Kaltura\Client\Type\RequestConfiguration $configuration)
+	public function setRequestConfiguration(\Vidiun\Client\Type\RequestConfiguration $configuration)
 	{
-		$params = get_class_vars('\Kaltura\Client\Type\RequestConfiguration');
+		$params = get_class_vars('\Vidiun\Client\Type\RequestConfiguration');
 		$params = array_keys($params);
 		foreach($params as $param)
 		{
@@ -484,7 +484,7 @@ class Base
 		if(is_object($paramValue) && $paramValue instanceof ObjectBase)
 		{
 			$params[$paramName] = array(
-				'objectType' => $paramValue->getKalturaObjectType()
+				'objectType' => $paramValue->getVidiunObjectType()
 			);
 
 			foreach($paramValue as $prop => $val)
@@ -602,7 +602,7 @@ class Base
 		}
 
 		if(is_object($object) && $object instanceof ObjectBase)
-			$array['objectType'] = $object->getKalturaObjectType();
+			$array['objectType'] = $object->getVidiunObjectType();
 
 		return $array;
 	}
@@ -783,8 +783,8 @@ class Base
 
 		// encrypt and encode
 		$encryptedFields = self::aesEncrypt($adminSecretForSigning, $fieldsStr);
-		$decodedKs = "v2|{$partnerId}|" . $encryptedFields;
-		return str_replace(array('+', '/'), array('-', '_'), base64_encode($decodedKs));
+		$decodedVs = "v2|{$partnerId}|" . $encryptedFields;
+		return str_replace(array('+', '/'), array('-', '_'), base64_encode($decodedVs));
 	}
 
 	protected static function aesEncrypt($key, $message)
@@ -824,9 +824,9 @@ class Base
 	}
 
 	/**
-	 * @return KalturaNull
+	 * @return VidiunNull
 	 */
-	public static function getKalturaNullValue()
+	public static function getVidiunNullValue()
 	{
 		return NullValue::getInstance();
 	}
@@ -854,7 +854,7 @@ class Base
 		{
 			$code = "{$xml->error->code}";
 			$message = "{$xml->error->message}";
-			$arguments = $xml->error->args ? ParseUtils::unmarshalArray($xml->error->args, 'KalturaApiExceptionArg') : array();
+			$arguments = $xml->error->args ? ParseUtils::unmarshalArray($xml->error->args, 'VidiunApiExceptionArg') : array();
 			if($throwException)
 				throw $this->getAPIException($message, $code, $arguments);
 			else

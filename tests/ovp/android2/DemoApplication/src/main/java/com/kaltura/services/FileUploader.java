@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.services;
+package com.vidiun.services;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,16 +17,16 @@ import java.util.logging.Logger;
 import android.os.Environment;
 import android.util.Log;
 
-import com.kaltura.client.services.MediaService;
-import com.kaltura.client.services.UploadTokenService;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.MediaEntry;
-import com.kaltura.client.types.UploadToken;
-import com.kaltura.client.types.UploadedFileTokenResource;
-import com.kaltura.client.utils.request.RequestBuilder;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
-import com.kaltura.utils.ApiHelper;
+import com.vidiun.client.services.MediaService;
+import com.vidiun.client.services.UploadTokenService;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.MediaEntry;
+import com.vidiun.client.types.UploadToken;
+import com.vidiun.client.types.UploadedFileTokenResource;
+import com.vidiun.client.utils.request.RequestBuilder;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
+import com.vidiun.utils.ApiHelper;
 
 /**
  * Upload files to the server

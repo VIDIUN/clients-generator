@@ -1,10 +1,10 @@
-Kaltura Ruby API Client Library.
-Compatible with Kaltura server version @VERSION@ and above.
+Vidiun Ruby API Client Library.
+Compatible with Vidiun server version @VERSION@ and above.
 
 This source contains:
- - The Kaltura client library (kaltura_client_base.rb)
- - Auto generated core APIs (kaltura_client.rb)
- - Auto generated plugin APIs (kaltura_plugins/*.rb)
+ - The Vidiun client library (vidiun_client_base.rb)
+ - Auto generated core APIs (vidiun_client.rb)
+ - Auto generated plugin APIs (vidiun_plugins/*.rb)
  - Ruby library test code and data files (test/*)
  
 == DEPENDENCIES ==
@@ -18,6 +18,6 @@ Rest_client		(gem install rest-client)
 IMPORTANT: never run the tests of the client library against a production account - 
 	these tests perform modifications to account profiles.
 	
-Update kaltura.yml with your account information
-Change directory to kaltura/ruby
+Update vidiun.yml with your account information
+Change directory to vidiun/ruby
 Execute the command: rake test

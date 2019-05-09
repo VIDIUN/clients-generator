@@ -1,18 +1,18 @@
 import {PlaylistListAction} from "../lib/api/types/PlaylistListAction";
-import {KalturaPlaylistListResponse} from "../lib/api/types/KalturaPlaylistListResponse";
-import {KalturaPlaylist} from "../lib/api/types/KalturaPlaylist";
-import {KalturaPlaylistType} from "../lib/api/types/KalturaPlaylistType";
+import {VidiunPlaylistListResponse} from "../lib/api/types/VidiunPlaylistListResponse";
+import {VidiunPlaylist} from "../lib/api/types/VidiunPlaylist";
+import {VidiunPlaylistType} from "../lib/api/types/VidiunPlaylistType";
 import {PlaylistAddAction} from "../lib/api/types/PlaylistAddAction";
 import {PlaylistDeleteAction} from "../lib/api/types/PlaylistDeleteAction";
 import {PlaylistUpdateAction} from "../lib/api/types/PlaylistUpdateAction";
 import { asyncAssert, getClient } from "./utils";
-import {LoggerSettings, LogLevels} from "../lib/api/kaltura-logger";
-import {KalturaClient} from "../lib/kaltura-client.service";
+import {LoggerSettings, LogLevels} from "../lib/api/vidiun-logger";
+import {VidiunClient} from "../lib/vidiun-client.service";
 import { switchMap } from 'rxjs/operators';
 
 
 describe(`service "Playlist" tests`, () => {
-  let kalturaClient: KalturaClient = null;
+  let vidiunClient: VidiunClient = null;
 
   beforeAll(async () => {
     LoggerSettings.logLevel = LogLevels.error; // suspend warnings
@@ -20,25 +20,25 @@ describe(`service "Playlist" tests`, () => {
     return new Promise((resolve => {
       getClient()
         .subscribe(client => {
-          kalturaClient = client;
+          vidiunClient = client;
           resolve(client);
         });
     }));
   });
 
   afterAll(() => {
-    kalturaClient = null;
+    vidiunClient = null;
   });
 
   test(`invoke "list" action`, (done) => {
     expect.assertions(4);
-    kalturaClient.request(new PlaylistListAction()).subscribe(
+    vidiunClient.request(new PlaylistListAction()).subscribe(
       (response) => {
         asyncAssert(() => {
-          expect(response instanceof KalturaPlaylistListResponse).toBeTruthy();
+          expect(response instanceof VidiunPlaylistListResponse).toBeTruthy();
           expect(response.objects).toBeDefined();
           expect(response.objects instanceof Array).toBeTruthy();
-          expect(response.objects[0] instanceof KalturaPlaylist).toBeTruthy();
+          expect(response.objects[0] instanceof VidiunPlaylist).toBeTruthy();
         });
 
         done();
@@ -50,18 +50,18 @@ describe(`service "Playlist" tests`, () => {
   });
 
   test(`invoke "createRemote:staticList" action`, (done) => {
-    const playlist = new KalturaPlaylist({
+    const playlist = new VidiunPlaylist({
       name: "tstest.PlaylistTests.test_createRemote",
-      playlistType: KalturaPlaylistType.staticList
+      playlistType: VidiunPlaylistType.staticList
     });
     expect.assertions(2);
-    kalturaClient.request(new PlaylistAddAction({playlist}))
+    vidiunClient.request(new PlaylistAddAction({playlist}))
       .subscribe(
         (response) => {
-          kalturaClient.request(new PlaylistDeleteAction({id: response.id})).subscribe(
+          vidiunClient.request(new PlaylistDeleteAction({id: response.id})).subscribe(
             () => {
               asyncAssert(() => {
-                expect(response instanceof KalturaPlaylist).toBeTruthy();
+                expect(response instanceof VidiunPlaylist).toBeTruthy();
                 expect(typeof response.id).toBe("string");
               });
               done();
@@ -75,24 +75,24 @@ describe(`service "Playlist" tests`, () => {
   });
 
   test(`invoke "update" action`, (done) => {
-    const playlist = new KalturaPlaylist({
+    const playlist = new VidiunPlaylist({
       name: "tstest.PlaylistTests.test_createRemote",
       referenceId: "tstest.PlaylistTests.test_update",
-      playlistType: KalturaPlaylistType.staticList
+      playlistType: VidiunPlaylistType.staticList
     });
     expect.assertions(1);
-    kalturaClient.request(new PlaylistAddAction({playlist}))
+    vidiunClient.request(new PlaylistAddAction({playlist}))
       .pipe(
       switchMap(({id}) => {
           playlist.name = "Changed!";
-          return kalturaClient.request(new PlaylistUpdateAction({id, playlist}));
+          return vidiunClient.request(new PlaylistUpdateAction({id, playlist}));
         }
       ),
       switchMap(({id, name}) => {
         asyncAssert(() => {
           expect(name).toBe("Changed!");
         });
-        return kalturaClient.request(new PlaylistDeleteAction({id}));
+        return vidiunClient.request(new PlaylistDeleteAction({id}));
       }))
       .subscribe(() => {
             done();
@@ -103,19 +103,19 @@ describe(`service "Playlist" tests`, () => {
   });
 
   test(`invoke "createRemote:dynamicList" action`, (done) => {
-    const playlist = new KalturaPlaylist({
+    const playlist = new VidiunPlaylist({
       name: "tstest.PlaylistTests.test_createRemote",
-      playlistType: KalturaPlaylistType.dynamic,
+      playlistType: VidiunPlaylistType.dynamic,
       totalResults: 0
     });
     expect.assertions(2);
-    kalturaClient.request(new PlaylistAddAction({playlist}))
+    vidiunClient.request(new PlaylistAddAction({playlist}))
       .subscribe(
         (response) => {
-          kalturaClient.request(new PlaylistDeleteAction({id: response.id}))
+          vidiunClient.request(new PlaylistDeleteAction({id: response.id}))
             .subscribe(() => {
               asyncAssert(() => {
-                expect(response instanceof KalturaPlaylist).toBeTruthy();
+                expect(response instanceof VidiunPlaylist).toBeTruthy();
                 expect(typeof response.id).toBe("string");
               });
               done();

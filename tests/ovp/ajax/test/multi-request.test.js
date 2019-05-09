@@ -1,23 +1,23 @@
 
-var config = new KalturaConfiguration();
+var config = new VidiunConfiguration();
 config.serviceUrl = serviceUrl;
-config.setLogger(new IKalturaLogger());
+config.setLogger(new IVidiunLogger());
 
-var client = new KalturaClient(config);
+var client = new VidiunClient(config);
 
 describe("Start session", function() {
-    describe("User KS", function() {
+    describe("User VS", function() {
     	var userId = null;
-    	var type = 0; // KalturaSessionType.USER
+    	var type = 0; // VidiunSessionType.USER
     	var expiry = null;
     	var privileges = null;
 
     	it('not null', function(done) {
-    		KalturaSessionService.start(secret, userId, type, partnerId, expiry, privileges)
-        	.completion(function(success, ks) {
+    		VidiunSessionService.start(secret, userId, type, partnerId, expiry, privileges)
+        	.completion(function(success, vs) {
         		expect(success).toBe(true);
-        		expect(ks).not.toBe(null);
-        		client.setKs(ks);
+        		expect(vs).not.toBe(null);
+        		client.setVs(vs);
         		done();
         	})
         	.execute(client);
@@ -30,7 +30,7 @@ describe("media", function() {
 
     describe("multi-request", function() {
     	var entry = {
-    		mediaType: 1, // KalturaMediaType.VIDEO
+    		mediaType: 1, // VidiunMediaType.VIDEO
     		name: 'test'
     	};
 
@@ -38,7 +38,7 @@ describe("media", function() {
     	};
 
     	var mediaResource = {
-    		objectType: 'KalturaUploadedFileTokenResource',
+    		objectType: 'VidiunUploadedFileTokenResource',
 			token: '{2:result:id}'
     	};
 
@@ -46,33 +46,33 @@ describe("media", function() {
 		
     	jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     	it('create entry', function(done) {
-    		KalturaMediaService.add(entry)
-    		.add(KalturaUploadTokenService.add(uploadToken))
-    		.add(KalturaMediaService.addContent('{1:result:id}', mediaResource))
+    		VidiunMediaService.add(entry)
+    		.add(VidiunUploadTokenService.add(uploadToken))
+    		.add(VidiunMediaService.addContent('{1:result:id}', mediaResource))
 //    		Karma doesn't support creating <input type=file>
-//    		.add(KalturaUploadTokenService.upload('{2:result:id}', filename))
+//    		.add(VidiunUploadTokenService.upload('{2:result:id}', filename))
     		.completion(function(success, results) {
         		expect(success).toBe(true);
         		
     			entry = results[0];
         		expect(entry).not.toBe(null);
         		expect(entry.id).not.toBe(null);
-        		expect(entry.status.toString()).toBe('7'); // KalturaEntryStatus.NO_CONTENT
+        		expect(entry.status.toString()).toBe('7'); // VidiunEntryStatus.NO_CONTENT
 
     			uploadToken = results[1];
         		expect(uploadToken).not.toBe(null);
         		expect(uploadToken.id).not.toBe(null);
-        		expect(uploadToken.status).toBe(0); // KalturaUploadTokenStatus.PENDING
+        		expect(uploadToken.status).toBe(0); // VidiunUploadTokenStatus.PENDING
 
     			entry = results[2];
-        		expect(entry.status.toString()).toBe('0'); // KalturaEntryStatus.IMPORT
+        		expect(entry.status.toString()).toBe('0'); // VidiunEntryStatus.IMPORT
 
 //        		Karma doesn't support creating <input type=file>
 //    			uploadToken = results[3];
 //        		expect(uploadToken).not.toBe(null);
 //        		expect(uploadToken.id).not.toBe(null);
 //        		expect(uploadToken.fileSize).toBeGreaterThan(0);
-//        		expect(uploadToken.status).toBe(3); // KalturaUploadTokenStatus.CLOSED
+//        		expect(uploadToken.status).toBe(3); // VidiunUploadTokenStatus.CLOSED
         		
         		done();
     		})

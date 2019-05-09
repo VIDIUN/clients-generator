@@ -4,11 +4,11 @@
 //						  | ' </ _` | |  _| || | '_/ _` |
 //						  |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,11 +25,11 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
-import com.kaltura.client.enums.SessionType;
-import com.kaltura.client.utils.EncryptionUtils;
-import com.kaltura.client.utils.request.ConnectionConfiguration;
+import com.vidiun.client.enums.SessionType;
+import com.vidiun.client.utils.EncryptionUtils;
+import com.vidiun.client.utils.request.ConnectionConfiguration;
 import org.apache.commons.codec.binary.Base64;
 
 import java.net.URLEncoder;
@@ -42,7 +42,7 @@ public class ClientBase extends ClientConfigBase {
 
 	private static final String UTF8_CHARSET = "UTF-8";
 
-    // KS v2 constants
+    // VS v2 constants
     private static final String FIELD_EXPIRY = "_e";
     private static final String FIELD_USER = "_u";
 	private static final String FIELD_TYPE = "_t";
@@ -66,7 +66,7 @@ public class ClientBase extends ClientConfigBase {
 		return this.generateSession(adminSecretForSigning, userId, type, partnerId, expiry, "");
 	}
 
-	/** generate "ks" to be used fro requests - OVP */
+	/** generate "vs" to be used fro requests - OVP */
 	public String generateSession(String adminSecretForSigning, String userId, SessionType type, int partnerId, int expiry, String privileges) throws Exception
 	{
 		try
@@ -98,11 +98,11 @@ public class ClientBase extends ClientConfigBase {
 			String hashedString = new String(Base64.encodeBase64(sbToEncode.toString().getBytes()));
 			
 			// remove line breaks in the session string
-			String ks = hashedString.replace("\n", "");
-			ks = hashedString.replace("\r", "");
+			String vs = hashedString.replace("\n", "");
+			vs = hashedString.replace("\r", "");
 			
-			// return the generated session key (KS)
-			return ks;
+			// return the generated session key (VS)
+			return vs;
 		} catch (NoSuchAlgorithmException ex)
 		{
 			throw new Exception(ex);
@@ -173,13 +173,13 @@ public class ClientBase extends ClientConfigBase {
 		System.arraycopy(prefix.getBytes(), 0, output, 0, prefix.length());
 		System.arraycopy(encryptedFields,0,output,prefix.length(), encryptedFields.length);
 		
-		String encodedKs = new String(Base64.encodeBase64(output));
-		encodedKs = encodedKs.replaceAll("\\+", "-");
-		encodedKs = encodedKs.replaceAll("/", "_");
-		encodedKs = encodedKs.replace("\n", "");
-		encodedKs = encodedKs.replace("\r", "");
+		String encodedVs = new String(Base64.encodeBase64(output));
+		encodedVs = encodedVs.replaceAll("\\+", "-");
+		encodedVs = encodedVs.replaceAll("/", "_");
+		encodedVs = encodedVs.replace("\n", "");
+		encodedVs = encodedVs.replace("\r", "");
 		
-		return encodedKs;
+		return encodedVs;
 		} catch (GeneralSecurityException ex) {
 			logger.error("Failed to generate v2 session.");
 			throw new Exception(ex);

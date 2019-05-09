@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,20 +32,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.Category;
-import com.kaltura.client.types.ListResponse;
-import com.kaltura.client.types.MediaEntry;
-import com.kaltura.client.types.UploadToken;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
-import com.kaltura.enums.States;
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.AdminUser;
-import com.kaltura.services.Categories;
-import com.kaltura.services.Media;
-import com.kaltura.services.FileUploader;
-import com.kaltura.utils.Utils;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.Category;
+import com.vidiun.client.types.ListResponse;
+import com.vidiun.client.types.MediaEntry;
+import com.vidiun.client.types.UploadToken;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
+import com.vidiun.enums.States;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.AdminUser;
+import com.vidiun.services.Categories;
+import com.vidiun.services.Media;
+import com.vidiun.services.FileUploader;
+import com.vidiun.utils.Utils;
 
 public class Main extends TemplateActivity {
 

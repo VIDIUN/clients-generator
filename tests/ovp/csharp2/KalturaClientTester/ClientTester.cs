@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -29,13 +29,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using Kaltura;
-using Kaltura.Enums;
-using Kaltura.Types;
-using Kaltura.Request;
-using Kaltura.Services;
+using Vidiun;
+using Vidiun.Enums;
+using Vidiun.Types;
+using Vidiun.Request;
+using Vidiun.Services;
 
-namespace Kaltura.Tester
+namespace Vidiun.Tester
 {
     class ClientTester : ILogger
     {
@@ -62,7 +62,7 @@ namespace Kaltura.Tester
             public BaseTest()
             {
                 client = new Client(GetConfig());
-                client.KS = client.GenerateSession(PARTNER_ID, ADMIN_SECRET, USER_ID, SessionType.ADMIN, 86400, "");
+                client.VS = client.GenerateSession(PARTNER_ID, ADMIN_SECRET, USER_ID, SessionType.ADMIN, 86400, "");
 
                 id = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
             }
@@ -502,13 +502,13 @@ namespace Kaltura.Tester
                     multiRequestBuilder.Add(metadataProfileAddRequestBuilder);
                 }
 
-                string userKS = client.GenerateSession(PARTNER_ID, ADMIN_SECRET, USER_ID);
+                string userVS = client.GenerateSession(PARTNER_ID, ADMIN_SECRET, USER_ID);
                 string xml;
                 for (int i = 0; i < entriesCount; i++)
                 {
                     MediaAddRequestBuilder mediaAddRequestBuilder = createEntry();
                     mediaAddRequestBuilder.SetCompletion(new OnCompletedHandler<MediaEntry>(OnMediaAddComplete));
-                    mediaAddRequestBuilder.Ks = userKS;
+                    mediaAddRequestBuilder.Vs = userVS;
                     multiRequestBuilder.Add(mediaAddRequestBuilder);
 
                     for (int index = 1; index <= metadataProfileCount; index++)
@@ -519,7 +519,7 @@ namespace Kaltura.Tester
                 </metadata>";
 
                         MetadataAddRequestBuilder metadataAddRequestBuilder = new MetadataAddRequestBuilder();
-                        metadataAddRequestBuilder.Ks = userKS;
+                        metadataAddRequestBuilder.Vs = userVS;
                         metadataAddRequestBuilder.ObjectType = MetadataObjectType.ENTRY;
                         metadataAddRequestBuilder.XmlData = xml;
                         metadataAddRequestBuilder.Map("objectId", mediaAddRequestBuilder.Forward("id"));
@@ -858,11 +858,11 @@ namespace Kaltura.Tester
                 Console.WriteLine("4. iPad Flavor URL is: " + iPadFlavorUrl);
 
                 //Alternatively, download URL for a given flavor id can also be retrived by creating the playManifest URL -
-                string playManifestURL = "http://www..com/p/{partnerId}/sp/0/playManifest/entryId/{entryId}/format/url/flavorParamId/{flavorParamId}/ks/{ks}/{fileName}.mp4";
+                string playManifestURL = "http://www..com/p/{partnerId}/sp/0/playManifest/entryId/{entryId}/format/url/flavorParamId/{flavorParamId}/vs/{vs}/{fileName}.mp4";
                 playManifestURL = playManifestURL.Replace("{partnerId}", PARTNER_ID.ToString());
                 playManifestURL = playManifestURL.Replace("{entryId}", entry.Id);
                 playManifestURL = playManifestURL.Replace("{flavorParamId}", flavorParamsId.ToString());
-                playManifestURL = playManifestURL.Replace("{ks}", client.KS);
+                playManifestURL = playManifestURL.Replace("{vs}", client.VS);
                 playManifestURL = playManifestURL.Replace("{fileName}", entry.Name);
                 Console.WriteLine("4. iPad Flavor playManifest URL is: " + playManifestURL);
 
@@ -1103,7 +1103,7 @@ namespace Kaltura.Tester
                 SessionStartRequestBuilder sessionStartRequestBuilder = SessionService.Start(ADMIN_SECRET, "", SessionType.ADMIN, PARTNER_ID, 86400, "");
                 
                 // Request 2
-                sessionStartRequestBuilder.Add(MediaService.List().Map(MediaListRequestBuilder.KS, sessionStartRequestBuilder.Forward()))
+                sessionStartRequestBuilder.Add(MediaService.List().Map(MediaListRequestBuilder.VS, sessionStartRequestBuilder.Forward()))
                     .SetCompletion(new OnCompletedHandler<List<object>>(OnMediaListMultiRequestComplete))
                     .Execute(client);
             }
@@ -1152,7 +1152,7 @@ namespace Kaltura.Tester
                 newPlaylist.PlaylistContent = twoEntries;
                 newPlaylist.PlaylistType = PlaylistType.STATIC_LIST;
 
-                sessionStartRequestBuilder.Add(PlaylistService.Add(newPlaylist).Map(PlaylistAddRequestBuilder.KS, sessionStartRequestBuilder.Forward()))
+                sessionStartRequestBuilder.Add(PlaylistService.Add(newPlaylist).Map(PlaylistAddRequestBuilder.VS, sessionStartRequestBuilder.Forward()))
                     .SetCompletion(new OnCompletedHandler<List<object>>(OnPlaylistAddMultiRequestComplete))
                     .Execute(client);
             }
@@ -1230,7 +1230,7 @@ namespace Kaltura.Tester
         {
             uniqueTag = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
 
-            Console.WriteLine("Starting C# Kaltura API Client Library");
+            Console.WriteLine("Starting C# Vidiun API Client Library");
 
             BaseTest tester;
             if(args.Length > 0 && args[0].Equals("--with-threads"))

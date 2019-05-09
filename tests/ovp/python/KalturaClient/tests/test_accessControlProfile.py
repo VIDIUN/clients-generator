@@ -3,40 +3,40 @@ from __future__ import absolute_import
 import uuid
 import unittest
 
-from .utils import KalturaBaseTest
+from .utils import VidiunBaseTest
 
-from KalturaClient.Plugins.Core import (
-    KalturaAccessControlProfile,
-    KalturaRule,
-    KalturaSiteCondition,
-    KalturaStringValue,
-    KalturaMatchConditionType,
+from VidiunClient.Plugins.Core import (
+    VidiunAccessControlProfile,
+    VidiunRule,
+    VidiunSiteCondition,
+    VidiunStringValue,
+    VidiunMatchConditionType,
 )
 
 
-class AccessControlProfileTests(KalturaBaseTest):
+class AccessControlProfileTests(VidiunBaseTest):
 
     def uniqid(self, prefix):
         return prefix + uuid.uuid1().hex
 
     def test_profile(self):
-        site = KalturaStringValue()
+        site = VidiunStringValue()
         site.value = "www.test.com"
 
-        condition1 = KalturaSiteCondition()
+        condition1 = VidiunSiteCondition()
         condition1.not_ = True
-        condition1.matchType = KalturaMatchConditionType.MATCH_ANY
+        condition1.matchType = VidiunMatchConditionType.MATCH_ANY
         condition1.values = [site]
 
-        condition2 = KalturaSiteCondition()
+        condition2 = VidiunSiteCondition()
         condition2.not_ = False
-        condition2.matchType = KalturaMatchConditionType.MATCH_ANY
+        condition2.matchType = VidiunMatchConditionType.MATCH_ANY
         condition2.values = [site]
 
-        rule = KalturaRule()
+        rule = VidiunRule()
         rule.conditions = [condition1, condition2]
 
-        profile = KalturaAccessControlProfile()
+        profile = VidiunAccessControlProfile()
         profile.name = self.uniqid('test_')
         profile.systemName = self.uniqid('test_')
         profile.description = self.uniqid('test ')
@@ -44,18 +44,18 @@ class AccessControlProfileTests(KalturaBaseTest):
 
         createdProfile = self.client.accessControlProfile.add(profile)
 
-        self.assertIsInstance(createdProfile, KalturaAccessControlProfile)
+        self.assertIsInstance(createdProfile, VidiunAccessControlProfile)
         self.assertEqual(createdProfile.systemName, profile.systemName)
 
         createdRule = createdProfile.rules[0]
-        self.assertIsInstance(createdRule, KalturaRule)
+        self.assertIsInstance(createdRule, VidiunRule)
 
         createdCondition1 = createdRule.conditions[0]
-        self.assertIsInstance(createdCondition1, KalturaSiteCondition)
+        self.assertIsInstance(createdCondition1, VidiunSiteCondition)
         self.assertEqual(createdCondition1.not_, True)
 
         createdCondition2 = createdRule.conditions[1]
-        self.assertIsInstance(createdCondition2, KalturaSiteCondition)
+        self.assertIsInstance(createdCondition2, VidiunSiteCondition)
         self.assertEqual(createdCondition2.not_, False)
 
         self.client.accessControlProfile.delete(createdProfile.id)

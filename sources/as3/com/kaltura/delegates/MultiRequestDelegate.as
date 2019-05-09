@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,19 +25,19 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.delegates
+package com.vidiun.delegates
 {
-	import com.kaltura.commands.MultiRequest;
-	import com.kaltura.config.KalturaConfig;
-	import com.kaltura.errors.KalturaError;
-	import com.kaltura.net.KalturaCall;
+	import com.vidiun.commands.MultiRequest;
+	import com.vidiun.config.VidiunConfig;
+	import com.vidiun.errors.VidiunError;
+	import com.vidiun.net.VidiunCall;
 	
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 
 	public class MultiRequestDelegate extends WebDelegateBase
 	{
-		public function MultiRequestDelegate(call:KalturaCall, config:KalturaConfig)
+		public function MultiRequestDelegate(call:VidiunCall, config:VidiunConfig)
 		{
 			super(call, config);
 		}
@@ -52,7 +52,7 @@ package com.kaltura.delegates
 				var packageArr : Array =  (callClassName.split("::")[0]).split(".");
 				var importFrom : String = packageArr[packageArr.length-1];
 
-				var clsName : String = "com.kaltura.delegates."+importFrom+"."+ commandName +"Delegate"; //'com.kaltura.delegates.session.SessionStartDelegate'
+				var clsName : String = "com.vidiun.delegates."+importFrom+"."+ commandName +"Delegate"; //'com.vidiun.delegates.session.SessionStartDelegate'
 				var cls : Class = getDefinitionByName( clsName ) as Class;//(') as Class;
 
 				var myInst : Object = new cls(null , null);
@@ -65,10 +65,10 @@ package com.kaltura.delegates
 					var obj : Object = (myInst as WebDelegateBase).parse( res );
 					resArr.push( obj );
 				} catch (e:Error) {
-					var kErr : KalturaError = new KalturaError();
-					kErr.errorCode = String(e.errorID);
-					kErr.errorMsg = e.message;
-					resArr.push( kErr );
+					var vErr : VidiunError = new VidiunError();
+					vErr.errorCode = String(e.errorID);
+					vErr.errorMsg = e.message;
+					resArr.push( vErr );
 				}
 			}
 

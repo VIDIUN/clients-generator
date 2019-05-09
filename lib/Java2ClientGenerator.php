@@ -3,7 +3,7 @@
 class Java2ClientGenerator extends ClientGeneratorFromXml 
 {
 	private $_csprojIncludes = array();
-	protected $_baseClientPath = "src/main/java/com/kaltura/client";
+	protected $_baseClientPath = "src/main/java/com/vidiun/client";
 	
 	function __construct($xmlPath, Zend_Config $config, $sourcePath = "java2")
 	{
@@ -85,7 +85,7 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 	function writeEnum(DOMElement $enumNode) 
 	{
 		$enumName = $enumNode->getAttribute("name");
-		if(!$this->shouldIncludeType($enumName) || $enumName === 'KalturaNullableBoolean')
+		if(!$this->shouldIncludeType($enumName) || $enumName === 'VidiunNullableBoolean')
 			return;
 		
 		$enumName = $this->getJavaTypeName($enumName);
@@ -94,7 +94,7 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 		$baseInterface = ($enumType == "string") ? "EnumAsString": "EnumAsInt";
 		
 		$str = "";
-		$str = "package com.kaltura.client.enums;\n";
+		$str = "package com.vidiun.client.enums;\n";
 		$str .= "\n";
 		$str .= $this->getBanner();
 		
@@ -223,7 +223,7 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 	function writeClass(DOMElement $classNode) 
 	{
 		$type = $classNode->getAttribute("name");
-		if(!$this->shouldIncludeType($type) || $type === 'KalturaObject' || preg_match('/ListResponse$/', $type))
+		if(!$this->shouldIncludeType($type) || $type === 'VidiunObject' || preg_match('/ListResponse$/', $type))
 			return;
 		
 		$type = $this->getJavaTypeName($type);
@@ -233,8 +233,8 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 		
 		// Basic imports
 		$imports = array();
-		$imports[] = "import com.kaltura.client.Params;";
-		$imports[] = "import com.kaltura.client.utils.request.MultiRequestBuilder;";
+		$imports[] = "import com.vidiun.client.Params;";
+		$imports[] = "import com.vidiun.client.utils.request.MultiRequestBuilder;";
 
 		// Add Banner
 		$this->startNewTextBlock();
@@ -261,14 +261,14 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 		} 
 		else 
 		{
-			$imports[] = "import com.kaltura.client.types.ObjectBase;";
+			$imports[] = "import com.vidiun.client.types.ObjectBase;";
 		}
 		$this->appendLine("public{$abstract} class $type extends $baseClass {");
 
 		$hasProperties = $this->generateMultiRequestTokens($imports, $classNode, $baseClass);
 		
 		if($hasProperties) {
-			$imports[] = "import com.kaltura.client.utils.GsonParser;";
+			$imports[] = "import com.vidiun.client.utils.GsonParser;";
 		}
 		
 		// Generate parameters declaration
@@ -292,7 +292,7 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 
 		$this->finalizeClass($imports, $classNode);
 
-		$package = "package com.kaltura.client.types;\n\n";
+		$package = "package com.vidiun.client.types;\n\n";
 		sort($imports);
 		$imports = implode("\n", array_unique($imports));
 		$this->addFile($file, $package . $imports . "\n" . $this->getTextBlock());
@@ -319,17 +319,17 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 			elseif ($propType == 'array') {
 				$arrayType = $this->getJavaTypeName($propertyNode->getAttribute("arrayType"));
 				$this->appendLine("		RequestBuilder.ListTokenizer<$arrayType.Tokenizer> $propName();");
-				$imports[] = 'import com.kaltura.client.utils.request.RequestBuilder;';
+				$imports[] = 'import com.vidiun.client.utils.request.RequestBuilder;';
 			}
 			elseif ($propType == 'map') {
 				$arrayType = $this->getJavaTypeName($propertyNode->getAttribute("arrayType"));
 				$this->appendLine("		RequestBuilder.MapTokenizer<$arrayType.Tokenizer> $propName();");
-				$imports[] = 'import com.kaltura.client.utils.request.RequestBuilder;';
+				$imports[] = 'import com.vidiun.client.utils.request.RequestBuilder;';
 			}
 			elseif (preg_match('/ListResponse$/', $propType)) {
 				$arrayType = $this->getJavaTypeName($propertyNode->getAttribute("arrayType"));
 				$this->appendLine("		ListResponse.Tokenizer<$arrayType.Tokenizer> $propName();");
-				$imports[] = 'import com.kaltura.client.types.ListResponse;';
+				$imports[] = 'import com.vidiun.client.types.ListResponse;';
 			}
 			else {
 				$propType = $this->getJavaTypeName($propType);
@@ -370,10 +370,10 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 			if($propType == "map")
 				$needsHashMap = true;
 				
-			if(strpos($propType, 'Kaltura') === 0)
+			if(strpos($propType, 'Vidiun') === 0)
 			{
 				$propType = $this->getJavaTypeName($propType);
-				$imports[] =  "import com.kaltura.client.types.$propType;";
+				$imports[] =  "import com.vidiun.client.types.$propType;";
 			}
 						
 			$functionName = ucfirst($propName);
@@ -415,7 +415,7 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 		
 		$arrImportsEnums = array_unique($arrImportsEnums);
 		foreach($arrImportsEnums as $import) 
-			$imports[] = "import com.kaltura.client.enums.$import;";
+			$imports[] = "import com.vidiun.client.enums.$import;";
 		
 		if($needsArrayList) {
 			$imports[] = "import java.util.List;";
@@ -429,8 +429,8 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 	{	
 		$type = $classNode->getAttribute("name");
 		$this->appendLine("	public Params toParams() {");//throws APIException
-		$this->appendLine("		Params kparams = super.toParams();");
-		$this->appendLine("		kparams.add(\"objectType\", \"$type\");");
+		$this->appendLine("		Params vparams = super.toParams();");
+		$this->appendLine("		vparams.add(\"objectType\", \"$type\");");
 		
 		foreach($classNode->childNodes as $propertyNode) 
 		{
@@ -443,9 +443,9 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 			
 			$propType = $propertyNode->getAttribute("type");
 			$propName = $propertyNode->getAttribute("name");
-			$this->appendLine("		kparams.add(\"$propName\", this.$propName);");
+			$this->appendLine("		vparams.add(\"$propName\", this.$propName);");
 		}
-		$this->appendLine("		return kparams;");
+		$this->appendLine("		return vparams;");
 		$this->appendLine("	}");
 	}
 
@@ -604,7 +604,7 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 			return;
 
 		$imports = "";
-		$imports .= "package com.kaltura.client.services;\n\n";
+		$imports .= "package com.vidiun.client.services;\n\n";
 		$serviceName = $serviceNode->getAttribute("name");
 		
 		$javaServiceName = $this->upperCaseFirstLetter($serviceName) . "Service";
@@ -634,7 +634,7 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 				}
 				catch(Exception $e)
 				{
-					KalturaLog::err($e->getMessage());
+					VidiunLog::err($e->getMessage());
 				}
 		}
 		
@@ -653,7 +653,7 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 	function getListResponseInternalType($listResponseType) 
 	{
 		$xpath = new DOMXPath($this->_doc);
-		$objectsNodes = $xpath->query("/xml/classes/class[@name = 'Kaltura{$listResponseType}']/property[@name = 'objects']");
+		$objectsNodes = $xpath->query("/xml/classes/class[@name = 'Vidiun{$listResponseType}']/property[@name = 'objects']");
 		if(!$objectsNodes->length)
 		{
 			throw new Exception('List response type [$listResponseType] has no objects array property');
@@ -740,8 +740,8 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 		
 			if($haveFiles === false && $paramType === "file")
 			{
-				$serviceImports[] = "com.kaltura.client.Files";
-				$serviceImports[] = "com.kaltura.client.FileHolder";
+				$serviceImports[] = "com.vidiun.client.Files";
+				$serviceImports[] = "com.vidiun.client.FileHolder";
 				$haveFiles = true;
 				$this->appendLine("			files = new Files();");
 			}
@@ -908,9 +908,9 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 	function writeRequestBuilderData(DOMNodeList $configurationNodes)
 	{
 		$imports = "";
-		$imports .= "package com.kaltura.client.utils.request;\n";
+		$imports .= "package com.vidiun.client.utils.request;\n";
 		$imports .= "\n";
-		$imports .= "import com.kaltura.client.Params;\n";
+		$imports .= "import com.vidiun.client.Params;\n";
 		
 		$this->startNewTextBlock();
 		$this->appendLine($this->getBanner());
@@ -947,13 +947,13 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 				if(!$this->isSimpleType($type) && !$this->isArrayType($type))
 				{
 					$type = $this->getJavaTypeName($type);
-					$imports .= "import com.kaltura.client.types.$type;\n";
+					$imports .= "import com.vidiun.client.types.$type;\n";
 				}
 				$enumType = $configurationPropertyNode->getAttribute("enumType");
 				if($enumType)
 				{
 				    $type = $this->getJavaTypeName($enumType);
-				    $imports .= "import com.kaltura.client.enums.$type;\n";				    
+				    $imports .= "import com.vidiun.client.enums.$type;\n";				    
 				}
 				
 				$type = $this->getJavaType($configurationPropertyNode, true);
@@ -986,9 +986,9 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 		$date = date('y-m-d');
 		
 		$imports = "";
-		$imports .= "package com.kaltura.client;\n";
+		$imports .= "package com.vidiun.client;\n";
 		$imports .= "\n";
-		$imports .= "import com.kaltura.client.utils.request.ConnectionConfiguration;\n";
+		$imports .= "import com.vidiun.client.utils.request.ConnectionConfiguration;\n";
 		
 		$this->startNewTextBlock();
 		$this->appendLine($this->getBanner());
@@ -1029,13 +1029,13 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 				if(!$this->isSimpleType($type) && !$this->isArrayType($type))
 				{
 					$type = $this->getJavaTypeName($type);
-					$imports .= "import com.kaltura.client.types.$type;\n";
+					$imports .= "import com.vidiun.client.types.$type;\n";
 				}
 				$enumType = $configurationPropertyNode->getAttribute("enumType");
 				if($enumType)
 				{
 				    $type = $this->getJavaTypeName($enumType);
-				    $imports .= "import com.kaltura.client.enums.$type;\n";
+				    $imports .= "import com.vidiun.client.enums.$type;\n";
 				}
 				
 				$type = $this->getJavaType($configurationPropertyNode, true);
@@ -1124,20 +1124,20 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 			{
 				$arrayType = $this->getJavaTypeName($arrayType);
 				$serviceImports[] = "java.util.List";
-				$serviceImports[] = "com.kaltura.client.types.$arrayType";
+				$serviceImports[] = "com.vidiun.client.types.$arrayType";
 			}	
 			elseif($paramType == "map")
 			{
 				$arrayType = $this->getJavaTypeName($arrayType);
 				$serviceImports[] = "java.util.Map";
-				$serviceImports[] = "com.kaltura.client.types.$arrayType";
+				$serviceImports[] = "com.vidiun.client.types.$arrayType";
 			}	
 			elseif($enumType)
 			{
 				$enumType = $this->getJavaTypeName($enumType);
 				if($enumType != 'Boolean') 
 				{
-					$serviceImports[] = "com.kaltura.client.enums.$enumType";
+					$serviceImports[] = "com.vidiun.client.enums.$enumType";
 				}
 			}
 			
@@ -1154,10 +1154,10 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 				continue;
 			}
 			
-			if(strpos($paramType, 'Kaltura') === 0 && !$enumType)
+			if(strpos($paramType, 'Vidiun') === 0 && !$enumType)
 			{
 				$paramType = $this->getJavaTypeName($paramType);
-				$serviceImports[] = "com.kaltura.client.types.$paramType";
+				$serviceImports[] = "com.vidiun.client.types.$paramType";
 			}
 			
 			$javaType = $this->getJavaType($paramNode, false);
@@ -1176,7 +1176,7 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 		$banner = "";
 		$banner .= "/**\n";
 		$banner .= " * This class was generated using $currentFile\n";
-		$banner .= " * against an XML schema provided by Kaltura.\n";
+		$banner .= " * against an XML schema provided by Vidiun.\n";
 		$banner .= " * \n";
 		$banner .= " * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.\n";
 		$banner .= " */\n";
@@ -1294,65 +1294,65 @@ class Java2ClientGenerator extends ClientGeneratorFromXml
 		switch($resultType)
 		{
 		case null:
-			$serviceImports[] = "com.kaltura.client.utils.request.NullRequestBuilder";
+			$serviceImports[] = "com.vidiun.client.utils.request.NullRequestBuilder";
 			return "NullRequestBuilder";
 			
 		case "ListResponse":
-			$serviceImports[] = "com.kaltura.client.types.$arrayType";
-			$serviceImports[] = "com.kaltura.client.utils.request.ListResponseRequestBuilder";
+			$serviceImports[] = "com.vidiun.client.types.$arrayType";
+			$serviceImports[] = "com.vidiun.client.utils.request.ListResponseRequestBuilder";
 			return("ListResponseRequestBuilder<" . $arrayType . ", $arrayType.Tokenizer, $builderName>");
 			
 		case "array":
-			$serviceImports[] = "com.kaltura.client.types.$arrayType";
-			$serviceImports[] = "com.kaltura.client.utils.request.ArrayRequestBuilder";
+			$serviceImports[] = "com.vidiun.client.types.$arrayType";
+			$serviceImports[] = "com.vidiun.client.utils.request.ArrayRequestBuilder";
 			return("ArrayRequestBuilder<" . $arrayType . ", $arrayType.Tokenizer, $builderName>");
 			
 		case "map":
-			$serviceImports[] = "com.kaltura.client.types.$arrayType";
-			$serviceImports[] = "com.kaltura.client.utils.request.MapRequestBuilder";
+			$serviceImports[] = "com.vidiun.client.types.$arrayType";
+			$serviceImports[] = "com.vidiun.client.utils.request.MapRequestBuilder";
 			return("MapRequestBuilder<" . $arrayType . ", $arrayType.Tokenizer, $builderName>");
 
 		case "int":
-			$serviceImports[] = "com.kaltura.client.utils.request.RequestBuilder";
+			$serviceImports[] = "com.vidiun.client.utils.request.RequestBuilder";
 			return("RequestBuilder<Integer, String, $builderName>");
 
 		case "bigint":
 		case "time":
-			$serviceImports[] = "com.kaltura.client.utils.request.RequestBuilder";
+			$serviceImports[] = "com.vidiun.client.utils.request.RequestBuilder";
 			return("RequestBuilder<Long, String, $builderName>");
 		
 		case "bool":
-			$serviceImports[] = "com.kaltura.client.utils.request.RequestBuilder";
+			$serviceImports[] = "com.vidiun.client.utils.request.RequestBuilder";
 			return("RequestBuilder<Boolean, String, $builderName>");
 			
 		case "string":
-			$serviceImports[] = "com.kaltura.client.utils.request.RequestBuilder";
+			$serviceImports[] = "com.vidiun.client.utils.request.RequestBuilder";
 			return("RequestBuilder<String, String, $builderName>");
 			
 		case "file":
-			$serviceImports[] = "com.kaltura.client.utils.request.ServeRequestBuilder";
+			$serviceImports[] = "com.vidiun.client.utils.request.ServeRequestBuilder";
 			return("ServeRequestBuilder");
 			
 		default:
-			$serviceImports[] = "com.kaltura.client.utils.request.RequestBuilder";
-			$serviceImports[] = "com.kaltura.client.types.$resultType";
+			$serviceImports[] = "com.vidiun.client.utils.request.RequestBuilder";
+			$serviceImports[] = "com.vidiun.client.types.$resultType";
 			return("RequestBuilder<$resultType, $resultType.Tokenizer, $builderName>");
 		}
 	}
 	
 	public function getJavaTypeName($type)
 	{
-		if($type === 'KalturaNullableBoolean'){
+		if($type === 'VidiunNullableBoolean'){
 			return 'Boolean';
 		}
-		if($type === 'KalturaString'){
-			$type = 'KalturaStringHolder';
+		if($type === 'VidiunString'){
+			$type = 'VidiunStringHolder';
 		}
-		elseif($type === 'KalturaObject'){
-			$type = 'KalturaObjectBase';
+		elseif($type === 'VidiunObject'){
+			$type = 'VidiunObjectBase';
 		}
 		
-		return preg_replace('/^Kaltura/', '', $type);
+		return preg_replace('/^Vidiun/', '', $type);
 	}
 	
 	public function getObjectType($type, $enforceObject = true)

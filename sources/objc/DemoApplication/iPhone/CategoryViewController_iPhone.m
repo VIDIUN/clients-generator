@@ -1,9 +1,9 @@
 //
 //  CategoryViewController_iPhone.m
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 28.02.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import "CategoryViewController_iPhone.h"
@@ -51,7 +51,7 @@
 
     if ([self.media count] > 0) {
         
-        KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:0];
+        VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:0];
         
         PlayerViewController_iPhone *controller = [[PlayerViewController_iPhone alloc] initWithNibName:@"PlayerViewController_iPhone" bundle:nil];
         controller.mediaEntry = mediaEntry;
@@ -107,8 +107,8 @@
 
 NSInteger playsPhoneSort(id media1, id media2, void *reverse)
 {
-	KalturaMediaEntry *mediaEntry1 = (KalturaMediaEntry *)media1;
-    KalturaMediaEntry *mediaEntry2 = (KalturaMediaEntry *)media2;
+	VidiunMediaEntry *mediaEntry1 = (VidiunMediaEntry *)media1;
+    VidiunMediaEntry *mediaEntry2 = (VidiunMediaEntry *)media2;
     
 	if (mediaEntry1.plays > mediaEntry2.plays) {
 		return NSOrderedAscending;
@@ -125,7 +125,7 @@ NSInteger playsPhoneSort(id media1, id media2, void *reverse)
     
     NSArray *array = [[Client instance] getMedia:self.category];
     
-    for (KalturaMediaEntry *mediaEntry in array) {
+    for (VidiunMediaEntry *mediaEntry in array) {
         
         BOOL canAdd = NO;
         //NSLog(@"%@", mediaEntry.id);
@@ -179,7 +179,7 @@ NSInteger playsPhoneSort(id media1, id media2, void *reverse)
     
     for (int i = 0; i < [self.media count]; i++) {
         
-        KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:i];
+        VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:i];
         
         if (mediaEntry.plays > maxPlaysCount) {
             
@@ -204,7 +204,7 @@ NSInteger playsPhoneSort(id media1, id media2, void *reverse)
     /*
     for (int i = 0; i < [self.media count]; i++) {
         
-        KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:i];
+        VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:i];
         
         NSLog(@"%d", mediaEntry.plays);
         
@@ -394,14 +394,14 @@ NSInteger playsPhoneSort(id media1, id media2, void *reverse)
         cell.cell3View.hidden = YES;
         
         if (index < [self.media count]) {
-            KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+            VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
         
             [cell updateCell1:mediaEntry];
         }
         
         if (index < [self.media count]) {
             
-            KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+            VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
             
             [cell updateCell2:mediaEntry];
             
@@ -409,7 +409,7 @@ NSInteger playsPhoneSort(id media1, id media2, void *reverse)
         
         if (index < [self.media count]) {
             
-            KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+            VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
             
             [cell updateCell3:mediaEntry];
             
@@ -440,7 +440,7 @@ NSInteger playsPhoneSort(id media1, id media2, void *reverse)
         
         if (index < [self.media count]) {
             
-            KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+            VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
             
             [cell updateCell1:mediaEntry];
             
@@ -448,7 +448,7 @@ NSInteger playsPhoneSort(id media1, id media2, void *reverse)
         
         if (index < [self.media count]) {
             
-            KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+            VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
             
             [cell updateCell2:mediaEntry];
             

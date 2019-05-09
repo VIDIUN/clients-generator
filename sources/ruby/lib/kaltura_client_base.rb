@@ -4,11 +4,11 @@
 #                          | ' </ _` | |  _| || | '_/ _` |
 #                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 #
-# This file is part of the Kaltura Collaborative Media Suite which allows users
+# This file is part of the Vidiun Collaborative Media Suite which allows users
 # to do with audio, video, and animation what Wiki platfroms allow them to do with
 # text.
 #
-# Copyright (C) 2006-2011  Kaltura Inc.
+# Copyright (C) 2006-2011  Vidiun Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -37,10 +37,10 @@ require 'base64'
 require 'date'
 require 'yaml'
 
-module Kaltura
-	class KalturaNotImplemented; end
+module Vidiun
+	class VidiunNotImplemented; end
 
-	class KalturaClientBase
+	class VidiunClientBase
 		attr_accessor 	:config
 		attr_reader 	:is_multirequest
 		attr_reader 	:responseHeaders
@@ -63,7 +63,7 @@ module Kaltura
 				add_param(params, key, value)
 			end
 
-			call = KalturaServiceActionCall.new(service, action, return_type, params, files);
+			call = VidiunServiceActionCall.new(service, action, return_type, params, files);
 			@calls_queue.push(call);
 		end
 
@@ -107,7 +107,7 @@ module Kaltura
 				end
 
 				signature = signature(params)
-				add_param(params, "kalsig", signature)
+				add_param(params, "vidsig", signature)
 
 				log("url: " + url)
 				log("params: " + params.to_yaml)
@@ -115,7 +115,7 @@ module Kaltura
 				result = do_http_request(url, params, files)
 
 				@responseHeaders = result.headers
-				log("server: [" + result.headers[:x_me].to_s + "], session: [" + result.headers[:x_kaltura_session].to_s + "]")
+				log("server: [" + result.headers[:x_me].to_s + "], session: [" + result.headers[:x_vidiun_session].to_s + "]")
 
 				log("result (xml): " + result.body)
 
@@ -132,10 +132,10 @@ module Kaltura
 
 				return result_object
 
-			rescue KalturaAPIError => e
+			rescue VidiunAPIError => e
 				raise e
 			rescue Exception => e
-				raise KalturaAPIError.new("KALTURA_RUBY_CLIENT_ERROR", e.to_s)
+				raise VidiunAPIError.new("VIDIUN_RUBY_CLIENT_ERROR", e.to_s)
 			end
 		end
 
@@ -207,26 +207,26 @@ module Kaltura
 					if (xml_element.elements[1].elements['itemKey'].nil?) # array
 						instance = []
 						xml_element.elements.each('item') do | element |
-							instance.push(KalturaClientBase.object_from_xml(element, return_type))
+							instance.push(VidiunClientBase.object_from_xml(element, return_type))
 						end
 					else # map
 						instance = {}
 						xml_element.elements.each('item') do | element |
 							item_key = element.get_text('itemKey').to_s
-							instance[item_key] = KalturaClientBase.object_from_xml(element, return_type)
+							instance[item_key] = VidiunClientBase.object_from_xml(element, return_type)
 						end
 					end
 				else # object
 					object_type_element = xml_element.get_text('objectType')
 					if (object_type_element != nil)
 						object_class = xml_element.get_text('objectType').value.to_s
-						kalturaModule = Module.const_get("Kaltura")
+						vidiunModule = Module.const_get("Vidiun")
 						
 						begin
-							instance = kalturaModule.const_get(object_class).new
+							instance = vidiunModule.const_get(object_class).new
 						rescue NameError => e
 							if(return_type != nil)
-								instance = kalturaModule.const_get(return_type).new
+								instance = vidiunModule.const_get(return_type).new
 							else
 								raise e
 							end
@@ -239,7 +239,7 @@ module Kaltura
 							code = xml_element.elements["error/code"].text
 							message = xml_element.elements["error/message"].text
 
-							instance = KalturaAPIError.new(code, message)
+							instance = VidiunAPIError.new(code, message)
 						end
 					end
 				end
@@ -272,13 +272,13 @@ module Kaltura
 				results = {}
 				request_index = 0
 				doc.elements.each('xml/result/*') do | element |
-					results[request_index] = KalturaClientBase.object_from_xml(element, @calls_queue[request_index].return_type)
+					results[request_index] = VidiunClientBase.object_from_xml(element, @calls_queue[request_index].return_type)
 					request_index += 1
 				end
 				return results
 			else
 				doc.elements.each('xml/result') do | element |
-					return KalturaClientBase.object_from_xml(element, @calls_queue.first.return_type)
+					return VidiunClientBase.object_from_xml(element, @calls_queue.first.return_type)
 				end
 			end
 		end
@@ -287,7 +287,7 @@ module Kaltura
 			if is_error(doc)
 				code = doc.elements["xml/result/error/code"].text
 				message = doc.elements["xml/result/error/message"].text
-				raise KalturaAPIError.new(code, message)
+				raise VidiunAPIError.new(code, message)
 			end
 		end
 
@@ -304,8 +304,8 @@ module Kaltura
 		end
 
 		def signature(params)
-			kParams = params.select { |key, value| !value.is_a?(File) }
-			str = kParams.keys.map {|key| key.to_s }.sort.map {|key|
+			vParams = params.select { |key, value| !value.is_a?(File) }
+			str = vParams.keys.map {|key| key.to_s }.sort.map {|key|
 				"#{key}#{params[key]}"
 			}.join("")
 
@@ -313,7 +313,7 @@ module Kaltura
 		end
 
 		def add_param(params, name, value)
-			if value == KalturaNotImplemented
+			if value == VidiunNotImplemented
 				return
 			elsif value == nil
 				params[name + '__null'] = ''
@@ -333,12 +333,12 @@ module Kaltura
 				else
 					params[name] = Array.new(value.size)
 					value.each_with_index do |ele, i|
-						if ele.is_a? KalturaObjectBase
+						if ele.is_a? VidiunObjectBase
 							add_param(params[name], i, ele.to_params)
 						end
 					end
 				end
-			elsif value.is_a? KalturaObjectBase
+			elsif value.is_a? VidiunObjectBase
 				add_param(params, name, value.to_params)
 			else
 				params[name] = value
@@ -358,9 +358,9 @@ module Kaltura
 			end
 		end
 
-		def generate_session(admin_secret, user_id, kaltura_session_type, partner_id, expiry=86400, privileges=nil)
+		def generate_session(admin_secret, user_id, vidiun_session_type, partner_id, expiry=86400, privileges=nil)
 
-			session = "#{partner_id};#{partner_id};#{Time.now.to_i + expiry};#{kaltura_session_type};#{rand.to_s.gsub("0.", "")};#{user_id};#{privileges};"
+			session = "#{partner_id};#{partner_id};#{Time.now.to_i + expiry};#{vidiun_session_type};#{rand.to_s.gsub("0.", "")};#{user_id};#{privileges};"
 
 			digest_generator = OpenSSL::Digest.new('sha1')
 
@@ -373,11 +373,11 @@ module Kaltura
 			b64 = Base64.encode64(signature)
 			cleaned = b64.gsub("\n","")
 
-			self.ks = cleaned
+			self.vs = cleaned
 		end
 	end
 
-	class KalturaServiceActionCall
+	class VidiunServiceActionCall
 		attr_accessor :service
 		attr_accessor :action
 		attr_accessor :return_type
@@ -424,12 +424,12 @@ module Kaltura
 		end
 	end
 
-	class KalturaObjectBase
+	class VidiunObjectBase
 		attr_accessor :object_type
 		attr_accessor :related_objects
 
 		def from_xml(xml_element)
-			self.related_objects = KalturaClientBase.object_from_xml(xml_element.elements['relatedObjects'], 'KalturaListResponse')
+			self.related_objects = VidiunClientBase.object_from_xml(xml_element.elements['relatedObjects'], 'VidiunListResponse')
 		end
 		
 		def to_params
@@ -438,15 +438,15 @@ module Kaltura
 			instance_variables.each do |var|
 				value = instance_variable_get(var)
 				var = var.to_s.sub('@', '')
-				kvar = camelcase(var)
+				vvar = camelcase(var)
 				if (value != nil)
-					if (value.is_a? KalturaObjectBase)
-						params[kvar] = value.to_params;
+					if (value.is_a? VidiunObjectBase)
+						params[vvar] = value.to_params;
 					else
-						params[kvar] = value;
+						params[vvar] = value;
 					end
 				else
-					params[kvar] = value;
+					params[vvar] = value;
 				end
 			end
 			return params;
@@ -462,25 +462,25 @@ module Kaltura
 		end
 	end
 
-	class KalturaServiceBase
+	class VidiunServiceBase
 		attr_accessor :client
 		def initialize(client)
 			@client = client
 		end
 	end
 
-	class KalturaConfiguration
+	class VidiunConfiguration
 		attr_accessor :logger
 		attr_accessor :service_url
 		attr_accessor :format
 		attr_accessor :timeout
 		attr_accessor :requestHeaders
 		#
-		# Adding service_url to the initialize signature to pass url to your own kaltura ce instance
-		# Default is still set to http://www.kaltura.com.
+		# Adding service_url to the initialize signature to pass url to your own vidiun ce instance
+		# Default is still set to http://www.vidiun.com.
 		#
 		def initialize()
-			@service_url 	= "http://www.kaltura.com"
+			@service_url 	= "http://www.vidiun.com"
 			@format 		= 2 # xml
 			@timeout 		= 120
 			@requestHeaders = {}
@@ -491,7 +491,7 @@ module Kaltura
 		end
 	end
 
-	class KalturaAPIError < RuntimeError
+	class VidiunAPIError < RuntimeError
 		attr_reader :code
 		attr_reader :message
 		def initialize(code, message)

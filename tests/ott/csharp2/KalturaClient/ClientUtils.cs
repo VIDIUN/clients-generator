@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -37,10 +37,10 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Runtime.Serialization;
 using System.Threading;
-using Kaltura.Types;
-using Kaltura.Enums;
+using Vidiun.Types;
+using Vidiun.Enums;
 
-namespace Kaltura
+namespace Vidiun
 {
     public class ClientUtils
     {
@@ -57,21 +57,21 @@ namespace Kaltura
 
         public string GenerateSessionV1(int partnerId, string adminSecretForSigning, string userId = "", int expiry = 86400, string privileges = "")
         {
-            string ks = string.Format("{0};{0};{1};{2};{3};{4};{5};", partnerId, UnixTimeNow() + expiry, 0, DateTime.Now.Ticks, userId, privileges);
+            string vs = string.Format("{0};{0};{1};{2};{3};{4};{5};", partnerId, UnixTimeNow() + expiry, 0, DateTime.Now.Ticks, userId, privileges);
 
             SHA1 sha = new SHA1CryptoServiceProvider();
 
-            byte[] ksTextBytes = Encoding.ASCII.GetBytes(adminSecretForSigning + ks);
+            byte[] vsTextBytes = Encoding.ASCII.GetBytes(adminSecretForSigning + vs);
 
-            byte[] sha1Bytes = sha.ComputeHash(ksTextBytes);
+            byte[] sha1Bytes = sha.ComputeHash(vsTextBytes);
 
             string sha1Hex = "";
             foreach (char c in sha1Bytes)
                 sha1Hex += string.Format("{0:x2}", (int)c);
 
-            ks = sha1Hex.ToLower() + "|" + ks;
+            vs = sha1Hex.ToLower() + "|" + vs;
 
-            return EncodeTo64(ks);
+            return EncodeTo64(vs);
         }
 
         public string GenerateSessionV2(int partnerId, string adminSecretForSigning, string userId = "", int expiry = 86400, string privileges = "")
@@ -109,7 +109,7 @@ namespace Kaltura
 		
 		    // build fields string
 		    byte[] randomBytes = createRandomByteArray(RANDOM_SIZE);
-            string fieldsString = string.Join("&", fields.Select(kvp => string.Format("{0}={1}", kvp.Key, kvp.Value)));
+            string fieldsString = string.Join("&", fields.Select(vvp => string.Format("{0}={1}", vvp.Key, vvp.Value)));
             byte[] fieldsByteArray = Encoding.ASCII.GetBytes(fieldsString);
 		    int totalLength = randomBytes.Length + fieldsByteArray.Length;
 
@@ -131,13 +131,13 @@ namespace Kaltura
             Array.Copy(prefixBytes, 0, output, 0, prefix.Length);
 		    Array.Copy(encryptedFields,0,output,prefix.Length, encryptedFields.Length);
 
-            string encodedKs = EncodeTo64(output);
-		    encodedKs = encodedKs.Replace("+", "-");
-            encodedKs = encodedKs.Replace("/", "_");
-		    encodedKs = encodedKs.Replace("\n", "");
-		    encodedKs = encodedKs.Replace("\r", "");
+            string encodedVs = EncodeTo64(output);
+		    encodedVs = encodedVs.Replace("+", "-");
+            encodedVs = encodedVs.Replace("/", "_");
+		    encodedVs = encodedVs.Replace("\n", "");
+		    encodedVs = encodedVs.Replace("\r", "");
 		
-		    return encodedKs;
+		    return encodedVs;
         }
 	
 	    private byte[] aesEncrypt(string secretForSigning, byte[] text)

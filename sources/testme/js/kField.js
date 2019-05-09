@@ -1,16 +1,16 @@
 
 /**
  * Class that represents a single request field, as action argument or as object attribute.
- * @class kField
+ * @class vField
  */
-function kField(jqContainer){
+function vField(jqContainer){
 	
 	if(jqContainer)
 		this.load(jqContainer);
 }
 
-kField.prototype = {
-	className: 'kField',
+vField.prototype = {
+	className: 'vField',
 	enabled: true,
 	param: null,
 	name: null,
@@ -43,7 +43,7 @@ kField.prototype = {
 		this.name = param.name;
 		
 		if(!this.jqInput)
-			kTestMe.log.error('[kField::init] jqInput is not defined');
+			vTestMe.log.error('[vField::init] jqInput is not defined');
 
 		if(!this.jqLabel)
 			this.jqLabel = jQuery('<label for="' + this.param.name + '">' + this.param.name + ' (' + this.param.type + '):</label>');
@@ -105,13 +105,13 @@ kField.prototype = {
 	},
 
 	onValueChange: function(field){
-		kTestMe.log.debug("[" + this.className + ".onValueChange] Value changed [" + this.name + "]");
+		vTestMe.log.debug("[" + this.className + ".onValueChange] Value changed [" + this.name + "]");
 		if(this.valueChangeCallback)
 			this.valueChangeCallback.apply(this, [this]);
 	},
 
 	onCurrentValueChange: function(){
-		kTestMe.log.debug("[" + this.className + ".onCurrentValueChange] Current value changed [" + this.name + "]");
+		vTestMe.log.debug("[" + this.className + ".onCurrentValueChange] Current value changed [" + this.name + "]");
 		this.onValueChange(this);
 		if(this.currentValueChangeCallback)
 			this.currentValueChangeCallback.apply(this, [this]);
@@ -193,9 +193,9 @@ kField.prototype = {
 
 /**
  * Class that represents simple request attribute, string, int, boolean or float.
- * @class kSimpleField
+ * @class vSimpleField
  */
-function kSimpleField(param, jqParentContainer){
+function vSimpleField(param, jqParentContainer){
 	
 	if(!param)
 		return this;
@@ -204,18 +204,18 @@ function kSimpleField(param, jqParentContainer){
 	this.init(param, jqParentContainer);
 }
 
-kSimpleField.prototype = new kField();
-kSimpleField.prototype.className = 'kSimpleField';
+vSimpleField.prototype = new vField();
+vSimpleField.prototype.className = 'vSimpleField';
 
-kSimpleField.prototype.initListeners = function() {
-	kField.prototype.initListeners.apply(this, arguments);
+vSimpleField.prototype.initListeners = function() {
+	vField.prototype.initListeners.apply(this, arguments);
 
 	this.jqInput.click(delegate(this, this.enable));
 	this.jqInput.keypress(delegate(this, this.inputEdited));
 	this.jqInput.keyup(delegate(this, this.onCurrentValueChange));
 };
 
-kSimpleField.prototype.inputEdited = function(e) {
+vSimpleField.prototype.inputEdited = function(e) {
 	if (!e.target)
 		return;
 	
@@ -228,18 +228,18 @@ kSimpleField.prototype.inputEdited = function(e) {
 
 /**
  * Class that represents request attribute of file type.
- * @class kFileField
+ * @class vFileField
  */
-function kFileField(param, jqParentContainer){
+function vFileField(param, jqParentContainer){
 	this.jqInput = jQuery('<input type="file" name="' + param.name + '" class="disabled" />');
 	this.init(param, jqParentContainer);
 }
 
-kFileField.prototype = new kField();
-kFileField.prototype.className = 'kFileField';
+vFileField.prototype = new vField();
+vFileField.prototype.className = 'vFileField';
 
-kFileField.prototype.initListeners = function() {
-	kField.prototype.initListeners.apply(this, arguments);
+vFileField.prototype.initListeners = function() {
+	vField.prototype.initListeners.apply(this, arguments);
 
 	this.jqInput.click(delegate(this, this.inputEdited));
 	this.jqInput.keypress(delegate(this, this.inputEdited));
@@ -247,11 +247,11 @@ kFileField.prototype.initListeners = function() {
 	this.jqInput.change(delegate(this, this.onCurrentValueChange));
 };
 
-kFileField.prototype.getType = function() {
+vFileField.prototype.getType = function() {
 	return 'file';
 };
 
-kFileField.prototype.inputEdited = function(e) {
+vFileField.prototype.inputEdited = function(e) {
 	if (!e.target)
 		return;
 	
@@ -261,21 +261,21 @@ kFileField.prototype.inputEdited = function(e) {
 	this.enable();
 };
 
-kFileField.prototype.setValue = function(value) {
+vFileField.prototype.setValue = function(value) {
 	this.enable();
 };
 
-kFileField.prototype.unsetValue = function() {
+vFileField.prototype.unsetValue = function() {
 	this.disable();
 };
 
 
 /**
  * Class that represents request object with all its attributes.
- * @class kObjectField
+ * @class vObjectField
  */
-function kObjectField(param, jqParentContainer, level){
-	kTestMe.registerClass(param);
+function vObjectField(param, jqParentContainer, level){
+	vTestMe.registerClass(param);
 	this.level = level;
 	this.jqInput = jQuery("<select class=\"disabled object-type\">");
 	if(!param.isAbstract){
@@ -297,7 +297,7 @@ function kObjectField(param, jqParentContainer, level){
 	
 	this.init(param, jqParentContainer);
 
-	if(kTestMe.subClassesLoaded(param.type)){
+	if(vTestMe.subClassesLoaded(param.type)){
 		this.loadSubClasses();
 		return this;
 	}
@@ -308,42 +308,42 @@ function kObjectField(param, jqParentContainer, level){
 	);
 }
 
-kObjectField.prototype = new kField();
-kObjectField.prototype.className = 'kObjectField';
-kObjectField.prototype.level = null;
-kObjectField.prototype.dialog = null;
-kObjectField.prototype.isDialogOpen = false;
-kObjectField.prototype.object = null;
+vObjectField.prototype = new vField();
+vObjectField.prototype.className = 'vObjectField';
+vObjectField.prototype.level = null;
+vObjectField.prototype.dialog = null;
+vObjectField.prototype.isDialogOpen = false;
+vObjectField.prototype.object = null;
 
-kObjectField.prototype.initListeners = function() {
-	kField.prototype.initListeners.apply(this, arguments);
+vObjectField.prototype.initListeners = function() {
+	vField.prototype.initListeners.apply(this, arguments);
 
 	this.jqInput.focus(delegate(this, this.enable));
 	this.jqInput.change(delegate(this, this.onTypeChange));
 };
 
-kObjectField.prototype.remove = function(){
+vObjectField.prototype.remove = function(){
 	this.close(true);
-	kField.prototype.remove.apply(this, arguments);
+	vField.prototype.remove.apply(this, arguments);
 };
 
-kObjectField.prototype.removeRequest = function(removeSubRequestAction){
+vObjectField.prototype.removeRequest = function(removeSubRequestAction){
 	if(this.dialog != null)
 		this.dialog.removeRequest(removeSubRequestAction);
 };
 
-kObjectField.prototype.getLevel = function(){
+vObjectField.prototype.getLevel = function(){
 	return this.level;
 };
 
-kObjectField.prototype.onDialogValueChange = function(dialog){
+vObjectField.prototype.onDialogValueChange = function(dialog){
 	this.object = dialog.getValue();
 	this.object['objectType'] = this.jqInput.val();
 	
 	this.onValueChange(this);
 };
 
-kObjectField.prototype.open = function(){
+vObjectField.prototype.open = function(){
 	if(this.dialog != null){
 		this.dialog.open();
 		this.onDialogOpen(this.dialog);
@@ -353,7 +353,7 @@ kObjectField.prototype.open = function(){
 	if(!this.param)
 		return;
 	
-	this.dialog = new kObjectDialog(this);
+	this.dialog = new vObjectDialog(this);
 	this.dialog.setParameters(this.param.properties);
 	this.dialog.loadFields();
 	this.dialog.loadValues(this.object);
@@ -364,17 +364,17 @@ kObjectField.prototype.open = function(){
 	this.onDialogOpen(this.dialog);
 };
 
-kObjectField.prototype.onDialogClose = function(){
-	kField.prototype.onDialogClose.apply(this, arguments);
+vObjectField.prototype.onDialogClose = function(){
+	vField.prototype.onDialogClose.apply(this, arguments);
 	this.isDialogOpen = false;
 };
 
-kObjectField.prototype.onDialogOpen = function(dialog){
-	kField.prototype.onDialogOpen.apply(this, arguments);
+vObjectField.prototype.onDialogOpen = function(dialog){
+	vField.prototype.onDialogOpen.apply(this, arguments);
 	this.isDialogOpen = true;
 };
 
-kObjectField.prototype.enable = function(){
+vObjectField.prototype.enable = function(){
 	if(this.enabled)
 		return;
 
@@ -391,12 +391,12 @@ kObjectField.prototype.enable = function(){
 	this.onCurrentValueChange();
 };
 
-kObjectField.prototype.disable = function(){
+vObjectField.prototype.disable = function(){
 	this.object = null;
-	kField.prototype.disable.apply(this, arguments);
+	vField.prototype.disable.apply(this, arguments);
 };
 
-kObjectField.prototype.close = function(remove){
+vObjectField.prototype.close = function(remove){
 	if(!this.dialog)
 		return;
 	
@@ -405,26 +405,26 @@ kObjectField.prototype.close = function(remove){
 		this.dialog = null;
 };
 
-kObjectField.prototype.reload = function(){
+vObjectField.prototype.reload = function(){
 	var reopen = this.isOpen();
 	this.close(true);
 	if(reopen)
 		this.open();
 };
 
-kObjectField.prototype.isOpen = function(){
+vObjectField.prototype.isOpen = function(){
 	return this.isDialogOpen;
 };
 
-kObjectField.prototype.click = function(){
+vObjectField.prototype.click = function(){
 	if(this.isOpen())
 		this.close(false);
 	else
 		this.open();
 };
 
-kObjectField.prototype.onTypeChange = function(){
-	this.param = kTestMe.getClass(this.jqInput.val());
+vObjectField.prototype.onTypeChange = function(){
+	this.param = vTestMe.getClass(this.jqInput.val());
 	
 	var newObject = {
 		objectType: this.jqInput.val()
@@ -442,23 +442,23 @@ kObjectField.prototype.onTypeChange = function(){
 	this.onCurrentValueChange();
 };
 
-kObjectField.prototype.getType = function() {
+vObjectField.prototype.getType = function() {
 	return this.jqInput.val();
 };
 
-kObjectField.prototype.onSubClassesLoad = function(subTypes){
+vObjectField.prototype.onSubClassesLoad = function(subTypes){
 	if(this.param == null)
 		return;
 	
-	kTestMe.registerSubClasses(this.param.type, subTypes);
+	vTestMe.registerSubClasses(this.param.type, subTypes);
 	this.loadSubClasses();
 };
 
-kObjectField.prototype.loadSubClasses = function(){
+vObjectField.prototype.loadSubClasses = function(){
 	if(this.param == null)
 		return;
 	
-	var subTypes = kTestMe.getSubClasses(this.param.type);
+	var subTypes = vTestMe.getSubClasses(this.param.type);
 	for(var i = 0; i < subTypes.length; i++){
 		if(!subTypes[i].isAbstract)
 			this.jqInput.append("<option>" + subTypes[i].type + "</option>");
@@ -470,11 +470,11 @@ kObjectField.prototype.loadSubClasses = function(){
 	}
 };
 
-kObjectField.prototype.getValue = function() {
+vObjectField.prototype.getValue = function() {
 	return this.object;
 };
 
-kObjectField.prototype.setValue = function(value) {
+vObjectField.prototype.setValue = function(value) {
 	this.enable();
 	this.object = value;
 	
@@ -484,12 +484,12 @@ kObjectField.prototype.setValue = function(value) {
 	}
 };
 
-kObjectField.prototype.unsetValue = function() {
+vObjectField.prototype.unsetValue = function() {
 	this.disable();
 	this.object = null;
 };
 
-kObjectField.prototype.setInputName = function(inputName) {
+vObjectField.prototype.setInputName = function(inputName) {
 	this.inputName = inputName + ':objectType';
 	if(this.enabled)
 		this.jqInput.attr('name', this.inputName);
@@ -499,9 +499,9 @@ kObjectField.prototype.setInputName = function(inputName) {
 
 /**
  * Class that represents array of request attributes.
- * @class kArrayField
+ * @class vArrayField
  */
-function kArrayField(param, jqParentContainer, level){
+function vArrayField(param, jqParentContainer, level){
 	this.fields = {};
 	this.level = level;
 	this.jqParamsContainer = jqParentContainer;
@@ -511,33 +511,33 @@ function kArrayField(param, jqParentContainer, level){
 	this.jqCheckBox.remove();
 }
 
-kArrayField.prototype = new kField();
-kArrayField.prototype.className = 'kArrayField';
-kArrayField.prototype.jqParamsContainer = null;
-kArrayField.prototype.fieldsCount = 0;
-kArrayField.prototype.fields = null;
-kArrayField.prototype.level = null;
-kArrayField.prototype.childDialog = null;
-kArrayField.prototype.childFieldAddCallback = null;
+vArrayField.prototype = new vField();
+vArrayField.prototype.className = 'vArrayField';
+vArrayField.prototype.jqParamsContainer = null;
+vArrayField.prototype.fieldsCount = 0;
+vArrayField.prototype.fields = null;
+vArrayField.prototype.level = null;
+vArrayField.prototype.childDialog = null;
+vArrayField.prototype.childFieldAddCallback = null;
 
-kArrayField.prototype.initListeners = function() {
-	kField.prototype.initListeners.apply(this, arguments);
+vArrayField.prototype.initListeners = function() {
+	vField.prototype.initListeners.apply(this, arguments);
 
 	this.jqInput.click(delegate(this, this.add));
 };
 
-kArrayField.prototype.getType = function() {
+vArrayField.prototype.getType = function() {
 	return 'array';
 };
 
-kArrayField.prototype.remove = function(){
+vArrayField.prototype.remove = function(){
 	if(this.childDialog)
 		this.childDialog.close(true);
 	
-	kField.prototype.remove.apply(this, arguments);
+	vField.prototype.remove.apply(this, arguments);
 };
 
-kArrayField.prototype.removeRequest = function(removeSubRequestAction){
+vArrayField.prototype.removeRequest = function(removeSubRequestAction){
 	for(var item in this.fields)
 	{
 		var field = this.fields[item];
@@ -547,11 +547,11 @@ kArrayField.prototype.removeRequest = function(removeSubRequestAction){
 	}
 };
 
-kArrayField.prototype.getLevel = function(){
+vArrayField.prototype.getLevel = function(){
 	return this.level;
 };
 
-kArrayField.prototype.add = function() {
+vArrayField.prototype.add = function() {
 	var field;
 	var param = this.param.arrayType;
 	param.name = 'item' + this.fieldsCount;
@@ -561,20 +561,20 @@ kArrayField.prototype.add = function() {
 	if (param.isComplexType)
 	{
 		if (param.isEnum || param.isStringEnum)
-			field = new kEnumField(param, this.jqParamsContainer);
+			field = new vEnumField(param, this.jqParamsContainer);
 		else if (param.isArray)
-			field = new kArrayField(param, this.jqParamsContainer, this.getLevel());
+			field = new vArrayField(param, this.jqParamsContainer, this.getLevel());
 		else{
-			field = new kObjectField(param, this.jqParamsContainer, this.getLevel());
+			field = new vObjectField(param, this.jqParamsContainer, this.getLevel());
 		}
 	}
 	else if (param.isFile)
 	{
-		field = new kFileField(param, this.jqParamsContainer);
+		field = new vFileField(param, this.jqParamsContainer);
 	}
 	else
 	{
-		field = new kSimpleField(param, this.jqParamsContainer);
+		field = new vSimpleField(param, this.jqParamsContainer);
 	}
 	field.setParentName(this.getFullName());
 
@@ -598,40 +598,40 @@ kArrayField.prototype.add = function() {
 	return field;
 };
 
-kArrayField.prototype.childFieldAdd = function(callback) {
-	kTestMe.log.debug("[" + this.className + ".childFieldAdd] Child field add event consumer registered [" + this.name + "]");
+vArrayField.prototype.childFieldAdd = function(callback) {
+	vTestMe.log.debug("[" + this.className + ".childFieldAdd] Child field add event consumer registered [" + this.name + "]");
 	this.childFieldAddCallback = callback;
 };
 
-kArrayField.prototype.onChildFieldAdd = function(field) {
-	kTestMe.log.debug("[" + this.className + ".onChildFieldAdd] Child field added [" + this.name + "][" + field.name + "]");
+vArrayField.prototype.onChildFieldAdd = function(field) {
+	vTestMe.log.debug("[" + this.className + ".onChildFieldAdd] Child field added [" + this.name + "][" + field.name + "]");
 	
 	if(this.childFieldAddCallback)
 		this.childFieldAddCallback.apply(this, [this, field]);
 };
 
-kArrayField.prototype.removeChildField = function(field) {
+vArrayField.prototype.removeChildField = function(field) {
 	field.remove();
 	this.fields[field.name] = null;
 };
 
-kArrayField.prototype.onDialogOpen = function(dialog) {
-	kTestMe.log.debug("[kArrayField.onDialogOpen] Dialog opened [" + dialog.name + "]");
+vArrayField.prototype.onDialogOpen = function(dialog) {
+	vTestMe.log.debug("[vArrayField.onDialogOpen] Dialog opened [" + dialog.name + "]");
 	if(this.childDialog && this.childDialog != dialog){
 		this.childDialog.close(false);
 	}
 		
 	this.childDialog = dialog;
-	kField.prototype.onDialogOpen.apply(this, arguments);
+	vField.prototype.onDialogOpen.apply(this, arguments);
 };
 
-kArrayField.prototype.onDialogClose = function(dialog) {
-	kTestMe.log.debug("[kArrayField.onDialogClose] Dialog closed [" + dialog.name + "]");
+vArrayField.prototype.onDialogClose = function(dialog) {
+	vTestMe.log.debug("[vArrayField.onDialogClose] Dialog closed [" + dialog.name + "]");
 	this.childDialog = null;
-	kField.prototype.onDialogClose.apply(this, arguments);
+	vField.prototype.onDialogClose.apply(this, arguments);
 };
 
-kArrayField.prototype.getValue = function() {
+vArrayField.prototype.getValue = function() {
 	var ret = new Array();
 	for(var item in this.fields)
 		if(this.fields[item] != null)
@@ -640,7 +640,7 @@ kArrayField.prototype.getValue = function() {
 	return ret;
 };
 
-kArrayField.prototype.setValue = function(value) {
+vArrayField.prototype.setValue = function(value) {
 	this.enable();
 
 	if(typeof(value) != 'object' || !(value instanceof Array))
@@ -654,12 +654,12 @@ kArrayField.prototype.setValue = function(value) {
 	}
 };
 
-kArrayField.prototype.empty = function() {
+vArrayField.prototype.empty = function() {
 	for(var item in this.fields)
 		this.remove(this.fields[item]);
 };
 
-kArrayField.prototype.unsetValue = function() {
+vArrayField.prototype.unsetValue = function() {
 	this.disable();
 	this.empty();
 };
@@ -667,9 +667,9 @@ kArrayField.prototype.unsetValue = function() {
 
 /**
  * Class that represents enum request attribute, string or int.
- * @class kEnumField
+ * @class vEnumField
  */
-function kEnumField(param, jqParentContainer){
+function vEnumField(param, jqParentContainer){
 	
 	if(!param)
 		return this;
@@ -683,15 +683,15 @@ function kEnumField(param, jqParentContainer){
 	this.init(param, jqParentContainer);
 }
 
-kEnumField.prototype = new kField();
-kEnumField.prototype.className = 'kEnumField';
+vEnumField.prototype = new vField();
+vEnumField.prototype.className = 'vEnumField';
 
-kEnumField.prototype.getValueName = function() {
+vEnumField.prototype.getValueName = function() {
 	return this.jqInput.find("option:selected").text();
 }
 
-kEnumField.prototype.initListeners = function() {
-	kField.prototype.initListeners.apply(this, arguments);
+vEnumField.prototype.initListeners = function() {
+	vField.prototype.initListeners.apply(this, arguments);
 
 	this.jqInput.focus(delegate(this, this.enable));
 	this.jqInput.change(delegate(this, this.onCurrentValueChange));
@@ -701,9 +701,9 @@ kEnumField.prototype.initListeners = function() {
 
 /**
  * Class that represents link to request dialog.
- * @class kCallLink
+ * @class vCallLink
  */
-function kCallLink(jqParentContainer){
+function vCallLink(jqParentContainer){
 	var jqEdit = jQuery('<input type="button" class="edit-request-button button" value="Edit" />');
 	jqEdit.click(delegate(this, this.click));
 
@@ -714,7 +714,7 @@ function kCallLink(jqParentContainer){
 	this.jqHelp = jQuery('<span\>');
 	
 	var param = {
-		name: kCallLink.index++,
+		name: vCallLink.index++,
 		description: 'Single API request'
 	};
 	this.init(param, jqParentContainer);
@@ -722,35 +722,35 @@ function kCallLink(jqParentContainer){
 	this.jqCheckBox.remove();
 }
 
-kCallLink.index = 1;
-kCallLink.prototype = new kField();
-kCallLink.prototype.className = 'kCallLink';
-kCallLink.prototype.dialog = null;
-kCallLink.prototype.isDialogOpen = false;
-kCallLink.prototype.call = null;
+vCallLink.index = 1;
+vCallLink.prototype = new vField();
+vCallLink.prototype.className = 'vCallLink';
+vCallLink.prototype.dialog = null;
+vCallLink.prototype.isDialogOpen = false;
+vCallLink.prototype.call = null;
 
-kCallLink.prototype.remove = function(){
+vCallLink.prototype.remove = function(){
 	this.close(true);
-	kField.prototype.remove.apply(this, arguments);
+	vField.prototype.remove.apply(this, arguments);
 };
 
-kCallLink.prototype.removeRequest = function(removeSubRequestAction){
+vCallLink.prototype.removeRequest = function(removeSubRequestAction){
 	if(this.dialog != null)
 		this.dialog.removeRequest(removeSubRequestAction);
 };
 
-kCallLink.prototype.getLevel = function(){
+vCallLink.prototype.getLevel = function(){
 	return 1;
 };
 
-kCallLink.prototype.onDialogValueChange = function(dialog){
+vCallLink.prototype.onDialogValueChange = function(dialog){
 	this.call = dialog.getValue();
 	this.onValueChange(this);
 };
 
-kCallLink.prototype.open = function(){
+vCallLink.prototype.open = function(){
 	if(this.dialog == null){
-		this.dialog = new kCall(this, this.name);
+		this.dialog = new vCall(this, this.name);
 		this.dialog.loadFields();
 		this.dialog.loadValues(this.call);
 		this.dialog.dialogValueChange(delegate(this, this.onDialogValueChange));
@@ -762,17 +762,17 @@ kCallLink.prototype.open = function(){
 	this.onDialogOpen(this.dialog);
 };
 
-kCallLink.prototype.onDialogClose = function(){
-	kField.prototype.onDialogClose.apply(this, arguments);
+vCallLink.prototype.onDialogClose = function(){
+	vField.prototype.onDialogClose.apply(this, arguments);
 	this.isDialogOpen = false;
 };
 
-kCallLink.prototype.onDialogOpen = function(dialog){
-	kField.prototype.onDialogOpen.apply(this, arguments);
+vCallLink.prototype.onDialogOpen = function(dialog){
+	vField.prototype.onDialogOpen.apply(this, arguments);
 	this.isDialogOpen = true;
 };
 
-kCallLink.prototype.enable = function(){
+vCallLink.prototype.enable = function(){
 	if(this.enabled)
 		return;
 	
@@ -784,12 +784,12 @@ kCallLink.prototype.enable = function(){
 	this.onCurrentValueChange();
 };
 
-kCallLink.prototype.disable = function(){
+vCallLink.prototype.disable = function(){
 	this.call = null;
-	kField.prototype.disable.apply(this, arguments);
+	vField.prototype.disable.apply(this, arguments);
 };
 
-kCallLink.prototype.close = function(remove){
+vCallLink.prototype.close = function(remove){
 	if(this.dialog == null)
 		return;
 	
@@ -798,27 +798,27 @@ kCallLink.prototype.close = function(remove){
 		this.dialog = null;
 };
 
-kCallLink.prototype.isOpen = function(){
+vCallLink.prototype.isOpen = function(){
 	return this.isDialogOpen;
 };
 
-kCallLink.prototype.click = function(){
+vCallLink.prototype.click = function(){
 	if(this.isOpen())
 		this.close(false);
 	else
 		this.open();
 };
 
-kCallLink.prototype.getValue = function() {
+vCallLink.prototype.getValue = function() {
 	return this.call;
 };
 
-kCallLink.prototype.setValue = function(value) {
+vCallLink.prototype.setValue = function(value) {
 	this.enable();
 	this.call = value;
 };
 
-kCallLink.prototype.unsetValue = function() {
+vCallLink.prototype.unsetValue = function() {
 	this.disable();
 	this.call = null;
 };

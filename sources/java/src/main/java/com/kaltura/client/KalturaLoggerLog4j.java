@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,36 +25,36 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggerFactory;
 
-public class KalturaLoggerLog4j extends Logger implements IKalturaLogger
+public class VidiunLoggerLog4j extends Logger implements IVidiunLogger
 {
 	protected Logger logger;
-	static protected LoggerFactory loggerFactory = new KalturaLoggerFactory();
+	static protected LoggerFactory loggerFactory = new VidiunLoggerFactory();
 	
-	static class KalturaLoggerFactory implements LoggerFactory {
+	static class VidiunLoggerFactory implements LoggerFactory {
 		@Override
 		public Logger makeNewLoggerInstance(String name) {
-			return new KalturaLoggerLog4j(name);
+			return new VidiunLoggerLog4j(name);
 		}
 	}
 	
 	// Creation & retrieval methods:
-	public static IKalturaLogger get(String name)
+	public static IVidiunLogger get(String name)
 	{
 		Logger logger = LogManager.getLogger(name, loggerFactory);
 		if(logger instanceof Logger){
-			return (KalturaLoggerLog4j) logger;
+			return (VidiunLoggerLog4j) logger;
 		}
 		
 		return null;
 	}
 	
-	protected KalturaLoggerLog4j(String name)
+	protected VidiunLoggerLog4j(String name)
 	{
 		super(name);
 	}

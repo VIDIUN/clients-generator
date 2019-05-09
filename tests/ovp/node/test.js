@@ -1,18 +1,18 @@
-var kaltura = require('kaltura');
+var vidiun = require('vidiun');
 
 partner_id=102;
-service_url='https://www.kaltura.com';
+service_url='https://www.vidiun.com';
 secret='';
-var kaltura_conf = new kaltura.kc.KalturaConfiguration(partner_id);
-kaltura_conf.serviceUrl = service_url ;
-var client = new kaltura.kc.KalturaClient(kaltura_conf);
-var type = kaltura.kc.enums.KalturaSessionType.ADMIN;
+var vidiun_conf = new vidiun.vc.VidiunConfiguration(partner_id);
+vidiun_conf.serviceUrl = service_url ;
+var client = new vidiun.vc.VidiunClient(vidiun_conf);
+var type = vidiun.vc.enums.VidiunSessionType.ADMIN;
 
 var expiry = null;
 var privileges = null;
-var ks = client.session.start(print_ks,secret , 'some@user.com', type, partner_id, expiry, privileges);
+var vs = client.session.start(print_vs,secret , 'some@user.com', type, partner_id, expiry, privileges);
 
-function print_ks(result)
+function print_vs(result)
 {
 	console.log(result);
 }

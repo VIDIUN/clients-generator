@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.utils;
+package com.vidiun.client.utils;
 
 import java.io.CharArrayReader;
 import java.io.IOException;
@@ -43,10 +43,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import com.kaltura.client.KalturaApiException;
+import com.vidiun.client.VidiunApiException;
 
 public class XmlUtils {
-	public static Element parseXml(String xml) throws KalturaApiException {
+	public static Element parseXml(String xml) throws VidiunApiException {
 		//get the factory
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
@@ -65,11 +65,11 @@ public class XmlUtils {
 			return docEle;
 			
 		} catch(ParserConfigurationException pce) {
-			throw new KalturaApiException("Failed building XML parser");
+			throw new VidiunApiException("Failed building XML parser");
 		} catch(SAXException se) {
-			throw new KalturaApiException("Failed while parsing response.");
+			throw new VidiunApiException("Failed while parsing response.");
 		} catch(IOException ioe) {
-			throw new KalturaApiException("I/O exception while reading response");
+			throw new VidiunApiException("I/O exception while reading response");
 		}
 	}
 		

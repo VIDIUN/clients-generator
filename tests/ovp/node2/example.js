@@ -1,5 +1,5 @@
 
-const kaltura = require('./KalturaClient');
+const vidiun = require('./VidiunClient');
 
 
 const secret = '@SECRET@';
@@ -7,27 +7,27 @@ const partnerId = @PARTNER_ID@;
 const entryName = 'test';
 const entryDescription = 'test';
 
-let config = new kaltura.Configuration();
-config.serviceUrl = "http://www.kaltura.com";
+let config = new vidiun.Configuration();
+config.serviceUrl = "http://www.vidiun.com";
 
-const client = new kaltura.Client(config);
+const client = new vidiun.Client(config);
 
 function session_start(){
 	var userId = null;
-	var type = kaltura.enums.SessionType.USER;
+	var type = vidiun.enums.SessionType.USER;
 	var expiry = null;
 	var privileges = null;
 
 	return new Promise((resolve, reject) => {
-		kaltura.services.session.start(secret, userId, type, partnerId, expiry, privileges)
-    	.completion((success, ks) => {
+		vidiun.services.session.start(secret, userId, type, partnerId, expiry, privileges)
+    	.completion((success, vs) => {
     		if(!success){
-    			reject(ks.message);
+    			reject(vs.message);
     			return;
     		}
 
-    		client.setKs(ks);
-    		console.log("Seesion started: " + ks);
+    		client.setVs(vs);
+    		console.log("Seesion started: " + vs);
     		resolve();
     	})
     	.execute(client);
@@ -35,14 +35,14 @@ function session_start(){
 }
 
 function media_add(){
-	var entry = new kaltura.objects.MediaEntry({
-		mediaType: kaltura.enums.MediaType.VIDEO,
+	var entry = new vidiun.objects.MediaEntry({
+		mediaType: vidiun.enums.MediaType.VIDEO,
 		name: entryName,
 		description: entryDescription
 	});
 
 	return new Promise((resolve, reject) => {
-		kaltura.services.media.add(entry)
+		vidiun.services.media.add(entry)
 		.completion((success, entry) => {
 			if(!success){
     			reject(entry.message);
@@ -57,7 +57,7 @@ function media_add(){
 }
 
 function media_delete(entryId){
-	kaltura.services.media.deleteAction(entryId)
+	vidiun.services.media.deleteAction(entryId)
 	.execute(client);
 }
 
@@ -65,7 +65,7 @@ function media_delete_error_with_cb(){
 	var entryId = "kishkush";
 
 	return new Promise((resolve, reject) => {
-		kaltura.services.media.deleteAction(entryId).execute(client, function(success, results){
+		vidiun.services.media.deleteAction(entryId).execute(client, function(success, results){
     		if(success) {
     			reject('Error was expected');
     		}
@@ -78,18 +78,18 @@ function media_delete_error_with_cb(){
 
 function media_delete_error_without_cb(){
 	var entryId = "kishkush";
-	kaltura.services.media.deleteAction(entryId).execute(client);
+	vidiun.services.media.deleteAction(entryId).execute(client);
 }
 
 function multirequest_multi_callback(){
-	var entry = new kaltura.objects.MediaEntry({
-		mediaType: kaltura.enums.MediaType.VIDEO,
+	var entry = new vidiun.objects.MediaEntry({
+		mediaType: vidiun.enums.MediaType.VIDEO,
 		name: entryName,
 		description: entryDescription
 	});
 
 	return new Promise((resolve, reject) => {
-		kaltura.services.media.add(entry)
+		vidiun.services.media.add(entry)
 		.completion((success, entry) => {
 			if(!success){
     			reject(entry.message);
@@ -98,7 +98,7 @@ function multirequest_multi_callback(){
 			
 			console.log("Entry created: " + entry.id);
 		})
-		.add(kaltura.services.media.deleteAction("{1:result:id}")
+		.add(vidiun.services.media.deleteAction("{1:result:id}")
 			.completion((success, error) => {
 				if(!success) {
 					reject(error.message);
@@ -113,15 +113,15 @@ function multirequest_multi_callback(){
 }
 
 function multirequest_single_callback(){
-	var entry = new kaltura.objects.MediaEntry({
-		mediaType: kaltura.enums.MediaType.VIDEO,
+	var entry = new vidiun.objects.MediaEntry({
+		mediaType: vidiun.enums.MediaType.VIDEO,
 		name: entryName,
 		description: entryDescription
 	});
 
 	return new Promise((resolve, reject) => {
-		kaltura.services.media.add(entry)
-		.add(kaltura.services.media.deleteAction("{1:result:id}"))
+		vidiun.services.media.add(entry)
+		.add(vidiun.services.media.deleteAction("{1:result:id}"))
 		.execute(client, (success, results) => {
 			if(results.message) { // general transport error
 				reject(results.message);
@@ -145,16 +145,16 @@ function multirequest_single_callback(){
 }
 
 function multirequest_different_style(){
-	var entry = new kaltura.objects.MediaEntry({
-		mediaType: kaltura.enums.MediaType.VIDEO,
+	var entry = new vidiun.objects.MediaEntry({
+		mediaType: vidiun.enums.MediaType.VIDEO,
 		name: entryName,
 		description: entryDescription
 	});
 
-	var addRequestBuilder = kaltura.services.media.add(entry);
-	var deleteRequestBuilder = kaltura.services.media.deleteAction("{1:result:id}").completion();
+	var addRequestBuilder = vidiun.services.media.add(entry);
+	var deleteRequestBuilder = vidiun.services.media.deleteAction("{1:result:id}").completion();
 	
-	var multiRequestBuilder = new kaltura.MultiRequestBuilder(client);
+	var multiRequestBuilder = new vidiun.MultiRequestBuilder(client);
 	multiRequestBuilder.add(addRequestBuilder);
 	multiRequestBuilder.add(deleteRequestBuilder);
 
@@ -182,15 +182,15 @@ function multirequest_different_style(){
 }
 
 function multirequest_single_promise(){
-	var entry = new kaltura.objects.MediaEntry({
-		mediaType: kaltura.enums.MediaType.VIDEO,
+	var entry = new vidiun.objects.MediaEntry({
+		mediaType: vidiun.enums.MediaType.VIDEO,
 		name: entryName,
 		description: entryDescription
 	});
 
 	return new Promise((resolve, reject) => {
-		kaltura.services.media.add(entry)
-		.add(kaltura.services.media.deleteAction("{1:result:id}"))
+		vidiun.services.media.add(entry)
+		.add(vidiun.services.media.deleteAction("{1:result:id}"))
 		.execute(client)
 		.then((results) => {
 			for(var i = 0; i < results.length; i++){
@@ -215,14 +215,14 @@ function multirequest_single_promise(){
 }
 
 function multirequest_return_promise(){
-	var entry = new kaltura.objects.MediaEntry({
-		mediaType: kaltura.enums.MediaType.VIDEO,
+	var entry = new vidiun.objects.MediaEntry({
+		mediaType: vidiun.enums.MediaType.VIDEO,
 		name: entryName,
 		description: entryDescription
 	});
 
-	return kaltura.services.media.add(entry)
-	.add(kaltura.services.media.deleteAction("{1:result:id}"))
+	return vidiun.services.media.add(entry)
+	.add(vidiun.services.media.deleteAction("{1:result:id}"))
 	.execute(client);
 }
 

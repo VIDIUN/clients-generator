@@ -1,21 +1,21 @@
-import { KalturaResponse } from "../lib/api/kaltura-response";
-import { KalturaMultiRequest } from "../lib/api/kaltura-multi-request";
+import { VidiunResponse } from "../lib/api/vidiun-response";
+import { VidiunMultiRequest } from "../lib/api/vidiun-multi-request";
 import { UserLoginByLoginIdAction } from "../lib/api/types/UserLoginByLoginIdAction";
 import { UserGetByLoginIdAction } from "../lib/api/types/UserGetByLoginIdAction";
 import { PermissionListAction } from "../lib/api/types/PermissionListAction";
 import { PartnerGetAction } from "../lib/api/types/PartnerGetAction";
-import { KalturaAPIException } from "../lib/api/kaltura-api-exception";
-import { KalturaMultiResponse } from "../lib/api/kaltura-multi-response";
-import { KalturaUser } from "../lib/api/types/KalturaUser";
+import { VidiunAPIException } from "../lib/api/vidiun-api-exception";
+import { VidiunMultiResponse } from "../lib/api/vidiun-multi-response";
+import { VidiunUser } from "../lib/api/types/VidiunUser";
 import { asyncAssert, getClient } from "./utils";
-import { LoggerSettings, LogLevels } from "../lib/api/kaltura-logger";
-import { KalturaClient } from "../lib/kaltura-client.service";
+import { LoggerSettings, LogLevels } from "../lib/api/vidiun-logger";
+import { VidiunClient } from "../lib/vidiun-client.service";
 
-describe("Kaltura server API multi request", () => {
+describe("Vidiun server API multi request", () => {
     const fakeUserName = "login";
     const fakePassword = "pass";
 
-    let kalturaClient: KalturaClient = null;
+    let vidiunClient: VidiunClient = null;
 
     beforeAll(async () => {
         LoggerSettings.logLevel = LogLevels.error; // suspend warnings
@@ -23,19 +23,19 @@ describe("Kaltura server API multi request", () => {
         return new Promise((resolve => {
             getClient()
                 .subscribe(client => {
-                    kalturaClient = client;
+                    vidiunClient = client;
                     resolve(client);
                 });
         }));
     });
 
     afterAll(() => {
-        kalturaClient = null;
+        vidiunClient = null;
     });
 
     describe("Building request", () => {
         test("execute multi request with only ond inner requests", () => {
-            const multiRequest = new KalturaMultiRequest(
+            const multiRequest = new VidiunMultiRequest(
                 new UserLoginByLoginIdAction({
                     loginId: fakeUserName,
                     password: fakePassword
@@ -44,14 +44,14 @@ describe("Kaltura server API multi request", () => {
 
             const pojoRequest = multiRequest.buildRequest(null);
 
-            expect(multiRequest instanceof KalturaMultiRequest).toBeTruthy();
-            expect(pojoRequest instanceof KalturaMultiRequest).toBeFalsy();
+            expect(multiRequest instanceof VidiunMultiRequest).toBeTruthy();
+            expect(pojoRequest instanceof VidiunMultiRequest).toBeFalsy();
             expect(pojoRequest["0"]).toBeDefined();
             expect(pojoRequest["1"]).toBeUndefined();
         });
 
         test("executes multi request with multiple inner requests", () => {
-            const multiRequest = new KalturaMultiRequest(
+            const multiRequest = new VidiunMultiRequest(
                 new UserLoginByLoginIdAction({
                     loginId: fakeUserName,
                     password: fakePassword
@@ -71,7 +71,7 @@ describe("Kaltura server API multi request", () => {
         });
 
         test("set completion on inner requests (optional)", () => {
-            const multiRequest = new KalturaMultiRequest(
+            const multiRequest = new VidiunMultiRequest(
                 new UserLoginByLoginIdAction({
                     loginId: fakeUserName,
                     password: fakePassword
@@ -92,15 +92,15 @@ describe("Kaltura server API multi request", () => {
             expect(multiRequest.requests["3"]["callback"]).toBeUndefined();
         });
 
-        test("supports kaltura api parameter dependency between inner requests", () => {
+        test("supports vidiun api parameter dependency between inner requests", () => {
 
-            const multiRequest1 = new KalturaMultiRequest(
+            const multiRequest1 = new VidiunMultiRequest(
                 new UserLoginByLoginIdAction({
                     loginId: fakeUserName,
                     password: fakePassword
                 }),
-                new UserGetByLoginIdAction({ loginId: fakeUserName }).setDependency(["ks", 0, ""]),
-                new PartnerGetAction().setDependency(["ks", 1, ""], ["id", 1, "partnerId"])
+                new UserGetByLoginIdAction({ loginId: fakeUserName }).setDependency(["vs", 0, ""]),
+                new PartnerGetAction().setDependency(["vs", 1, ""], ["id", 1, "partnerId"])
             );
 
             const pojoRequest = multiRequest1.buildRequest(null);
@@ -113,14 +113,14 @@ describe("Kaltura server API multi request", () => {
             expect(multiRequest1Request2).toBeDefined();
             expect(multiRequest1Request2.id).toBe("{2:result:partnerId}");
 
-            const multiRequest2 = new KalturaMultiRequest(
+            const multiRequest2 = new VidiunMultiRequest(
                 new UserLoginByLoginIdAction({
                     loginId: fakeUserName,
                     password: fakePassword
                 }),
                 new UserGetByLoginIdAction({ loginId: fakeUserName }),
             new PartnerGetAction(null)
-                .setDependency({ property: "ks", request: 0 }, { property: "id", request: 1, targetPath: ["partnerId"] })
+                .setDependency({ property: "vs", request: 0 }, { property: "id", request: 1, targetPath: ["partnerId"] })
         );
 
             const pojoRequest2 = multiRequest2.buildRequest(null);
@@ -138,7 +138,7 @@ describe("Kaltura server API multi request", () => {
     describe("Invoking multi request", () => {
         test("executes multi request set completion on some requests and on the multi request instance", (done) => {
           expect.assertions(4);
-            kalturaClient.multiRequest(new KalturaMultiRequest(
+            vidiunClient.multiRequest(new VidiunMultiRequest(
               new PermissionListAction(),
                 new PermissionListAction()
                     .setCompletion((response) => {
@@ -164,7 +164,7 @@ describe("Kaltura server API multi request", () => {
 
         test("handles multi request response with failure on some inner requests", (done) => {
           expect.assertions(7);
-            kalturaClient.multiRequest(new KalturaMultiRequest(
+            vidiunClient.multiRequest(new VidiunMultiRequest(
                 new UserLoginByLoginIdAction({
                     loginId: fakeUserName,
                     password: fakePassword
@@ -199,7 +199,7 @@ describe("Kaltura server API multi request", () => {
 
 
         test("returns error if server response is not an array or got unexpected number of items in array", () => {
-            const request = new KalturaMultiRequest(
+            const request = new VidiunMultiRequest(
                 new UserLoginByLoginIdAction({
                     loginId: fakeUserName,
                     password: fakePassword
@@ -209,21 +209,21 @@ describe("Kaltura server API multi request", () => {
 
             expect(request.handleResponse(null).hasErrors()).toBeTruthy();
             expect(request.handleResponse(null).length).toBe(2);
-            // TODO [kmc] investigate
-            // expect(request.handleResponse(null)[0].error instanceof KalturaAPIException).toBeTruthy();
+            // TODO [vmc] investigate
+            // expect(request.handleResponse(null)[0].error instanceof VidiunAPIException).toBeTruthy();
             // expect(request.handleResponse(null)[0].error.code).toBe("client::response_type_error");
 
             expect(request.handleResponse([{}]).hasErrors()).toBeTruthy();
             expect(request.handleResponse([{}]).length).toBe(2);
-            // TODO [kmc] investigate
-            // expect(request.handleResponse([{}])[0].error instanceof KalturaAPIException).toBeTruthy();
+            // TODO [vmc] investigate
+            // expect(request.handleResponse([{}])[0].error instanceof VidiunAPIException).toBeTruthy();
             // expect(request.handleResponse([{}])[0].error.code).toBe("client::response_type_error");
         });
 
         test("exposes a function that return if one or more responses returned with errors.", () => {
             // response with errors
-            const response1 = new KalturaMultiResponse([
-                new KalturaResponse<any>(null, new KalturaAPIException("12", "222",null)),
+            const response1 = new VidiunMultiResponse([
+                new VidiunResponse<any>(null, new VidiunAPIException("12", "222",null)),
             ]);
 
             expect(response1).toBeDefined();
@@ -231,9 +231,9 @@ describe("Kaltura server API multi request", () => {
             expect(response1.hasErrors()).toBe(true);
 
             // response without errors
-            const response2 = new KalturaMultiResponse([
-                new KalturaResponse<any>(new KalturaUser(), null),
-                new KalturaResponse<any>(new KalturaUser(), null),
+            const response2 = new VidiunMultiResponse([
+                new VidiunResponse<any>(new VidiunUser(), null),
+                new VidiunResponse<any>(new VidiunUser(), null),
             ]);
 
             expect(response2).toBeDefined();

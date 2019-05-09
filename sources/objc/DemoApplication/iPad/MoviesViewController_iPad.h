@@ -1,15 +1,15 @@
 //
 //  MoviesViewController_iPad.h
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 14.03.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
-#import <KALTURAPlayerSDK/KPViewController.h>
+#import <VIDIUNPlayerSDK/VPViewController.h>
 
 extern const CGRect PlayeriPadCGRect;
 
@@ -20,7 +20,7 @@ extern const CGRect PlayeriPadCGRect;
     IBOutlet UITableView *mediaTableView;
     
     IBOutlet UILabel *labelTitle;
-    KalturaCategory *category;
+    VidiunCategory *category;
     
     IBOutlet UITableView *categoriesTableView;
     IBOutlet UIView *categoriesView;
@@ -42,13 +42,13 @@ extern const CGRect PlayeriPadCGRect;
     
     BOOL isLandscape;
     
-    IBOutlet KalturaThumbView *imgInfoThumb;
+    IBOutlet VidiunThumbView *imgInfoThumb;
     
     IBOutlet UILabel *labelInfoTitle;
     IBOutlet UILabel *labelInfoDuration;
     
     IBOutlet UITextView *textInfoDescription;
-    KPViewController* playerViewController;
+    VPViewController* playerViewController;
     
 }
 
@@ -64,7 +64,7 @@ extern const CGRect PlayeriPadCGRect;
 - (void)toggleFullscreen:(NSNotification *)note;
 
 @property (nonatomic, retain) NSMutableArray *media;
-@property (nonatomic, retain) KalturaCategory *category;
+@property (nonatomic, retain) VidiunCategory *category;
 @property BOOL mostPopular;
 @property (retain, nonatomic) IBOutlet UIView *entryInfoView;
 

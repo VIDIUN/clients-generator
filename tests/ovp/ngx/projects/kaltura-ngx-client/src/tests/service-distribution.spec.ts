@@ -1,18 +1,18 @@
 import {DistributionProviderListAction} from "../lib/api/types/DistributionProviderListAction";
-import {KalturaDistributionProviderListResponse} from "../lib/api/types/KalturaDistributionProviderListResponse";
-import {KalturaDistributionProvider} from "../lib/api/types/KalturaDistributionProvider";
+import {VidiunDistributionProviderListResponse} from "../lib/api/types/VidiunDistributionProviderListResponse";
+import {VidiunDistributionProvider} from "../lib/api/types/VidiunDistributionProvider";
 import {DistributionProfileListAction} from "../lib/api/types/DistributionProfileListAction";
-import {KalturaDistributionProfileListResponse} from "../lib/api/types/KalturaDistributionProfileListResponse";
-import {KalturaDistributionProfile} from "../lib/api/types/KalturaDistributionProfile";
+import {VidiunDistributionProfileListResponse} from "../lib/api/types/VidiunDistributionProfileListResponse";
+import {VidiunDistributionProfile} from "../lib/api/types/VidiunDistributionProfile";
 import {EntryDistributionListAction} from "../lib/api/types/EntryDistributionListAction";
-import {KalturaEntryDistributionListResponse} from "../lib/api/types/KalturaEntryDistributionListResponse";
-import {KalturaEntryDistribution} from "../lib/api/types/KalturaEntryDistribution";
+import {VidiunEntryDistributionListResponse} from "../lib/api/types/VidiunEntryDistributionListResponse";
+import {VidiunEntryDistribution} from "../lib/api/types/VidiunEntryDistribution";
 import { asyncAssert, getClient } from "./utils";
-import {LoggerSettings, LogLevels} from "../lib/api/kaltura-logger";
-import {KalturaClient} from "../lib/kaltura-client.service";
+import {LoggerSettings, LogLevels} from "../lib/api/vidiun-logger";
+import {VidiunClient} from "../lib/vidiun-client.service";
 
 describe(`service "Distribution" tests`, () => {
-  let kalturaClient: KalturaClient = null;
+  let vidiunClient: VidiunClient = null;
 
   beforeAll(async () => {
     LoggerSettings.logLevel = LogLevels.error; // suspend warnings
@@ -20,7 +20,7 @@ describe(`service "Distribution" tests`, () => {
     return new Promise((resolve => {
       getClient()
         .subscribe(client => {
-          kalturaClient = client;
+          vidiunClient = client;
           resolve(client);
         });
     }));
@@ -28,13 +28,13 @@ describe(`service "Distribution" tests`, () => {
 
   test("distribution provider list", (done) => {
     expect.assertions(3);
-    kalturaClient.request(new DistributionProviderListAction())
+    vidiunClient.request(new DistributionProviderListAction())
       .subscribe(
         response => {
           asyncAssert(() => {
-            expect(response instanceof KalturaDistributionProviderListResponse).toBeTruthy();
+            expect(response instanceof VidiunDistributionProviderListResponse).toBeTruthy();
             expect(Array.isArray(response.objects)).toBeTruthy();
-            expect(response.objects.every(obj => obj instanceof KalturaDistributionProvider)).toBeTruthy();
+            expect(response.objects.every(obj => obj instanceof VidiunDistributionProvider)).toBeTruthy();
           });
           done();
         },
@@ -45,13 +45,13 @@ describe(`service "Distribution" tests`, () => {
 
   test("distribution profile list", (done) => {
     expect.assertions(3);
-    kalturaClient.request(new DistributionProfileListAction())
+    vidiunClient.request(new DistributionProfileListAction())
       .subscribe(
         response => {
           asyncAssert(() => {
-            expect(response instanceof KalturaDistributionProfileListResponse).toBeTruthy();
+            expect(response instanceof VidiunDistributionProfileListResponse).toBeTruthy();
             expect(Array.isArray(response.objects)).toBeTruthy();
-            expect(response.objects.every(obj => obj instanceof KalturaDistributionProfile)).toBeTruthy();
+            expect(response.objects.every(obj => obj instanceof VidiunDistributionProfile)).toBeTruthy();
           });
           done();
         },
@@ -62,13 +62,13 @@ describe(`service "Distribution" tests`, () => {
 
   test("entry distribution list", (done) => {
     expect.assertions(3);
-    kalturaClient.request(new EntryDistributionListAction())
+    vidiunClient.request(new EntryDistributionListAction())
       .subscribe(
         response => {
           asyncAssert(() => {
-            expect(response instanceof KalturaEntryDistributionListResponse).toBeTruthy();
+            expect(response instanceof VidiunEntryDistributionListResponse).toBeTruthy();
             expect(Array.isArray(response.objects)).toBeTruthy();
-            expect(response.objects.every(obj => obj instanceof KalturaEntryDistribution)).toBeTruthy();
+            expect(response.objects.every(obj => obj instanceof VidiunEntryDistribution)).toBeTruthy();
           });
           done();
         },

@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -29,9 +29,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
-using Kaltura.Types;
+using Vidiun.Types;
 
-namespace Kaltura.Request
+namespace Vidiun.Request
 {
     public class Params : SortedList<string, ISerializable>, ISerializable
     {
@@ -79,17 +79,17 @@ namespace Kaltura.Request
             }
         }
 
-        public void Add(string key, ObjectBase kalturaObject)
+        public void Add(string key, ObjectBase vidiunObject)
         {
-            Params objectProperties = kalturaObject.ToParams();
+            Params objectProperties = vidiunObject.ToParams();
             Add(key, objectProperties);
         }
 
-        public void AddIfNotNull(string key, ObjectBase kalturaObject)
+        public void AddIfNotNull(string key, ObjectBase vidiunObject)
         {
-            if (kalturaObject != null)
+            if (vidiunObject != null)
             {
-                Add(key, kalturaObject);
+                Add(key, vidiunObject);
             }
         }
 

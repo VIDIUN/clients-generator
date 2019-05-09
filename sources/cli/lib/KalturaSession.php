@@ -5,11 +5,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -27,14 +27,14 @@
 // @ignore
 // ===================================================================================================
 
-require_once(dirname(__file__) . '/KalturaSecretRepository.php');
+require_once(dirname(__file__) . '/VidiunSecretRepository.php');
 
-class KalturaSession
+class VidiunSession
 {
-	// KS V1 constants
+	// VS V1 constants
 	const SEPARATOR = ";";
 	
-	// KS V2 constants
+	// VS V2 constants
 	const SHA1_SIZE = 20;
 	const RANDOM_SIZE = 16;
 	const AES_IV = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";	// no need for an IV since we add a random string to the message anyway
@@ -73,45 +73,45 @@ class KalturaSession
 	
 	/**
 	 * @param string $encoded_str
-	 * @return KalturaSession
+	 * @return VidiunSession
 	 */
-	public static function getKSObject($encoded_str)
+	public static function getVSObject($encoded_str)
 	{
 		if (empty($encoded_str))
 			return null;
 
-		$ks = new KalturaSession();		
-		if (!$ks->parseKS($encoded_str))
+		$vs = new VidiunSession();		
+		if (!$vs->parseVS($encoded_str))
 			return null;
 
-		return $ks;
+		return $vs;
 	}
 	
 	/**
 	 * @param string $encoded_str
 	 * @return boolean
 	 */
-	public function parseKS($encoded_str)
+	public function parseVS($encoded_str)
 	{
 		// try V2
-		if ($this->parseKsV2($encoded_str))
+		if ($this->parseVsV2($encoded_str))
 			return true;
 	
 		// try V1
-		if ($this->parseKsV1($encoded_str))
+		if ($this->parseVsV1($encoded_str))
 			return true;
 			
 		return false;
 	}
 	
-	public function generateKs()
+	public function generateVs()
 	{
-		$adminSecret = KalturaSecretRepository::getAdminSecret($this->partner_id);
+		$adminSecret = VidiunSecretRepository::getAdminSecret($this->partner_id);
 		if (!$adminSecret)
 			return null;
 			
 		if ($this->version == 2)
-			return self::generateKsV2(
+			return self::generateVsV2(
 				$adminSecret, 
 				$this->user, 
 				$this->type, 
@@ -121,7 +121,7 @@ class KalturaSession
 				$this->master_partner_id, 
 				$this->additional_data);
 
-		return self::generateKsV1(
+		return self::generateVsV1(
 			$adminSecret, 
 			$this->user, 
 			$this->type, 
@@ -132,13 +132,13 @@ class KalturaSession
 			$this->additional_data);
 	}
 	
-    static function extendKs($ks, $expiry = 86400)
+    static function extendVs($vs, $expiry = 86400)
 	{
-        $ksObj = KalturaSession::getKsObject($ks);
-        if (!$ksObj)
+        $vsObj = VidiunSession::getVsObject($vs);
+        if (!$vsObj)
             return null;
-        $ksObj->valid_until = time() + $expiry;
-        return $ksObj->generateKs();
+        $vsObj->valid_until = time() + $expiry;
+        return $vsObj->generateVs();
 	}
 
 	// overridable
@@ -148,11 +148,11 @@ class KalturaSession
 
 	static public function registerSecretRepository($repo)
 	{
-		KalturaSession::$secretRepositories[] = $repo;
+		VidiunSession::$secretRepositories[] = $repo;
 	}
 			
-	// KS V1 functions
-	public static function generateKsV1($adminSecret, $userId, $type, $partnerId, $expiry, $privileges, $masterPartnerId, $additionalData)
+	// VS V1 functions
+	public static function generateVsV1($adminSecret, $userId, $type, $partnerId, $expiry, $privileges, $masterPartnerId, $additionalData)
 	{
 		$rand = microtime(true);
 		$expiry = time() + $expiry;
@@ -176,12 +176,12 @@ class KalturaSession
 		return $encoded_str;
 	}
 
-	public function parseKsV1($encoded_str)
+	public function parseVsV1($encoded_str)
 	{
 		$str = base64_decode($encoded_str, true);
 		if (strpos($str, "|") === false)
 		{
-			$this->logError("Couldn't find | seperator in the KS");
+			$this->logError("Couldn't find | seperator in the VS");
 			return false;
 		}
 			
@@ -190,12 +190,12 @@ class KalturaSession
 		$parts = explode(self::SEPARATOR, $real_str);
 		if (count($parts) < 3)
 		{
-			$this->logError("Couldn't find 3 seperated parts in the KS");
+			$this->logError("Couldn't find 3 seperated parts in the VS");
 			return false;
 		}
 		
 		$partnerId = reset($parts);
-		$salt = KalturaSecretRepository::getAdminSecret($partnerId);
+		$salt = VidiunSecretRepository::getAdminSecret($partnerId);
 		if (!$salt)
 		{
 			$this->logError("Couldn't get admin secret for partner [$partnerId]");
@@ -239,7 +239,7 @@ class KalturaSession
 		return true;
 	}
 
-	// KS V2 functions
+	// VS V2 functions
 	protected static function aesEncrypt($key, $message)
 	{
 		
@@ -292,7 +292,7 @@ class KalturaSession
 		}
 	}
 
-	public static function generateKsV2($adminSecret, $userId, $type, $partnerId, $expiry, $privileges, $masterPartnerId, $additionalData)
+	public static function generateVsV2($adminSecret, $userId, $type, $partnerId, $expiry, $privileges, $masterPartnerId, $additionalData)
 	{
 		// build fields array
 		$fields = array();
@@ -325,42 +325,42 @@ class KalturaSession
 		
 		// encrypt and encode
 		$encryptedFields = self::aesEncrypt($adminSecret, $fieldsStr);
-		$decodedKs = "v2|{$partnerId}|" . $encryptedFields;
-		return str_replace(array('+', '/'), array('-', '_'), base64_encode($decodedKs));
+		$decodedVs = "v2|{$partnerId}|" . $encryptedFields;
+		return str_replace(array('+', '/'), array('-', '_'), base64_encode($decodedVs));
 	}
 	
-	public function parseKsV2($ks)
+	public function parseVsV2($vs)
 	{
-		$decodedKs = base64_decode(str_replace(array('-', '_'), array('+', '/'), $ks), true);
-		if (!$decodedKs)
+		$decodedVs = base64_decode(str_replace(array('-', '_'), array('+', '/'), $vs), true);
+		if (!$decodedVs)
 		{
-			$this->logError("Couldn't base 64 decode the KS.");
+			$this->logError("Couldn't base 64 decode the VS.");
 			return false;
 		}
 		
-		$explodedKs = explode('|', $decodedKs , 3);
-		if (count($explodedKs) != 3)
-			return false;						// not KS V2
+		$explodedVs = explode('|', $decodedVs , 3);
+		if (count($explodedVs) != 3)
+			return false;						// not VS V2
 		
-		list($version, $partnerId, $encKs) = $explodedKs;
+		list($version, $partnerId, $encVs) = $explodedVs;
 		if ($version != 'v2')
 		{
-			$this->logError("KS version [$version] is not [v2].");
-			return false;						// not KS V2
+			$this->logError("VS version [$version] is not [v2].");
+			return false;						// not VS V2
 		}
 		
-		$adminSecret = KalturaSecretRepository::getAdminSecret($partnerId);
+		$adminSecret = VidiunSecretRepository::getAdminSecret($partnerId);
 		if (!$adminSecret)
 		{
 			$this->logError("Couldn't get secret for partner [$partnerId].");
-			return false;						// admin secret not found, can't decrypt the KS
+			return false;						// admin secret not found, can't decrypt the VS
 		}
 				
-		$decKs = self::aesDecrypt($adminSecret, $encKs);
-		$decKs = rtrim($decKs, "\0");
+		$decVs = self::aesDecrypt($adminSecret, $encVs);
+		$decVs = rtrim($decVs, "\0");
 		
-		$hash = substr($decKs, 0, self::SHA1_SIZE);
-		$fields = substr($decKs, self::SHA1_SIZE);
+		$hash = substr($decVs, 0, self::SHA1_SIZE);
+		$fields = substr($decVs, self::SHA1_SIZE);
 		if ($hash != sha1($fields, true))
 		{
 			$this->logError("Hash [$hash] doesn't match sha1 on partner [$partnerId].");
@@ -373,8 +373,8 @@ class KalturaSession
 		$fieldsArr = null;
 		parse_str($fields, $fieldsArr);
 		
-		// TODO: the following code translates a KS v2 into members that are more suitable for V1
-		//	in the future it makes sense to change the structure of the ks class
+		// TODO: the following code translates a VS v2 into members that are more suitable for V1
+		//	in the future it makes sense to change the structure of the vs class
 		$privileges = array();
 		foreach ($fieldsArr as $fieldName => $fieldValue)
 		{
@@ -392,7 +392,7 @@ class KalturaSession
 		
 		$this->hash = bin2hex($hash);
 		$this->real_str = $fields;
-		$this->original_str = $ks;
+		$this->original_str = $vs;
 		$this->partner_id = $partnerId;
 		$this->rand = bin2hex($rand);
 		$this->privileges = implode(',', $privileges);

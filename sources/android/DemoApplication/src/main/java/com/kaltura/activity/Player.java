@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,17 +16,17 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.types.KalturaFlavorAsset;
-import com.kaltura.enums.States;
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.FlavorAsset;
-import com.kaltura.utils.Sort;
-import com.kaltura.utils.Utils;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.types.VidiunFlavorAsset;
+import com.vidiun.enums.States;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.FlavorAsset;
+import com.vidiun.utils.Sort;
+import com.vidiun.utils.Utils;
 
 public class Player extends TemplateActivity implements SurfaceHolder.Callback {
 
-	private com.kaltura.player.ViewPlayer viewPlayer;
+	private com.vidiun.player.ViewPlayer viewPlayer;
 	private String dataUrl;
 	private String entryId;
 	private SurfaceView surface;
@@ -34,8 +34,8 @@ public class Player extends TemplateActivity implements SurfaceHolder.Callback {
 	private int duration;
 	private Activity activity;
 	private int partnerId;
-	private List<KalturaFlavorAsset> listFlavorAssets = new ArrayList<KalturaFlavorAsset>();
-	private List<KalturaFlavorAsset> copyListFlavorAssets;
+	private List<VidiunFlavorAsset> listFlavorAssets = new ArrayList<VidiunFlavorAsset>();
+	private List<VidiunFlavorAsset> copyListFlavorAssets;
 	private String url;
 
 	@Override
@@ -69,7 +69,7 @@ public class Player extends TemplateActivity implements SurfaceHolder.Callback {
 	// try {
 	// holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 	// holder.setFixedSize(400, 300);
-	// viewPlayer = new com.kaltura.player.ViewPlayer(TAG, activity, holder,
+	// viewPlayer = new com.vidiun.player.ViewPlayer(TAG, activity, holder,
 	// duration, entryId);
 	// viewPlayer.setThumb(url);
 	// new DownloadTask().execute();
@@ -96,7 +96,7 @@ public class Player extends TemplateActivity implements SurfaceHolder.Callback {
 		try {
 			holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 			holder.setFixedSize(400, 300);
-			viewPlayer = new com.kaltura.player.ViewPlayer(TAG, activity,
+			viewPlayer = new com.vidiun.player.ViewPlayer(TAG, activity,
 					holder, duration, entryId, partnerId);
 			viewPlayer.setThumb(url);
 			new DownloadTask().execute();
@@ -194,11 +194,11 @@ public class Player extends TemplateActivity implements SurfaceHolder.Callback {
 						listFlavorAssets = FlavorAsset
 								.listAllFlavorsFromContext(TAG, entryId,
 										"widevine_mbr,widevine,iphonenew");
-						copyListFlavorAssets =  new ArrayList<KalturaFlavorAsset>(); 
+						copyListFlavorAssets =  new ArrayList<VidiunFlavorAsset>(); 
 						Collections.sort(listFlavorAssets,
-								new Sort<KalturaFlavorAsset>("bitrate",
+								new Sort<VidiunFlavorAsset>("bitrate",
 										"reverse"));
-						for (KalturaFlavorAsset f : listFlavorAssets) {
+						for (VidiunFlavorAsset f : listFlavorAssets) {
 							Log.w(TAG, "FLAVORS:  containerFormat: "
 									+ f.containerFormat + " description: "
 									+ f.description + " bitrate: " + f.bitrate
@@ -209,14 +209,14 @@ public class Player extends TemplateActivity implements SurfaceHolder.Callback {
 									+ f.partnerDescription + " tags: " + f.tags
 									+ " videoCodecId " + f.videoCodecId);
 						}
-						for (KalturaFlavorAsset kalturaFlavorAsset : listFlavorAssets) {
+						for (VidiunFlavorAsset vidiunFlavorAsset : listFlavorAssets) {
 							if (!new Integer(
-									Math.round(kalturaFlavorAsset.bitrate / 100) * 100)
+									Math.round(vidiunFlavorAsset.bitrate / 100) * 100)
 									.equals(0)) {
-								copyListFlavorAssets.add(kalturaFlavorAsset);
+								copyListFlavorAssets.add(vidiunFlavorAsset);
 							}
 						}
-					} catch (KalturaApiException e) {
+					} catch (VidiunApiException e) {
 						e.printStackTrace();
 						Log.w(TAG, "err: " + e.getMessage(), e);
 					}
@@ -237,7 +237,7 @@ public class Player extends TemplateActivity implements SurfaceHolder.Callback {
 			progressDialog.hide();
 
 			Log.w(TAG, "----------------");
-			for (KalturaFlavorAsset f : copyListFlavorAssets) {
+			for (VidiunFlavorAsset f : copyListFlavorAssets) {
 				Log.w(TAG, "FLAVORS:  containerFormat: " + f.containerFormat
 						+ " description: " + f.description + " bitrate: "
 						+ f.bitrate + " frameRate: " + f.frameRate + " size: "

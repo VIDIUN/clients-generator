@@ -3,42 +3,42 @@ from __future__ import absolute_import
 import uuid
 import unittest
 
-from .utils import KalturaBaseTest
+from .utils import VidiunBaseTest
 
-from KalturaClient.Plugins.Core import (
-    KalturaBaseEntryListResponse,
-    KalturaDetachedResponseProfile,
-    KalturaEntryStatus,
-    KalturaFilterPager,
-    KalturaMediaEntry,
-    KalturaMediaEntryFilter,
-    KalturaMediaType,
-    KalturaResponseProfile,
-    KalturaResponseProfileHolder,
-    KalturaResponseProfileMapping,
-    KalturaResponseProfileType,
+from VidiunClient.Plugins.Core import (
+    VidiunBaseEntryListResponse,
+    VidiunDetachedResponseProfile,
+    VidiunEntryStatus,
+    VidiunFilterPager,
+    VidiunMediaEntry,
+    VidiunMediaEntryFilter,
+    VidiunMediaType,
+    VidiunResponseProfile,
+    VidiunResponseProfileHolder,
+    VidiunResponseProfileMapping,
+    VidiunResponseProfileType,
 )
-from KalturaClient.Plugins.Metadata import (
-    KalturaMetadata,
-    KalturaMetadataFilter,
-    KalturaMetadataListResponse,
-    KalturaMetadataObjectType,
-    KalturaMetadataProfile,
+from VidiunClient.Plugins.Metadata import (
+    VidiunMetadata,
+    VidiunMetadataFilter,
+    VidiunMetadataListResponse,
+    VidiunMetadataObjectType,
+    VidiunMetadataProfile,
 )
 
 
-class ResponseProfileTests(KalturaBaseTest):
+class ResponseProfileTests(VidiunBaseTest):
 
     def setUp(self):
-        KalturaBaseTest.setUp(self)
+        VidiunBaseTest.setUp(self)
         self.uniqueTag = self.uniqid('tag_')
 
     def uniqid(self, prefix):
         return prefix + uuid.uuid1().hex
 
     def createEntry(self):
-        entry = KalturaMediaEntry()
-        entry.mediaType = KalturaMediaType.VIDEO
+        entry = VidiunMediaEntry()
+        entry.mediaType = VidiunMediaType.VIDEO
         entry.name = self.uniqid('test_')
         entry.description = self.uniqid('test ')
         entry.tags = self.uniqueTag
@@ -48,7 +48,7 @@ class ResponseProfileTests(KalturaBaseTest):
         return entry
 
     def createMetadata(self, metadataProfileId, objectType, objectId, xmlData):
-        metadata = KalturaMetadata()
+        metadata = VidiunMetadata()
         metadata.metadataObjectType = objectType
         metadata.objectId = objectId
 
@@ -58,7 +58,7 @@ class ResponseProfileTests(KalturaBaseTest):
         return metadata
 
     def createMetadataProfile(self, objectType, xsdData):
-        metadataProfile = KalturaMetadataProfile()
+        metadataProfile = VidiunMetadataProfile()
         metadataProfile.metadataObjectType = objectType
         metadataProfile.name = self.uniqid('test_')
         metadataProfile.systemName = self.uniqid('test_')
@@ -126,7 +126,7 @@ class ResponseProfileTests(KalturaBaseTest):
 </xsd:schema>"""
         for i in range(1, metadataProfileCount + 1):
             metadataProfiles[i] = self.createMetadataProfile(
-                KalturaMetadataObjectType.ENTRY, xsd.format(index=i))
+                VidiunMetadataObjectType.ENTRY, xsd.format(index=i))
 
         xml = """\
 <metadata>
@@ -141,7 +141,7 @@ class ResponseProfileTests(KalturaBaseTest):
             for j in range(1, metadataProfileCount + 1):
                 self.createMetadata(
                     metadataProfiles[j].id,
-                    KalturaMetadataObjectType.ENTRY, entry.id,
+                    VidiunMetadataObjectType.ENTRY, entry.id,
                     xml.format(index=j))
 
         return [entries, metadataProfiles]
@@ -154,63 +154,63 @@ class ResponseProfileTests(KalturaBaseTest):
         entries, metadataProfiles = self.createEntriesWithMetadataObjects(
             entriesTotalCount, metadataPageSize)
 
-        entriesFilter = KalturaMediaEntryFilter()
+        entriesFilter = VidiunMediaEntryFilter()
         entriesFilter.tagsLike = self.uniqueTag
         entriesFilter.statusIn = "{},{}".format(
-            KalturaEntryStatus.PENDING, KalturaEntryStatus.NO_CONTENT)
+            VidiunEntryStatus.PENDING, VidiunEntryStatus.NO_CONTENT)
 
-        entriesPager = KalturaFilterPager()
+        entriesPager = VidiunFilterPager()
         entriesPager.pageSize = entriesPageSize
 
-        metadataFilter = KalturaMetadataFilter()
+        metadataFilter = VidiunMetadataFilter()
         metadataFilter.metadataObjectTypeEqual = (
-            KalturaMetadataObjectType.ENTRY)
+            VidiunMetadataObjectType.ENTRY)
 
-        metadataMapping = KalturaResponseProfileMapping()
+        metadataMapping = VidiunResponseProfileMapping()
         metadataMapping.filterProperty = 'objectIdEqual'
         metadataMapping.parentProperty = 'id'
 
-        metadataPager = KalturaFilterPager()
+        metadataPager = VidiunFilterPager()
         metadataPager.pageSize = metadataPageSize
 
-        metadataResponseProfile = KalturaDetachedResponseProfile()
+        metadataResponseProfile = VidiunDetachedResponseProfile()
         metadataResponseProfile.name = self.uniqid('test_')
         metadataResponseProfile.type = (
-            KalturaResponseProfileType.INCLUDE_FIELDS)
+            VidiunResponseProfileType.INCLUDE_FIELDS)
         metadataResponseProfile.fields = 'id,objectId,createdAt, xml'
         metadataResponseProfile.filter = metadataFilter
         metadataResponseProfile.pager = metadataPager
         metadataResponseProfile.mappings = [metadataMapping]
 
-        responseProfile = KalturaResponseProfile()
+        responseProfile = VidiunResponseProfile()
         responseProfile.name = self.uniqid('test_')
         responseProfile.systemName = self.uniqid('test_')
-        responseProfile.type = KalturaResponseProfileType.INCLUDE_FIELDS
+        responseProfile.type = VidiunResponseProfileType.INCLUDE_FIELDS
         responseProfile.fields = 'id,name,createdAt'
         responseProfile.relatedProfiles = [metadataResponseProfile]
 
         responseProfile = self.client.responseProfile.add(responseProfile)
 
-        nestedResponseProfile = KalturaResponseProfileHolder()
+        nestedResponseProfile = VidiunResponseProfileHolder()
         nestedResponseProfile.id = responseProfile.id
 
         self.client.setResponseProfile(nestedResponseProfile)
         list_ = self.client.baseEntry.list(entriesFilter, entriesPager)
 
-        self.assertIsInstance(list_, KalturaBaseEntryListResponse)
+        self.assertIsInstance(list_, VidiunBaseEntryListResponse)
         self.assertEqual(entriesTotalCount, list_.totalCount)
         self.assertEqual(entriesPageSize, len(list_.objects))
-        [self.assertIsInstance(entry, KalturaMediaEntry)
+        [self.assertIsInstance(entry, VidiunMediaEntry)
          for entry in list_.objects]
 
         for entry in list_.objects:
             self.assertNotEqual(entry.relatedObjects, NotImplemented)
             self.assertIn(metadataResponseProfile.name, entry.relatedObjects)
             metadataList = entry.relatedObjects[metadataResponseProfile.name]
-            self.assertIsInstance(metadataList, KalturaMetadataListResponse)
+            self.assertIsInstance(metadataList, VidiunMetadataListResponse)
             self.assertEqual(len(metadataProfiles), len(metadataList.objects))
             for metadata in metadataList.objects:
-                self.assertIsInstance(metadata, KalturaMetadata)
+                self.assertIsInstance(metadata, VidiunMetadata)
                 self.assertEqual(entry.id, metadata.objectId)
 
 

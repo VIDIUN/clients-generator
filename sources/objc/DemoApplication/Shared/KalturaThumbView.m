@@ -1,24 +1,24 @@
 //
-//  KalturaThumbView.m
-//  Kaltura
+//  VidiunThumbView.m
+//  Vidiun
 //
 //  Created by Pavel on 02.04.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
-#import "KalturaThumbView.h"
+#import "VidiunThumbView.h"
 
-@implementation KalturaThumbView
+@implementation VidiunThumbView
 
 @synthesize mediaEntry;
 
-- (void)updateWithMediaEntry:(KalturaMediaEntry *)_mediaEntry {
+- (void)updateWithMediaEntry:(VidiunMediaEntry *)_mediaEntry {
     
     [self updateWithMediaEntry:_mediaEntry withSize:CGSizeMake(self.frame.size.width, self.frame.size.height)];
     
 }
 
-- (void)updateWithMediaEntry:(KalturaMediaEntry *)_mediaEntry withSize:(CGSize)size {
+- (void)updateWithMediaEntry:(VidiunMediaEntry *)_mediaEntry withSize:(CGSize)size {
 
     if (isLoading && request) {
         

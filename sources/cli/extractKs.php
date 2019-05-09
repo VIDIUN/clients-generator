@@ -6,11 +6,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,8 +28,8 @@
 // @ignore
 // ===================================================================================================
 
-require_once(dirname(__file__) . '/lib/KalturaCommandLineParser.php');
-require_once(dirname(__file__) . '/lib/KalturaSession.php');
+require_once(dirname(__file__) . '/lib/VidiunCommandLineParser.php');
+require_once(dirname(__file__) . '/lib/VidiunSession.php');
 
 function formatTimeInterval($secs)
 {
@@ -60,18 +60,18 @@ function formatTimeInterval($secs)
 	return join(' ', $ret);
 }
 
-function formatKs($ksObj, $fieldNames)
+function formatVs($vsObj, $fieldNames)
 {
 	$printDelim = false;
 	if (isset($fieldNames['hash']))
 	{
-		echo str_pad('Sig', 20) . $ksObj->hash . "\n";
+		echo str_pad('Sig', 20) . $vsObj->hash . "\n";
 		unset($fieldNames['hash']);
 		$printDelim = true;
 	}
 	if (isset($fieldNames['real_str']))
 	{
-		echo str_pad('Fields', 20) . $ksObj->real_str . "\n";
+		echo str_pad('Fields', 20) . $vsObj->real_str . "\n";
 		unset($fieldNames['real_str']);
 		$printDelim = true;
 	}
@@ -82,18 +82,18 @@ function formatKs($ksObj, $fieldNames)
 	
 	foreach ($fieldNames as $fieldName)
 	{
-		echo str_pad($fieldName, 20) . $ksObj->$fieldName;
+		echo str_pad($fieldName, 20) . $vsObj->$fieldName;
 		if ($fieldName == 'valid_until')
 		{
 			$currentTime = time();
-			echo ' = ' . date('Y-m-d H:i:s', $ksObj->valid_until);
-			if ($currentTime >= $ksObj->valid_until)
+			echo ' = ' . date('Y-m-d H:i:s', $vsObj->valid_until);
+			if ($currentTime >= $vsObj->valid_until)
 			{
-				echo ' (expired ' . formatTimeInterval($currentTime - $ksObj->valid_until) . ' ago';
+				echo ' (expired ' . formatTimeInterval($currentTime - $vsObj->valid_until) . ' ago';
 			}
 			else
 			{
-				echo ' (will expire in ' . formatTimeInterval($ksObj->valid_until - $currentTime);
+				echo ' (will expire in ' . formatTimeInterval($vsObj->valid_until - $currentTime);
 			}
 			echo ')';
 		}
@@ -101,35 +101,35 @@ function formatKs($ksObj, $fieldNames)
 	}
 }
 
-function formatKsTable($ksObj, $fieldNames)
+function formatVsTable($vsObj, $fieldNames)
 {
 	$result = array();
 	foreach ($fieldNames as $fieldName)
 	{
-		$result[] = $ksObj->$fieldName;
+		$result[] = $vsObj->$fieldName;
 	}
 	echo implode("\t", $result) . "\n";
 }
 
 $commandLineSwitches = array(
-	array(KalturaCommandLineParser::SWITCH_NO_VALUE, 'i', 'stdin', 'Read input from stdin'),
-	array(KalturaCommandLineParser::SWITCH_NO_VALUE, 'p', 'partner-id', 'Print the partner id'),
-	array(KalturaCommandLineParser::SWITCH_NO_VALUE, 't', 'type', 'Print the session type'),
-	array(KalturaCommandLineParser::SWITCH_NO_VALUE, 'u', 'user', 'Print the user name'),
-	array(KalturaCommandLineParser::SWITCH_NO_VALUE, 'e', 'expiry', 'Print the session expiry'),
-	array(KalturaCommandLineParser::SWITCH_NO_VALUE, 'v', 'privileges', 'Print the privileges'),
+	array(VidiunCommandLineParser::SWITCH_NO_VALUE, 'i', 'stdin', 'Read input from stdin'),
+	array(VidiunCommandLineParser::SWITCH_NO_VALUE, 'p', 'partner-id', 'Print the partner id'),
+	array(VidiunCommandLineParser::SWITCH_NO_VALUE, 't', 'type', 'Print the session type'),
+	array(VidiunCommandLineParser::SWITCH_NO_VALUE, 'u', 'user', 'Print the user name'),
+	array(VidiunCommandLineParser::SWITCH_NO_VALUE, 'e', 'expiry', 'Print the session expiry'),
+	array(VidiunCommandLineParser::SWITCH_NO_VALUE, 'v', 'privileges', 'Print the privileges'),
 );
 
 // parse command line
-$options = KalturaCommandLineParser::parseArguments($commandLineSwitches);
-$arguments = KalturaCommandLineParser::stripCommandLineSwitches($commandLineSwitches, $argv);
+$options = VidiunCommandLineParser::parseArguments($commandLineSwitches);
+$arguments = VidiunCommandLineParser::stripCommandLineSwitches($commandLineSwitches, $argv);
 
-KalturaSecretRepository::init();
+VidiunSecretRepository::init();
 
 if (!$arguments && !isset($options['stdin']))
 {
-	$usage = "Usage: extractKs [switches] [<ks>]\nOptions:\n";
-	$usage .= KalturaCommandLineParser::getArgumentsUsage($commandLineSwitches);
+	$usage = "Usage: extractVs [switches] [<vs>]\nOptions:\n";
+	$usage .= VidiunCommandLineParser::getArgumentsUsage($commandLineSwitches);
 	die($usage);
 }
 
@@ -161,11 +161,11 @@ if (!$fieldNames)
 
 if (!isset($options['stdin']))
 {
-	$ks = reset($arguments);
-	$ksObj = KalturaSession::getKsObject($ks);
-	if (!$ksObj)
-		die("Failed to parse ks {$ks}\n");
-	formatKs($ksObj, $fieldNames);
+	$vs = reset($arguments);
+	$vsObj = VidiunSession::getVsObject($vs);
+	if (!$vsObj)
+		die("Failed to parse vs {$vs}\n");
+	formatVs($vsObj, $fieldNames);
 	die;
 }
 
@@ -177,15 +177,15 @@ for (;;)
 	{
 		break;
 	}
-	$ks = trim($line);
-	$ksObj = KalturaSession::getKsObject($ks);
-	if ($ksObj)
+	$vs = trim($line);
+	$vsObj = VidiunSession::getVsObject($vs);
+	if ($vsObj)
 	{
-		formatKsTable($ksObj, $fieldNames);
+		formatVsTable($vsObj, $fieldNames);
 	}
 	else
 	{
-		echo "Failed to parse ks {$ks}\n";
+		echo "Failed to parse vs {$vs}\n";
 	}
 }
 fclose($f);

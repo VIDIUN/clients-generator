@@ -63,7 +63,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->startNewTextBlock();
 		$this->appendLine('using System;');
 		$this->appendLine();
-		$this->appendLine('namespace Kaltura');
+		$this->appendLine('namespace Vidiun');
 		$this->appendLine('{');
 		$this->appendLine('	public class APIException : ApplicationException');
 		$this->appendLine('	{');
@@ -100,7 +100,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("}");
 		$this->appendLine();
 
-		$this->addFile("KalturaClient/APIException.cs", $this->getTextBlock());
+		$this->addFile("VidiunClient/APIException.cs", $this->getTextBlock());
 	}
 	
 	function writeObjectFactory(DOMNodeList $classNodes)
@@ -110,14 +110,14 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine('using System.Xml;');
 		$this->appendLine('using System.Runtime.Serialization;');
 		$this->appendLine('using System.Text.RegularExpressions;');
-		$this->appendLine('using Kaltura.Types;');
+		$this->appendLine('using Vidiun.Types;');
 		$this->appendLine('using Newtonsoft.Json.Linq;');
 		$this->appendLine();
-		$this->appendLine('namespace Kaltura');
+		$this->appendLine('namespace Vidiun');
 		$this->appendLine('{');
 		$this->appendLine('	public static class ObjectFactory');
 		$this->appendLine('	{');
-		$this->appendLine('		private static Regex prefixRegex = new Regex("^Kaltura");');
+		$this->appendLine('		private static Regex prefixRegex = new Regex("^Vidiun");');
 		$this->appendLine('		');
 		$this->appendLine('		public static T Create<T>(JToken jToken) where T : ObjectBase');
 		$this->appendLine('		{');
@@ -129,7 +129,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine('			string className = jToken["objectType"].Value<string>();');
 		$this->appendLine('			className = prefixRegex.Replace(className, "");');
 		$this->appendLine('			');
-		$this->appendLine('			Type type = Type.GetType("Kaltura.Types." + className);');
+		$this->appendLine('			Type type = Type.GetType("Vidiun.Types." + className);');
 		$this->appendLine('			if (type == null)');
 		$this->appendLine('			{');
 		$this->appendLine('				type = typeof(T);');
@@ -155,7 +155,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		foreach($classNodes as $classNode)
 		{
 			$type = $classNode->getAttribute("name");
-			if ($this->shouldIncludeType($type) && $this->isClassInherit($type, 'KalturaListResponse'))
+			if ($this->shouldIncludeType($type) && $this->isClassInherit($type, 'VidiunListResponse'))
 			{
 				$arrayType = $this->getListResponseType($type);
 				if($arrayType)
@@ -174,7 +174,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("}");
 		$this->appendLine();
 
-		$this->addFile("KalturaClient/ObjectFactory.cs", $this->getTextBlock());
+		$this->addFile("VidiunClient/ObjectFactory.cs", $this->getTextBlock());
 	}
 
 	function writeEnum(DOMElement $enumNode)
@@ -186,7 +186,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$enumName = $this->getCSharpName($enumName);
 
 		$s = "";
-		$s .= "namespace Kaltura.Enums"."\n";
+		$s .= "namespace Vidiun.Enums"."\n";
 		$s .= "{"."\n";
 
 		if ($enumNode->getAttribute("enumType") == "string")
@@ -226,7 +226,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 			$s .= "}"."\n";
 		}
 		$file = "Enums/$enumName.cs";
-		$this->addFile("KalturaClient/".$file, $s);
+		$this->addFile("VidiunClient/".$file, $s);
 		$this->_csprojIncludes[] = $file;
 	}
 
@@ -260,16 +260,16 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 
 	private function getCSharpName($name)
 	{
-		if($name === 'KalturaObject')
+		if($name === 'VidiunObject')
 			return 'ObjectBase';
 		
-		if ($this->isClassInherit($name, "KalturaListResponse"))
+		if ($this->isClassInherit($name, "VidiunListResponse"))
 		{
 			$arrayType = $this->getListResponseType($name);
 			return "ListResponse<$arrayType>";
 		}
 
-		$name =  preg_replace('/^Kaltura/', '', $name);
+		$name =  preg_replace('/^Vidiun/', '', $name);
 		if(in_array($name , array("Group")))
 		{
 			return $name . "_";
@@ -284,10 +284,10 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		if(!$this->shouldIncludeType($type))
 			return;
 
-		if($type == 'KalturaObject')
+		if($type == 'VidiunObject')
 			return;
 
-		if ($this->isClassInherit($type, "KalturaListResponse") || $type == "KalturaListResponse")
+		if ($this->isClassInherit($type, "VidiunListResponse") || $type == "VidiunListResponse")
 			return;
 				
 		$className = $this->getCSharpName($type);
@@ -295,14 +295,14 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("using System;");
 		$this->appendLine("using System.Xml;");
 		$this->appendLine("using System.Collections.Generic;");
-		$this->appendLine("using Kaltura.Enums;");
-        $this->appendLine("using Kaltura.Request;");
+		$this->appendLine("using Vidiun.Enums;");
+        $this->appendLine("using Vidiun.Request;");
         $this->appendLine("using Newtonsoft.Json;");
 		$this->appendLine("using Newtonsoft.Json.Linq;");
         
         
 		$this->appendLine();
-		$this->appendLine("namespace Kaltura.Types");
+		$this->appendLine("namespace Vidiun.Types");
 		$this->appendLine("{");
 
 		// class definition
@@ -320,7 +320,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 
 		// we want to make the orderBy property strongly typed with the corresponding string enum
 		$isFilter = false;
-		if ($this->isClassInherit($type, "KalturaFilter"))
+		if ($this->isClassInherit($type, "VidiunFilter"))
 		{
 			$orderByType = str_replace("Filter", "OrderBy", $type);
 			if ($this->enumExists($orderByType))
@@ -364,14 +364,14 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 			else if ($propType == "array")
 			{
 				$arrayObjectType = $propertyNode->getAttribute("arrayType");
-				if($arrayObjectType == 'KalturaObject')
+				if($arrayObjectType == 'VidiunObject')
 					$arrayObjectType = 'ObjectBase';
 				$dotNetPropType = "IList<" . $this->getCSharpName($arrayObjectType) . ">";
 			}
 			else if ($propType == "map")
 			{
 				$arrayObjectType = $propertyNode->getAttribute("arrayType");
-				if($arrayObjectType == 'KalturaObject')
+				if($arrayObjectType == 'VidiunObject')
 					$arrayObjectType = 'ObjectBase';
 				$dotNetPropType = "IDictionary<string, " . $this->getCSharpName($arrayObjectType) . ">";
 			}
@@ -604,9 +604,9 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		// ToParams method
 		$this->appendLine("		public override Params ToParams(bool includeObjectType = true)");
 		$this->appendLine("		{");
-		$this->appendLine("			Params kparams = base.ToParams(includeObjectType);");
+		$this->appendLine("			Params vparams = base.ToParams(includeObjectType);");
 		$this->appendLine("			if (includeObjectType)");
-		$this->appendLine("				kparams.AddReplace(\"objectType\", \"$type\");");
+		$this->appendLine("				vparams.AddReplace(\"objectType\", \"$type\");");
 		foreach($classNode->childNodes as $propertyNode)
 		{
 			if ($propertyNode->nodeType != XML_ELEMENT_NODE)
@@ -614,9 +614,9 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 
 			$propName = $propertyNode->getAttribute("name");
 			$dotNetPropName = $this->upperCaseFirstLetter($propName);
-			$this->appendLine("			kparams.AddIfNotNull(\"$propName\", this._{$dotNetPropName});");
+			$this->appendLine("			vparams.AddIfNotNull(\"$propName\", this._{$dotNetPropName});");
 		}
-		$this->appendLine("			return kparams;");
+		$this->appendLine("			return vparams;");
 		$this->appendLine("		}");
 
 		$this->appendLine("		protected override string getPropertyName(string apiName)");
@@ -641,7 +641,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine();
 
 		$file = "Types/$className.cs";
-		$this->addFile("KalturaClient/".$file, $this->getTextBlock());
+		$this->addFile("VidiunClient/".$file, $this->getTextBlock());
 		$this->_csprojIncludes[] = $file;
 	}
 
@@ -649,7 +649,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 	{
 		$csprojDoc = new DOMDocument();
 		$csprojDoc->formatOutput = true;
-		$csprojDoc->load($this->_sourcePath."/KalturaClient/KalturaClient.csproj");
+		$csprojDoc->load($this->_sourcePath."/VidiunClient/VidiunClient.csproj");
 		$csprojXPath = new DOMXPath($csprojDoc);
 		$csprojXPath->registerNamespace("m", "http://schemas.microsoft.com/developer/msbuild/2003");
 		$compileNodes = $csprojXPath->query("//m:ItemGroup/m:Compile/..");
@@ -661,7 +661,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 			$compileElement->setAttribute("Include", str_replace("/","\\", $include));
 			$compileItemGroupElement->appendChild($compileElement);
 		}
-		$this->addFile("KalturaClient/KalturaClient.csproj", $csprojDoc->saveXML(), false);
+		$this->addFile("VidiunClient/VidiunClient.csproj", $csprojDoc->saveXML(), false);
 	}
 
 	function writeService(DOMElement $serviceNode)
@@ -675,12 +675,12 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("using System.Xml;");
 		$this->appendLine("using System.Collections.Generic;");
 		$this->appendLine("using System.IO;");
-		$this->appendLine("using Kaltura.Request;");
-		$this->appendLine("using Kaltura.Types;");
-        $this->appendLine("using Kaltura.Enums;");
+		$this->appendLine("using Vidiun.Request;");
+		$this->appendLine("using Vidiun.Types;");
+        $this->appendLine("using Vidiun.Enums;");
         $this->appendLine("using Newtonsoft.Json.Linq;");
 		$this->appendLine();
-		$this->appendLine("namespace Kaltura.Services");
+		$this->appendLine("namespace Vidiun.Services");
 		$this->appendLine("{");
 		$serviceName = $serviceNode->getAttribute("name");
 
@@ -716,7 +716,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("}");
 
 		$file = "Services/".$dotNetServiceName.".cs";
-		$this->addFile("KalturaClient/".$file, $this->getTextBlock());
+		$this->addFile("VidiunClient/".$file, $this->getTextBlock());
 		$this->_csprojIncludes[] = $file;
 	}
 
@@ -784,7 +784,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 			$paramName = $paramNode->getAttribute("name");
 			$new = '';
 			
-			if($this->classHasProperty('KalturaRequestConfiguration', $paramName))
+			if($this->classHasProperty('VidiunRequestConfiguration', $paramName))
 			{
 				$news[$paramName] = true;
 				$new = 'new ';
@@ -872,17 +872,17 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine();
 		$this->appendLine("		public override Params getParameters(bool includeServiceAndAction)");
 		$this->appendLine("		{");
-		$this->appendLine("			Params kparams = base.getParameters(includeServiceAndAction);");
+		$this->appendLine("			Params vparams = base.getParameters(includeServiceAndAction);");
 		foreach($params as $param => $isFile)
 		{
 			if(!$isFile)
 			{
 				$paramName = ucfirst($param);
 				$this->appendLine("			if (!isMapped(\"$param\"))");
-				$this->appendLine("				kparams.AddIfNotNull(\"$param\", $paramName);");
+				$this->appendLine("				vparams.AddIfNotNull(\"$param\", $paramName);");
 			}
 		}
-		$this->appendLine("			return kparams;");
+		$this->appendLine("			return vparams;");
 		$this->appendLine("		}");
 		
 		$this->appendLine();
@@ -897,7 +897,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 				$this->appendLine("			kfiles.Add(\"$param\", new FileData($paramName, {$paramName}_FileName));");
 			}
 		}
-		$this->appendLine("			return kfiles;");
+		$this->appendLine("			return vfiles;");
 		$this->appendLine("		}");
 
 		$this->appendLine();
@@ -1103,11 +1103,11 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->startNewTextBlock();
 
 		$this->appendLine("using System;");
-		$this->appendLine("using Kaltura.Types;");
-		$this->appendLine("using Kaltura.Enums;");
+		$this->appendLine("using Vidiun.Types;");
+		$this->appendLine("using Vidiun.Enums;");
 		$this->appendLine();
 
-		$this->appendLine("namespace Kaltura");
+		$this->appendLine("namespace Vidiun");
 		$this->appendLine("{");
 		$this->appendLine("	public class Client : ClientBase");
 		$this->appendLine("	{");
@@ -1162,7 +1162,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("	}");
 		$this->appendLine("}");
 
-		$this->addFile("KalturaClient/Client.cs", $this->getTextBlock());
+		$this->addFile("VidiunClient/Client.cs", $this->getTextBlock());
 	}
 
 	function writeRequestBuilderConfigurationClass($requestConfigurationNodes)
@@ -1170,11 +1170,11 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->startNewTextBlock();
 
 		$this->appendLine("using System;");
-		$this->appendLine("using Kaltura.Types;");
-		$this->appendLine("using Kaltura.Enums;");
+		$this->appendLine("using Vidiun.Types;");
+		$this->appendLine("using Vidiun.Enums;");
 		$this->appendLine();
 
-		$this->appendLine("namespace Kaltura.Request");
+		$this->appendLine("namespace Vidiun.Request");
 		$this->appendLine("{");
 		$this->appendLine("	public static class RequestBuilderExtensions");
 		$this->appendLine("	{");
@@ -1198,7 +1198,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("	}");
 		$this->appendLine("}");
 
-		$this->addFile("KalturaClient/Request/RequestBuilderExtensions.cs", $this->getTextBlock());
+		$this->addFile("VidiunClient/Request/RequestBuilderExtensions.cs", $this->getTextBlock());
 	}
 
 	protected function writeRequestBuilderConfigurationExtentionMethod($name, $paramName, $type, $description)
@@ -1245,8 +1245,8 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 	{
 		$paramName = ucfirst($paramName);
 		$name = ucfirst($name);
-		if($name == 'Ks')
-			$name = 'KS';
+		if($name == 'Vs')
+			$name = 'VS';
 
 		$null = 'null';
 		switch($type)
@@ -1395,7 +1395,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 
 	protected function addFile($fileName, $fileContents, $addLicense = true)
 	{
-		if ($fileName == "KalturaClient.suo")
+		if ($fileName == "VidiunClient.suo")
 			return;
 
 		$dirname = pathinfo($fileName, PATHINFO_DIRNAME);
@@ -1416,7 +1416,7 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		switch ($param)
 		{
 			case "event":
-				return "kevent";
+				return "vevent";
 			case "params":
 				return "params_";
 			case "override":

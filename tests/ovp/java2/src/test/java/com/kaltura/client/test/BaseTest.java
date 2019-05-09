@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 
 import java.io.File;
@@ -39,34 +39,34 @@ import java.util.UUID;
 
 import junit.framework.TestCase;
 
-import com.kaltura.client.APIOkRequestsExecutor;
-import com.kaltura.client.Client;
-import com.kaltura.client.Configuration;
-import com.kaltura.client.ILogger;
-import com.kaltura.client.Logger;
-import com.kaltura.client.enums.EntryStatus;
-import com.kaltura.client.enums.MediaType;
-import com.kaltura.client.enums.SessionType;
-import com.kaltura.client.services.MediaService;
-import com.kaltura.client.services.MediaService.AddContentMediaBuilder;
-import com.kaltura.client.services.MediaService.AddMediaBuilder;
-import com.kaltura.client.services.MediaService.GetMediaBuilder;
-import com.kaltura.client.services.UploadTokenService;
-import com.kaltura.client.services.UploadTokenService.AddUploadTokenBuilder;
-import com.kaltura.client.services.UploadTokenService.UploadUploadTokenBuilder;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.MediaEntry;
-import com.kaltura.client.types.UploadToken;
-import com.kaltura.client.types.UploadedFileTokenResource;
-import com.kaltura.client.utils.request.NullRequestBuilder;
-import com.kaltura.client.utils.request.RequestElement;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
+import com.vidiun.client.APIOkRequestsExecutor;
+import com.vidiun.client.Client;
+import com.vidiun.client.Configuration;
+import com.vidiun.client.ILogger;
+import com.vidiun.client.Logger;
+import com.vidiun.client.enums.EntryStatus;
+import com.vidiun.client.enums.MediaType;
+import com.vidiun.client.enums.SessionType;
+import com.vidiun.client.services.MediaService;
+import com.vidiun.client.services.MediaService.AddContentMediaBuilder;
+import com.vidiun.client.services.MediaService.AddMediaBuilder;
+import com.vidiun.client.services.MediaService.GetMediaBuilder;
+import com.vidiun.client.services.UploadTokenService;
+import com.vidiun.client.services.UploadTokenService.AddUploadTokenBuilder;
+import com.vidiun.client.services.UploadTokenService.UploadUploadTokenBuilder;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.MediaEntry;
+import com.vidiun.client.types.UploadToken;
+import com.vidiun.client.types.UploadedFileTokenResource;
+import com.vidiun.client.utils.request.NullRequestBuilder;
+import com.vidiun.client.utils.request.RequestElement;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
 
 abstract class BaseTest extends TestCase {
 	protected TestConfig testConfig;
 	
-	protected Configuration kalturaConfig = new Configuration();
+	protected Configuration vidiunConfig = new Configuration();
 	protected Client client;
 	
 	// keeps track of test vids we upload so they can be cleaned up at the end
@@ -99,8 +99,8 @@ abstract class BaseTest extends TestCase {
 		testConfig = new TestConfig();
 		
 		// Create client
-		this.kalturaConfig.setEndpoint(testConfig.getServiceUrl());
-		this.client = new Client(this.kalturaConfig);
+		this.vidiunConfig.setEndpoint(testConfig.getServiceUrl());
+		this.client = new Client(this.vidiunConfig);
 	}
 	
 	@Override

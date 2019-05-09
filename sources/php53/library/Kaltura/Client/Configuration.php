@@ -5,11 +5,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -30,10 +30,10 @@
 /**
  * @namespace
  */
-namespace Kaltura\Client;
+namespace Vidiun\Client;
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
 class Configuration
@@ -41,12 +41,12 @@ class Configuration
 	/**
 	 * @var string
 	 */
-	private $serviceUrl    				= "http://www.kaltura.com/";
+	private $serviceUrl    				= "http://www.vidiun.com/";
 	
 	/**
 	 * @var int
 	 */
-	private $format        				= Client::KALTURA_SERVICE_FORMAT_XML;
+	private $format        				= Client::VIDIUN_SERVICE_FORMAT_XML;
 	
 	/**
 	 * @var int
@@ -99,7 +99,7 @@ class Configuration
 	private $requestHeaders				= array();
 	
 	/**
-	 * @var \Kaltura\Client\ILogger
+	 * @var \Vidiun\Client\ILogger
 	 */
 	private $logger;
 	
@@ -296,9 +296,9 @@ class Configuration
 	}
 
 	/**
-	 * Set logger to get kaltura client debug logs
+	 * Set logger to get vidiun client debug logs
 	 *
-	 * @param \Kaltura\Client\ILogger $log
+	 * @param \Vidiun\Client\ILogger $log
 	 */
 	public function setLogger(ILogger $log)
 	{
@@ -308,7 +308,7 @@ class Configuration
 	/**
 	 * Gets the logger (Internal client use)
 	 *
-	 * @return \Kaltura\Client\ILogger
+	 * @return \Vidiun\Client\ILogger
 	 */
 	public function getLogger()
 	{

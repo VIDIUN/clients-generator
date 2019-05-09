@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -30,10 +30,10 @@ using System.Xml;
 using System.Text;
 using System.ComponentModel;
 using System.Collections.Generic;
-using Kaltura.Request;
+using Vidiun.Request;
 using Newtonsoft.Json.Linq;
 
-namespace Kaltura.Types
+namespace Vidiun.Types
 {
     public class ObjectBase : INotifyPropertyChanged
     {
@@ -102,17 +102,17 @@ namespace Kaltura.Types
 
         public virtual Params ToParams(bool includeObjectType = true)
         {
-            Params kparams = new Params();
+            Params vparams = new Params();
 
             if (multiRequestMappings != null)
             {
                 foreach (KeyValuePair<string, MultiRequestToken> keyValue in multiRequestMappings)
                 {
-                    kparams.Add(keyValue.Key, keyValue.Value.ToString());
+                    vparams.Add(keyValue.Key, keyValue.Value.ToString());
                 }
             }
 
-            return kparams;
+            return vparams;
         }
 
         protected virtual string getPropertyName(string apiName)

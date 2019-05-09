@@ -1,4 +1,4 @@
 export * from './api/index';
 export * from './cancelable-action';
-export * from './kaltura-client-options';
-export * from './kaltura-client-service';
+export * from './vidiun-client-options';
+export * from './vidiun-client-service';

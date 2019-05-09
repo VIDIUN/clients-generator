@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -30,16 +30,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace Kaltura
+namespace Vidiun
 {
-    public class KalturaServiceActionCall
+    public class VidiunServiceActionCall
     {
         #region Private Fields
 
         private string _Service;
         private string _Action;
-        private KalturaParams _Params;
-        private KalturaFiles _Files;
+        private VidiunParams _Params;
+        private VidiunFiles _Files;
 
         #endregion
 
@@ -55,30 +55,30 @@ namespace Kaltura
             get { return _Action; }
         }
 
-        public KalturaParams Params
+        public VidiunParams Params
         {
             get { return _Params; }
         }
 
-        public KalturaFiles Files
+        public VidiunFiles Files
         {
             get { return _Files; }
         }
 
-        public KalturaParams GetParamsForMultiRequest(int multiRequestNumber)
+        public VidiunParams GetParamsForMultiRequest(int multiRequestNumber)
         {  
             _Params.Add("service", this._Service);
             _Params.Add("action", this._Action);
           
-            KalturaParams multiRequestParams = new KalturaParams();
+            VidiunParams multiRequestParams = new VidiunParams();
             multiRequestParams.Add(multiRequestNumber.ToString(), this._Params);
 
             return multiRequestParams;
         }
 
-        public KalturaFiles GetFilesForMultiRequest(int multiRequestNumber)
+        public VidiunFiles GetFilesForMultiRequest(int multiRequestNumber)
         {
-            KalturaFiles multiRequestParams = new KalturaFiles();
+            VidiunFiles multiRequestParams = new VidiunFiles();
             foreach (KeyValuePair<string, Stream> param in this._Files)
             {
                 multiRequestParams.Add(multiRequestNumber + ":" + param.Key, param.Value);
@@ -91,18 +91,18 @@ namespace Kaltura
 
         #region CTor
 
-        public KalturaServiceActionCall(string service, string action, KalturaParams kparams)
-            : this(service, action, kparams, new KalturaFiles())
+        public VidiunServiceActionCall(string service, string action, VidiunParams vparams)
+            : this(service, action, vparams, new VidiunFiles())
         {
 
         }
 
-        public KalturaServiceActionCall(string service, string action, KalturaParams kparams, KalturaFiles kfiles)
+        public VidiunServiceActionCall(string service, string action, VidiunParams vparams, VidiunFiles vfiles)
         {
             this._Service = service;
             this._Action = action;
-            this._Params = kparams;
-            this._Files = kfiles;
+            this._Params = vparams;
+            this._Files = vfiles;
         }
 
         #endregion

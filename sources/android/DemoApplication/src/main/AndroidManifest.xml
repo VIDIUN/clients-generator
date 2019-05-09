@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.kaltura.activity"
+          package="com.vidiun.activity"
           android:versionCode="1"
           android:versionName="1.0" >
 
@@ -61,13 +61,13 @@
         <activity android:name=".Player"></activity>
 			
         <!-- Declaring broadcast receiver for network connection status changing event -->
-        <receiver android:name="com.kaltura.brodcastReceiver.StatusConnection" android:enabled="true" android:exported="false">
+        <receiver android:name="com.vidiun.brodcastReceiver.StatusConnection" android:enabled="true" android:exported="false">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
         
-        <service android:name="com.kaltura.intentService.AuthorizationIntentService"/>
+        <service android:name="com.vidiun.intentService.AuthorizationIntentService"/>
     </application>
 
 </manifest>

@@ -5,12 +5,12 @@
 ## Step 1 - generate the library
 1. Setup client generators repository.
 ```
-git clone https://github.com/kaltura/clients-generator
+git clone https://github.com/vidiun/clients-generator
 ```
 
-2. Download latest published version of `KalturaClient.xml`.
+2. Download latest published version of `VidiunClient.xml`.
 ```bash
-$ curl -O http://www.kaltura.com/api_v3/api_schema.php > KalturaClient.xml
+$ curl -O http://www.vidiun.com/api_v3/api_schema.php > VidiunClient.xml
 ```
 
 3. change source codes:
@@ -42,7 +42,7 @@ Make sure you run `npm link` inside `dist` folder as shown above.
 2. link the library to your application
 ```
 cd /path-to-your-application-root-folder
-npm link kaltura-ngx-client
+npm link vidiun-ngx-client
 ```
 
 You can now test your application and work with the local version.

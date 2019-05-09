@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Kaltura.OttClient")]
-[assembly: AssemblyDescription("Kaltura OTT API Client Library")]
+[assembly: AssemblyTitle("Vidiun.OttClient")]
+[assembly: AssemblyDescription("Vidiun OTT API Client Library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Kaltura")]
-[assembly: AssemblyProduct("Kaltura.OttClient")]
-[assembly: AssemblyCopyright("Copyright (C) 2006-2019  Kaltura Inc.")]
+[assembly: AssemblyCompany("Vidiun")]
+[assembly: AssemblyProduct("Vidiun.OttClient")]
+[assembly: AssemblyCopyright("Copyright (C) 2006-2019  Vidiun Inc.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

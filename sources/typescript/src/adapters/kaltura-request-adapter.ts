@@ -1,17 +1,17 @@
-import { KalturaRequest } from '../api/kaltura-request';
-import { KalturaAPIException } from '../api/kaltura-api-exception';
-import { KalturaClientException } from '../api/kaltura-client-exception';
-import { KalturaRequestOptions } from '../api/kaltura-request-options';
-import { KalturaClientOptions } from '../kaltura-client-options';
+import { VidiunRequest } from '../api/vidiun-request';
+import { VidiunAPIException } from '../api/vidiun-api-exception';
+import { VidiunClientException } from '../api/vidiun-client-exception';
+import { VidiunRequestOptions } from '../api/vidiun-request-options';
+import { VidiunClientOptions } from '../vidiun-client-options';
 import { createCancelableAction, createEndpoint, getHeaders, prepareParameters } from './utils';
 import { CancelableAction } from '../cancelable-action';
 
-export class KalturaRequestAdapter {
+export class VidiunRequestAdapter {
 
     constructor() {
     }
 
-    public transmit<T>(request: KalturaRequest<T>, clientOptions: KalturaClientOptions, defaultRequestOptions: KalturaRequestOptions): CancelableAction<T> {
+    public transmit<T>(request: VidiunRequest<T>, clientOptions: VidiunClientOptions, defaultRequestOptions: VidiunRequestOptions): CancelableAction<T> {
 
         const body = prepareParameters(request, clientOptions, defaultRequestOptions);
 
@@ -30,17 +30,17 @@ export class KalturaRequestAdapter {
                             return response.result;
                         }
                     } catch (error) {
-                        if (error instanceof KalturaClientException || error instanceof KalturaAPIException) {
+                        if (error instanceof VidiunClientException || error instanceof VidiunAPIException) {
                             throw error;
                         } else {
                             const errorMessage = error instanceof Error ? error.message : typeof error === 'string' ? error : null;
-                            throw new KalturaClientException('client::response-unknown-error', errorMessage || 'Failed to parse response');
+                            throw new VidiunClientException('client::response-unknown-error', errorMessage || 'Failed to parse response');
                         }
                     }
                 },
                 error => {
                     const errorMessage = error instanceof Error ? error.message : typeof error === 'string' ? error : null;
-                    throw new KalturaClientException("client::request-network-error", errorMessage || 'Error connecting to server');
+                    throw new VidiunClientException("client::request-network-error", errorMessage || 'Error connecting to server');
                 });
     }
 }

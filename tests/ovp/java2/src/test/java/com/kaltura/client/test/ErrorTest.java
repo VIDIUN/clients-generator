@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,36 +25,36 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
-import com.kaltura.client.APIOkRequestsExecutor;
-import com.kaltura.client.Client;
-import com.kaltura.client.services.BaseEntryService;
-import com.kaltura.client.services.BaseEntryService.ListBaseEntryBuilder;
-import com.kaltura.client.services.MediaService;
-import com.kaltura.client.services.MediaService.GetMediaBuilder;
-import com.kaltura.client.services.MediaService.ListMediaBuilder;
-import com.kaltura.client.services.SystemService;
-import com.kaltura.client.services.SystemService.PingSystemBuilder;
-import com.kaltura.client.types.BaseEntry;
-import com.kaltura.client.types.ListResponse;
-import com.kaltura.client.types.MediaEntry;
-import com.kaltura.client.utils.request.ExecutedRequest;
-import com.kaltura.client.utils.request.RequestElement;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
-import com.kaltura.client.utils.response.base.ResponseElement;
+import com.vidiun.client.APIOkRequestsExecutor;
+import com.vidiun.client.Client;
+import com.vidiun.client.services.BaseEntryService;
+import com.vidiun.client.services.BaseEntryService.ListBaseEntryBuilder;
+import com.vidiun.client.services.MediaService;
+import com.vidiun.client.services.MediaService.GetMediaBuilder;
+import com.vidiun.client.services.MediaService.ListMediaBuilder;
+import com.vidiun.client.services.SystemService;
+import com.vidiun.client.services.SystemService.PingSystemBuilder;
+import com.vidiun.client.types.BaseEntry;
+import com.vidiun.client.types.ListResponse;
+import com.vidiun.client.types.MediaEntry;
+import com.vidiun.client.utils.request.ExecutedRequest;
+import com.vidiun.client.utils.request.RequestElement;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
+import com.vidiun.client.utils.response.base.ResponseElement;
 
 public class ErrorTest extends BaseTest {
 
 	public void testInvalidServiceId() throws InterruptedException, ExecutionException {
-		this.kalturaConfig.setEndpoint("http://2.2.2.2");
-		this.kalturaConfig.setConnectTimeout(2000);
+		this.vidiunConfig.setEndpoint("http://2.2.2.2");
+		this.vidiunConfig.setConnectTimeout(2000);
 		
-		final Client invalidClient = new Client(this.kalturaConfig);
+		final Client invalidClient = new Client(this.vidiunConfig);
 
         final CountDownLatch doneSignal = new CountDownLatch(1);
 
@@ -74,10 +74,10 @@ public class ErrorTest extends BaseTest {
 	}
 	
 	public void testInvalidServerDnsName() throws InterruptedException, ExecutionException {
-		this.kalturaConfig.setEndpoint("http://www.nonexistingkaltura.com");
-		this.kalturaConfig.setConnectTimeout(2000);
+		this.vidiunConfig.setEndpoint("http://www.nonexistingvidiun.com");
+		this.vidiunConfig.setConnectTimeout(2000);
 
-		final Client invalidClient = new Client(this.kalturaConfig);
+		final Client invalidClient = new Client(this.vidiunConfig);
 
         final CountDownLatch doneSignal = new CountDownLatch(1);
         
@@ -202,10 +202,10 @@ public class ErrorTest extends BaseTest {
 	}
 	
 	public void testArrayOfUknownEntry() throws InterruptedException, ExecutionException {
-		String testJson = "{objectType: \"KalturaMediaListResponse\", objects: [" +
+		String testJson = "{objectType: \"VidiunMediaListResponse\", objects: [" +
 				"{objectType: \"NonExistingclass\", id: \"test1\", name: \"test1\"}," +
 				"{objectType: \"NonExistingclass\", id: \"test2\", name: \"test2\"}," +
-				"{objectType: \"KalturaMediaEntry\", id: \"test3\", name: \"test3\"}" +
+				"{objectType: \"VidiunMediaEntry\", id: \"test3\", name: \"test3\"}" +
 				"], totalCount: 3}";
 
 		final ExecutorMock<ListResponse<BaseEntry>> mockClient = new ExecutorMock<ListResponse<BaseEntry>>(testJson);

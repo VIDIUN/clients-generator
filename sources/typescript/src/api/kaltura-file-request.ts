@@ -1,15 +1,15 @@
-import { KalturaObjectBase } from "./kaltura-object-base";
-import { KalturaRequestBase, KalturaRequestBaseArgs } from './kaltura-request-base';
-import { KalturaRequest, KalturaRequestArgs } from './kaltura-request';
+import { VidiunObjectBase } from "./vidiun-object-base";
+import { VidiunRequestBase, VidiunRequestBaseArgs } from './vidiun-request-base';
+import { VidiunRequest, VidiunRequestArgs } from './vidiun-request';
 
 
 
-export interface KalturaFileRequestArgs extends KalturaRequestArgs  {
+export interface VidiunFileRequestArgs extends VidiunRequestArgs  {
 }
 
-export class KalturaFileRequest extends KalturaRequest<{url: string}> {
+export class VidiunFileRequest extends VidiunRequest<{url: string}> {
 
-    constructor(data: KalturaFileRequestArgs) {
+    constructor(data: VidiunFileRequestArgs) {
         super(data, {responseType : 'v', responseSubType : '', responseConstructor : null });
     }
 

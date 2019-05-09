@@ -1,9 +1,9 @@
 //
 //  Utils.h
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 22.03.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

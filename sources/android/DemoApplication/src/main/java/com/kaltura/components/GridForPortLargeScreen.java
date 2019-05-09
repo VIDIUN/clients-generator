@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.components;
+package com.vidiun.components;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +13,8 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.KalturaMediaEntry;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.VidiunMediaEntry;
 
 /**
  *
@@ -31,8 +31,8 @@ public class GridForPortLargeScreen {
     private ItemGrid itemThird;
     private ItemGrid itemFourth;
     private int offset;
-    private HashMap<KalturaMediaEntry, Bitmap> listBitmap;
-    private List<KalturaMediaEntry> listKeys;
+    private HashMap<VidiunMediaEntry, Bitmap> listBitmap;
+    private List<VidiunMediaEntry> listKeys;
 
     public GridForPortLargeScreen(String TAG, Activity activity, int offset) {
         this.TAG = TAG;

@@ -1,26 +1,26 @@
 import {map, catchError} from 'rxjs/operators';
-import { KalturaRequest } from '../api/kaltura-request';
+import { VidiunRequest } from '../api/vidiun-request';
 import { Observable } from 'rxjs';
-import { KalturaResponse } from '../api/kaltura-response';
+import { VidiunResponse } from '../api/vidiun-response';
 import { HttpClient } from '@angular/common/http';
-import { KalturaAPIException } from '../api/kaltura-api-exception';
-import { KalturaClientException } from '../api/kaltura-client-exception';
-import { KalturaRequestOptions, KalturaRequestOptionsArgs } from '../api/kaltura-request-options';
-import { KalturaClientOptions } from '../kaltura-client-options';
+import { VidiunAPIException } from '../api/vidiun-api-exception';
+import { VidiunClientException } from '../api/vidiun-client-exception';
+import { VidiunRequestOptions, VidiunRequestOptionsArgs } from '../api/vidiun-request-options';
+import { VidiunClientOptions } from '../vidiun-client-options';
 import { createClientTag, createEndpoint, getHeaders, prepareParameters } from './utils';
 import { environment } from '../environment';
 
 
 
-export class KalturaRequestAdapter {
+export class VidiunRequestAdapter {
 
   constructor(private _http: HttpClient) {
   }
 
-  public transmit<T>(request: KalturaRequest<T>, clientOptions: KalturaClientOptions, defaultRequestOptions: KalturaRequestOptions): Observable<T>;
-  public transmit<T>(request: KalturaRequest<any>, clientOptions: KalturaClientOptions, defaultRequestOptions: KalturaRequestOptions, format: string): Observable<any>;
-  public transmit<T>(request: KalturaRequest<any>, clientOptions: KalturaClientOptions, defaultRequestOptions: KalturaRequestOptions, format: string, responseType: 'blob' | 'text'): Observable<any>;
-  public transmit<T>(request: KalturaRequest<T>, clientOptions: KalturaClientOptions, defaultRequestOptions: KalturaRequestOptions, format?: string, responseType: 'blob' | 'text' = 'text'): Observable<any> {
+  public transmit<T>(request: VidiunRequest<T>, clientOptions: VidiunClientOptions, defaultRequestOptions: VidiunRequestOptions): Observable<T>;
+  public transmit<T>(request: VidiunRequest<any>, clientOptions: VidiunClientOptions, defaultRequestOptions: VidiunRequestOptions, format: string): Observable<any>;
+  public transmit<T>(request: VidiunRequest<any>, clientOptions: VidiunClientOptions, defaultRequestOptions: VidiunRequestOptions, format: string, responseType: 'blob' | 'text'): Observable<any>;
+  public transmit<T>(request: VidiunRequest<T>, clientOptions: VidiunClientOptions, defaultRequestOptions: VidiunRequestOptions, format?: string, responseType: 'blob' | 'text' = 'text'): Observable<any> {
 
     const requestSpecificFormat = typeof format !== 'undefined';
     const parameters = prepareParameters(request, clientOptions, defaultRequestOptions);
@@ -45,7 +45,7 @@ export class KalturaRequestAdapter {
           if (environment.response.customErrorInHttp500) {
             if (error && typeof error.error === 'string') {
               const actualError = JSON.parse(error.error).result.error;
-              throw new KalturaAPIException(actualError.message, actualError.code, actualError.args);
+              throw new VidiunAPIException(actualError.message, actualError.code, actualError.args);
             }
             if (error && error.error instanceof Blob) {
               return Observable.create((observer) => {
@@ -53,7 +53,7 @@ export class KalturaRequestAdapter {
                 reader.addEventListener('loadend', (e) => {
                   const text = (e.srcElement as any).result;
                   const actualError = JSON.parse(text).result.error;
-                  observer.error(new KalturaAPIException(actualError.message, actualError.code, actualError.args));
+                  observer.error(new VidiunAPIException(actualError.message, actualError.code, actualError.args));
                 });
 
                 // Start reading the blob as text.
@@ -63,7 +63,7 @@ export class KalturaRequestAdapter {
           }
 
           const errorMessage = error instanceof Error ? error.message : typeof error === 'string' ? error : null;
-          throw new KalturaClientException("client::request-network-error", errorMessage || 'Error connecting to server');
+          throw new VidiunClientException("client::request-network-error", errorMessage || 'Error connecting to server');
         }
       ),
       map(
@@ -79,11 +79,11 @@ export class KalturaRequestAdapter {
           } catch (error) {
 
 
-            if (error instanceof KalturaClientException || error instanceof KalturaAPIException) {
+            if (error instanceof VidiunClientException || error instanceof VidiunAPIException) {
               throw error;
             } else {
               const errorMessage = error instanceof Error ? error.message : typeof error === 'string' ? error : null;
-              throw new KalturaClientException('client::response-unknown-error', errorMessage || 'Failed to parse response');
+              throw new VidiunClientException('client::response-unknown-error', errorMessage || 'Failed to parse response');
             }
           }
         }));

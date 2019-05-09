@@ -1,16 +1,16 @@
-import { KalturaObjectBase, KalturaObjectBaseArgs } from './kaltura-object-base';
-import { KalturaRequestOptions, KalturaRequestOptionsArgs } from './kaltura-request-options';
+import { VidiunObjectBase, VidiunObjectBaseArgs } from './vidiun-object-base';
+import { VidiunRequestOptions, VidiunRequestOptionsArgs } from './vidiun-request-options';
 
 
-export interface KalturaRequestBaseArgs  extends KalturaObjectBaseArgs {
+export interface VidiunRequestBaseArgs  extends VidiunObjectBaseArgs {
 }
 
 
-export class KalturaRequestBase extends KalturaObjectBase {
+export class VidiunRequestBase extends VidiunObjectBase {
 
     private _networkTag: string;
 
-    constructor(data: KalturaRequestBaseArgs) {
+    constructor(data: VidiunRequestBaseArgs) {
         super(data);
     }
 

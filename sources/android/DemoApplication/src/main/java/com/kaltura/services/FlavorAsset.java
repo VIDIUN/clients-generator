@@ -2,22 +2,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.services;
+package com.vidiun.services;
 
 import java.util.List;
 
 import android.util.Log;
 
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.KalturaClient;
-import com.kaltura.client.services.KalturaBaseEntryService;
-import com.kaltura.client.services.KalturaFlavorAssetService;
-import com.kaltura.client.types.KalturaEntryContextDataParams;
-import com.kaltura.client.types.KalturaEntryContextDataResult;
-import com.kaltura.client.types.KalturaFilterPager;
-import com.kaltura.client.types.KalturaFlavorAsset;
-import com.kaltura.client.types.KalturaFlavorAssetFilter;
-import com.kaltura.client.types.KalturaFlavorAssetListResponse;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.VidiunClient;
+import com.vidiun.client.services.VidiunBaseEntryService;
+import com.vidiun.client.services.VidiunFlavorAssetService;
+import com.vidiun.client.types.VidiunEntryContextDataParams;
+import com.vidiun.client.types.VidiunEntryContextDataResult;
+import com.vidiun.client.types.VidiunFilterPager;
+import com.vidiun.client.types.VidiunFlavorAsset;
+import com.vidiun.client.types.VidiunFlavorAssetFilter;
+import com.vidiun.client.types.VidiunFlavorAssetListResponse;
 
 /**
  * Retrieve information and invoke actions on Flavor Asset
@@ -36,25 +36,25 @@ public class FlavorAsset {
      *
      * @return The list of all categories
      *
-     * @throws KalturaApiException
+     * @throws VidiunApiException
      */
-    public static List<KalturaFlavorAsset> listAllFlavorAssets(String TAG, String entryId, int pageIndex, int pageSize) throws KalturaApiException {
+    public static List<VidiunFlavorAsset> listAllFlavorAssets(String TAG, String entryId, int pageIndex, int pageSize) throws VidiunApiException {
         // create a new ADMIN-session client
-        KalturaClient client = AdminUser.getClient();//RequestsKaltura.getKalturaClient();
+        VidiunClient client = AdminUser.getClient();//RequestsVidiun.getVidiunClient();
 
-        KalturaFlavorAssetService flavorAssetService = client.getFlavorAssetService();
+        VidiunFlavorAssetService flavorAssetService = client.getFlavorAssetService();
 
         // create a new filter to filter entries - not mandatory
-        KalturaFlavorAssetFilter filter = new KalturaFlavorAssetFilter();
+        VidiunFlavorAssetFilter filter = new VidiunFlavorAssetFilter();
         filter.entryIdEqual = entryId;
         // create a new pager to choose how many and which entries should be recieved
         // out of the filtered entries - not mandatory
-        KalturaFilterPager pager = new KalturaFilterPager();
+        VidiunFilterPager pager = new VidiunFilterPager();
         pager.pageIndex = pageIndex;
         pager.pageSize = pageSize;
 
         // execute the list action of the mediaService object to recieve the list of entries
-        KalturaFlavorAssetListResponse listResponseFlavorAsset = flavorAssetService.list(filter);
+        VidiunFlavorAssetListResponse listResponseFlavorAsset = flavorAssetService.list(filter);
 
         return listResponseFlavorAsset.objects;
     }
@@ -67,12 +67,12 @@ public class FlavorAsset {
      *
      * @return The asset url
      */
-    public static String getUrl(String TAG, String id) throws KalturaApiException {
+    public static String getUrl(String TAG, String id) throws VidiunApiException {
         // create a new ADMIN-session client
-        KalturaClient client = AdminUser.getClient();//RequestsKaltura.getKalturaClient();
+        VidiunClient client = AdminUser.getClient();//RequestsVidiun.getVidiunClient();
 
         // create a new mediaService object for our client
-        KalturaFlavorAssetService mediaService = client.getFlavorAssetService();
+        VidiunFlavorAssetService mediaService = client.getFlavorAssetService();
         String url = mediaService.getUrl(id);
         Log.w(TAG, "URL for the asset: " + url);
         return url;
@@ -84,16 +84,16 @@ public class FlavorAsset {
      * @param entryId
      * @param flavorTags
      * @return
-     * @throws KalturaApiException
+     * @throws VidiunApiException
      */
-    public static List<KalturaFlavorAsset> listAllFlavorsFromContext(String TAG, String entryId, String flavorTags) throws KalturaApiException {
+    public static List<VidiunFlavorAsset> listAllFlavorsFromContext(String TAG, String entryId, String flavorTags) throws VidiunApiException {
     	 // create a new ADMIN-session client
-        KalturaClient client = AdminUser.getClient();//RequestsKaltura.getKalturaClient();
+        VidiunClient client = AdminUser.getClient();//RequestsVidiun.getVidiunClient();
 
-        KalturaEntryContextDataParams params = new KalturaEntryContextDataParams();
+        VidiunEntryContextDataParams params = new VidiunEntryContextDataParams();
         params.flavorTags = flavorTags;
-        KalturaBaseEntryService baseEntryService = client.getBaseEntryService();
-        KalturaEntryContextDataResult res = baseEntryService.getContextData(entryId, params);
+        VidiunBaseEntryService baseEntryService = client.getBaseEntryService();
+        VidiunEntryContextDataResult res = baseEntryService.getContextData(entryId, params);
         return res.flavorAssets;
     }
 }

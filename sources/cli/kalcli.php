@@ -6,11 +6,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,19 +28,19 @@
 // @ignore
 // ===================================================================================================
 
-require_once(dirname(__file__) . '/lib/KalturaSession.php');
-require_once(dirname(__file__) . '/lib/KalturaCommandLineParser.php');
-require_once(dirname(__file__) . '/lib/KalturaCurlWrapper.php');
-require_once(dirname(__file__) . '/kalcliSwitches.php');
+require_once(dirname(__file__) . '/lib/VidiunSession.php');
+require_once(dirname(__file__) . '/lib/VidiunCommandLineParser.php');
+require_once(dirname(__file__) . '/lib/VidiunCurlWrapper.php');
+require_once(dirname(__file__) . '/vidcliSwitches.php');
 
 $config = parse_ini_file(dirname(__file__) . '/config/config.ini');
 
 $DATE_FIELD_SUFFIXES = array('At', 'Date', 'On');
 define('MIN_TIME_STAMP', 946677600);		// 2000
 define('MAX_TIME_STAMP', 2147483647);		// 2038
-define('API_LOG_FILENAME', $config['logDir'] . '/kaltura_api_v3.log');
+define('API_LOG_FILENAME', $config['logDir'] . '/vidiun_api_v3.log');
 
-function formatResponseKalcliInput($resp, $prefix = '', $varName = null)
+function formatResponseVidcliInput($resp, $prefix = '', $varName = null)
 {
 	$returnCode = 0;
 
@@ -62,7 +62,7 @@ function formatResponseKalcliInput($resp, $prefix = '', $varName = null)
 			foreach ($resp as $index => $elem)
 			{
 				$newPrefix = $prefix . ':' . $index;
-				list($value, $internalReturnCode) = formatResponseKalcliInput($elem, $newPrefix, $index);
+				list($value, $internalReturnCode) = formatResponseVidcliInput($elem, $newPrefix, $index);
 
 				if ($firstTime)
 				{
@@ -84,7 +84,7 @@ function formatResponseKalcliInput($resp, $prefix = '', $varName = null)
 			foreach ($properties as $name => $value)
 			{
 				$newPrefix = $prefix . ':' . $name;
-				list($formattedValue, $internalReturnCode) = formatResponseKalcliInput($value, $newPrefix, $name);
+				list($formattedValue, $internalReturnCode) = formatResponseVidcliInput($value, $newPrefix, $name);
 					
 				$result .= "\n{$newPrefix}{$formattedValue}";
 			}
@@ -170,16 +170,16 @@ function printLogFiltered($logPortion, $sessionId)
 	}
 }
 
-KalturaSecretRepository::init();
+VidiunSecretRepository::init();
 
 // parse command line
-$options = KalturaCommandLineParser::parseArguments($commandLineSwitches);
-$arguments = KalturaCommandLineParser::stripCommandLineSwitches($commandLineSwitches, $argv);
+$options = VidiunCommandLineParser::parseArguments($commandLineSwitches);
+$arguments = VidiunCommandLineParser::stripCommandLineSwitches($commandLineSwitches, $argv);
 
 if (count($arguments) < 2)
 {
-	$usage = "Usage: kalcli [switches] <service> <action> [<param1> <param2> ...]\nOptions:\n";
-	$usage .= KalturaCommandLineParser::getArgumentsUsage($commandLineSwitches);
+	$usage = "Usage: vidcli [switches] <service> <action> [<param1> <param2> ...]\nOptions:\n";
+	$usage .= VidiunCommandLineParser::getArgumentsUsage($commandLineSwitches);
 	echo $usage;
 	exit(1);
 }
@@ -187,7 +187,7 @@ if (count($arguments) < 2)
 $service = trim($arguments[0]);
 $action = trim($arguments[1]);
 
-$params = array('clientTag' => 'kalcli:@DATE@');
+$params = array('clientTag' => 'vidcli:@DATE@');
 $extraArgCount = count($arguments);
 for ($curIndex = 2; $curIndex < $extraArgCount; $curIndex++)
 {
@@ -234,13 +234,13 @@ if ($readStdin)
 if (!isset($options['raw']) && !isset($options['curl']))
 	$params['format'] = '3';      # PHP
 	
-// renew all ks'es
+// renew all vs'es
 if (!isset($options['no-renew']))
 {
 	$renewedSessions = array();
 	foreach ($params as $key => &$value)
 	{
-		if ($key != 'ks' && !preg_match('/[\d]+:ks/', $key))
+		if ($key != 'vs' && !preg_match('/[\d]+:vs/', $key))
 			continue;
 
 		if (isset($renewedSessions[$value]))
@@ -249,12 +249,12 @@ if (!isset($options['no-renew']))
 			continue;
 		}
 		
-		$renewedKs = KalturaSession::extendKs($value);
-		if (!$renewedKs)
+		$renewedVs = VidiunSession::extendVs($value);
+		if (!$renewedVs)
 			continue;
 		
-		$renewedSessions[$value] = $renewedKs; 
-		$value = $renewedKs;
+		$renewedSessions[$value] = $renewedVs; 
+		$value = $renewedVs;
 	}
 }
 
@@ -265,7 +265,7 @@ if (isset($options['url']) && is_string($options['url']))
 }
 else
 {
-	$serviceUrl = isset( $config['apiHost'] ) ? $config['apiHost'] : 'www.kaltura.com';
+	$serviceUrl = isset( $config['apiHost'] ) ? $config['apiHost'] : 'www.vidiun.com';
 }
 
 if (strpos($serviceUrl, '://') === false)
@@ -292,7 +292,7 @@ if (isset($options['curl']))
 	}
 	
 	if (isset($options['insecure']))
-		$commandLine .= ' -k';	
+		$commandLine .= ' -v';	
 	if (isset($options['include']))
 		$commandLine .= ' -i';
 	if (isset($options['head']))
@@ -313,7 +313,7 @@ if (isset($options['curl']))
 
 
 // initialize the curl wrapper
-$curlWrapper = new KalturaCurlWrapper();
+$curlWrapper = new VidiunCurlWrapper();
 if (isset($options['header']))
 {
 	if (is_array($options['header']))
@@ -347,7 +347,7 @@ if (isset($options['log']))
 	
 	$logPortion = file_get_contents(API_LOG_FILENAME, false, null, $initialLogSize, $currentLogSize - $initialLogSize);
 	
-	if (preg_match('/X-Kaltura-Session: (\d+)/', $curlWrapper->responseHeaders, $matches))
+	if (preg_match('/X-Vidiun-Session: (\d+)/', $curlWrapper->responseHeaders, $matches))
 	{
 		$sessionId = $matches[1];
 		printLogFiltered($logPortion, $sessionId);
@@ -368,7 +368,7 @@ if (!isset($options['head']))
 		{
 			if (isset($options['param-name']))
 			{
-				list($result, $returnCode) = formatResponseKalcliInput(
+				list($result, $returnCode) = formatResponseVidcliInput(
 						$unserializedResult, 
 						$options['param-name']);
 				$result = $options['param-name']. str_replace("\n", " \\\n", $result);

@@ -1,27 +1,27 @@
 {
-  "name": "kaltura",
+  "name": "vidiun",
   "version": "@VERSION@",
-  "description": "Kaltura NodeJS clientlibs",
+  "description": "Vidiun NodeJS clientlibs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaltura/KalturaGeneratedAPIClientsNodeJS"
+    "url": "https://github.com/vidiun/VidiunGeneratedAPIClientsNodeJS"
   },
   "keywords": [
-    "Kaltura",
+    "Vidiun",
     "API",
     "clientlibs"
   ],
   "author": {
-    "name": "Kaltura Community",
-    "email": "community@kaltura.com"
+    "name": "Vidiun Community",
+    "email": "community@vidiun.com"
   },
   "license": "AGPLv3",
   "bugs": {
-    "url": "https://github.com/kaltura/server/issues"
+    "url": "https://github.com/vidiun/server/issues"
   },
   "dependencies": {
     "crypto": "*",

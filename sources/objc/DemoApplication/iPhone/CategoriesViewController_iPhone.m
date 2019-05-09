@@ -1,9 +1,9 @@
 //
 //  CategoriesViewController_iPhone.m
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 28.02.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import "CategoriesViewController_iPhone.h"
@@ -115,7 +115,7 @@
     
     NSArray *array = [[Client instance] getCategories];
     
-    for (KalturaCategory *category in array) {
+    for (VidiunCategory *category in array) {
         
         BOOL canAdd = YES;
         
@@ -215,7 +215,7 @@
     }
     
     
-    KalturaCategory *category = [self.categories objectAtIndex:indexPath.row];
+    VidiunCategory *category = [self.categories objectAtIndex:indexPath.row];
     
     cell.textLabel.text = category.fullName;
     cell.textLabel.font = [UIFont fontWithName:@"Maven Pro" size:16];

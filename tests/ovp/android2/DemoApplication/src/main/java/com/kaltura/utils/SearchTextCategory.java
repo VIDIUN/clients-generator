@@ -1,4 +1,4 @@
-package com.kaltura.utils;
+package com.vidiun.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.kaltura.client.types.Category;
+import com.vidiun.client.types.Category;
 
 /**
  * Seeking a string entered in the search for the category

@@ -1,8 +1,8 @@
 import { Injectable, InjectionToken } from '@angular/core';
 
-export const KALTURA_CLIENT_OPTIONS: InjectionToken<KalturaClientOptions> = new InjectionToken('kaltura client options');
+export const VIDIUN_CLIENT_OPTIONS: InjectionToken<VidiunClientOptions> = new InjectionToken('vidiun client options');
 
-export interface KalturaClientOptions {
+export interface VidiunClientOptions {
     clientTag: string;
     endpointUrl: string;
     chunkFileSize?: number;

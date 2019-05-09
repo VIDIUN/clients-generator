@@ -1,17 +1,17 @@
-import { KalturaRequest, KalturaRequestArgs } from "./kaltura-request";
-import { KalturaObjectBase } from "./kaltura-object-base";
+import { VidiunRequest, VidiunRequestArgs } from "./vidiun-request";
+import { VidiunObjectBase } from "./vidiun-object-base";
 
 export type ProgressCallback = (loaded: number, total: number) => void;
 
-export interface KalturaUploadRequestArgs extends KalturaRequestArgs {
+export interface VidiunUploadRequestArgs extends VidiunRequestArgs {
   uploadedFileSize?: number;
 }
 
-export class KalturaUploadRequest<T> extends KalturaRequest<T> {
+export class VidiunUploadRequest<T> extends VidiunRequest<T> {
     private _progressCallback: ProgressCallback;
     public uploadedFileSize: number = 0;
 
-    constructor(data: KalturaUploadRequestArgs, {responseType, responseSubType, responseConstructor}: { responseType: string, responseSubType?: string, responseConstructor: { new(): KalturaObjectBase } }) {
+    constructor(data: VidiunUploadRequestArgs, {responseType, responseSubType, responseConstructor}: { responseType: string, responseSubType?: string, responseConstructor: { new(): VidiunObjectBase } }) {
         super(data, {responseType, responseSubType, responseConstructor});
         this.uploadedFileSize = data.uploadedFileSize;
     }

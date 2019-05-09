@@ -5,10 +5,10 @@ with open(path.join(this_directory, 'README.txt')) as f:
         long_description = f.read()
 
 setup(
-    name='KalturaApiClient',
+    name='VidiunApiClient',
     version='@VERSION@',
-    url='https://github.com/kaltura/KalturaGeneratedAPIClientsPython',
-    packages=['KalturaClient', 'KalturaClient.Plugins'],
+    url='https://github.com/vidiun/VidiunGeneratedAPIClientsPython',
+    packages=['VidiunClient', 'VidiunClient.Plugins'],
     install_requires=['requests>=2.4.2', 'requests-toolbelt', 'six'],
     license='AGPLv3+',
     classifiers=[

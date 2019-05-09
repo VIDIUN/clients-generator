@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,29 +25,29 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
 /**
- * A KalturaServiceActionCall is what the client queues to represent a request to the Kaltura server.
+ * A VidiunServiceActionCall is what the client queues to represent a request to the Vidiun server.
  * 
  * @author jpotts
  *
  */
-public class KalturaServiceActionCall {
+public class VidiunServiceActionCall {
 	private String service;
     private String action;
-    private KalturaParams params;
-    private KalturaFiles files;
+    private VidiunParams params;
+    private VidiunFiles files;
     
-    public KalturaServiceActionCall(String service, String action, KalturaParams kparams) {
-        this(service, action, kparams, new KalturaFiles());
+    public VidiunServiceActionCall(String service, String action, VidiunParams vparams) {
+        this(service, action, vparams, new VidiunFiles());
     }
 
-    public KalturaServiceActionCall(String service, String action, KalturaParams kparams, KalturaFiles kfiles) {
+    public VidiunServiceActionCall(String service, String action, VidiunParams vparams, VidiunFiles vfiles) {
         this.service = service;
         this.action = action;
-        this.params = kparams;
-        this.files = kfiles;
+        this.params = vparams;
+        this.files = vfiles;
     }
 
     public String getService() {
@@ -58,16 +58,16 @@ public class KalturaServiceActionCall {
     	return this.action;
     }
 
-    public KalturaParams getParams() {
+    public VidiunParams getParams() {
         return this.params;
     }
 
-    public KalturaFiles getFiles() {
+    public VidiunFiles getFiles() {
         return this.files;
     }
 
-    public KalturaParams getParamsForMultiRequest(int multiRequestNumber) throws KalturaApiException {
-        KalturaParams multiRequestParams = new KalturaParams();
+    public VidiunParams getParamsForMultiRequest(int multiRequestNumber) throws VidiunApiException {
+        VidiunParams multiRequestParams = new VidiunParams();
         
         params.add("service", service);
         params.add("action", action);
@@ -76,9 +76,9 @@ public class KalturaServiceActionCall {
         return multiRequestParams;
     }
 
-    public KalturaFiles getFilesForMultiRequest(int multiRequestNumber) {
+    public VidiunFiles getFilesForMultiRequest(int multiRequestNumber) {
     	
-        KalturaFiles multiRequestFiles = new KalturaFiles();
+        VidiunFiles multiRequestFiles = new VidiunFiles();
         multiRequestFiles.add(Integer.toString(multiRequestNumber), files);
         return multiRequestFiles;
     }

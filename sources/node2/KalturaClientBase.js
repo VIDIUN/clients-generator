@@ -5,11 +5,11 @@
 //													| ' </ _` | |	_| || | '_/ _` |
 //													|_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011	Kaltura Inc.
+// Copyright (C) 2006-2011	Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -35,7 +35,7 @@ const http = require('http');
 const https = require('https');
 const querystring = require("querystring");
 
-const kaltura = require('./KalturaRequestData');
+const vidiun = require('./VidiunRequestData');
 
 
 function cloneObject(src) {
@@ -67,7 +67,7 @@ function copyObject(src, dest) {
  *            The array to sort.
  * @return The sorted array.
  */
-function ksort(arr) {
+function vsort(arr) {
 	let sArr = [];
 	let tArr = [];
 	let n = 0;
@@ -82,7 +82,7 @@ function ksort(arr) {
 }
 
 /**
- * Implement to get Kaltura Client logs
+ * Implement to get Vidiun Client logs
  * 
  */
 class ILogger {
@@ -104,20 +104,20 @@ class ILogger {
 }
 
 /**
- * Kaltura configuration object
+ * Vidiun configuration object
  */
 class Configuration {
 
 	constructor() {
 		this.logger = new ILogger();
-		this.serviceUrl = 'http://www.kaltura.com';
+		this.serviceUrl = 'http://www.vidiun.com';
 		this.serviceBase = '/api_v3/service';
 		this.timeout = 30000;
 		this.agentOptions = null;
 	}
 
 	/**
-	 * Set logger to get kaltura client debug logs.
+	 * Set logger to get vidiun client debug logs.
 	 * 
 	 * @param ILogger log
 	 */
@@ -136,7 +136,7 @@ class Configuration {
 }
 
 /**
- * Kaltura client constructor
+ * Vidiun client constructor
  * 
  */
 class ClientBase extends kaltura.RequestData {
@@ -199,7 +199,7 @@ ClientBase.FORMAT_PHP = 3;
 ClientBase.FORMAT_JSONP = 9;
 
 
-class RequestBuilder extends kaltura.VolatileRequestData {
+class RequestBuilder extends vidiun.VolatileRequestData {
 
 	constructor(service = null, action = null, data = null, files = null) {
 		super();
@@ -224,7 +224,7 @@ class RequestBuilder extends kaltura.VolatileRequestData {
 	 *         parameters.
 	 */
 	signature(params) {
-		params = ksort(params);
+		params = vsort(params);
 		let str = '';
 		for (let v in params) {
 			let k = params[v];
@@ -336,7 +336,7 @@ class RequestBuilder extends kaltura.VolatileRequestData {
 						throw new Error(json.message);
 					}
 				}
-				else if (json && typeof (json) === 'object' && json.result && json.result.error && json.result.error.objectType == 'KalturaAPIException') {
+				else if (json && typeof (json) === 'object' && json.result && json.result.error && json.result.error.objectType == 'VidiunAPIException') {
 					if (callback) {
 						callback(false, json);
 					}
@@ -365,7 +365,7 @@ class RequestBuilder extends kaltura.VolatileRequestData {
 
 	sign() {
 		let signature = this.signature(this.data);
-		this.data.kalsig = signature;
+		this.data.vidsig = signature;
 	}
 
 	getUrl(client) {

@@ -5,11 +5,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -27,7 +27,7 @@
 // @ignore
 // ===================================================================================================
 
-require_once(dirname(__file__) . '/kalcliSwitches.php');
+require_once(dirname(__file__) . '/vidcliSwitches.php');
 
 define('PROPERTY_DELIMITER', ':');
 define('ASSIGN_DELIMITER', '=');
@@ -153,7 +153,7 @@ function getEnumValueList($enumType)
 function getActionParameters($serviceId, $actionName)
 {
 	return array_merge(getApiSchemaData("/actions/{$serviceId}/{$actionName}.action", array()), 
-		getTypePropertiesList('KalturaRequestConfiguration'));
+		getTypePropertiesList('VidiunRequestConfiguration'));
 }
 
 function getActionParameterAttribute($serviceId, $actionName, $paramName, $attributeName)
@@ -397,14 +397,14 @@ for ($curIndex = 3; $curIndex < $compLineCount; $curIndex++)
 
 // adjust compLineIndex according to number of previous switches
 $previousArgs = array_slice($compLine, 0, $compLineIndex);
-$compLine = array_merge(KalturaCommandLineParser::stripCommandLineSwitches($commandLineSwitches, $previousArgs), array_slice($compLine, $compLineIndex));
-$compLineIndex = count(KalturaCommandLineParser::stripCommandLineSwitches($commandLineSwitches, $previousArgs)) + 1;
+$compLine = array_merge(VidiunCommandLineParser::stripCommandLineSwitches($commandLineSwitches, $previousArgs), array_slice($compLine, $compLineIndex));
+$compLineIndex = count(VidiunCommandLineParser::stripCommandLineSwitches($commandLineSwitches, $previousArgs)) + 1;
 
 switch ($compLineIndex)
 {
 case 1:		// service name / switch
 	$completions = getServiceIds();
-	$completions = array_merge($completions, KalturaCommandLineParser::getAllCommandLineSwitches($commandLineSwitches));
+	$completions = array_merge($completions, VidiunCommandLineParser::getAllCommandLineSwitches($commandLineSwitches));
 	printCompletions($autoCompWord, $completions, true, true, 'strcasecmp');
 	break;
 

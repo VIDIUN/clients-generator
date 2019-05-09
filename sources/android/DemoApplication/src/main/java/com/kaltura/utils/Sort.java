@@ -1,10 +1,10 @@
-package com.kaltura.utils;
+package com.vidiun.utils;
 
 import java.util.Comparator;
 
-import com.kaltura.client.types.KalturaCategory;
-import com.kaltura.client.types.KalturaFlavorAsset;
-import com.kaltura.client.types.KalturaMediaEntry;
+import com.vidiun.client.types.VidiunCategory;
+import com.vidiun.client.types.VidiunFlavorAsset;
+import com.vidiun.client.types.VidiunMediaEntry;
 
 /**
  * The class performs a sort
@@ -43,24 +43,24 @@ public class Sort<T> implements Comparator<T> {
     public int compare(T paramT1, T paramT2) {
 
         int res = 0;
-        if (paramT1 instanceof KalturaMediaEntry && paramT2 instanceof KalturaMediaEntry) {
+        if (paramT1 instanceof VidiunMediaEntry && paramT2 instanceof VidiunMediaEntry) {
             if (this.filter.equals("name")) {
-                res = ((KalturaMediaEntry) paramT1).name.compareTo(((KalturaMediaEntry) paramT2).name);
+                res = ((VidiunMediaEntry) paramT1).name.compareTo(((VidiunMediaEntry) paramT2).name);
             }
             if (this.filter.equals("plays") && this.direction.equals("compareTo")) {
-                res = new Integer(((KalturaMediaEntry) paramT1).plays).compareTo(new Integer(((KalturaMediaEntry) paramT2).plays));
+                res = new Integer(((VidiunMediaEntry) paramT1).plays).compareTo(new Integer(((VidiunMediaEntry) paramT2).plays));
             } else {
-                res = ((KalturaMediaEntry) paramT2).plays - ((KalturaMediaEntry) paramT1).plays;
+                res = ((VidiunMediaEntry) paramT2).plays - ((VidiunMediaEntry) paramT1).plays;
             }
             if (this.filter.equals("createdAt")) {
-                res = new Integer(((KalturaMediaEntry) paramT1).createdAt).compareTo(new Integer(((KalturaMediaEntry) paramT2).createdAt));
+                res = new Integer(((VidiunMediaEntry) paramT1).createdAt).compareTo(new Integer(((VidiunMediaEntry) paramT2).createdAt));
             }
         }
-        if (paramT1 instanceof KalturaCategory && paramT2 instanceof KalturaCategory) {
-            res = ((KalturaCategory) paramT1).name.compareTo(((KalturaCategory) paramT2).name);
+        if (paramT1 instanceof VidiunCategory && paramT2 instanceof VidiunCategory) {
+            res = ((VidiunCategory) paramT1).name.compareTo(((VidiunCategory) paramT2).name);
         }
-        if (paramT1 instanceof KalturaFlavorAsset && paramT2 instanceof KalturaFlavorAsset) {
-            res = ((KalturaFlavorAsset) paramT2).bitrate - ((KalturaFlavorAsset) paramT1).bitrate;
+        if (paramT1 instanceof VidiunFlavorAsset && paramT2 instanceof VidiunFlavorAsset) {
+            res = ((VidiunFlavorAsset) paramT2).bitrate - ((VidiunFlavorAsset) paramT1).bitrate;
         }
         return res;
     }

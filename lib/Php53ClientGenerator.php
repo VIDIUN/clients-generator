@@ -17,18 +17,18 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 	private function cacheEnum(DOMElement $enumNode)
 	{
 		$enumName = $enumNode->getAttribute('name');
-		$enumCacheName = preg_replace('/^Kaltura(.+)$/', '$1', $enumName); 
+		$enumCacheName = preg_replace('/^Vidiun(.+)$/', '$1', $enumName); 
 		
 		$classInfo = new PhpZend2ClientGeneratorClassInfo();
 		$classInfo->setClassName($enumCacheName);
 		if($enumNode->hasAttribute('plugin'))
 		{
 			$pluginName = ucfirst($enumNode->getAttribute('plugin'));
-			$classInfo->setNamespace("Kaltura\\Client\\Plugin\\{$pluginName}\\Enum");
+			$classInfo->setNamespace("Vidiun\\Client\\Plugin\\{$pluginName}\\Enum");
 		}
 		else
 		{
-			$classInfo->setNamespace("Kaltura\\Client\\Enum");
+			$classInfo->setNamespace("Vidiun\\Client\\Enum");
 		}
 		$this->cacheEnums[$enumName] = $classInfo;
 	} 
@@ -36,7 +36,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 	private function cacheType(DOMElement $classNode)
 	{
 		$className = $classNode->getAttribute('name');
-		$classCacheName = preg_replace('/^Kaltura(.+)$/', '$1', $className);
+		$classCacheName = preg_replace('/^Vidiun(.+)$/', '$1', $className);
 		$classCacheName = $this->replaceReservedWords($classCacheName);
 		
 		$classInfo = new PhpZend2ClientGeneratorClassInfo();
@@ -44,11 +44,11 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 		if($classNode->hasAttribute('plugin'))
 		{
 			$pluginName = ucfirst($classNode->getAttribute('plugin'));
-			$classInfo->setNamespace("Kaltura\\Client\\Plugin\\{$pluginName}\\Type");
+			$classInfo->setNamespace("Vidiun\\Client\\Plugin\\{$pluginName}\\Type");
 		}
 		else
 		{
-			$classInfo->setNamespace("Kaltura\\Client\\Type");	
+			$classInfo->setNamespace("Vidiun\\Client\\Type");	
 		}
 		$this->cacheTypes[$className] = $classInfo;
 	} 
@@ -73,7 +73,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine('/**');
 		$this->appendLine(' * @namespace');
 		$this->appendLine(' */');
-		$this->appendLine('namespace Kaltura\Client;');
+		$this->appendLine('namespace Vidiun\Client;');
 		$this->appendLine();
 		
 		if($this->generateDocs)
@@ -89,20 +89,20 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 		
 		$classNodes = $xpath->query("/xml/classes/class");
 		$this->appendLine('	private static $map = array(');
-		$this->appendLine("		'KalturaApiExceptionArg' => 'Kaltura\\Client\\ApiExceptionArg',");
+		$this->appendLine("		'VidiunApiExceptionArg' => 'Vidiun\\Client\\ApiExceptionArg',");
 		foreach($classNodes as $classNode)
 		{
-			$kalturaType = $classNode->getAttribute('name');
-			$zendType = $this->getTypeClassInfo($kalturaType);
-			$this->appendLine("		'$kalturaType' => '{$zendType->getFullyQualifiedNameNoPrefixSlash()}',");
+			$vidiunType = $classNode->getAttribute('name');
+			$zendType = $this->getTypeClassInfo($vidiunType);
+			$this->appendLine("		'$vidiunType' => '{$zendType->getFullyQualifiedNameNoPrefixSlash()}',");
 		}
 		$this->appendLine('	);');
 		$this->appendLine('	');
 		
-		$this->appendLine('	public static function getZendType($kalturaType)');
+		$this->appendLine('	public static function getZendType($vidiunType)');
 		$this->appendLine('	{');
-		$this->appendLine('		if(isset(self::$map[$kalturaType]))');
-		$this->appendLine('			return self::$map[$kalturaType];');
+		$this->appendLine('		if(isset(self::$map[$vidiunType]))');
+		$this->appendLine('			return self::$map[$vidiunType];');
 		$this->appendLine('		return null;');
 		$this->appendLine('	}');
 		$this->appendLine('}');
@@ -156,13 +156,13 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 	protected function getEnumPath(DOMElement $enumNode)
 	{
 		$enumName = $enumNode->getAttribute('name');
-		$enumName = preg_replace('/^Kaltura(.+)$/', '$1', $enumName); 
+		$enumName = preg_replace('/^Vidiun(.+)$/', '$1', $enumName); 
 			
 		if(!$enumNode->hasAttribute('plugin'))
-			return "library/Kaltura/Client/Enum/{$enumName}.php";
+			return "library/Vidiun/Client/Enum/{$enumName}.php";
 
 		$pluginName = ucfirst($enumNode->getAttribute('plugin'));
-		return "library/Kaltura/Client/Plugin/{$pluginName}/Enum/{$enumName}.php";
+		return "library/Vidiun/Client/Plugin/{$pluginName}/Enum/{$enumName}.php";
 	}
 	
 	protected function replaceReservedWords($className)
@@ -179,14 +179,14 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 	protected function getTypePath(DOMElement $classNode)
 	{
 		$className = $classNode->getAttribute('name');
-		$className = preg_replace('/^Kaltura(.+)$/', '$1', $className);
+		$className = preg_replace('/^Vidiun(.+)$/', '$1', $className);
 		$className = $this->replaceReservedWords($className); 
 
 		if(!$classNode->hasAttribute('plugin'))
-			return "library/Kaltura/Client/Type/{$className}.php";
+			return "library/Vidiun/Client/Type/{$className}.php";
 
 		$pluginName = ucfirst($classNode->getAttribute('plugin'));
-		return "library/Kaltura/Client/Plugin/{$pluginName}/Type/{$className}.php";
+		return "library/Vidiun/Client/Plugin/{$pluginName}/Type/{$className}.php";
 	}
 	
 	protected function getServicePath($serviceNode)
@@ -194,26 +194,26 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 		$serviceName = ucfirst($serviceNode->getAttribute('name'));
 			
 		if(!$serviceNode->hasAttribute('plugin'))
-			return "library/Kaltura/Client/Service/{$serviceName}Service.php";
+			return "library/Vidiun/Client/Service/{$serviceName}Service.php";
 
 		$pluginName = ucfirst($serviceNode->getAttribute('plugin'));
-		return "library/Kaltura/Client/Plugin/{$pluginName}/Service/{$serviceName}Service.php";
+		return "library/Vidiun/Client/Plugin/{$pluginName}/Service/{$serviceName}Service.php";
 	}
 	
 	protected function getPluginPath($pluginName)
 	{
 		$pluginName = ucfirst($pluginName);
-		return "library/Kaltura/Client/Plugin/{$pluginName}/".$this->getPluginClass($pluginName).".php";
+		return "library/Vidiun/Client/Plugin/{$pluginName}/".$this->getPluginClass($pluginName).".php";
 	}
 	
 	protected function getMainPath()
 	{
-		return 'library/Kaltura/Client/Client.php';
+		return 'library/Vidiun/Client/Client.php';
 	}
 	
 	protected function getMapPath()
 	{
-		return 'library/Kaltura/Client/TypeMap.php';
+		return 'library/Vidiun/Client/TypeMap.php';
 	}
 	
 	/**
@@ -232,11 +232,11 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 	 */
 	protected function getTypeClassInfo($className)
 	{
-		if($className == 'KalturaObjectBase')
+		if($className == 'VidiunObjectBase')
 		{
 			$classInfo = new PhpZend2ClientGeneratorClassInfo();
 			$classInfo->setClassName($className);
-			$classInfo->setNamespace("Kaltura\\Client\\Type");
+			$classInfo->setNamespace("Vidiun\\Client\\Type");
 			return $classInfo;
 		}
 		
@@ -280,7 +280,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine('/**');
 		$this->appendLine(' * @namespace');
 		$this->appendLine(' */');
-		$this->appendLine("namespace Kaltura\\Client\\Plugin\\".ucfirst($pluginName).";");
+		$this->appendLine("namespace Vidiun\\Client\\Plugin\\".ucfirst($pluginName).";");
 		$this->appendLine();
 		
 		if($this->generateDocs)
@@ -291,7 +291,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine(' */');
 		}
 		
-		$this->appendLine("class $pluginClassName extends \Kaltura\Client\Plugin");
+		$this->appendLine("class $pluginClassName extends \Vidiun\Client\Plugin");
 		$this->appendLine('{');
 	
 		$serviceNodes = $xpath->query("/xml/services/service[@plugin = '$pluginName']");
@@ -307,7 +307,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine('');
 		}
 		
-		$this->appendLine('	protected function __construct(\Kaltura\Client\Client $client)');
+		$this->appendLine('	protected function __construct(\Vidiun\Client\Client $client)');
 		$this->appendLine('	{');
 		$this->appendLine('		parent::__construct($client);');
 		$this->appendLine('	}');
@@ -315,13 +315,13 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine('	/**');
 		$this->appendLine("	 * @return $pluginClassName");
 		$this->appendLine('	 */');
-		$this->appendLine('	public static function get(\Kaltura\Client\Client $client)');
+		$this->appendLine('	public static function get(\Vidiun\Client\Client $client)');
 		$this->appendLine('	{');
 		$this->appendLine("		return new $pluginClassName(\$client);");
 		$this->appendLine('	}');
 		$this->appendLine('');
 		$this->appendLine('	/**');
-		$this->appendLine('	 * @return array<\Kaltura\Client\ServiceBase>');
+		$this->appendLine('	 * @return array<\Vidiun\Client\ServiceBase>');
 		$this->appendLine('	 */');
 		$this->appendLine('	public function getServices()');
 		$this->appendLine('	{');
@@ -352,7 +352,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 			$serviceRelativeClassName = "Service\\{$serviceClass}";
 			
 			$this->appendLine("	/**");
-			$this->appendLine("	 * @return \\Kaltura\\Client\\Plugin\\".ucfirst($pluginName)."\\$serviceRelativeClassName");
+			$this->appendLine("	 * @return \\Vidiun\\Client\\Plugin\\".ucfirst($pluginName)."\\$serviceRelativeClassName");
 			$this->appendLine("	 */");
 			$this->appendLine("	public function get{$serviceClass}()");
 			$this->appendLine("	{");
@@ -392,7 +392,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine(' */');
 		}
 		
-	 	$this->appendLine("class {$enumClassInfo->getClassName()} extends \Kaltura\Client\EnumBase");		
+	 	$this->appendLine("class {$enumClassInfo->getClassName()} extends \Vidiun\Client\EnumBase");		
 		$this->appendLine("{");
 		foreach($enumNode->childNodes as $constNode)
 		{
@@ -412,15 +412,15 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 	
 	function writeClass(DOMElement $classNode)
 	{
-		$kalturaType = $classNode->getAttribute('name');
-		if(!$this->shouldIncludeType($kalturaType))
+		$vidiunType = $classNode->getAttribute('name');
+		if(!$this->shouldIncludeType($vidiunType))
 			return;
 			
     	$this->startNewTextBlock();
 		$this->appendLine('<?php');
 		
 		$description = $classNode->getAttribute("description");
-		$type = $this->getTypeClassInfo($kalturaType);
+		$type = $this->getTypeClassInfo($vidiunType);
 		
 		$abstract = '';
 		if ($classNode->hasAttribute("abstract"))
@@ -443,7 +443,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 		}
 		
 		// class definition
-		$baseClass = '\Kaltura\Client\ObjectBase';
+		$baseClass = '\Vidiun\Client\ObjectBase';
 		if ($classNode->hasAttribute('base'))
 		{
 			$baseClassInfo = $this->getTypeClassInfo($classNode->getAttribute('base'));
@@ -452,9 +452,9 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 			
 		$this->appendLine($abstract . "class {$type->getClassName()} extends $baseClass");
 		$this->appendLine("{");
-		$this->appendLine("	public function getKalturaObjectType()");
+		$this->appendLine("	public function getVidiunObjectType()");
 		$this->appendLine("	{");
-		$this->appendLine("		return '$kalturaType';");
+		$this->appendLine("		return '$vidiunType';");
 		$this->appendLine("	}");
 		$this->appendLine("	");
 	
@@ -478,7 +478,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 			switch ($propType) 
 			{
 				case "file" :
-					KalturaLog::info("File attribute [$propName] are not supported for class [$kalturaType]");
+					VidiunLog::info("File attribute [$propName] are not supported for class [$vidiunType]");
 					return;
 			
 				case "int" :
@@ -514,7 +514,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 					$this->appendLine("			if(empty(\$xml->{$propName}))");
 					$this->appendLine("				\$this->$propName = array();");
 					$this->appendLine("			else");
-					$this->appendLine("				\$this->$propName = \Kaltura\Client\ParseUtils::unmarshalArray(\$xml->$propName, \"$arrayType\");");
+					$this->appendLine("				\$this->$propName = \Vidiun\Client\ParseUtils::unmarshalArray(\$xml->$propName, \"$arrayType\");");
 					$this->appendLine("		}");
 					break;
 					
@@ -525,13 +525,13 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 					$this->appendLine("			if(empty(\$xml->{$propName}))");
 					$this->appendLine("				\$this->$propName = array();");
 					$this->appendLine("			else");
-					$this->appendLine("				\$this->$propName = \Kaltura\Client\ParseUtils::unmarshalMap(\$xml->$propName, \"$arrayType\");");
+					$this->appendLine("				\$this->$propName = \Vidiun\Client\ParseUtils::unmarshalMap(\$xml->$propName, \"$arrayType\");");
 					$this->appendLine("		}");
 					break;
 					
 				default : // sub object
 					$this->appendLine("		if(count(\$xml->{$propName}) && !empty(\$xml->{$propName}))");
-					$this->appendLine("			\$this->$propName = \Kaltura\Client\ParseUtils::unmarshalObject(\$xml->$propName, \"{$propType}\");");
+					$this->appendLine("			\$this->$propName = \Vidiun\Client\ParseUtils::unmarshalObject(\$xml->$propName, \"{$propType}\");");
 					break;
 			}
 		}
@@ -617,9 +617,9 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine(' * @namespace');
 		$this->appendLine(' */');
 		if ($plugin)
-			$this->appendLine("namespace Kaltura\\Client\\Plugin\\".ucfirst($plugin)."\\Service;");
+			$this->appendLine("namespace Vidiun\\Client\\Plugin\\".ucfirst($plugin)."\\Service;");
 		else
-			$this->appendLine('namespace Kaltura\Client\Service;');
+			$this->appendLine('namespace Vidiun\Client\Service;');
 		$this->appendLine();
 
 		if($this->generateDocs)
@@ -632,9 +632,9 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine(' */');
 		}
 		
-		$this->appendLine("class $serviceClassName extends \Kaltura\Client\ServiceBase");
+		$this->appendLine("class $serviceClassName extends \Vidiun\Client\ServiceBase");
 		$this->appendLine("{");
-		$this->appendLine("	function __construct(\\Kaltura\\Client\\Client \$client = null)");
+		$this->appendLine("	function __construct(\\Vidiun\\Client\\Client \$client = null)");
 		$this->appendLine("	{");
 		$this->appendLine("		parent::__construct(\$client);");
 		$this->appendLine("	}");
@@ -705,7 +705,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine("		");
 		}
 		
-		$this->appendLine("		\$kparams = array();");
+		$this->appendLine("		\$vparams = array();");
 		$haveFiles = false;
 		foreach($paramNodes as $paramNode)
 		{
@@ -717,18 +717,18 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 		    if ($haveFiles === false && $paramType == "file")
 	    	{
 		        $haveFiles = true;
-	        	$this->appendLine("		\$kfiles = array();");
+	        	$this->appendLine("		\$vfiles = array();");
 	    	}
 	    
 			if (!$this->isSimpleType($paramType))
 			{
 				if ($isEnum)
 				{
-					$this->appendLine("		\$this->client->addParam(\$kparams, \"$paramName\", \$$paramName);");
+					$this->appendLine("		\$this->client->addParam(\$vparams, \"$paramName\", \$$paramName);");
 				}
 				else if ($paramType == "file")
 				{
-					$this->appendLine("		\$this->client->addParam(\$kfiles, \"$paramName\", \$$paramName);");
+					$this->appendLine("		\$this->client->addParam(\$vfiles, \"$paramName\", \$$paramName);");
 				}
 				else if ($paramType == "array" || $paramType == "map")
 				{
@@ -740,7 +740,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 					}
 					$this->appendLine("$extraTab		foreach(\$$paramName as \$index => \$obj)");
 					$this->appendLine("$extraTab		{");
-					$this->appendLine("$extraTab			\$this->client->addParam(\$kparams, \"$paramName:\$index\", \$obj->toParams());");
+					$this->appendLine("$extraTab			\$this->client->addParam(\$vparams, \"$paramName:\$index\", \$obj->toParams());");
 					$this->appendLine("$extraTab		}");
 				}
 				else
@@ -751,18 +751,18 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 						$this->appendLine("		if (\$$paramName !== null)");
 						$extraTab = "	";
 					}
-					$this->appendLine("$extraTab		\$this->client->addParam(\$kparams, \"$paramName\", \$$paramName"."->toParams());");
+					$this->appendLine("$extraTab		\$this->client->addParam(\$vparams, \"$paramName\", \$$paramName"."->toParams());");
 				}
 			}
 			else
 			{
-				$this->appendLine("		\$this->client->addParam(\$kparams, \"$paramName\", \$$paramName);");
+				$this->appendLine("		\$this->client->addParam(\$vparams, \"$paramName\", \$$paramName);");
 			}
 		}
 		
 	    if($resultType == 'file')
 	    {
-			$this->appendLine("		\$this->client->queueServiceActionCall('" . strtolower($serviceId) . "', '$action', null, \$kparams);");
+			$this->appendLine("		\$this->client->queueServiceActionCall('" . strtolower($serviceId) . "', '$action', null, \$vparams);");
 			$this->appendLine('		$resultObject = $this->client->getServeUrl();');
 	    }
 	    else
@@ -779,11 +779,11 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 	    	
 			if ($haveFiles)
 			{
-				$this->appendLine("		\$this->client->queueServiceActionCall(\"".strtolower($serviceId)."\", \"$action\", $fallbackClass, \$kparams, \$kfiles);");
+				$this->appendLine("		\$this->client->queueServiceActionCall(\"".strtolower($serviceId)."\", \"$action\", $fallbackClass, \$vparams, \$vfiles);");
 			}
 			else
 			{
-				$this->appendLine("		\$this->client->queueServiceActionCall(\"".strtolower($serviceId)."\", \"$action\", $fallbackClass, \$kparams);");
+				$this->appendLine("		\$this->client->queueServiceActionCall(\"".strtolower($serviceId)."\", \"$action\", $fallbackClass, \$vparams);");
 			}
 			
 			if($enableInMultiRequest)
@@ -799,17 +799,17 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 			{
 				
 				case 'int':
-					$this->appendLine("		\$resultObject = (int)\\Kaltura\\Client\\ParseUtils::unmarshalSimpleType(\$resultXmlObject->result);");
+					$this->appendLine("		\$resultObject = (int)\\Vidiun\\Client\\ParseUtils::unmarshalSimpleType(\$resultXmlObject->result);");
 					break;
 				case 'bool':
-					$this->appendLine("		\$resultObject = (bool)\\Kaltura\\Client\\ParseUtils::unmarshalSimpleType(\$resultXmlObject->result);");
+					$this->appendLine("		\$resultObject = (bool)\\Vidiun\\Client\\ParseUtils::unmarshalSimpleType(\$resultXmlObject->result);");
 					break;
 				case 'bigint':
 				case 'string':
-					$this->appendLine("		\$resultObject = (String)\\Kaltura\\Client\\ParseUtils::unmarshalSimpleType(\$resultXmlObject->result);");
+					$this->appendLine("		\$resultObject = (String)\\Vidiun\\Client\\ParseUtils::unmarshalSimpleType(\$resultXmlObject->result);");
 					break;
 				case 'array':
-					$this->appendLine("		\$resultObject = \\Kaltura\\Client\\ParseUtils::unmarshalArray(\$resultXmlObject->result, \"$arrayObjectType\");");
+					$this->appendLine("		\$resultObject = \\Vidiun\\Client\\ParseUtils::unmarshalArray(\$resultXmlObject->result, \"$arrayObjectType\");");
 					$this->appendLine("		\$this->client->validateObjectType(\$resultObject, \"$resultType\");");
 					break;
 				default:
@@ -817,7 +817,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 					{
 						$resultTypeClassInfo = $this->getTypeClassInfo($resultType);
 						$resultObjectTypeEscaped = str_replace("\\", "\\\\", $resultTypeClassInfo->getFullyQualifiedName());
-						$this->appendLine("		\$resultObject = \\Kaltura\\Client\\ParseUtils::unmarshalObject(\$resultXmlObject->result, \"{$resultType}\");");
+						$this->appendLine("		\$resultObject = \\Vidiun\\Client\\ParseUtils::unmarshalObject(\$resultXmlObject->result, \"{$resultType}\");");
 						$this->appendLine("		\$this->client->validateObjectType(\$resultObject, \"{$resultObjectTypeEscaped}\");");
 					}
 			}
@@ -893,7 +893,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine('/**');
 		$this->appendLine(' * @namespace');
 		$this->appendLine(' */');
-		$this->appendLine('namespace Kaltura\Client;');
+		$this->appendLine('namespace Vidiun\Client;');
 		$this->appendLine();
 		
 		if($this->generateDocs)
@@ -916,7 +916,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 				continue;
 				
 			$serviceName = $serviceNode->getAttribute("name");
-			$serviceClassName = "\\Kaltura\\Client\\Service\\".ucfirst($serviceName)."Service";
+			$serviceClassName = "\\Vidiun\\Client\\Service\\".ucfirst($serviceName)."Service";
 			$this->appendLine("	/**");
 			$this->appendLine("	 * @var $serviceClassName");
 			$this->appendLine("	 */");
@@ -925,9 +925,9 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 		}
 		
 		$this->appendLine("	/**");
-		$this->appendLine("	 * Kaltura client constructor");
+		$this->appendLine("	 * Vidiun client constructor");
 		$this->appendLine("	 *");
-		$this->appendLine("	 * @param \\Kaltura\\Client\\Configuration \$config");
+		$this->appendLine("	 * @param \\Vidiun\\Client\\Configuration \$config");
 		$this->appendLine("	 */");
 		$this->appendLine("	public function __construct(Configuration \$config)");
 		$this->appendLine("	{");
@@ -948,7 +948,7 @@ class Php53ClientGenerator extends ClientGeneratorFromXml
 				
 			$serviceName = $serviceNode->getAttribute("name");
 			$description = $serviceNode->getAttribute("description");
-			$serviceClassName = "\\Kaltura\\Client\\Service\\".ucfirst($serviceName)."Service";
+			$serviceClassName = "\\Vidiun\\Client\\Service\\".ucfirst($serviceName)."Service";
 			
 			$this->appendLine("	/**");
 			$this->appendLine("	 * @return $serviceClassName");
