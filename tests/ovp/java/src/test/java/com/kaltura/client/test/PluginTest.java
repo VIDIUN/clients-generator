@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,10 +25,10 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
-import com.kaltura.client.enums.KalturaMetadataObjectType;
-import com.kaltura.client.types.KalturaMetadataProfile;
+import com.vidiun.client.enums.VidiunMetadataObjectType;
+import com.vidiun.client.types.VidiunMetadataProfile;
 
 
 
@@ -38,13 +38,13 @@ public class PluginTest extends BaseTest {
 		final String testString = "TEST PROFILE";
 		startAdminSession();
 
-		KalturaMetadataProfile profile = new KalturaMetadataProfile();
-		profile.metadataObjectType = KalturaMetadataObjectType.ENTRY;
+		VidiunMetadataProfile profile = new VidiunMetadataProfile();
+		profile.metadataObjectType = VidiunMetadataObjectType.ENTRY;
 		profile.name = "asdasd";
 		profile = client.getMetadataProfileService().add(profile, "<xml></xml>");
 		assertNotNull(profile.id);
 		
-		KalturaMetadataProfile updateProfile = new KalturaMetadataProfile();
+		VidiunMetadataProfile updateProfile = new VidiunMetadataProfile();
 		updateProfile.name = testString;
 		updateProfile = client.getMetadataProfileService().update(profile.id, updateProfile);
 		assertEquals(testString, updateProfile.name);

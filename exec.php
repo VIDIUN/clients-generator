@@ -1,6 +1,6 @@
 <?php
 /**
- * Client Libraries Generator - generate all the clients specified in the given config.ini according to Kaltura API reflection.
+ * Client Libraries Generator - generate all the clients specified in the given config.ini according to Vidiun API reflection.
  *
  * Create your client generator by -
  *      1 Choose a unique name to identify your generator (you can see which names are already in use in file 'config/generator.all.ini').
@@ -39,7 +39,7 @@
  * 							otherwise this should be a url to download schema XML from. Setting this will make the client internal
  *
  * Notes:
- * 		* Kaltura API ignores only un-sent parameters. Thus, if you would like a parameter value to be left unchanged
+ * 		* Vidiun API ignores only un-sent parameters. Thus, if you would like a parameter value to be left unchanged
  * 			or in classes that contain read-only parameters, make sure to NOT send any un-changed parameters in your HTTP requests.
  * 			A common issue with this, is with languages like Java and ActionScript where Boolean variables can't be set to null,
  * 			thus it is uknown if the variable was modified before constructing the HTTP request to the server. If this is the case with your language,
@@ -52,7 +52,7 @@ chdir(__DIR__);
 set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/lib/infra');
 
 require_once(__DIR__ . "/lib/infra/Zend/Config/Ini.php");
-require_once(__DIR__ . "/lib/infra/KalturaLog.php");
+require_once(__DIR__ . "/lib/infra/VidiunLog.php");
 
 require_once(__DIR__ . "/lib/ClientGeneratorFromXml.php");
 require_once(__DIR__ . "/lib/AjaxClientGenerator.php");
@@ -83,7 +83,7 @@ require_once(__DIR__ . "/lib/SwiftClientGenerator.php");
 
 // typescript files
 require_once(__DIR__ . '/lib/typescript/GeneratedFileData.php');
-require_once(__DIR__ . '/lib/typescript/KalturaServerMetadata.php');
+require_once(__DIR__ . '/lib/typescript/VidiunServerMetadata.php');
 require_once(__DIR__ . '/lib/typescript/ClassesGenerator.php');
 require_once(__DIR__ . '/lib/typescript/EnumsGenerator.php');
 require_once(__DIR__ . '/lib/typescript/IndexFilesGenerator.php');
@@ -92,7 +92,7 @@ require_once(__DIR__ . '/lib/NGXClientGenerator.php');
 
 //the name of the summary file that will be used by the UI -
 $summaryFileName = 'summary.kinf';
-$tmpXmlFileName = tempnam(sys_get_temp_dir(), 'kaltura.generator.');
+$tmpXmlFileName = tempnam(sys_get_temp_dir(), 'vidiun.generator.');
 
 $options = getopt('hx:r:t:', array(
 	'help',
@@ -109,7 +109,7 @@ function showHelpAndExit()
 	echo "\tOptions:\n";
 	echo "\t\t-h, --help:   \tShow this help.\n";
 	echo "\t\t-x, --xml:    \tUse XML path or URL as source XML.\n";
-	echo "\t\t-r, --root:   \tRoot path, default is /opt/kaltura.\n";
+	echo "\t\t-r, --root:   \tRoot path, default is /opt/vidiun.\n";
 	echo "\t\t-t, --tests:  \tUse different tests configuration, valid values are OVP or OTT, default is OVP.\n";
 	echo "\t\t--dont-gzip:  \tTar the packages without gzip.\n";
 
@@ -117,7 +117,7 @@ function showHelpAndExit()
 }
 
 $schemaXmlPath = null;
-$rootPath = realpath('/opt/kaltura');
+$rootPath = realpath('/opt/vidiun');
 $testsDir = 'ovp';
 
 $gzip = true;
@@ -166,10 +166,10 @@ if(file_exists($outputPathBase))
 {
 	if(!$schemaXmlPath)
 	{
-		if(file_exists('KalturaClient.xml'))
-			$schemaXmlPath = realpath('KalturaClient.xml');
-		elseif(file_exists("$outputPathBase/KalturaClient.xml"))
-			$schemaXmlPath = fixPath("$outputPathBase/KalturaClient.xml");
+		if(file_exists('VidiunClient.xml'))
+			$schemaXmlPath = realpath('VidiunClient.xml');
+		elseif(file_exists("$outputPathBase/VidiunClient.xml"))
+			$schemaXmlPath = fixPath("$outputPathBase/VidiunClient.xml");
 	}
 }
 else
@@ -201,7 +201,7 @@ if ($generateSingle != null)
 	$libsToGenerate = array_map('strtolower', array_intersect(explode(',', $generateSingle), array_keys($config->toArray())));
 }
 
-KalturaLog::info("Downloading ready-made schema from: $schemaXmlPath");
+VidiunLog::info("Downloading ready-made schema from: $schemaXmlPath");
 $contents = file_get_contents($schemaXmlPath);
 file_put_contents($tmpXmlFileName, $contents);
 
@@ -211,7 +211,7 @@ $xml->load($schemaXmlPath);
 $documentElement = $xml->documentElement;
 $apiVersion = $documentElement->getAttribute("apiVersion");
 $generatedDate = date('d-m-Y', $documentElement->getAttribute("generatedDate"));
-KalturaLog::info("Generating from api version: $apiVersion, generated at: $generatedDate");
+VidiunLog::info("Generating from api version: $apiVersion, generated at: $generatedDate");
 
 if (file_exists($outputPathBase."/".$summaryFileName)){
     $generatedClients=unserialize(file_get_contents($outputPathBase."/".$summaryFileName));
@@ -260,7 +260,7 @@ foreach($config as $name => $item)
 		$generatedClients[$name] = $params;
 	}
 
-	KalturaLog::info("Now generating: $name using $generator");
+	VidiunLog::info("Now generating: $name using $generator");
 
 	// create the API schema to be used by the generator
 	$reflectionClass = new ReflectionClass($generator);
@@ -319,23 +319,23 @@ foreach($config as $name => $item)
 			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
 			{
 				$winOutputPath = realpath($outputPath);
-				KalturaLog::info("Delete old files [$winOutputPath" . ($clearPath ? ", $clearPath" : "") . "]");
+				VidiunLog::info("Delete old files [$winOutputPath" . ($clearPath ? ", $clearPath" : "") . "]");
 				passthru("rmdir /Q /S $winOutputPath $clearPath");
 			}
 			else
 			{
-				KalturaLog::info("Delete old files [$outputPath" . ($clearPath ? ", $clearPath" : "") . "]");
+				VidiunLog::info("Delete old files [$outputPath" . ($clearPath ? ", $clearPath" : "") . "]");
 				passthru("rm -fr $outputPath $clearPath");
 			}
 		}
 	}
 
-	KalturaLog::info("Generate client library [$name]");
+	VidiunLog::info("Generate client library [$name]");
 	$instance->setOutputPath($outputPath, $copyPath);
 	$instance->setTestsPath($testsDir);
 	$instance->generate();
 
-	KalturaLog::info("Saving client library to [$outputPath]");
+	VidiunLog::info("Saving client library to [$outputPath]");
 
 	$oldMask = umask();
 	umask(0);
@@ -347,7 +347,7 @@ foreach($config as $name => $item)
 	if (!$shouldNotPackage)
 		createPackage($outputPath, $name, $generatedDate, $gzip);
 
-	KalturaLog::info("$name generated successfully");
+	VidiunLog::info("$name generated successfully");
 }
 
 //delete the api services xml schema file
@@ -371,11 +371,11 @@ function fixPath($path)
  */
 function createPackage($outputPath, $generatorName, $generatedDate, $gzip)
 {
-	KalturaLog::info("Trying to package");
+	VidiunLog::info("Trying to package");
 	$output = shell_exec("tar --version");
 	if ($output === null)
 	{
-		KalturaLog::warning("Skipping packaging, \"tar\" command not found! On Windows, tar can be installed using Cygwin, and it should be added to the path");
+		VidiunLog::warning("Skipping packaging, \"tar\" command not found! On Windows, tar can be installed using Cygwin, and it should be added to the path");
 	}
 	else
 	{
@@ -386,18 +386,18 @@ function createPackage($outputPath, $generatorName, $generatedDate, $gzip)
 		$oldDir = getcwd();
 
 		$outputPath = realpath($outputPath);
-		KalturaLog::debug("Changing dir to [$outputPath]");
+		VidiunLog::debug("Changing dir to [$outputPath]");
 		chdir($outputPath);
 
-		KalturaLog::info("Executing: $cmd");
+		VidiunLog::info("Executing: $cmd");
 		passthru($cmd);
 
 		if (file_exists($gzipOutputPath))
-			KalturaLog::info("Package created successfully: $gzipOutputPath");
+			VidiunLog::info("Package created successfully: $gzipOutputPath");
 		else
-			KalturaLog::err("Failed to create package");
+			VidiunLog::err("Failed to create package");
 
-		KalturaLog::debug("Restoring dir to [$oldDir]");
+		VidiunLog::debug("Restoring dir to [$oldDir]");
 		chdir($oldDir);
 	}
 }

@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -32,9 +32,9 @@ using System.Web;
 using System.Globalization;
 
 
-namespace Kaltura
+namespace Vidiun
 {
-    public class KalturaParams : SortedList<string, IKalturaSerializable>, IKalturaSerializable
+    public class VidiunParams : SortedList<string, IVidiunSerializable>, IVidiunSerializable
     {
         private bool isArray;
 
@@ -42,7 +42,7 @@ namespace Kaltura
         {
             string[] values = new string[this.Count];
             int index = 0;
-            foreach (KeyValuePair<string, IKalturaSerializable> item in this)
+            foreach (KeyValuePair<string, IVidiunSerializable> item in this)
             {
                 if (isArray)
                     values[index++] = item.Value.ToJson();
@@ -59,7 +59,7 @@ namespace Kaltura
         public string ToQueryString()
         {
             string str = "";
-            foreach (KeyValuePair<string, IKalturaSerializable> item in this)
+            foreach (KeyValuePair<string, IVidiunSerializable> item in this)
                 str += (item.Key + "=" + HttpUtility.UrlEncode(item.Value.ToQueryString()) + "&");
 
             if (str.EndsWith("&"))
@@ -68,32 +68,32 @@ namespace Kaltura
             return str;
         }
 
-        public void Add(KalturaParams properties)
+        public void Add(VidiunParams properties)
         {
             foreach (string key in properties.Keys)
                 Add(key, properties[key]);
         }
 
-        public void Add(string key, KalturaObjectBase kalturaObject)
+        public void Add(string key, VidiunObjectBase vidiunObject)
         {
-            KalturaParams objectProperties = kalturaObject.ToParams();
+            VidiunParams objectProperties = vidiunObject.ToParams();
             Add(key, objectProperties);
         }
 
-        public void AddIfNotNull(string key, KalturaObjectBase kalturaObject)
+        public void AddIfNotNull(string key, VidiunObjectBase vidiunObject)
         {
-            if (kalturaObject != null)
+            if (vidiunObject != null)
             {
-                Add(key, kalturaObject);
+                Add(key, vidiunObject);
             }
         }
 
-        public void AddIfNotNull<T>(string key, IList<T> array) where T : KalturaObjectBase
+        public void AddIfNotNull<T>(string key, IList<T> array) where T : VidiunObjectBase
         {
             if (array == null)
                 return;
 
-            KalturaParams arrayParams = new KalturaParams() { isArray = true };
+            VidiunParams arrayParams = new VidiunParams() { isArray = true };
             if (array.Count == 0)
             {
                 arrayParams.Add("-", "");
@@ -101,7 +101,7 @@ namespace Kaltura
             else
             {
                 int i = 0;
-                foreach (KalturaObjectBase item in array)
+                foreach (VidiunObjectBase item in array)
                 {
                     arrayParams.Add(i.ToString(), item);
                     i++;
@@ -110,12 +110,12 @@ namespace Kaltura
             this.Add(key, arrayParams);
         }
 
-        public void AddIfNotNull<T>(string key, IDictionary<string, T> map) where T : KalturaObjectBase
+        public void AddIfNotNull<T>(string key, IDictionary<string, T> map) where T : VidiunObjectBase
         {
             if (map == null)
                 return;
 
-            KalturaParams arrayParams = new KalturaParams();
+            VidiunParams arrayParams = new VidiunParams();
             if (map.Count == 0)
             {
                 arrayParams.Add("-", "");
@@ -132,34 +132,34 @@ namespace Kaltura
 
         public void Add(string key, string value)
         {
-            this.Add(key, new KalturaParam(value));
+            this.Add(key, new VidiunParam(value));
         }
 
         public void Add(string key, bool value)
         {
-            this.Add(key, new KalturaParam(value));
+            this.Add(key, new VidiunParam(value));
         }
         public void Add(string key, int value)
         {
-            this.Add(key, new KalturaParam(value));
+            this.Add(key, new VidiunParam(value));
         }
         public void Add(string key, long value)
         {
-            this.Add(key, new KalturaParam(value));
+            this.Add(key, new VidiunParam(value));
         }
         public void Add(string key, float value)
         {
-            this.Add(key, new KalturaParam(value));
+            this.Add(key, new VidiunParam(value));
         }
         public void Add(string key, double value)
         {
-            this.Add(key, new KalturaParam(value));
+            this.Add(key, new VidiunParam(value));
         }
 
         public void AddIfNotNull(string key, string value)
         {
             if (value != null)
-                this.Add(key, new KalturaParam(value));
+                this.Add(key, new VidiunParam(value));
         }
 
         public void AddIfNotNull(string key, int value)
@@ -192,7 +192,7 @@ namespace Kaltura
             this.AddIfNotNull(key, value.GetHashCode());
         }
 
-        public void AddIfNotNull(string key, KalturaStringEnum value)
+        public void AddIfNotNull(string key, VidiunStringEnum value)
         {
             if (value != null)
                 this.Add(key, value.ToString());

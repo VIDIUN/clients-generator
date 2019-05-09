@@ -192,7 +192,7 @@
 54 error Please try running this command again as root/Administrator.
 55 error System Linux 3.16.0-4-amd64
 56 error command "/usr/bin/nodejs" "/usr/bin/npm" "install" "learnyounode" "-g"
-57 error cwd /home/jess/projects/kaltura-generated-client-libs/KalturaGeneratedAPIClientsNodeJS/node/tests
+57 error cwd /home/jess/projects/vidiun-generated-client-libs/VidiunGeneratedAPIClientsNodeJS/node/tests
 58 error node -v v0.10.29
 59 error npm -v 1.4.21
 60 error path /usr/local/bin/learnyounode

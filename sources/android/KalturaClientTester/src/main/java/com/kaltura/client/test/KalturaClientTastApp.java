@@ -1,9 +1,9 @@
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import android.app.Application;
 import android.content.Context;
 
-public class KalturaClientTastApp extends Application
+public class VidiunClientTastApp extends Application
 {
     private static Context mContext;
 

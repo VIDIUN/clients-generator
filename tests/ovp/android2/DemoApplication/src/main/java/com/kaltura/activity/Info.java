@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,16 +17,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kaltura.bar.ActionBar;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.MediaEntry;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
-import com.kaltura.enums.States;
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.Media;
-import com.kaltura.sharing.Sharing;
-import com.kaltura.utils.Utils;
+import com.vidiun.bar.ActionBar;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.MediaEntry;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
+import com.vidiun.enums.States;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.Media;
+import com.vidiun.sharing.Sharing;
+import com.vidiun.utils.Utils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;

@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,14 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kaltura.bar.ActionBar;
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.types.KalturaMediaEntry;
-import com.kaltura.enums.States;
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.Media;
-import com.kaltura.sharing.Sharing;
-import com.kaltura.utils.Utils;
+import com.vidiun.bar.ActionBar;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.types.VidiunMediaEntry;
+import com.vidiun.enums.States;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.Media;
+import com.vidiun.sharing.Sharing;
+import com.vidiun.utils.Utils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -32,7 +32,7 @@ import com.nostra13.universalimageloader.core.ImageLoadingListener;
 public class Info extends TemplateActivity {
 
     private String entryId;
-    private KalturaMediaEntry entry;
+    private VidiunMediaEntry entry;
     private LinearLayout ll_info;
     private DownloadEntryTask downloadTask;
     private ImageView iv_thumbnail;
@@ -234,10 +234,10 @@ public class Info extends TemplateActivity {
                     publishProgress(States.LOADING_DATA);
                     try {
                         entry = Media.getEntrybyId(TAG, entryId);
-                    } catch (KalturaApiException e) {
+                    } catch (VidiunApiException e) {
                         e.printStackTrace();
                         Log.w(TAG, "error get entry by id: " + e.getMessage());
-                        entry = new KalturaMediaEntry();
+                        entry = new VidiunMediaEntry();
                     }
                 }
                 Log.w(TAG, "Thread is end");

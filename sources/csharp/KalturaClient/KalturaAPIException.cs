@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -29,9 +29,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kaltura
+namespace Vidiun
 {
-    public class KalturaAPIException : ApplicationException
+    public class VidiunAPIException : ApplicationException
     {
         #region Private Fields
         private string _Code;
@@ -44,7 +44,7 @@ namespace Kaltura
         }
         #endregion
 
-        public KalturaAPIException(string code, string message): base(message)
+        public VidiunAPIException(string code, string message): base(message)
         {
             this._Code = code;
         }

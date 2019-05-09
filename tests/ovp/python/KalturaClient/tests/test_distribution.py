@@ -2,52 +2,52 @@ from __future__ import absolute_import
 
 import unittest
 
-from .utils import KalturaBaseTest
+from .utils import VidiunBaseTest
 
-from KalturaClient.Plugins.ContentDistribution import (
-    KalturaDistributionProfile,
-    KalturaDistributionProfileListResponse,
-    KalturaDistributionProvider,
-    KalturaDistributionProviderListResponse,
-    KalturaEntryDistribution,
-    KalturaEntryDistributionListResponse,
+from VidiunClient.Plugins.ContentDistribution import (
+    VidiunDistributionProfile,
+    VidiunDistributionProfileListResponse,
+    VidiunDistributionProvider,
+    VidiunDistributionProviderListResponse,
+    VidiunEntryDistribution,
+    VidiunEntryDistributionListResponse,
     )
 
 
-class DistributionProviderTests(KalturaBaseTest):
+class DistributionProviderTests(VidiunBaseTest):
 
     def test_list(self):
         resp = self.client.contentDistribution.distributionProvider.list()
-        self.assertIsInstance(resp, KalturaDistributionProviderListResponse)
+        self.assertIsInstance(resp, VidiunDistributionProviderListResponse)
 
         objs = resp.objects
         self.assertIsInstance(objs, list)
 
-        [self.assertIsInstance(o, KalturaDistributionProvider) for o in objs]
+        [self.assertIsInstance(o, VidiunDistributionProvider) for o in objs]
 
 
-class DistributionProfileTests(KalturaBaseTest):
+class DistributionProfileTests(VidiunBaseTest):
 
     def test_list(self):
         resp = self.client.contentDistribution.distributionProfile.list()
-        self.assertIsInstance(resp, KalturaDistributionProfileListResponse)
+        self.assertIsInstance(resp, VidiunDistributionProfileListResponse)
 
         objs = resp.objects
         self.assertIsInstance(objs, list)
 
-        [self.assertIsInstance(o, KalturaDistributionProfile) for o in objs]
+        [self.assertIsInstance(o, VidiunDistributionProfile) for o in objs]
 
 
-class EntryDistributionTests(KalturaBaseTest):
+class EntryDistributionTests(VidiunBaseTest):
 
     def test_list(self):
         resp = self.client.contentDistribution.entryDistribution.list()
-        self.assertIsInstance(resp, KalturaEntryDistributionListResponse)
+        self.assertIsInstance(resp, VidiunEntryDistributionListResponse)
 
         objs = resp.objects
         self.assertIsInstance(objs, list)
 
-        [self.assertIsInstance(o, KalturaEntryDistribution) for o in objs]
+        [self.assertIsInstance(o, VidiunEntryDistribution) for o in objs]
 
 
 def test_suite():

@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,48 +25,48 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import com.kaltura.client.APIOkRequestsExecutor;
-import com.kaltura.client.enums.MediaType;
-import com.kaltura.client.enums.MetadataObjectType;
-import com.kaltura.client.services.BaseEntryService;
-import com.kaltura.client.services.BaseEntryService.DeleteBaseEntryBuilder;
-import com.kaltura.client.services.CategoryEntryService;
-import com.kaltura.client.services.CategoryEntryService.AddCategoryEntryBuilder;
-import com.kaltura.client.services.CategoryService;
-import com.kaltura.client.services.CategoryService.AddCategoryBuilder;
-import com.kaltura.client.services.CategoryService.DeleteCategoryBuilder;
-import com.kaltura.client.services.MediaService;
-import com.kaltura.client.services.MediaService.AddMediaBuilder;
-import com.kaltura.client.services.MediaService.GetMediaBuilder;
-import com.kaltura.client.services.MetadataProfileService;
-import com.kaltura.client.services.MetadataProfileService.AddMetadataProfileBuilder;
-import com.kaltura.client.services.MetadataProfileService.DeleteMetadataProfileBuilder;
-import com.kaltura.client.services.MetadataService;
-import com.kaltura.client.services.MetadataService.AddMetadataBuilder;
-import com.kaltura.client.services.ResponseProfileService;
-import com.kaltura.client.services.ResponseProfileService.AddResponseProfileBuilder;
-import com.kaltura.client.services.ResponseProfileService.DeleteResponseProfileBuilder;
-import com.kaltura.client.types.Category;
-import com.kaltura.client.types.CategoryEntry;
-import com.kaltura.client.types.CategoryEntryFilter;
-import com.kaltura.client.types.DetachedResponseProfile;
-import com.kaltura.client.types.ListResponse;
-import com.kaltura.client.types.MediaEntry;
-import com.kaltura.client.types.Metadata;
-import com.kaltura.client.types.MetadataFilter;
-import com.kaltura.client.types.MetadataProfile;
-import com.kaltura.client.types.ResponseProfile;
-import com.kaltura.client.types.ResponseProfileHolder;
-import com.kaltura.client.types.ResponseProfileMapping;
-import com.kaltura.client.utils.request.MultiRequestBuilder;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
+import com.vidiun.client.APIOkRequestsExecutor;
+import com.vidiun.client.enums.MediaType;
+import com.vidiun.client.enums.MetadataObjectType;
+import com.vidiun.client.services.BaseEntryService;
+import com.vidiun.client.services.BaseEntryService.DeleteBaseEntryBuilder;
+import com.vidiun.client.services.CategoryEntryService;
+import com.vidiun.client.services.CategoryEntryService.AddCategoryEntryBuilder;
+import com.vidiun.client.services.CategoryService;
+import com.vidiun.client.services.CategoryService.AddCategoryBuilder;
+import com.vidiun.client.services.CategoryService.DeleteCategoryBuilder;
+import com.vidiun.client.services.MediaService;
+import com.vidiun.client.services.MediaService.AddMediaBuilder;
+import com.vidiun.client.services.MediaService.GetMediaBuilder;
+import com.vidiun.client.services.MetadataProfileService;
+import com.vidiun.client.services.MetadataProfileService.AddMetadataProfileBuilder;
+import com.vidiun.client.services.MetadataProfileService.DeleteMetadataProfileBuilder;
+import com.vidiun.client.services.MetadataService;
+import com.vidiun.client.services.MetadataService.AddMetadataBuilder;
+import com.vidiun.client.services.ResponseProfileService;
+import com.vidiun.client.services.ResponseProfileService.AddResponseProfileBuilder;
+import com.vidiun.client.services.ResponseProfileService.DeleteResponseProfileBuilder;
+import com.vidiun.client.types.Category;
+import com.vidiun.client.types.CategoryEntry;
+import com.vidiun.client.types.CategoryEntryFilter;
+import com.vidiun.client.types.DetachedResponseProfile;
+import com.vidiun.client.types.ListResponse;
+import com.vidiun.client.types.MediaEntry;
+import com.vidiun.client.types.Metadata;
+import com.vidiun.client.types.MetadataFilter;
+import com.vidiun.client.types.MetadataProfile;
+import com.vidiun.client.types.ResponseProfile;
+import com.vidiun.client.types.ResponseProfileHolder;
+import com.vidiun.client.types.ResponseProfileMapping;
+import com.vidiun.client.utils.request.MultiRequestBuilder;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
 
 public class ResponseProfileTest extends BaseTest{
 

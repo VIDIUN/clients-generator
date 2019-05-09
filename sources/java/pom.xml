@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- -->
 <!-- Maven POM file for packaging and testing the -->
-<!-- KalturaClient Java library. -->
+<!-- VidiunClient Java library. -->
 <!-- -->
 <!-- Contributed by: Mark Ratliff, ratliff@princeton.edu -->
 <!-- -->
@@ -10,21 +10,21 @@
 
 	<!-- Define the GAV coordinate for the project -->
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.kaltura</groupId>
-	<artifactId>KalturaClient</artifactId>
+	<groupId>com.vidiun</groupId>
+	<artifactId>VidiunClient</artifactId>
 	<version>@VERSION@-SNAPSHOT</version>
 
 	<!-- Project description -->
-	<name>KalturaClient Java Library</name>
+	<name>VidiunClient Java Library</name>
 	<description>
-    KalturaClient is a library of Java classes that can be used to interact 
-    with the Kaltura REST API.  More information about the REST API can be
-    found at http://corp.kaltura.com/Products/Kaltura-API  Many of the Java classes
+    VidiunClient is a library of Java classes that can be used to interact 
+    with the Vidiun REST API.  More information about the REST API can be
+    found at http://corp.vidiun.com/Products/Vidiun-API  Many of the Java classes
     in this library are auto-generated from a schema that defines the objects that
     are used to interect with the API.  The current schema can be found at
-    http://www.kaltura.com/api_v3/api_schema.php
+    http://www.vidiun.com/api_v3/api_schema.php
   </description>
-	<url>http://github.com/kaltura/KalturaGeneratedAPIClientsJava</url>
+	<url>http://github.com/vidiun/VidiunGeneratedAPIClientsJava</url>
 
 	<!-- Define the license under which this software can be used. -->
 	<licenses>
@@ -40,19 +40,19 @@
 	<developers>
 		<developer>
 			<name>Jess Portnoy</name>
-			<email>jess.portnoy@kaltura.com</email>
-			<organization>Kaltura</organization>
-			<organizationUrl>http://www.kaltura.com</organizationUrl>
+			<email>jess.portnoy@vidiun.com</email>
+			<organization>Vidiun</organization>
+			<organizationUrl>http://www.vidiun.com</organizationUrl>
 		</developer>
 	</developers>
 
 	<scm>
-		<connection>scm:git:git@github.com:kaltura/KalturaGeneratedAPIClientsJava.git</connection>
-		<developerConnection>scm:git:git@github.com:kaltura/KalturaGeneratedAPIClientsJava.git</developerConnection>
-		<url>scm:git:git@github.com:kaltura/KalturaGeneratedAPIClientsJava.git</url>
+		<connection>scm:git:git@github.com:vidiun/VidiunGeneratedAPIClientsJava.git</connection>
+		<developerConnection>scm:git:git@github.com:vidiun/VidiunGeneratedAPIClientsJava.git</developerConnection>
+		<url>scm:git:git@github.com:vidiun/VidiunGeneratedAPIClientsJava.git</url>
 	</scm>
 
-	<!-- Libraries on which the KalturaClient depends -->
+	<!-- Libraries on which the VidiunClient depends -->
 	<dependencies>
 		<dependency>
 			<groupId>commons-codec</groupId>
@@ -123,7 +123,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- Run the test suite defined in KalturaTestSuite.java -->
+			<!-- Run the test suite defined in VidiunTestSuite.java -->
 			<!-- Build the JAR file without running tests with: mvn -Dmaven.test.skip=true package -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -131,7 +131,7 @@
 				<version>2.18.1</version>
 				<configuration>
 					<includes>
-						<include>**/KalturaTestSuite.java</include>
+						<include>**/VidiunTestSuite.java</include>
 					</includes>
 				</configuration>
 			</plugin>

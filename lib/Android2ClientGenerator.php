@@ -3,7 +3,7 @@ class Android2ClientGenerator extends Java2ClientGenerator
 {
 	function __construct($xmlPath, Zend_Config $config, $sourcePath = "android2")
 	{
-		$this->_baseClientPath = "KalturaClient/" . $this->_baseClientPath;
+		$this->_baseClientPath = "VidiunClient/" . $this->_baseClientPath;
 		parent::__construct($xmlPath, $config, $sourcePath);
 	}
 	
@@ -21,7 +21,7 @@ class Android2ClientGenerator extends Java2ClientGenerator
 	
 	public function generate() 
 	{
-		$this->addFiles("sources/java2/src", "KalturaClient/src/");
+		$this->addFiles("sources/java2/src", "VidiunClient/src/");
 
 		parent::generate();
 	}
@@ -29,7 +29,7 @@ class Android2ClientGenerator extends Java2ClientGenerator
     protected function addFile($fileName, $fileContents, $addLicense = true)
     {
         $excludePaths = array(
-            "KalturaClient/src/main/java/com/kaltura/client/LoggerLog4j.java",
+            "VidiunClient/src/main/java/com/vidiun/client/LoggerLog4j.java",
         );
 
         foreach($excludePaths as $excludePath)

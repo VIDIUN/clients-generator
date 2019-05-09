@@ -1,47 +1,47 @@
-import { KalturaClient } from "../kaltura-client-service";
+import { VidiunClient } from "../vidiun-client-service";
 import { MediaListAction } from "../api/types/MediaListAction";
-import { KalturaMediaListResponse } from "../api/types/KalturaMediaListResponse";
-import { KalturaMediaEntry } from "../api/types/KalturaMediaEntry";
-import { KalturaMediaType } from "../api/types/KalturaMediaType";
+import { VidiunMediaListResponse } from "../api/types/VidiunMediaListResponse";
+import { VidiunMediaEntry } from "../api/types/VidiunMediaEntry";
+import { VidiunMediaType } from "../api/types/VidiunMediaType";
 import { getClient } from "./utils";
-import { LoggerSettings, LogLevels } from "../api/kaltura-logger";
+import { LoggerSettings, LogLevels } from "../api/vidiun-logger";
 import { asyncAssert } from "./utils";
 
 describe(`service "Media" tests`, () => {
-  let kalturaClient: KalturaClient = null;
+  let vidiunClient: VidiunClient = null;
 
   beforeAll(async () => {
     LoggerSettings.logLevel = LogLevels.error; // suspend warnings
 
     return getClient()
       .then(client => {
-        kalturaClient = client;
+        vidiunClient = client;
       }).catch(error => {
           // can do nothing since jasmine will ignore any exceptions thrown from before all
       });
   });
 
   afterAll(() => {
-    kalturaClient = null;
+    vidiunClient = null;
   });
 
   test(`invoke "list" action`, (done) => {
 
-      if (!kalturaClient)
+      if (!vidiunClient)
       {
           done.fail(`failure during 'SessionStart'. aborting test`);
           return;
       }
 
 	  expect.assertions(5);
-    kalturaClient.request(new MediaListAction()).then(
+    vidiunClient.request(new MediaListAction()).then(
       (response) => {
 	      asyncAssert(() => {
-              expect(response instanceof KalturaMediaListResponse).toBeTruthy();
+              expect(response instanceof VidiunMediaListResponse).toBeTruthy();
               expect(response.objects).toBeDefined();
               expect(response.objects instanceof Array).toBeTruthy();
               expect(response.objects.length).toBeGreaterThan(0);
-              expect(response.objects[0] instanceof KalturaMediaEntry).toBeTruthy();
+              expect(response.objects[0] instanceof VidiunMediaEntry).toBeTruthy();
 	      });
 
         done();
@@ -54,9 +54,9 @@ describe(`service "Media" tests`, () => {
 
   /*
     def test_createRemote(self):
-        mediaEntry = KalturaMediaEntry()
+        mediaEntry = VidiunMediaEntry()
         mediaEntry.setName("pytest.MediaTests.test_createRemote")
-        mediaEntry.setMediaType(KalturaMediaType(KalturaMediaType.VIDEO))
+        mediaEntry.setMediaType(VidiunMediaType(VidiunMediaType.VIDEO))
 
         ulFile = getTestFile("DemoVideo.flv")
         uploadTokenId = self.client.media.upload(ulFile)
@@ -69,9 +69,9 @@ describe(`service "Media" tests`, () => {
         self.client.media.delete(mediaEntry.id)
   */
   xtest(`invoke "createRemote" action`, () => {
-    const media = new KalturaMediaEntry({
+    const media = new VidiunMediaEntry({
       name: "typescript.MediaTests.test_createRemote",
-      mediaType: KalturaMediaType.video
+      mediaType: VidiunMediaType.video
     });
   });
 
@@ -79,9 +79,9 @@ describe(`service "Media" tests`, () => {
     /*
       def test_utf8_name(self):
           test_unicode = six.u('\u03dd\xf5\xf6')  #an odd representation of the word 'FOO'
-          mediaEntry = KalturaMediaEntry()
+          mediaEntry = VidiunMediaEntry()
           mediaEntry.setName(u'pytest.MediaTests.test_UTF8_name'+test_unicode)
-          mediaEntry.setMediaType(KalturaMediaType(KalturaMediaType.VIDEO))
+          mediaEntry.setMediaType(VidiunMediaType(VidiunMediaType.VIDEO))
           ulFile = getTestFile('DemoVideo.flv')
           uploadTokenId = self.client.media.upload(ulFile)
 
@@ -91,9 +91,9 @@ describe(`service "Media" tests`, () => {
           self.addCleanup(self.client.media.delete, mediaEntry.getId())
      */
     xtest(`support utf-8 name`, () => {
-      const media = new KalturaMediaEntry({
+      const media = new VidiunMediaEntry({
         name: "typescript.MediaTests.test_UTF8_name" + "\u03dd\xf5\xf6",
-        mediaType: KalturaMediaType.video
+        mediaType: VidiunMediaType.video
       });
     });
 
@@ -101,9 +101,9 @@ describe(`service "Media" tests`, () => {
       def test_utf8_tags(self):
 
           test_unicode = u'\u03dd\xf5\xf6'  #an odd representation of the word 'FOO'
-          mediaEntry = KalturaMediaEntry()
+          mediaEntry = VidiunMediaEntry()
           mediaEntry.setName('pytest.MediaTests.test_UTF8_tags')
-          mediaEntry.setMediaType(KalturaMediaType(KalturaMediaType.VIDEO))
+          mediaEntry.setMediaType(VidiunMediaType(VidiunMediaType.VIDEO))
           ulFile = getTestFile('DemoVideo.flv')
           uploadTokenId = self.client.media.upload(ulFile)
 
@@ -115,9 +115,9 @@ describe(`service "Media" tests`, () => {
           self.addCleanup(self.client.media.delete, mediaEntry.getId())
      */
     xtest(`support utf-8 tags`, () => {
-      const media = new KalturaMediaEntry({
+      const media = new VidiunMediaEntry({
         name: "typescript.MediaTests.test_UTF8_tags",
-        mediaType: KalturaMediaType.video
+        mediaType: VidiunMediaType.video
       });
     });
   });

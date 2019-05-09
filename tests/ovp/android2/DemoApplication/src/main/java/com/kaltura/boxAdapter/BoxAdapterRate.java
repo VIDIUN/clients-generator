@@ -1,4 +1,4 @@
-package com.kaltura.boxAdapter;
+package com.vidiun.boxAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.FlavorAsset;
-import com.kaltura.utils.Utils;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.FlavorAsset;
+import com.vidiun.utils.Utils;
 
 public class BoxAdapterRate extends BaseAdapter {
 

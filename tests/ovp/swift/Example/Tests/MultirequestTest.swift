@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2017  Kaltura Inc.
+// Copyright (C) 2006-2017  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,14 +28,14 @@
 
 /**
  * This class was generated using exec.php
- * against an XML schema provided by Kaltura.
+ * against an XML schema provided by Vidiun.
  *
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
  */
 
 import Quick
 import Nimble
-import KalturaClient
+import VidiunClient
 
 class MultirequestTest: BaseTest {
     var entryIds: [String] = []
@@ -82,7 +82,7 @@ class MultirequestTest: BaseTest {
                 waitUntil(timeout: 500) { done in
                     
                     let entryRequestBuilder = MediaService.list();
-                    entryRequestBuilder.ks = "{2:result}"
+                    entryRequestBuilder.vs = "{2:result}"
                     
                     let requestBuilder = SystemService.ping()
                         .add(request: SessionService.start(secret: self.secret!, userId: nil, type: SessionType.ADMIN, partnerId: self.partnerId))
@@ -118,7 +118,7 @@ class MultirequestTest: BaseTest {
                     let requestBuilder = SystemService.ping()
                         .add(request: loginRequestBuilder)
                         .add(request: entryRequestBuilder)                    
-                        .link(tokenFromRespose: loginRequestBuilder.responseTokenizer, tokenToRequest: entryRequestBuilder.requestTokenizer.ks)
+                        .link(tokenFromRespose: loginRequestBuilder.responseTokenizer, tokenToRequest: entryRequestBuilder.requestTokenizer.vs)
                         .set(completion: {(response: Array<Any?>?, error: ApiException?) in
                             
                             expect(error).to(beNil())

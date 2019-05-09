@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,23 +25,23 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
 /**
  * This file contains constant values that when arrives from the server requires 
  * special behavior. 
  */
-public final class KalturaParamsValueDefaults {
+public final class VidiunParamsValueDefaults {
 	
-	public static final int KALTURA_UNDEF_INT = Integer.MIN_VALUE;
-	public static final int KALTURA_NULL_INT =  Integer.MAX_VALUE;
+	public static final int VIDIUN_UNDEF_INT = Integer.MIN_VALUE;
+	public static final int VIDIUN_NULL_INT =  Integer.MAX_VALUE;
 	
-	public static final double KALTURA_UNDEF_DOUBLE = Double.MIN_VALUE;
-	public static final double KALTURA_NULL_DOUBLE =  Double.MAX_VALUE;
+	public static final double VIDIUN_UNDEF_DOUBLE = Double.MIN_VALUE;
+	public static final double VIDIUN_NULL_DOUBLE =  Double.MAX_VALUE;
 	
-	public static final long KALTURA_UNDEF_LONG =  Long.MIN_VALUE;
-	public static final long KALTURA_NULL_LONG =  Long.MAX_VALUE;
+	public static final long VIDIUN_UNDEF_LONG =  Long.MIN_VALUE;
+	public static final long VIDIUN_NULL_LONG =  Long.MAX_VALUE;
 	
-	public static final String KALTURA_NULL_STRING =  "__null_string__";
+	public static final String VIDIUN_NULL_STRING =  "__null_string__";
 	
 }

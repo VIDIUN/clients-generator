@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.kaltura.com/bpm">
-  <process id="kaltura-service-action" name="kaltura-service-action" isExecutable="true">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.vidiun.com/bpm">
+  <process id="vidiun-service-action" name="vidiun-service-action" isExecutable="true">
     <startEvent id="start" name="start"></startEvent>
     <scriptTask id="do" name="do" scriptFormat="javascript">
       <script>
@@ -14,8 +14,8 @@
     <sequenceFlow id="flow2" sourceRef="do" targetRef="end"></sequenceFlow>
     <dataObject id="client" name="client" itemSubjectRef="xsd:string"></dataObject>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_kaltura-service-action">
-    <bpmndi:BPMNPlane bpmnElement="kaltura-service-action" id="BPMNPlane_kaltura-service-action">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_vidiun-service-action">
+    <bpmndi:BPMNPlane bpmnElement="vidiun-service-action" id="BPMNPlane_vidiun-service-action">
       <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
         <omgdc:Bounds height="35.0" width="35.0" x="190.0" y="10.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>

@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2019  Kaltura Inc.
+// Copyright (C) 2006-2019  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -29,14 +29,14 @@ using System;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Xml;
-using Kaltura.Types;
+using Vidiun.Types;
 using Newtonsoft.Json.Linq;
 
-namespace Kaltura
+namespace Vidiun
 {
     public static class ObjectFactory
     {
-        private static Regex prefixRegex = new Regex("^Kaltura");
+        private static Regex prefixRegex = new Regex("^Vidiun");
 
         public static T Create<T>(JToken jToken)where T : ObjectBase
         {
@@ -48,7 +48,7 @@ namespace Kaltura
             string className = jToken["objectType"].Value<string>();
             className = prefixRegex.Replace(className, "");
 
-            Type type = Type.GetType("Kaltura.Types." + className);
+            Type type = Type.GetType("Vidiun.Types." + className);
             if (type == null)
             {
                 type = typeof(T);

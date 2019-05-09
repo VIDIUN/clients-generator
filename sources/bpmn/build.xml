@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Kaltura BPMN Deployment" default="deploy">
+<project name="Vidiun BPMN Deployment" default="deploy">
 
 	<property environment="env" />
 	<property name="java.lib.path" value="${basedir}/../pojo" />
 	<property name="jar.lib.path" value="${basedir}/../pojo/target" />
-	<property name="bar.filename" value="${basedir}/KalturaClientLib.bar" />
+	<property name="bar.filename" value="${basedir}/VidiunClientLib.bar" />
 
 	<target name="set-home" depends="install-contrib">
 		<if>
@@ -29,7 +29,7 @@
 				</not>
 			</condition>
 		</fail>
-		<input message="Please enter Kaltura client lib version" addproperty="kaltura.client.version" defaultvalue="@VERSION@" />
+		<input message="Please enter Vidiun client lib version" addproperty="vidiun.client.version" defaultvalue="@VERSION@" />
 	</target>
 		
 	<target name="check-contrib">
@@ -132,7 +132,7 @@
 				<fail message="BAR file [${bar.filename}] is missing, please run bar target first." />
 			</then>
 		</if>
-		<java classname="com.kaltura.bpmn.deploy.DeployAllProcesses" failonerror="true">
+		<java classname="com.vidiun.bpmn.deploy.DeployAllProcesses" failonerror="true">
 			<classpath path="${basedir}/deploy/bin">
 				<fileset dir="${catalina.home}/webapps/activiti-explorer##5.17.0/WEB-INF/lib">
 					<include name="*.jar" />

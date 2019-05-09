@@ -1,29 +1,29 @@
 
 /**
  * Class that represents a single request, as stand alone or as part of multi-request
- * @class kDialog
+ * @class vDialog
  */
-function kDialog(){
+function vDialog(){
 }
 
-kDialog.prototype = {};
-kDialog.prototype.className = 'kDialog';
-kDialog.prototype.params = null;
-kDialog.prototype.name = null;
-kDialog.prototype.parent = null;
-kDialog.prototype.jqElement = null;
-kDialog.prototype.jqParamsContainer = null;
-kDialog.prototype.level = 0;
-kDialog.prototype.fields = {};
-kDialog.prototype.fieldsCount = 0;
-kDialog.prototype.childDialog = null;
-kDialog.prototype.dialogValueChangeCallback = null;
-kDialog.prototype.dialogCloseCallback = null;
+vDialog.prototype = {};
+vDialog.prototype.className = 'vDialog';
+vDialog.prototype.params = null;
+vDialog.prototype.name = null;
+vDialog.prototype.parent = null;
+vDialog.prototype.jqElement = null;
+vDialog.prototype.jqParamsContainer = null;
+vDialog.prototype.level = 0;
+vDialog.prototype.fields = {};
+vDialog.prototype.fieldsCount = 0;
+vDialog.prototype.childDialog = null;
+vDialog.prototype.dialogValueChangeCallback = null;
+vDialog.prototype.dialogCloseCallback = null;
 
 /**
  * Initialize objects
  */
-kDialog.prototype.init = function(parentDialog){
+vDialog.prototype.init = function(parentDialog){
 	if(parentDialog){
 		this.parent = parentDialog;
 		this.level = parentDialog.getLevel() + 1;
@@ -35,14 +35,14 @@ kDialog.prototype.init = function(parentDialog){
 	this.jqParamsContainer = jQuery('<div class="action-params"></div>');
 	this.jqElement.append(this.jqParamsContainer);
 	
-	kTestMe.appendDialog(this);
+	vTestMe.appendDialog(this);
 
-	this.jqElement.css("height", kTestMe.testmeHeight - 30);
+	this.jqElement.css("height", vTestMe.testmeHeight - 30);
 	this.jqElement.css("left", this.getLevel() * 300);
 	this.jqElement.show(1, delegate(this, this.scrollIntoView));
 };
 
-kDialog.prototype.clear = function(){
+vDialog.prototype.clear = function(){
 	this.closeChildDialog(true);
 	this.jqParamsContainer.empty();
 	this.fields = new Object();
@@ -50,25 +50,25 @@ kDialog.prototype.clear = function(){
 	this.childDialog = null;
 };
 
-kDialog.prototype.getName = function(){
+vDialog.prototype.getName = function(){
 	return this.name;
 };
 
-kDialog.prototype.getLevel = function(){
+vDialog.prototype.getLevel = function(){
 	return this.level;
 };
 
-kDialog.prototype.scrollIntoView = function(){
-	kTestMe.jqWindow.scrollTo(this.jqElement, 1);
+vDialog.prototype.scrollIntoView = function(){
+	vTestMe.jqWindow.scrollTo(this.jqElement, 1);
 };
 
-kDialog.prototype.closeChildDialog = function(remove){
+vDialog.prototype.closeChildDialog = function(remove){
 	if(this.childDialog != null)
 		this.childDialog.close(remove);
 };
 
-kDialog.prototype.close = function(remove){
-	kTestMe.log.debug("[" + this.className + ".close] Closing dialog");
+vDialog.prototype.close = function(remove){
+	vTestMe.log.debug("[" + this.className + ".close] Closing dialog");
 	this.closeChildDialog(remove);
 	if(remove){
 		this.jqElement.remove();
@@ -83,52 +83,52 @@ kDialog.prototype.close = function(remove){
 	this.onDialogClose();
 };
 
-kDialog.prototype.open = function(){
-	kTestMe.log.debug("[kDialog.open] Opening dialog");
+vDialog.prototype.open = function(){
+	vTestMe.log.debug("[vDialog.open] Opening dialog");
 	this.jqElement.show();
 	this.scrollIntoView();
 };
 
-kDialog.prototype.onChildDialogOpen = function(dialog){
+vDialog.prototype.onChildDialogOpen = function(dialog){
 	if(this.childDialog != null && this.childDialog != dialog)
 		this.childDialog.close(false);
 		
 	this.childDialog = dialog;
 };
 
-kDialog.prototype.onChildDialogClose = function(dialog){
+vDialog.prototype.onChildDialogClose = function(dialog){
 	this.childDialog = null;
 };
 
-kDialog.prototype.dialogClose = function(callback) {
+vDialog.prototype.dialogClose = function(callback) {
 	this.dialogCloseCallback = callback;
 },
 
-kDialog.prototype.onDialogClose = function(){
+vDialog.prototype.onDialogClose = function(){
 	if(this.dialogCloseCallback)
 		this.dialogCloseCallback.apply(this, [this]);
 };
 
-kDialog.prototype.dialogValueChange = function(callback) {
+vDialog.prototype.dialogValueChange = function(callback) {
 	if(this.dialogValueChangeCallback != null)
 		alert('this.dialogValueChangeCallback');
 	
 	this.dialogValueChangeCallback = callback;
 };
 
-kDialog.prototype.onDialogValueChange = function(dialog){
+vDialog.prototype.onDialogValueChange = function(dialog){
 	if(this.dialogValueChangeCallback)
 		this.dialogValueChangeCallback.apply(this, [this]);
 };
 
-kDialog.prototype.setParameters = function(parameters){
+vDialog.prototype.setParameters = function(parameters){
 	this.params = parameters;
 	
 	if(this.params.name != null)
 		this.name = this.params.name;
 };
 
-kDialog.prototype.loadFields = function(){
+vDialog.prototype.loadFields = function(){
 	
 	this.clear();
 	
@@ -142,27 +142,27 @@ kDialog.prototype.loadFields = function(){
 			if (param.isComplexType)
 			{
 				if (param.isEnum || param.isStringEnum)
-					field = new kEnumField(param, this.jqParamsContainer);
+					field = new vEnumField(param, this.jqParamsContainer);
 				else if (param.isArray)
-					field = new kArrayField(param, this.jqParamsContainer, this.getLevel());
+					field = new vArrayField(param, this.jqParamsContainer, this.getLevel());
 				else{
-					field = new kObjectField(param, this.jqParamsContainer, this.getLevel());
+					field = new vObjectField(param, this.jqParamsContainer, this.getLevel());
 				}
 			}
 			else if (param.isFile)
 			{
-				field = new kFileField(param, this.jqParamsContainer);
+				field = new vFileField(param, this.jqParamsContainer);
 			}
 			else
 			{
-				field = new kSimpleField(param, this.jqParamsContainer);
+				field = new vSimpleField(param, this.jqParamsContainer);
 			}
 			this.onFieldAdd(field);
 		}
 	}
 };
 
-kDialog.prototype.loadValues = function(object){
+vDialog.prototype.loadValues = function(object){
 	if(object == null)
 		return;
 	
@@ -176,11 +176,11 @@ kDialog.prototype.loadValues = function(object){
 	}
 };
 
-kDialog.prototype.getField = function(fieldName){
+vDialog.prototype.getField = function(fieldName){
 	return this.fields[fieldName];
 };
 
-kDialog.prototype.getValue = function(){
+vDialog.prototype.getValue = function(){
 	var value = {};
 	
 	if(this.params != null){
@@ -194,7 +194,7 @@ kDialog.prototype.getValue = function(){
 	return value;
 };
 
-kDialog.prototype.onFieldAdd = function(field){
+vDialog.prototype.onFieldAdd = function(field){
 	field.dialogOpen(delegate(this, this.onChildDialogOpen));
 	field.dialogClose(delegate(this, this.onChildDialogClose));
 	field.valueChange(delegate(this, this.onDialogValueChange));
@@ -203,7 +203,7 @@ kDialog.prototype.onFieldAdd = function(field){
 	this.fieldsCount++;
 };
 
-kDialog.prototype.removeRequest = function(removeSubRequestAction){
+vDialog.prototype.removeRequest = function(removeSubRequestAction){
 
     if(this.keepRequest)
             return;
@@ -230,70 +230,70 @@ kDialog.prototype.removeRequest = function(removeSubRequestAction){
 
 /**
  * Class that represents a single request, as stand alone or as part of multi-request
- * @class kObjectDialog
+ * @class vObjectDialog
  */
-function kObjectDialog(parent){
+function vObjectDialog(parent){
 	if(parent){
 		this.init(parent);
 		this.name = parent.getFullName();
 	}
 }
 
-kObjectDialog.prototype = new kDialog();
-kObjectDialog.prototype.className = 'kObjectDialog';
-kObjectDialog.prototype.object = {};
+vObjectDialog.prototype = new vDialog();
+vObjectDialog.prototype.className = 'vObjectDialog';
+vObjectDialog.prototype.object = {};
 
-kObjectDialog.prototype.onFieldAdd = function(field){
-	kDialog.prototype.onFieldAdd.apply(this, arguments);
+vObjectDialog.prototype.onFieldAdd = function(field){
+	vDialog.prototype.onFieldAdd.apply(this, arguments);
 	field.valueChange(delegate(this, this.onValueChange));
 };
 
-kObjectDialog.prototype.loadValues = function(object){
+vObjectDialog.prototype.loadValues = function(object){
 	if(object == null)
 		return;
 	
 	this.object = object;
 	
-	kDialog.prototype.loadValues.apply(this, arguments);
+	vDialog.prototype.loadValues.apply(this, arguments);
 };
 
-kObjectDialog.prototype.onValueChange = function(field){
+vObjectDialog.prototype.onValueChange = function(field){
 	this.object[field.name] = field.getValue();
 	this.onDialogValueChange(this);
 };
 
-kObjectDialog.prototype.setParameters = function(parameters){
-	kDialog.prototype.setParameters.apply(this, arguments);
+vObjectDialog.prototype.setParameters = function(parameters){
+	vDialog.prototype.setParameters.apply(this, arguments);
 	
 	if(this.object != null)
 		this.loadValues(this.object);
 };
 
-kObjectDialog.prototype.getValue = function(){
+vObjectDialog.prototype.getValue = function(){
 	return this.object;
 };
 
 
 /**
  * Class that represents a single request, as stand alone or as part of multi-request
- * @param kCallLink parent
- * @class kCall
+ * @param vCallLink parent
+ * @class vCall
  */
-function kCall(parent, index){
+function vCall(parent, index){
 	this.name = index;
 	
 	if(parent)
 		this.init(parent);
 }
 
-kCall.prototype = new kDialog();
-kCall.prototype.className = 'kCall';
-kCall.prototype.jqServiceInput = null;
-kCall.prototype.jqServiceHelp = null;
-kCall.prototype.jqActionInput = null;
-kCall.prototype.jqActionHelp = null;
+vCall.prototype = new vDialog();
+vCall.prototype.className = 'vCall';
+vCall.prototype.jqServiceInput = null;
+vCall.prototype.jqServiceHelp = null;
+vCall.prototype.jqActionInput = null;
+vCall.prototype.jqActionHelp = null;
 
-kCall.prototype.getName = function(){
+vCall.prototype.getName = function(){
 	var serviceId = this.getServiceId();
 	var actionId = this.getActionId();	
 	return serviceId + '.' + actionId;
@@ -301,11 +301,11 @@ kCall.prototype.getName = function(){
 
 /**
  * Initialize objects
- * @param kCallLink parent
+ * @param vCallLink parent
  */
-kCall.prototype.init = function(parent){
+vCall.prototype.init = function(parent){
 	
-	kDialog.prototype.init.apply(this, arguments);
+	vDialog.prototype.init.apply(this, arguments);
 	
 	// create service parameter
 	var jqServiceParam = jQuery('<div class="param"><label for="' + this.name + ':service">Select service:</label></div>');
@@ -325,7 +325,7 @@ kCall.prototype.init = function(parent){
 	
 	this.initListeners();
 	
-	var services = kTestMe.getServices();
+	var services = vTestMe.getServices();
 	for(var serviceId in services){
 		var service = services[serviceId];
 		var label = service.name;
@@ -339,7 +339,7 @@ kCall.prototype.init = function(parent){
 /**
  * Initialize objects listeners
  */
-kCall.prototype.initListeners = function(){
+vCall.prototype.initListeners = function(){
 	this.jqServiceInput.change(delegate(this, this.onServiceChange));
 	this.jqActionInput.change(delegate(this, this.onActionChange));
 	
@@ -349,7 +349,7 @@ kCall.prototype.initListeners = function(){
 /**
  * Returns textual description of the call
  */
-kCall.prototype.getTitle = function(){
+vCall.prototype.getTitle = function(){
 	var serviceId = this.getServiceId();
 	if(serviceId == 'multirequest')
 		return 'Multi-request (' + this.fieldsCount + ')';
@@ -360,7 +360,7 @@ kCall.prototype.getTitle = function(){
 /**
  * Returns the current request data
  */
-kCall.prototype.getRequest = function(requestIndex){
+vCall.prototype.getRequest = function(requestIndex){
 
 	var ret = {
 			index: requestIndex,
@@ -371,7 +371,7 @@ kCall.prototype.getRequest = function(requestIndex){
 	};
 
 	// adding history index class
-	kTestMe.jqObjectsContainer.find('input,select').each(function(){
+	vTestMe.jqObjectsContainer.find('input,select').each(function(){
 		var field = jQuery(this);
 		if(!field.hasClass('history'))
 			field.addClass('history history-field' + requestIndex);
@@ -395,13 +395,13 @@ kCall.prototype.getRequest = function(requestIndex){
 /**
  * Set and append request data
  */
-kCall.prototype.setRequest = function(request){
+vCall.prototype.setRequest = function(request){
 	this.close();
 
 	this.removeRequest(true);
 	
 	// restore input names from their ids
-	kTestMe.jqObjectsContainer.find('.history-field' + request.index).each(function(){
+	vTestMe.jqObjectsContainer.find('.history-field' + request.index).each(function(){
 		var field = jQuery(this);
 		field.removeClass('history');
 		if(!field.attr('name').length)
@@ -424,8 +424,8 @@ kCall.prototype.setRequest = function(request){
 	this.jqParamsContainer.show();
 };
 
-kCall.prototype.getValue = function(){
-	var value = kDialog.prototype.getValue.apply(this, arguments);
+vCall.prototype.getValue = function(){
+	var value = vDialog.prototype.getValue.apply(this, arguments);
 
 	value['service'] = this.getServiceId();
 	value['action'] = this.getActionId();
@@ -436,14 +436,14 @@ kCall.prototype.getValue = function(){
 /**
  * Returns the current request dialon level
  */
-kCall.prototype.getLevel = function(){
+vCall.prototype.getLevel = function(){
 	return 1;
 };
 
 /**
  * Return the service select box value
  */
-kCall.prototype.getServiceId = function(){
+vCall.prototype.getServiceId = function(){
 	return this.jqServiceInput.val();
 };
 
@@ -451,19 +451,19 @@ kCall.prototype.getServiceId = function(){
  * Set the service select box value
  * @param string serviceId
  */
-kCall.prototype.setServiceId = function(serviceId){
+vCall.prototype.setServiceId = function(serviceId){
 	if(serviceId != null)
 		this.jqServiceInput.val(serviceId);
 };
 
-kCall.prototype.isMultiRequest = function(){
+vCall.prototype.isMultiRequest = function(){
 	return (this.getServiceId() == 'multirequest');
 };
 
 /**
  * Return the service name
  */
-kCall.prototype.getService = function(){
+vCall.prototype.getService = function(){
 	var serviceId = this.getServiceId();
 	var serviceParts = serviceId.split('_');
 	if(serviceParts.length == 1)
@@ -478,7 +478,7 @@ kCall.prototype.getService = function(){
 /**
  * Return the plugin name
  */
-kCall.prototype.getPlugin = function(){
+vCall.prototype.getPlugin = function(){
 	var serviceId = this.getServiceId();
 	var serviceParts = serviceId.split('_');
 	if(serviceParts.length == 2)
@@ -490,11 +490,11 @@ kCall.prototype.getPlugin = function(){
 /**
  * Set the service and action
  */
-kCall.prototype.setAction = function(serviceId, actionId){
-	kTestMe.log.debug("[kCall.setAction] service [' + serviceId + '] action [' + actionId + ']");
+vCall.prototype.setAction = function(serviceId, actionId){
+	vTestMe.log.debug("[vCall.setAction] service [' + serviceId + '] action [' + actionId + ']");
 	
 	if(serviceId == null){
-		kTestMe.log.error("[kCall.setAction] invalid service id");
+		vTestMe.log.error("[vCall.setAction] invalid service id");
 		return;
 	}
 	
@@ -505,7 +505,7 @@ kCall.prototype.setAction = function(serviceId, actionId){
 /**
  * Lock the service select box and return its value
  */
-kCall.prototype.getLockedServiceId = function(){
+vCall.prototype.getLockedServiceId = function(){
 	this.jqServiceInput.attr('disabled', true);
 	return this.getServiceId();
 };
@@ -513,7 +513,7 @@ kCall.prototype.getLockedServiceId = function(){
 /**
  * Unlock the service select box and return its value
  */
-kCall.prototype.getUnLockedServiceId = function(){
+vCall.prototype.getUnLockedServiceId = function(){
 	var serviceId = this.jqServiceInput.val();
 	this.jqServiceInput.attr('disabled', false);
 	return serviceId;
@@ -522,14 +522,14 @@ kCall.prototype.getUnLockedServiceId = function(){
 /**
  * Return the action select box value
  */
-kCall.prototype.getActionId = function(){
+vCall.prototype.getActionId = function(){
 	return this.jqActionInput.val();
 };
 
 /**
  * Set the action select box value
  */
-kCall.prototype.setActionId = function(actionId){
+vCall.prototype.setActionId = function(actionId){
 	if(actionId != null)
 		this.jqActionInput.val(actionId);
 };
@@ -537,7 +537,7 @@ kCall.prototype.setActionId = function(actionId){
 /**
  * Lock the action select box and return its value
  */
-kCall.prototype.getLockedActionId = function(){
+vCall.prototype.getLockedActionId = function(){
 	this.jqActionInput.attr('disabled', true);
 	return this.getActionId();
 };
@@ -545,17 +545,17 @@ kCall.prototype.getLockedActionId = function(){
 /**
  * Unlock the action select box and return its value
  */
-kCall.prototype.getUnLockedActionId = function(){
+vCall.prototype.getUnLockedActionId = function(){
 	var actionId = this.jqActionInput.val();
 	this.jqActionInput.attr('disabled', false);
 	return actionId;
 };
 
-kCall.prototype.ready = function(callback){
+vCall.prototype.ready = function(callback){
 	this.readyCallback = callback;
 };
 
-kCall.prototype.onServiceChange = function(actionId){
+vCall.prototype.onServiceChange = function(actionId){
 	var serviceId = this.getLockedServiceId();
 	
 	if(serviceId == ""){
@@ -565,7 +565,7 @@ kCall.prototype.onServiceChange = function(actionId){
 
 	this.loadActionId = actionId;
 	this.jqActionInput.attr('disabled', true);
-	if(kTestMe.serviceActionsLoaded(serviceId)){
+	if(vTestMe.serviceActionsLoaded(serviceId)){
 		this.loadActionsList();
 		return;
 	}
@@ -581,29 +581,29 @@ kCall.prototype.onServiceChange = function(actionId){
 	});
 };
 
-kCall.prototype.onActionsListFail = function(){
+vCall.prototype.onActionsListFail = function(){
 	this.getUnLockedServiceId();
 	this.jqActionInput.parent().hide();
 	this.clear();
 };
 
-kCall.prototype.onActionsListLoad = function(data){
+vCall.prototype.onActionsListLoad = function(data){
 	var serviceId = this.getLockedServiceId();
 
 	jQuery.each(data, delegate(this, function (index, item) {
-		kTestMe.registerAction(serviceId, item.action, item.name, item.label);
+		vTestMe.registerAction(serviceId, item.action, item.name, item.label);
 	}));
 
 	this.loadActionsList();
 };
 
-kCall.prototype.loadActionsList = function(){
+vCall.prototype.loadActionsList = function(){
 	var serviceId = this.getUnLockedServiceId();
 
 	this.jqActionInput.parent().show();
 	this.jqActionInput.empty();
 	
-	var actions = kTestMe.getServiceActions(serviceId);
+	var actions = vTestMe.getServiceActions(serviceId);
 	for(var actionId in actions){
 		if(actionId == 'length')
 			continue;
@@ -622,16 +622,16 @@ kCall.prototype.loadActionsList = function(){
 		this.onActionChange();
 };
 
-kCall.prototype.clear = function(){
-	kDialog.prototype.clear.apply(this, arguments);
+vCall.prototype.clear = function(){
+	vDialog.prototype.clear.apply(this, arguments);
 };
 
-kCall.prototype.onActionChange = function(){
+vCall.prototype.onActionChange = function(){
 	var serviceId = this.getLockedServiceId();
 	var actionId = this.getLockedActionId();
 	
 	this.removeRequest(false);
-	if(kTestMe.actionParamsLoaded(serviceId, actionId)){
+	if(vTestMe.actionParamsLoaded(serviceId, actionId)){
 		this.loadActionParams();
 		return;
 	}
@@ -645,7 +645,7 @@ kCall.prototype.onActionChange = function(){
 	);
 };
 
-kCall.prototype.onActionParamsLoad = function(data){
+vCall.prototype.onActionParamsLoad = function(data){
 	var serviceId = this.getLockedServiceId();
 	var actionId = this.getLockedActionId();
 	
@@ -653,31 +653,31 @@ kCall.prototype.onActionParamsLoad = function(data){
 	this.closeChildDialog(true);
 	
 	jQuery.each(data.actionParams, delegate(this, function (index, param) {
-		kTestMe.registerActionParam(serviceId, actionId, param);
+		vTestMe.registerActionParam(serviceId, actionId, param);
 	}));
 	
 	this.jqActionHelp.tooltip({showURL: false, delay: 0, extraClass: 'helpTooltip', showBody: ' - '});
 	this.loadActionParams();
 };
 
-kCall.prototype.loadActionParams = function(){
+vCall.prototype.loadActionParams = function(){
 	var serviceId = this.getUnLockedServiceId();
 	var actionId = this.getUnLockedActionId();
-	var params = kTestMe.getActionParams(serviceId, actionId);
+	var params = vTestMe.getActionParams(serviceId, actionId);
 	if(params)
 		this.setParameters(params);
 	this.loadFields();
 
-	if(kTestMe.call.readyCallback)
-		kTestMe.call.readyCallback.apply(this, [this]);
+	if(vTestMe.call.readyCallback)
+		vTestMe.call.readyCallback.apply(this, [this]);
 };
 
 /**
  * Class that represents the first request, as stand alone or as multi-request container
- * @class kMainCall
+ * @class vMainCall
  * @param id the id of the html element that contains all the request attributes.
  */
-function kMainCall(id){
+function vMainCall(id){
 	this.name = null;
 	this.jqElement = jQuery('#' + id);
 
@@ -694,10 +694,10 @@ function kMainCall(id){
 		var field;
 		
 		if(jqParam.find('select').size() > 0){
-			field = new kEnumField();
+			field = new vEnumField();
 		}
 		else{
-			field = new kSimpleField();
+			field = new vSimpleField();
 		}
 		field.load(jqParam);
 		scope.onFieldAdd(field);
@@ -705,42 +705,42 @@ function kMainCall(id){
 	this.initListeners();
 }
 
-kMainCall.prototype = new kCall();
-kMainCall.prototype.className = 'kMainCall';
-kMainCall.prototype.jqAddCall = null;
+vMainCall.prototype = new vCall();
+vMainCall.prototype.className = 'vMainCall';
+vMainCall.prototype.jqAddCall = null;
 
-kMainCall.prototype.getName = function(){
+vMainCall.prototype.getName = function(){
 	var serviceId = this.getServiceId();
 	
 	if(serviceId == 'multirequest')
 		return 'multirequest';
 	
-	return kCall.prototype.getName.apply(this, arguments);
+	return vCall.prototype.getName.apply(this, arguments);
 };
 
-kMainCall.prototype.close = function(remove){
+vMainCall.prototype.close = function(remove){
 	this.closeChildDialog(remove);
 };
 
-kMainCall.prototype.initListeners = function(){
-	kCall.prototype.initListeners.apply(this, arguments);
+vMainCall.prototype.initListeners = function(){
+	vCall.prototype.initListeners.apply(this, arguments);
 	
 	this.jqAddCall.click(delegate(this, this.addCall));
 };
 
-kMainCall.prototype.addCall = function(){
-	var field = new kCallLink(this.jqParamsContainer);
+vMainCall.prototype.addCall = function(){
+	var field = new vCallLink(this.jqParamsContainer);
 	this.onFieldAdd(field);
 };
 
-kMainCall.prototype.onChildDialogOpen = function(dialog){
+vMainCall.prototype.onChildDialogOpen = function(dialog){
 	if(this.childDialog != null && this.childDialog != dialog)
 		this.childDialog.close(false);
 		
 	this.childDialog = dialog;
 };
 
-kMainCall.prototype.onServiceChange = function(actionId){
+vMainCall.prototype.onServiceChange = function(actionId){
 	var serviceId = this.getLockedServiceId();
 	
 	if(serviceId == 'multirequest'){
@@ -752,15 +752,15 @@ kMainCall.prototype.onServiceChange = function(actionId){
 	}
 	else{
 		this.jqAddCall.parent().hide();
-		kCall.prototype.onServiceChange.apply(this, arguments);
+		vCall.prototype.onServiceChange.apply(this, arguments);
 	}
 };
 
-kMainCall.prototype.getLevel = function(){
+vMainCall.prototype.getLevel = function(){
 	return 0;
 };
 
-kMainCall.prototype.initMultirequest = function(){
+vMainCall.prototype.initMultirequest = function(){
 	this.jqAddCall.parent().show();
 	this.jqActionInput.parent().hide();
 	this.clear();

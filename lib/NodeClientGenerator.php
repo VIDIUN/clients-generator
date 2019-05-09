@@ -14,7 +14,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 	/**
 	 * Constructor.
 	 * @param string $xmlPath path to schema xml.
-	 * @link http://www.kaltura.com/api_v3/api_schema.php
+	 * @link http://www.vidiun.com/api_v3/api_schema.php
 	 */
 	function __construct($xmlPath, Zend_Config $config, $sourcePath = "node")
 	{
@@ -54,7 +54,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 					
 				case 'classes':
 					$this->echoLine($this->voClasses, "var util = require('util');");
-					$this->echoLine($this->voClasses, "var kaltura = require('./KalturaClientBase');");
+					$this->echoLine($this->voClasses, "var vidiun = require('./VidiunClientBase');");
 					$this->echoLine($this->voClasses, "");
 					
 					//create object classes
@@ -66,7 +66,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 					
 				case 'services':
 					$this->echoLine($this->serviceClasses, "var util = require('util');");
-					$this->echoLine($this->serviceClasses, "var kaltura = require('./KalturaClientBase');");
+					$this->echoLine($this->serviceClasses, "var vidiun = require('./VidiunClientBase');");
 					$this->echoLine($this->serviceClasses, "");
 					
 					//implement services (api actions)
@@ -87,10 +87,10 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 		//write main class (if needed, this can also be included in the static sources folder if not dynamic)
 		$this->writeMainClass($services, $configurations);
 		
-		$this->addFile('KalturaTypes.js', $this->enumTypes);
-		$this->addFile('KalturaVO.js', $this->voClasses);
-		$this->addFile('KalturaServices.js', $this->serviceClasses);
-		$this->addFile('KalturaClient.js', $this->mainClass);
+		$this->addFile('VidiunTypes.js', $this->enumTypes);
+		$this->addFile('VidiunVO.js', $this->voClasses);
+		$this->addFile('VidiunServices.js', $this->serviceClasses);
+		$this->addFile('VidiunClient.js', $this->mainClass);
 		//write project file (if needed, this can also be included in the static sources folder if not dynamic)
 		$this->writeProjectFile();
 	}
@@ -188,7 +188,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 			$this->echoLine($this->voClasses, "util.inherits($clasName, $parentClass);");
 		} else
 		{
-			$this->echoLine($this->voClasses, "util.inherits($clasName, kaltura.KalturaObjectBase);");
+			$this->echoLine($this->voClasses, "util.inherits($clasName, vidiun.VidiunObjectBase);");
 		}
 		$this->echoLine($this->voClasses, "\n");
 	}
@@ -204,18 +204,18 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 			return;
 				
 		$serviceName = $serviceNodes->attributes()->name;
-		$serviceClassName = 'Kaltura' . $this->upperCaseFirstLetter($serviceName) . 'Service';
+		$serviceClassName = 'Vidiun' . $this->upperCaseFirstLetter($serviceName) . 'Service';
 		$serviceClass = "function $serviceClassName(client){\n";
 		$serviceClass .= "	$serviceClassName.super_.call(this);\n";
 		$serviceClass .= "	this.init(client);\n";
 		$serviceClass .= "}\n";
 		$serviceClass .= "\n";
-		$serviceClass .= "util.inherits($serviceClassName, kaltura.KalturaServiceBase);\n";
+		$serviceClass .= "util.inherits($serviceClassName, vidiun.VidiunServiceBase);\n";
 		$serviceClass .= "module.exports.$serviceClassName = $serviceClassName;\n";
 		$serviceClass .= "\n";
 		
 		$serviceClassDesc = "/**\n";
-		$serviceClassDesc .= " *Class definition for the Kaltura service: $serviceName.\n";
+		$serviceClassDesc .= " *Class definition for the Vidiun service: $serviceName.\n";
 		$actionsList = " * The available service actions:\n";
 		
 		//parse the service actions
@@ -318,7 +318,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 				$actionClass .= "	}\n";
 			}
 			
-			$actionClass .= "	var kparams = {};\n";
+			$actionClass .= "	var vparams = {};\n";
 			
 			$haveFiles = false;
 			//parse the actions parameters and result types
@@ -330,7 +330,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 				if($haveFiles === false && $actionParam->attributes()->type == 'file')
 				{
 					$haveFiles = true;
-					$actionClass .= "	var kfiles = {};\n";
+					$actionClass .= "	var vfiles = {};\n";
 				}
 				switch($actionParam->attributes()->type)
 				{
@@ -339,10 +339,10 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 					case 'int':
 					case 'bigint':
 					case 'bool':
-						$actionClass .= "	this.client.addParam(kparams, '$paramName', $paramName);\n";
+						$actionClass .= "	this.client.addParam(vparams, '$paramName', $paramName);\n";
 						break;
 					case 'file':
-						$actionClass .= "	this.client.addParam(kfiles, '$paramName', $paramName);\n";
+						$actionClass .= "	this.client.addParam(vfiles, '$paramName', $paramName);\n";
 						break;
 					case 'array':
 						$extraTab = '';
@@ -354,7 +354,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 						$actionClass .= "{$extraTab}for(var index in $paramName)\n";
 						$actionClass .= "{$extraTab}{\n";
 						$actionClass .= "{$extraTab}	var obj = ${paramName}[index];\n";
-						$actionClass .= "{$extraTab}	this.client.addParam(kparams, '$paramName:' + index, kaltura.toParams(obj));\n";
+						$actionClass .= "{$extraTab}	this.client.addParam(vparams, '$paramName:' + index, vidiun.toParams(obj));\n";
 						$actionClass .= "{$extraTab}}\n";
 						if($actionParam->attributes()->optional == '1')
 						{
@@ -368,7 +368,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 							$actionClass .= "	if ($paramName !== null){\n";
 							$extraTab = '	';
 						}
-						$actionClass .= "$extraTab	this.client.addParam(kparams, '$paramName', kaltura.toParams($paramName));\n";
+						$actionClass .= "$extraTab	this.client.addParam(vparams, '$paramName', vidiun.toParams($paramName));\n";
 						if($actionParam->attributes()->optional == '1')
 						{
 							$actionClass .= "	}\n";
@@ -377,9 +377,9 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 				}
 			}
 			if($haveFiles)
-				$actionClass .= "	this.client.queueServiceActionCall('$serviceId', '$actionName', kparams, kfiles);\n";
+				$actionClass .= "	this.client.queueServiceActionCall('$serviceId', '$actionName', vparams, vfiles);\n";
 			else
-				$actionClass .= "	this.client.queueServiceActionCall('$serviceId', '$actionName', kparams);\n";
+				$actionClass .= "	this.client.queueServiceActionCall('$serviceId', '$actionName', vparams);\n";
 			$actionClass .= "	if (!this.client.isMultiRequest()){\n";
 			$actionClass .= "		this.client.doQueue(callback);\n";
 			$actionClass .= "	}\n";
@@ -394,7 +394,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 	
 	/**
 	 * Create the main class of the client library, may parse Services and actions.
-	 * initialize the service and assign to client to provide access to servcies and actions through the Kaltura client object.
+	 * initialize the service and assign to client to provide access to servcies and actions through the Vidiun client object.
 	 */
 	protected function writeMainClass(SimpleXMLElement $servicesNodes, SimpleXMLElement $configurationNodes)
 	{
@@ -402,25 +402,25 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 		$date = date('y-m-d');
 		
 		$this->echoLine($this->mainClass, "/**");
-		$this->echoLine($this->mainClass, " * The Kaltura Client - this is the facade through which all service actions should be called.");
-		$this->echoLine($this->mainClass, " * @param config the Kaltura configuration object holding partner credentials (type: KalturaConfiguration).");
+		$this->echoLine($this->mainClass, " * The Vidiun Client - this is the facade through which all service actions should be called.");
+		$this->echoLine($this->mainClass, " * @param config the Vidiun configuration object holding partner credentials (type: VidiunConfiguration).");
 		$this->echoLine($this->mainClass, " */");
 		$this->echoLine($this->mainClass, "var util = require('util');");
-		$this->echoLine($this->mainClass, "var kaltura = require('./KalturaClientBase');");
-		$this->echoLine($this->mainClass, "kaltura.objects = require('./KalturaVO');");
-		$this->echoLine($this->mainClass, "kaltura.services = require('./KalturaServices');");
-		$this->echoLine($this->mainClass, "kaltura.enums = require('./KalturaTypes');");
+		$this->echoLine($this->mainClass, "var vidiun = require('./VidiunClientBase');");
+		$this->echoLine($this->mainClass, "vidiun.objects = require('./VidiunVO');");
+		$this->echoLine($this->mainClass, "vidiun.services = require('./VidiunServices');");
+		$this->echoLine($this->mainClass, "vidiun.enums = require('./VidiunTypes');");
 		$this->echoLine($this->mainClass, "");
-		$this->echoLine($this->mainClass, "function KalturaClient(config) {");
+		$this->echoLine($this->mainClass, "function VidiunClient(config) {");
 		$this->echoLine($this->mainClass, "	this.setApiVersion('$apiVersion');");
 		$this->echoLine($this->mainClass, "	this.setClientTag('node:$date');");
 		$this->echoLine($this->mainClass, "	this.init(config);");
 		$this->echoLine($this->mainClass, "}");
 		$this->echoLine($this->mainClass, "");
-		$this->echoLine($this->mainClass, "module.exports = kaltura;");
-		$this->echoLine($this->mainClass, "module.exports.KalturaClient = KalturaClient;");
+		$this->echoLine($this->mainClass, "module.exports = vidiun;");
+		$this->echoLine($this->mainClass, "module.exports.VidiunClient = VidiunClient;");
 		$this->echoLine($this->mainClass, "");
-		$this->echoLine($this->mainClass, "util.inherits(KalturaClient, kaltura.KalturaClientBase);");
+		$this->echoLine($this->mainClass, "util.inherits(VidiunClient, vidiun.VidiunClientBase);");
 		$this->echoLine($this->mainClass, "");
 		
 		foreach($servicesNodes as $serviceNode)
@@ -429,7 +429,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 				continue;
 					
 			$serviceName = $serviceNode->attributes()->name;
-			$serviceClassName = 'kaltura.services.Kaltura' . $this->upperCaseFirstLetter($serviceName) . 'Service';
+			$serviceClassName = 'vidiun.services.Vidiun' . $this->upperCaseFirstLetter($serviceName) . 'Service';
 			$this->echoLine($this->mainClass, "/**");
 			
 			// to format multi-line descriptions
@@ -439,15 +439,15 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 			$this->echoLine($this->mainClass, " * " . $description);
 			$this->echoLine($this->mainClass, " * @param $serviceClassName");
 			$this->echoLine($this->mainClass, " */");
-			$this->echoLine($this->mainClass, "KalturaClient.prototype.$serviceName = null;");
+			$this->echoLine($this->mainClass, "VidiunClient.prototype.$serviceName = null;");
 		}
 		$this->echoLine($this->mainClass, "/**");
 		$this->echoLine($this->mainClass, " * The client constructor.");
-		$this->echoLine($this->mainClass, " * @param config the Kaltura configuration object holding partner credentials (type: KalturaConfiguration).");
+		$this->echoLine($this->mainClass, " * @param config the Vidiun configuration object holding partner credentials (type: VidiunConfiguration).");
 		$this->echoLine($this->mainClass, " */");
-		$this->echoLine($this->mainClass, "KalturaClient.prototype.init = function(config){");
+		$this->echoLine($this->mainClass, "VidiunClient.prototype.init = function(config){");
 		$this->echoLine($this->mainClass, "	//call the super constructor:");
-		$this->echoLine($this->mainClass, "	kaltura.KalturaClientBase.prototype.init.apply(this, arguments);");
+		$this->echoLine($this->mainClass, "	vidiun.VidiunClientBase.prototype.init.apply(this, arguments);");
 		$this->echoLine($this->mainClass, "	//initialize client services:");
 		foreach($servicesNodes as $serviceNode)
 		{
@@ -455,7 +455,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 				continue;
 		
 			$serviceName = $serviceNode->attributes()->name;
-			$serviceClassName = 'kaltura.services.Kaltura' . $this->upperCaseFirstLetter($serviceName) . 'Service';
+			$serviceClassName = 'vidiun.services.Vidiun' . $this->upperCaseFirstLetter($serviceName) . 'Service';
 			$this->echoLine($this->mainClass, "	this.$serviceName = new $serviceClassName(this);");
 		}
 		foreach($configurationNodes as $configurationName => $configurationNode)
@@ -501,7 +501,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 		$this->echoLine($this->mainClass, "/**");
 		$this->echoLine($this->mainClass, " * Clear all volatile configuration parameters");
 		$this->echoLine($this->mainClass, " */");
-		$this->echoLine($this->mainClass, "KalturaClient.prototype.resetRequest = function(){");
+		$this->echoLine($this->mainClass, "VidiunClient.prototype.resetRequest = function(){");
 		foreach($volatileProperties as $attributeName => $properties)
 		{
 			foreach($properties as $propertyName)
@@ -524,7 +524,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 		}
 		$this->echoLine($this->mainClass, " * @param $type $name");
 		$this->echoLine($this->mainClass, " */");
-		$this->echoLine($this->mainClass, "KalturaClient.prototype.set{$methodsName} = function($name){");
+		$this->echoLine($this->mainClass, "VidiunClient.prototype.set{$methodsName} = function($name){");
 		$this->echoLine($this->mainClass, "	this.{$configurationName}Configuration['{$paramName}'] = {$name};");
 		$this->echoLine($this->mainClass, "};");
 		$this->echoLine($this->mainClass, "");
@@ -538,7 +538,7 @@ class NodeClientGenerator extends ClientGeneratorFromXml
 		}
 		$this->echoLine($this->mainClass, " * @return $type");
 		$this->echoLine($this->mainClass, " */");
-		$this->echoLine($this->mainClass, "KalturaClient.prototype.get{$methodsName} = function(){");
+		$this->echoLine($this->mainClass, "VidiunClient.prototype.get{$methodsName} = function(){");
 		$this->echoLine($this->mainClass, "	return this.{$configurationName}Configuration['{$paramName}'];");
 		$this->echoLine($this->mainClass, "};");
 		$this->echoLine($this->mainClass, "");

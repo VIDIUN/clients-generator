@@ -58,7 +58,7 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 		if(!$this->shouldIncludeType($type))
 			return;
 		
-		$str = "package com.kaltura.types\n";
+		$str = "package com.vidiun.types\n";
 		$str .= "{\n";
 		$str .= "	public class $type\n";
 		$str .= "	{\n";
@@ -74,7 +74,7 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 		$str .= "	}\n";
 		$str .= "}\n";
 
-		$this->write2File( "com/kaltura/types/" . $xml->attributes()->name . ".as" , $str );
+		$this->write2File( "com/vidiun/types/" . $xml->attributes()->name . ".as" , $str );
 	}
 
 	private function createVoClass( $xml )
@@ -83,18 +83,18 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 		if(!$this->shouldIncludeType($type))
 			return;
 		
-		$str = "package com.kaltura.vo\n";
+		$str = "package com.vidiun.vo\n";
 		$str .= "{\n";
 
 		if($xml->attributes()->base)
-			$str .= "	import com.kaltura.vo." . $xml->attributes()->base . ";\n\n";
+			$str .= "	import com.vidiun.vo." . $xml->attributes()->base . ";\n\n";
 		else if( $this->base_client_dir == "flex_client" )
 		{
-			$str .= "	import com.kaltura.vo.BaseFlexVo;\n\n";
+			$str .= "	import com.vidiun.vo.BaseFlexVo;\n\n";
 		}
 		else //Must be flash client
 		{
-			$str .= "	import com.kaltura.vo.BaseFlashVo;\n\n";
+			$str .= "	import com.vidiun.vo.BaseFlashVo;\n\n";
 		}
 
 		if( $this->base_client_dir == "flex_client" )
@@ -145,13 +145,13 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 					$childType = "Object = null";
 					break;
 					
-				case "KalturaObjectBase" :
+				case "VidiunObjectBase" :
 					$childType = "BaseFlexVo";
 					break;
 					
 				default :
 					$childType = $child->attributes()->type;
-					$str = $this->addImport2String( "	import com.kaltura.vo." . $childType , $str );
+					$str = $this->addImport2String( "	import com.vidiun.vo." . $childType , $str );
 					break;
 			}
 
@@ -171,11 +171,11 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 
 				if($child->attributes()->enumType)
 				{
-					$str .= "		* @see com.kaltura.types." . $child->attributes()->enumType . "\n";
+					$str .= "		* @see com.vidiun.types." . $child->attributes()->enumType . "\n";
 				}
 				elseif($child->attributes()->type == 'bool')
 				{
-					$str .= "		* @see com.kaltura.types.kalturaBoolean\n";
+					$str .= "		* @see com.vidiun.types.vidiunBoolean\n";
 				}
 				$str .= "		**/\n";
 			}
@@ -296,7 +296,7 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 
 		////////////////////////////////////////////////
 
-		if($type == "KalturaBaseEntry")
+		if($type == "VidiunBaseEntry")
 		{
 			$str .= "		// required for backwards compatibility with an old, un-optimized client\n";
 			$str .= "		public function getParamKeys():Array { trace('backward incompatible'); throw new Error('backward incompatible');}\n";
@@ -306,7 +306,7 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 
 		$str .= "	}\n";
 		$str .= "}\n";
-		$this->write2File( "com/kaltura/vo/$type.as" , $str );
+		$this->write2File( "com/vidiun/vo/$type.as" , $str );
 	}
 
 	private function createCommands ( $xml )
@@ -450,7 +450,7 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 							}
 							$const_props .= ",";
 							$imports .= "		import flash.net.FileReference;\n";
-							$imports .= "		import com.kaltura.net.KalturaFileCall;\n";
+							$imports .= "		import com.vidiun.net.VidiunFileCall;\n";
 							$keys_values_creator .= "			this." . $prop->attributes()->name . " = " . $prop->attributes()->name . ";\n";
 
 							break;
@@ -468,12 +468,12 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 								$const_props .= "=null";
 							}
 							$const_props .= ",";
-							$imports .= "		import com.kaltura.vo." . $this->toUpperCamaleCase($prop->attributes()->type) . ";\n";
+							$imports .= "		import com.vidiun.vo." . $this->toUpperCamaleCase($prop->attributes()->type) . ";\n";
 							if($prop->attributes()->optional == "1")
 							{
 								$keys_values_creator .= "			if (" . $prop->attributes()->name . ") { \n";
 							}
-							$keys_values_creator .= "				keyValArr = kalturaObject2Arrays(" . $prop->attributes()->name . ", '" . $prop->attributes()->name . "');\n";
+							$keys_values_creator .= "				keyValArr = vidiunObject2Arrays(" . $prop->attributes()->name . ", '" . $prop->attributes()->name . "');\n";
 							$keys_values_creator .= "				keyArr = keyArr.concat(keyValArr[0]);\n";
 							$keys_values_creator .= "				valueArr = valueArr.concat(keyValArr[1]);\n";
 
@@ -492,13 +492,13 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 
 			$const_props = substr($const_props , 0 , -1);
 
-			$str = "package com.kaltura.commands.$type\n";
+			$str = "package com.vidiun.commands.$type\n";
 			$str .= "{\n";
 			$str .= $imports;
-			$str .= "	import com.kaltura.delegates.$type." . $this->toUpperCamaleCase($type) . $this->toUpperCamaleCase( $child->attributes()->name ) . "Delegate;\n";
+			$str .= "	import com.vidiun.delegates.$type." . $this->toUpperCamaleCase($type) . $this->toUpperCamaleCase( $child->attributes()->name ) . "Delegate;\n";
 
 			if(!count($fileAttributesNames))
-			$str .= "	import com.kaltura.net.KalturaCall;\n";
+			$str .= "	import com.vidiun.net.VidiunCall;\n";
 
 			$str .= "\n";
 
@@ -522,9 +522,9 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 			$str .= "	public class " . $this->toUpperCamaleCase($type) . $this->toUpperCamaleCase( $child->attributes()->name ) . " " ;
 
 			if(count($fileAttributesNames))
-			$str .= "extends KalturaFileCall\n" ;
+			$str .= "extends VidiunFileCall\n" ;
 			else
-			$str .= "extends KalturaCall\n" ;
+			$str .= "extends VidiunCall\n" ;
 
 			$str .= "	{\n";
 
@@ -566,7 +566,7 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 			$str .= "	}\n";
 			$str .= "}\n";
 
-			$this->write2File( "com/kaltura/commands/$type/" . $this->toUpperCamaleCase($type) . $this->toUpperCamaleCase($child->attributes()->name) . ".as" , $str );
+			$this->write2File( "com/vidiun/commands/$type/" . $this->toUpperCamaleCase($type) . $this->toUpperCamaleCase($child->attributes()->name) . ".as" , $str );
 		}
 	}
 
@@ -590,16 +590,16 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 			if(count($fileAttributesNames))
 			$fileAttributeName = reset($fileAttributesNames);
 
-			$str = "package com.kaltura.delegates." . $xml->attributes()->name . "\n";
+			$str = "package com.vidiun.delegates." . $xml->attributes()->name . "\n";
 			$str .= "{\n";
-			$str .= "	import com.kaltura.config.KalturaConfig;\n";
-			$str .= "	import com.kaltura.net.KalturaCall;\n";
-			$str .= "	import com.kaltura.delegates.WebDelegateBase;\n";
+			$str .= "	import com.vidiun.config.VidiunConfig;\n";
+			$str .= "	import com.vidiun.net.VidiunCall;\n";
+			$str .= "	import com.vidiun.delegates.WebDelegateBase;\n";
 			if(count($fileAttributesNames))
 			{
-				$str .= "	import com.kaltura.core.KClassFactory;\n";
-				$str .= "	import com.kaltura.errors.KalturaError;\n";
-				$str .= "	import com.kaltura.commands." . $xml->attributes()->name . "." . $this->toUpperCamaleCase($xml->attributes()->name) . $this->toUpperCamaleCase( $child->attributes()->name ) . ";\n\n";
+				$str .= "	import com.vidiun.core.VClassFactory;\n";
+				$str .= "	import com.vidiun.errors.VidiunError;\n";
+				$str .= "	import com.vidiun.commands." . $xml->attributes()->name . "." . $this->toUpperCamaleCase($xml->attributes()->name) . $this->toUpperCamaleCase( $child->attributes()->name ) . ";\n\n";
 
 				$str .= "	import ru.inspirit.net.MultipartURLLoader;\n";
 
@@ -619,7 +619,7 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 			$str .= "	{\n";
 			if(count($fileAttributesNames))
 				$str .= "		protected var mrloader:MultipartURLLoader;\n\n";
-			$str .= "		public function " . $this->toUpperCamaleCase($xml->attributes()->name) . $this->toUpperCamaleCase( $child->attributes()->name ) . "Delegate(call:KalturaCall, config:KalturaConfig)\n";
+			$str .= "		public function " . $this->toUpperCamaleCase($xml->attributes()->name) . $this->toUpperCamaleCase( $child->attributes()->name ) . "Delegate(call:VidiunCall, config:VidiunConfig)\n";
 			$str .= "		{\n";
 			$str .= "			super(call, config);\n";
 			$str .= "		}\n\n";
@@ -642,15 +642,15 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 				case "array":
 					$str .= "		override public function parse(result:XML) : *\n";
 					$str .= "		{\n";
-					$str = $this->addImport2String( "	import com.kaltura.core.KClassFactory" , $str );
+					$str = $this->addImport2String( "	import com.vidiun.core.VClassFactory" , $str );
 					if( $child->result->attributes()->arrayType )
-						$str = $this->addImport2String( "	import com.kaltura.vo." . $child->result->attributes()->arrayType . ";" . $child->result->attributes()->arrayType . ";", $str);
+						$str = $this->addImport2String( "	import com.vidiun.vo." . $child->result->attributes()->arrayType . ";" . $child->result->attributes()->arrayType . ";", $str);
 
 					$str .= "			var arr : Array = new Array();\n";
 					$str .= "			for( var i:int=0; i<result.result.children().length() ; i++)\n";
 					$str .= "			{\n";
-					$str .= "				var cls : Class = getDefinitionByName('com.kaltura.vo.'+ result.result.children()[i].objectType) as Class;\n";
-					$str .= "				var obj : * = (new KClassFactory( cls )).newInstanceFromXML( XMLList(result.result.children()[i]) );\n";
+					$str .= "				var cls : Class = getDefinitionByName('com.vidiun.vo.'+ result.result.children()[i].objectType) as Class;\n";
+					$str .= "				var obj : * = (new VClassFactory( cls )).newInstanceFromXML( XMLList(result.result.children()[i]) );\n";
 					$str .= "				arr.push(obj);\n";
 					$str .= "			}\n";
 					$str .= "			return arr;\n";
@@ -664,17 +664,17 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 						$str .= "				return super.parse(result);\n";
 						$str .= "			}\n";
 						$str .= "			else {\n";
-						$str .= "				var cls : Class = getDefinitionByName('com.kaltura.vo.'+ result.result.objectType) as Class;\n";
-						$str .= "				var obj : * = (new KClassFactory( cls )).newInstanceFromXML( result.result );\n";
+						$str .= "				var cls : Class = getDefinitionByName('com.vidiun.vo.'+ result.result.objectType) as Class;\n";
+						$str .= "				var obj : * = (new VClassFactory( cls )).newInstanceFromXML( result.result );\n";
 						$str .= "				return obj;\n";
 						$str .= "			}\n";
 						$str .= "		}\n\n";
 					}
 
 					//this code moved to the delegate class so it's not needed
-					/*$str = $this->addImport2String( " import com.kaltura.core.KClassFactory" , $str );
-					 $str .= " var cls : Class = getDefinitionByName('com.kaltura.vo.'+ result.result.objectType) as Class;\n";
-					 $str .= " var obj : * = (new KClassFactory( cls )).newInstanceFromXML( result.result );\n";
+					/*$str = $this->addImport2String( " import com.vidiun.core.VClassFactory" , $str );
+					 $str .= " var cls : Class = getDefinitionByName('com.vidiun.vo.'+ result.result.objectType) as Class;\n";
+					 $str .= " var obj : * = (new VClassFactory( cls )).newInstanceFromXML( result.result );\n";
 					 $str .= " return obj;\n";*/
 					break;
 			}
@@ -717,10 +717,10 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 				$str .= " 				}\n";
 				$str .= "			}\n";
 				$str .= " 			catch( e:Error ){\n";
-				$str .= " 				var kErr : KalturaError = new KalturaError();\n";
-				$str .= " 				kErr.errorCode = String(e.errorID);\n";
-				$str .= " 				kErr.errorMsg = e.message;\n";
-				$str .= " 				_call.handleError( kErr );\n";
+				$str .= " 				var vErr : VidiunError = new VidiunError();\n";
+				$str .= " 				vErr.errorCode = String(e.errorID);\n";
+				$str .= " 				vErr.errorMsg = e.message;\n";
+				$str .= " 				_call.handleError( vErr );\n";
 				$str .= "			}\n";
 				$str .= "		}\n\n";
 
@@ -738,7 +738,7 @@ class Xml2As3ClientGenerator extends ClientGeneratorFromXml
 			$str .= "	}\n";
 			$str .= "}\n";
 
-			$this->write2File( "com/kaltura/delegates/" . $xml->attributes()->name . "/" . $this->toUpperCamaleCase($xml->attributes()->name) . $this->toUpperCamaleCase($child->attributes()->name) . "Delegate.as" , $str );
+			$this->write2File( "com/vidiun/delegates/" . $xml->attributes()->name . "/" . $this->toUpperCamaleCase($xml->attributes()->name) . $this->toUpperCamaleCase($child->attributes()->name) . "Delegate.as" , $str );
 		}
 	}
 

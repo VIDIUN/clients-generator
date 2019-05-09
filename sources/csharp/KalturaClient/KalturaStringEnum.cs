@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -30,13 +30,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 
-namespace Kaltura
+namespace Vidiun
 {
-    public class KalturaStringEnum
+    public class VidiunStringEnum
     {
         private readonly string name;
 
-        protected KalturaStringEnum(string name)
+        protected VidiunStringEnum(string name)
         {
             this.name = name;
         }
@@ -46,16 +46,16 @@ namespace Kaltura
             return name;
         }
 
-        public static KalturaStringEnum Parse(Type type, string name)
+        public static VidiunStringEnum Parse(Type type, string name)
         {
             FieldInfo[] fields = type.GetFields();
             foreach (FieldInfo field in fields)
             {
                 object val = field.GetValue(null);
-                if (val.GetType().BaseType == typeof(KalturaStringEnum))
+                if (val.GetType().BaseType == typeof(VidiunStringEnum))
                 {
                     if (val.ToString() == name)
-                        return (KalturaStringEnum)val;
+                        return (VidiunStringEnum)val;
                 }
             }
             return null;

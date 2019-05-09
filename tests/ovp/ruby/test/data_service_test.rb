@@ -4,11 +4,11 @@
 #                          | ' </ _` | |  _| || | '_/ _` |
 #                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 #
-# This file is part of the Kaltura Collaborative Media Suite which allows users
+# This file is part of the Vidiun Collaborative Media Suite which allows users
 # to do with audio, video, and animation what Wiki platfroms allow them to do with
 # text.
 #
-# Copyright (C) 2006-2011  Kaltura Inc.
+# Copyright (C) 2006-2011  Vidiun Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -35,8 +35,8 @@ class DataServiceTest < Test::Unit::TestCase
     # this test creates a data entry and calls serve action to get a file url.
     should "get the file url with data content" do
     
-      data_entry = Kaltura::KalturaDataEntry.new
-      data_entry.name = "kaltura_test_dataservicetest_" + Time.now.getutc.strftime("%d/%m/%Y %H:%M:%S:%L")
+      data_entry = Vidiun::VidiunDataEntry.new
+      data_entry.name = "vidiun_test_dataservicetest_" + Time.now.getutc.strftime("%d/%m/%Y %H:%M:%S:%L")
       data_entry.data_content = @content
       
       created_entry = @client.data_service.add(data_entry)
@@ -59,8 +59,8 @@ class DataServiceTest < Test::Unit::TestCase
       # this test creates a data entry, calls serve action to get file url and test file content.
       should "get the file url with data content when the forceProxy is 0" do
 
-        data_entry = Kaltura::KalturaDataEntry.new
-        data_entry.name = "kaltura_test_dataservicetest_" + Time.now.getutc.strftime("%d/%m/%Y %H:%M:%S:%L")
+        data_entry = Vidiun::VidiunDataEntry.new
+        data_entry.name = "vidiun_test_dataservicetest_" + Time.now.getutc.strftime("%d/%m/%Y %H:%M:%S:%L")
         data_entry.data_content = @content
 
         created_entry = @client.data_service.add(data_entry)

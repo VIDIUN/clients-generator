@@ -1,16 +1,16 @@
-import { KalturaRequestBase } from '../api/kaltura-request-base';
-import { KalturaClientOptions } from '../kaltura-client-options';
-import { KalturaRequestOptions, KalturaRequestOptionsArgs } from '../api/kaltura-request-options';
-import { KalturaMultiRequest } from '../api/kaltura-multi-request';
-import { KalturaRequest } from '../api/kaltura-request';
-import { KalturaFileRequest } from '../api/kaltura-file-request';
+import { VidiunRequestBase } from '../api/vidiun-request-base';
+import { VidiunClientOptions } from '../vidiun-client-options';
+import { VidiunRequestOptions, VidiunRequestOptionsArgs } from '../api/vidiun-request-options';
+import { VidiunMultiRequest } from '../api/vidiun-multi-request';
+import { VidiunRequest } from '../api/vidiun-request';
+import { VidiunFileRequest } from '../api/vidiun-file-request';
 import { CancelableAction } from '../cancelable-action';
-import { KalturaAPIException } from '../api/kaltura-api-exception';
-import { KalturaClientException } from '../api/kaltura-client-exception';
+import { VidiunAPIException } from '../api/vidiun-api-exception';
+import { VidiunClientException } from '../api/vidiun-client-exception';
 import { environment } from '../environment';
 
 
-export function  createEndpoint(request: KalturaRequestBase, options: KalturaClientOptions, service: string, action?: string): string {
+export function  createEndpoint(request: VidiunRequestBase, options: VidiunClientOptions, service: string, action?: string): string {
     const endpoint = options.endpointUrl;
     const clientTag = createClientTag(request, options);
     let result = `${endpoint}/api_v3/service/${service}`;
@@ -26,7 +26,7 @@ export function  createEndpoint(request: KalturaRequestBase, options: KalturaCli
     return result;
 }
 
-export function createClientTag(request: KalturaRequestBase, options: KalturaClientOptions)
+export function createClientTag(request: VidiunRequestBase, options: VidiunClientOptions)
 {
     const networkTag = (request.getNetworkTag() || "").trim();
     const clientTag = (options.clientTag || "").trim() || "ng-app";
@@ -60,7 +60,7 @@ export function getHeaders(): any {
     };
 }
 
-export function prepareParameters(request: KalturaRequest<any> | KalturaMultiRequest | KalturaFileRequest,  options: KalturaClientOptions,  defaultRequestOptions: KalturaRequestOptions): any {
+export function prepareParameters(request: VidiunRequest<any> | VidiunMultiRequest | VidiunFileRequest,  options: VidiunClientOptions,  defaultRequestOptions: VidiunRequestOptions): any {
 
     return Object.assign(
         {},
@@ -90,13 +90,13 @@ export function createCancelableAction<T>(data : { endpoint : string, headers : 
 					if (xhr.status === 200) {
 						resp = JSON.parse(xhr.response);
 					} else {
-						resp = new KalturaClientException('client::requre-failure', xhr.responseText || 'failed to transmit request');
+						resp = new VidiunClientException('client::requre-failure', xhr.responseText || 'failed to transmit request');
 					}
 				} catch (e) {
 					resp = new Error(xhr.responseText);
 				}
 
-				if (resp instanceof Error || resp instanceof KalturaAPIException) {
+				if (resp instanceof Error || resp instanceof VidiunAPIException) {
 					reject(resp);
 				} else {
 					resolve(resp);

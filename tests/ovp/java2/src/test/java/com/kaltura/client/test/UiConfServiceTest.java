@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,25 +25,25 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import com.kaltura.client.APIOkRequestsExecutor;
-import com.kaltura.client.ILogger;
-import com.kaltura.client.Logger;
-import com.kaltura.client.enums.UiConfCreationMode;
-import com.kaltura.client.services.UiConfService;
-import com.kaltura.client.services.UiConfService.AddUiConfBuilder;
-import com.kaltura.client.services.UiConfService.DeleteUiConfBuilder;
-import com.kaltura.client.services.UiConfService.GetUiConfBuilder;
-import com.kaltura.client.types.UiConf;
-import com.kaltura.client.utils.request.NullRequestBuilder;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
+import com.vidiun.client.APIOkRequestsExecutor;
+import com.vidiun.client.ILogger;
+import com.vidiun.client.Logger;
+import com.vidiun.client.enums.UiConfCreationMode;
+import com.vidiun.client.services.UiConfService;
+import com.vidiun.client.services.UiConfService.AddUiConfBuilder;
+import com.vidiun.client.services.UiConfService.DeleteUiConfBuilder;
+import com.vidiun.client.services.UiConfService.GetUiConfBuilder;
+import com.vidiun.client.types.UiConf;
+import com.vidiun.client.utils.request.NullRequestBuilder;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
 
 public class UiConfServiceTest extends BaseTest {
 	private ILogger logger = Logger.getLogger(UiConfServiceTest.class);
@@ -61,7 +61,7 @@ public class UiConfServiceTest extends BaseTest {
 		uiConf.setCreationMode(UiConfCreationMode.ADVANCED);
 		uiConf.setConfFile("NON_EXISTING_CONF_FILE");
 		
-		// this uiConf won't be editable in the KMC until it gets a config added to it, I think
+		// this uiConf won't be editable in the VMC until it gets a config added to it, I think
 		
 		AddUiConfBuilder requestBuilder = UiConfService.add(uiConf)
 		.setCompletion(new OnCompletion<Response<UiConf>>() {

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.activity.components;
+package com.vidiun.activity.components;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +14,8 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.KalturaMediaEntry;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.VidiunMediaEntry;
 
 /**
  *
@@ -30,8 +30,8 @@ public class GridForPort{
     private ItemGrid itemLeft;
     private ItemGrid itemRight;
     private int offset;
-    private HashMap<KalturaMediaEntry, Bitmap> listBitmap;
-    private List<KalturaMediaEntry> listKeys;
+    private HashMap<VidiunMediaEntry, Bitmap> listBitmap;
+    private List<VidiunMediaEntry> listKeys;
     
     
     public GridForPort(String TAG, Activity activity, int offset){
@@ -47,12 +47,12 @@ public class GridForPort{
         if(listBitmap != null){
             this.listBitmap = listBitmap;
         }else{
-            this.listBitmap = new HashMap<KalturaMediaEntry, Bitmap>();
+            this.listBitmap = new HashMap<VidiunMediaEntry, Bitmap>();
         }
         if(listKeys != null){
             this.listKeys = listKeys;
         }else{
-            this.listKeys = new ArrayList<KalturaMediaEntry>();
+            this.listKeys = new ArrayList<VidiunMediaEntry>();
         }
         this.offset = offset;
         

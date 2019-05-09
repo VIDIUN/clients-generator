@@ -1,13 +1,13 @@
 {
-    "name": "kaltura/api-client-library",
-    "description": "An auto generated Composer package for the Kaltura API client library",
-    "keywords": ["kaltura", "client library", "video", "open source video", "video platform", "api"],
+    "name": "vidiun/api-client-library",
+    "description": "An auto generated Composer package for the Vidiun API client library",
+    "keywords": ["vidiun", "client library", "video", "open source video", "video platform", "api"],
     "minimum-stability": "stable",
     "license": "AGPL-3.0-or-later",
     "authors": [
         {
-            "name": "Kaltura",
-            "homepage": "http://www.kaltura.org/"
+            "name": "Vidiun",
+            "homepage": "http://www.vidiun.org/"
         }
     ],
     "require": {
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Kaltura": "library"
+            "Vidiun": "library"
         }
     }
 }

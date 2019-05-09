@@ -1,17 +1,17 @@
-package com.kaltura.services;
+package com.vidiun.services;
 
 //<editor-fold defaultstate="collapsed" desc="comment">
 import android.os.Handler;
 import android.util.Log;
 
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.Client;
-import com.kaltura.client.Configuration;
-import com.kaltura.client.services.UserService;
-import com.kaltura.client.utils.request.RequestBuilder;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
-import com.kaltura.utils.ApiHelper;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.Client;
+import com.vidiun.client.Configuration;
+import com.vidiun.client.services.UserService;
+import com.vidiun.client.utils.request.RequestBuilder;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
+import com.vidiun.utils.ApiHelper;
 //</editor-fold>
 
 /**
@@ -30,7 +30,7 @@ public class AdminUser {
 
     /**
      * Get an admin session using admin email and password (Used for login to
-     * the KMC application)
+     * the VMC application)
      *
      * @param TAG constant in your class
      * @param email
@@ -52,7 +52,7 @@ public class AdminUser {
                     public void onComplete(final Response<String> response) {
                         if(response.isSuccess()) {
                             Log.w(TAG, response.results);
-                            // set the kaltura client to use the recieved ks as default for all future operations
+                            // set the vidiun client to use the recieved vs as default for all future operations
                             client.setSessionId(response.results);
                             userIsLogin = true;
                             handler.post(new Runnable() {

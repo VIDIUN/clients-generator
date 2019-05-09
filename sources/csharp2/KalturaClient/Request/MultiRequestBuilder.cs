@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
-using Kaltura.Types;
+using Vidiun.Types;
 using Newtonsoft.Json.Linq;
 
-namespace Kaltura.Request
+namespace Vidiun.Request
 {
     public class MultiRequestBuilder : BaseRequestBuilder<List<object>>
     {
@@ -74,31 +74,31 @@ namespace Kaltura.Request
 
         public override Params getParameters(bool includeServiceAndAction)
         {
-            Params kparams = base.getParameters(false);
+            Params vparams = base.getParameters(false);
 
             foreach (IRequestBuilder request in requests)
             {
                 Params requestParams = new Params();
                 requestParams.Add(request.MultiRequestIndex.ToString(), request.getParameters(true));
-                kparams.Add(requestParams);
+                vparams.Add(requestParams);
             }
 
-            return kparams;
+            return vparams;
         }
 
         public override Files getFiles()
         {
-            Files kfiles = base.getFiles();
+            Files vfiles = base.getFiles();
 
             foreach (IRequestBuilder request in requests)
             {
                 foreach (KeyValuePair<string, Stream> file in request.getFiles())
                 {
-                    kfiles.Add(request.MultiRequestIndex + ":" + file.Key, file.Value);
+                    vfiles.Add(request.MultiRequestIndex + ":" + file.Key, file.Value);
                 }
             }
 
-            return kfiles;
+            return vfiles;
         }
 
         public override object Deserialize(JToken results)

@@ -7,7 +7,7 @@ class ZendClientTester
 	const ENTRY_NAME = 'Media entry uploaded from Zend Framework client library';
 	
 	/**
-	 * @var Kaltura_Client_Client
+	 * @var Vidiun_Client_Client
 	 */
 	protected $_client;
 	
@@ -22,7 +22,7 @@ class ZendClientTester
 	 */
 	protected $_responseHeaders;
 	
-	public function __construct(Kaltura_Client_Client $client, $partnerId)
+	public function __construct(Vidiun_Client_Client $client, $partnerId)
 	{
 		$this->_client = $client;
 		$this->_partnerId = $partnerId;
@@ -56,9 +56,9 @@ class ZendClientTester
 		
 		$this->_client->startMultiRequest();
 
-		$mixEntry = new Kaltura_Client_Type_MixEntry();
+		$mixEntry = new Vidiun_Client_Type_MixEntry();
 		$mixEntry->name = ".Net Mix";
-		$mixEntry->editorType = Kaltura_Client_Enum_EditorType::SIMPLE;
+		$mixEntry->editorType = Vidiun_Client_Enum_EditorType::SIMPLE;
 
 		# Request 1
 		$mixEntry = $this->_client->mixing->add($mixEntry);
@@ -67,9 +67,9 @@ class ZendClientTester
 		$uploadFilePath = dirname(__FILE__) . '/../resources/' . self::UPLOAD_VIDEO_FILENAME;
     	$uploadTokenId = $this->_client->media->upload($uploadFilePath);
 
-		$mediaEntry = new Kaltura_Client_Type_MediaEntry();
+		$mediaEntry = new Vidiun_Client_Type_MediaEntry();
 		$mediaEntry->name = "Media Entry For Mix";
-		$mediaEntry->mediaType = Kaltura_Client_Enum_MediaType::VIDEO;
+		$mediaEntry->mediaType = Vidiun_Client_Enum_MediaType::VIDEO;
 
 		# Request 3
 		$mediaEntry = $this->_client->media->addFromUploadedFile($mediaEntry, $uploadTokenId);
@@ -80,11 +80,11 @@ class ZendClientTester
 		$response = $this->_client->doMultiRequest();
 
 		foreach( $response as $subResponse)
-			if($subResponse instanceof Kaltura_Client_Exception) 
+			if($subResponse instanceof Vidiun_Client_Exception) 
 				throw new Exception("Error occurred: " . $subResponse->getMessage());
 
 		# when accessing the response object we will use an index and not the response number (response number - 1)
-		$this->assertTrue($response[0] instanceof Kaltura_Client_Type_MixEntry);
+		$this->assertTrue($response[0] instanceof Vidiun_Client_Type_MixEntry);
 		$mixEntry = $response[0];
 		
 		if(is_null($mixEntry->id))
@@ -94,35 +94,35 @@ class ZendClientTester
 	public function testSyncFlow()
 	{
 		// add upload token
-		$uploadToken = new Kaltura_Client_Type_UploadToken();
+		$uploadToken = new Vidiun_Client_Type_UploadToken();
 		$uploadToken->fileName = self::UPLOAD_VIDEO_FILENAME;
 		$uploadToken = $this->_client->uploadToken->add($uploadToken);
 		$this->assertTrue(strlen($uploadToken->id) > 0);
     	$this->assertEqual($uploadToken->fileName, self::UPLOAD_VIDEO_FILENAME);
-    	$this->assertEqual($uploadToken->status, Kaltura_Client_Enum_UploadTokenStatus::PENDING);
+    	$this->assertEqual($uploadToken->status, Vidiun_Client_Enum_UploadTokenStatus::PENDING);
     	$this->assertEqual($uploadToken->partnerId, $this->_partnerId);
     	$this->assertEqual($uploadToken->fileSize, null);
     	
     	// add media entry
-    	$entry = new Kaltura_Client_Type_MediaEntry();
+    	$entry = new Vidiun_Client_Type_MediaEntry();
     	$entry->name = self::ENTRY_NAME;
-    	$entry->mediaType = Kaltura_Client_Enum_MediaType::VIDEO;
+    	$entry->mediaType = Vidiun_Client_Enum_MediaType::VIDEO;
     	$entry = $this->_client->media->add($entry);
     	$this->assertTrue(strlen($entry->id) > 0);
-    	$this->assertTrue($entry->status === Kaltura_Client_Enum_EntryStatus::NO_CONTENT);
+    	$this->assertTrue($entry->status === Vidiun_Client_Enum_EntryStatus::NO_CONTENT);
     	$this->assertTrue($entry->name === self::ENTRY_NAME);
     	$this->assertTrue($entry->partnerId === $this->_partnerId);
     	
     	// add uploaded token as resource
-    	$resource = new Kaltura_Client_Type_UploadedFileTokenResource();
+    	$resource = new Vidiun_Client_Type_UploadedFileTokenResource();
     	$resource->token = $uploadToken->id;
     	$entry = $this->_client->media->addContent($entry->id, $resource);
-    	$this->assertTrue($entry->status === Kaltura_Client_Enum_EntryStatus::IMPORT);
+    	$this->assertTrue($entry->status === Vidiun_Client_Enum_EntryStatus::IMPORT);
     	
     	// upload file using the upload token
     	$uploadFilePath = dirname(__FILE__) . '/../resources/' . self::UPLOAD_VIDEO_FILENAME;
     	$uploadToken = $this->_client->uploadToken->upload($uploadToken->id, $uploadFilePath);
-    	$this->assertTrue($uploadToken->status === Kaltura_Client_Enum_UploadTokenStatus::CLOSED);
+    	$this->assertTrue($uploadToken->status === Vidiun_Client_Enum_UploadTokenStatus::CLOSED);
     	
     	// get flavor by entry
     	$flavorArray = $this->_client->flavorAsset->getByEntryId($entry->id);
@@ -140,9 +140,9 @@ class ZendClientTester
     	$this->assertTrue($foundSource);
     	
     	// count media entries
-    	$mediaFilter = new Kaltura_Client_Type_MediaEntryFilter();
+    	$mediaFilter = new Vidiun_Client_Type_MediaEntryFilter();
     	$mediaFilter->idEqual = $entry->id;
-    	$mediaFilter->statusNotEqual = Kaltura_Client_Enum_EntryStatus::DELETED;
+    	$mediaFilter->statusNotEqual = Vidiun_Client_Enum_EntryStatus::DELETED;
     	$entryCount = $this->_client->media->count($mediaFilter);
     	$this->assertTrue($entryCount == 1);
     	
@@ -162,7 +162,7 @@ class ZendClientTester
     	$imageEntry = $this->addImageEntry();
     	
     	// execute playlist from filters
-    	$playlistFilter = new Kaltura_Client_Type_MediaEntryFilterForPlaylist();
+    	$playlistFilter = new Vidiun_Client_Type_MediaEntryFilterForPlaylist();
     	$playlistFilter->tagsLike = $imageEntry->tags;
     	$filterArray = array();
     	$filterArray[] = $playlistFilter;
@@ -180,7 +180,7 @@ class ZendClientTester
 
 		$newThumbAsset = $this->_client->thumbAsset->addFromUrl($imageEntry->id, $imageEntry->thumbnailUrl);
 
-		$thumbAssetFilter = new Kaltura_Client_Type_ThumbAssetFilter();
+		$thumbAssetFilter = new Vidiun_Client_Type_ThumbAssetFilter();
 		$thumbAssetFilter->entryIdEqual = $imageEntry->id;
 
 		$thumbAssets = $this->_client->thumbAsset->listAction($thumbAssetFilter);
@@ -206,20 +206,20 @@ class ZendClientTester
 	
 	public function addImageEntry()
 	{
-		$entry = new Kaltura_Client_Type_MediaEntry();
+		$entry = new Vidiun_Client_Type_MediaEntry();
     	$entry->name = self::ENTRY_NAME;
-    	$entry->mediaType = Kaltura_Client_Enum_MediaType::IMAGE;
+    	$entry->mediaType = Vidiun_Client_Enum_MediaType::IMAGE;
     	$entry->tags = uniqid('test_');
     	$entry = $this->_client->media->add($entry);
     	
-    	$uploadToken = new Kaltura_Client_Type_UploadToken();
+    	$uploadToken = new Vidiun_Client_Type_UploadToken();
 		$uploadToken->fileName = self::UPLOAD_IMAGE_FILENAME;
 		$uploadToken = $this->_client->uploadToken->add($uploadToken);
 
     	$uploadFilePath = dirname(__FILE__) . '/../resources/' . self::UPLOAD_IMAGE_FILENAME;
     	$uploadToken = $this->_client->uploadToken->upload($uploadToken->id, $uploadFilePath);
     	
-		$resource = new Kaltura_Client_Type_UploadedFileTokenResource();
+		$resource = new Vidiun_Client_Type_UploadedFileTokenResource();
     	$resource->token = $uploadToken->id;
     	$entry = $this->_client->media->addContent($entry->id, $resource);
     	

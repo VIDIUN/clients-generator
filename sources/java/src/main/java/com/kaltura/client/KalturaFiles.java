@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
 import java.util.HashMap;
 
@@ -36,23 +36,23 @@ import java.util.HashMap;
  * @author azeckoski
  *
  */
-public class KalturaFiles extends HashMap<String, KalturaFile> {
+public class VidiunFiles extends HashMap<String, VidiunFile> {
 	
 	private static final long serialVersionUID = -5838275045069221834L;
 	
 	private static final String PARAMS_SEPERATOR = ":";
 
-	public void add(KalturaFiles files) {
+	public void add(VidiunFiles files) {
 		this.putAll(files);
 	}
 	
-	public void add(String objectName, KalturaFiles files) {
-		for (java.util.Map.Entry<String, KalturaFile> itr : files.entrySet()) {
+	public void add(String objectName, VidiunFiles files) {
+		for (java.util.Map.Entry<String, VidiunFile> itr : files.entrySet()) {
 			this.put(objectName + PARAMS_SEPERATOR + itr.getKey(), itr.getValue());           
 		}
 	}
 
-	public void add(String key, KalturaFile value) {
+	public void add(String key, VidiunFile value) {
 		if (value == null)
 			return;
 		this.put(key, value);

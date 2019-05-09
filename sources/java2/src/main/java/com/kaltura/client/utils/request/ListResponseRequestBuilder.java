@@ -1,8 +1,8 @@
-package com.kaltura.client.utils.request;
+package com.vidiun.client.utils.request;
 
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.ListResponse;
-import com.kaltura.client.utils.GsonParser;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.ListResponse;
+import com.vidiun.client.utils.GsonParser;
 
 public abstract class ListResponseRequestBuilder<RS, TK, S> extends RequestBuilder<ListResponse<RS>, ListResponse.Tokenizer<TK>, S> {
 

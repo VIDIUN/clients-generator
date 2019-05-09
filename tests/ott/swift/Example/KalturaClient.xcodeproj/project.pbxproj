@@ -10,7 +10,7 @@
 		00139DC01F698B22005D49EC /* TestConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00139DBC1F698ACB005D49EC /* TestConfig.swift */; };
 		00139DC11F698B2B005D49EC /* TestConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00139DBE1F698AE0005D49EC /* TestConfig.plist */; };
 		002EBA931F7A27F900C7E4F9 /* MapTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002EBA921F7A27F900C7E4F9 /* MapTest.swift */; };
-		11ED30FC12B8F925214FA63E /* Pods_KalturaClient_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A828660A1AF9647D2ABD0F59 /* Pods_KalturaClient_Example.framework */; };
+		11ED30FC12B8F925214FA63E /* Pods_VidiunClient_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A828660A1AF9647D2ABD0F59 /* Pods_VidiunClient_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -22,7 +22,7 @@
 		C28D3A9C1F33293D001D2A03 /* ArrayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D3A9B1F33293D001D2A03 /* ArrayTest.swift */; };
 		C28D3AD81F38ACB0001D2A03 /* MultiRequestWithArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D3AD71F38ACB0001D2A03 /* MultiRequestWithArray.swift */; };
 		C28D3ADA1F38ACC7001D2A03 /* MultiRequestWithPrimitives.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28D3AD91F38ACC7001D2A03 /* MultiRequestWithPrimitives.swift */; };
-		C8AE6144724D6F607DA92C18 /* Pods_KalturaClient_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA7C1EFC72FAE951883B0985 /* Pods_KalturaClient_Tests.framework */; };
+		C8AE6144724D6F607DA92C18 /* Pods_VidiunClient_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA7C1EFC72FAE951883B0985 /* Pods_VidiunClient_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +31,7 @@
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
-			remoteInfo = KalturaClient;
+			remoteInfo = VidiunClient;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -41,29 +41,29 @@
 		001416C11F1F892700CD4112 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		002EBA921F7A27F900C7E4F9 /* MapTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTest.swift; sourceTree = "<group>"; };
 		25D0496082CD170A6C7D9E66 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		5B71B816BD0CFFB43D1C5C16 /* Pods-KalturaClient_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KalturaClient_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KalturaClient_Tests/Pods-KalturaClient_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		5FE8E0B6C95CC113DDE8608B /* Pods-KalturaClient_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KalturaClient_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-KalturaClient_Example/Pods-KalturaClient_Example.release.xcconfig"; sourceTree = "<group>"; };
-		607FACD01AFB9204008FA782 /* KalturaClient_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KalturaClient_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B71B816BD0CFFB43D1C5C16 /* Pods-VidiunClient_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VidiunClient_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-VidiunClient_Tests/Pods-VidiunClient_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		5FE8E0B6C95CC113DDE8608B /* Pods-VidiunClient_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VidiunClient_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-VidiunClient_Example/Pods-VidiunClient_Example.release.xcconfig"; sourceTree = "<group>"; };
+		607FACD01AFB9204008FA782 /* VidiunClient_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VidiunClient_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		607FACE51AFB9204008FA782 /* KalturaClient_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KalturaClient_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		607FACE51AFB9204008FA782 /* VidiunClient_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VidiunClient_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* BaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTest.swift; sourceTree = "<group>"; };
 		9EEB332DC79B29F3773EBDAC /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		A828660A1AF9647D2ABD0F59 /* Pods_KalturaClient_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KalturaClient_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B33E0750ECAFC8D9419D0E2D /* KalturaOttClient.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = KalturaOttClient.podspec; path = ../KalturaOttClient.podspec; sourceTree = "<group>"; };
-		B9C640C657C2B5A040083AF5 /* Pods-KalturaClient_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KalturaClient_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KalturaClient_Tests/Pods-KalturaClient_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		BA7C1EFC72FAE951883B0985 /* Pods_KalturaClient_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KalturaClient_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A828660A1AF9647D2ABD0F59 /* Pods_VidiunClient_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VidiunClient_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B33E0750ECAFC8D9419D0E2D /* VidiunOttClient.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = VidiunOttClient.podspec; path = ../VidiunOttClient.podspec; sourceTree = "<group>"; };
+		B9C640C657C2B5A040083AF5 /* Pods-VidiunClient_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VidiunClient_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VidiunClient_Tests/Pods-VidiunClient_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		BA7C1EFC72FAE951883B0985 /* Pods_VidiunClient_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VidiunClient_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C28D3A951F33252B001D2A03 /* MultiRequestTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiRequestTest.swift; sourceTree = "<group>"; };
 		C28D3A961F33252B001D2A03 /* PrimitivesTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimitivesTest.swift; sourceTree = "<group>"; };
 		C28D3A9B1F33293D001D2A03 /* ArrayTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayTest.swift; sourceTree = "<group>"; };
 		C28D3AD71F38ACB0001D2A03 /* MultiRequestWithArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiRequestWithArray.swift; sourceTree = "<group>"; };
 		C28D3AD91F38ACC7001D2A03 /* MultiRequestWithPrimitives.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiRequestWithPrimitives.swift; sourceTree = "<group>"; };
-		C4D209549F925E3CB611747F /* Pods-KalturaClient_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KalturaClient_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KalturaClient_Example/Pods-KalturaClient_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		C4D209549F925E3CB611747F /* Pods-VidiunClient_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VidiunClient_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VidiunClient_Example/Pods-VidiunClient_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11ED30FC12B8F925214FA63E /* Pods_KalturaClient_Example.framework in Frameworks */,
+				11ED30FC12B8F925214FA63E /* Pods_VidiunClient_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,7 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8AE6144724D6F607DA92C18 /* Pods_KalturaClient_Tests.framework in Frameworks */,
+				C8AE6144724D6F607DA92C18 /* Pods_VidiunClient_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,8 +90,8 @@
 			isa = PBXGroup;
 			children = (
 				001416C11F1F892700CD4112 /* XCTest.framework */,
-				A828660A1AF9647D2ABD0F59 /* Pods_KalturaClient_Example.framework */,
-				BA7C1EFC72FAE951883B0985 /* Pods_KalturaClient_Tests.framework */,
+				A828660A1AF9647D2ABD0F59 /* Pods_VidiunClient_Example.framework */,
+				BA7C1EFC72FAE951883B0985 /* Pods_VidiunClient_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -100,7 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
-				607FACD21AFB9204008FA782 /* Example for KalturaClient */,
+				607FACD21AFB9204008FA782 /* Example for VidiunClient */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				7926491686FFF4D844DE2510 /* Pods */,
@@ -111,13 +111,13 @@
 		607FACD11AFB9204008FA782 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				607FACD01AFB9204008FA782 /* KalturaClient_Example.app */,
-				607FACE51AFB9204008FA782 /* KalturaClient_Tests.xctest */,
+				607FACD01AFB9204008FA782 /* VidiunClient_Example.app */,
+				607FACE51AFB9204008FA782 /* VidiunClient_Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		607FACD21AFB9204008FA782 /* Example for KalturaClient */ = {
+		607FACD21AFB9204008FA782 /* Example for VidiunClient */ = {
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
@@ -127,8 +127,8 @@
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
-			name = "Example for KalturaClient";
-			path = KalturaClient;
+			name = "Example for VidiunClient";
+			path = VidiunClient;
 			sourceTree = "<group>";
 		};
 		607FACD31AFB9204008FA782 /* Supporting Files */ = {
@@ -167,7 +167,7 @@
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				B33E0750ECAFC8D9419D0E2D /* KalturaOttClient.podspec */,
+				B33E0750ECAFC8D9419D0E2D /* VidiunOttClient.podspec */,
 				25D0496082CD170A6C7D9E66 /* README.md */,
 				9EEB332DC79B29F3773EBDAC /* LICENSE */,
 			);
@@ -177,10 +177,10 @@
 		7926491686FFF4D844DE2510 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C4D209549F925E3CB611747F /* Pods-KalturaClient_Example.debug.xcconfig */,
-				5FE8E0B6C95CC113DDE8608B /* Pods-KalturaClient_Example.release.xcconfig */,
-				B9C640C657C2B5A040083AF5 /* Pods-KalturaClient_Tests.debug.xcconfig */,
-				5B71B816BD0CFFB43D1C5C16 /* Pods-KalturaClient_Tests.release.xcconfig */,
+				C4D209549F925E3CB611747F /* Pods-VidiunClient_Example.debug.xcconfig */,
+				5FE8E0B6C95CC113DDE8608B /* Pods-VidiunClient_Example.release.xcconfig */,
+				B9C640C657C2B5A040083AF5 /* Pods-VidiunClient_Tests.debug.xcconfig */,
+				5B71B816BD0CFFB43D1C5C16 /* Pods-VidiunClient_Tests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -188,9 +188,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		607FACCF1AFB9204008FA782 /* KalturaClient_Example */ = {
+		607FACCF1AFB9204008FA782 /* VidiunClient_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "KalturaClient_Example" */;
+			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "VidiunClient_Example" */;
 			buildPhases = (
 				726EDAE593CBBDEE85EC36CC /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
@@ -203,14 +203,14 @@
 			);
 			dependencies = (
 			);
-			name = KalturaClient_Example;
-			productName = KalturaClient;
-			productReference = 607FACD01AFB9204008FA782 /* KalturaClient_Example.app */;
+			name = VidiunClient_Example;
+			productName = VidiunClient;
+			productReference = 607FACD01AFB9204008FA782 /* VidiunClient_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		607FACE41AFB9204008FA782 /* KalturaClient_Tests */ = {
+		607FACE41AFB9204008FA782 /* VidiunClient_Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "KalturaClient_Tests" */;
+			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "VidiunClient_Tests" */;
 			buildPhases = (
 				F4CFA6B1DFCC5336C834CA98 /* [CP] Check Pods Manifest.lock */,
 				607FACE11AFB9204008FA782 /* Sources */,
@@ -224,9 +224,9 @@
 			dependencies = (
 				607FACE71AFB9204008FA782 /* PBXTargetDependency */,
 			);
-			name = KalturaClient_Tests;
+			name = VidiunClient_Tests;
 			productName = Tests;
-			productReference = 607FACE51AFB9204008FA782 /* KalturaClient_Tests.xctest */;
+			productReference = 607FACE51AFB9204008FA782 /* VidiunClient_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -250,7 +250,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "KalturaClient" */;
+			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "VidiunClient" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -263,8 +263,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				607FACCF1AFB9204008FA782 /* KalturaClient_Example */,
-				607FACE41AFB9204008FA782 /* KalturaClient_Tests */,
+				607FACCF1AFB9204008FA782 /* VidiunClient_Example */,
+				607FACE41AFB9204008FA782 /* VidiunClient_Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -303,7 +303,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KalturaClient_Tests/Pods-KalturaClient_Tests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VidiunClient_Tests/Pods-VidiunClient_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6B5043B1C47881EDCA4D0C39 /* [CP] Copy Pods Resources */ = {
@@ -318,7 +318,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KalturaClient_Example/Pods-KalturaClient_Example-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VidiunClient_Example/Pods-VidiunClient_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		726EDAE593CBBDEE85EC36CC /* [CP] Check Pods Manifest.lock */ = {
@@ -348,7 +348,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KalturaClient_Tests/Pods-KalturaClient_Tests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VidiunClient_Tests/Pods-VidiunClient_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D994328B7BA7E3F992C2A46A /* [CP] Embed Pods Frameworks */ = {
@@ -363,7 +363,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KalturaClient_Example/Pods-KalturaClient_Example-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VidiunClient_Example/Pods-VidiunClient_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F4CFA6B1DFCC5336C834CA98 /* [CP] Check Pods Manifest.lock */ = {
@@ -413,7 +413,7 @@
 /* Begin PBXTargetDependency section */
 		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 607FACCF1AFB9204008FA782 /* KalturaClient_Example */;
+			target = 607FACCF1AFB9204008FA782 /* VidiunClient_Example */;
 			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -527,10 +527,10 @@
 		};
 		607FACF01AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C4D209549F925E3CB611747F /* Pods-KalturaClient_Example.debug.xcconfig */;
+			baseConfigurationReference = C4D209549F925E3CB611747F /* Pods-VidiunClient_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = KalturaClient/Info.plist;
+				INFOPLIST_FILE = VidiunClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -541,10 +541,10 @@
 		};
 		607FACF11AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5FE8E0B6C95CC113DDE8608B /* Pods-KalturaClient_Example.release.xcconfig */;
+			baseConfigurationReference = 5FE8E0B6C95CC113DDE8608B /* Pods-VidiunClient_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = KalturaClient/Info.plist;
+				INFOPLIST_FILE = VidiunClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -555,7 +555,7 @@
 		};
 		607FACF31AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B9C640C657C2B5A040083AF5 /* Pods-KalturaClient_Tests.debug.xcconfig */;
+			baseConfigurationReference = B9C640C657C2B5A040083AF5 /* Pods-VidiunClient_Tests.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -575,7 +575,7 @@
 		};
 		607FACF41AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B71B816BD0CFFB43D1C5C16 /* Pods-KalturaClient_Tests.release.xcconfig */;
+			baseConfigurationReference = 5B71B816BD0CFFB43D1C5C16 /* Pods-VidiunClient_Tests.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -592,7 +592,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "KalturaClient" */ = {
+		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "VidiunClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACED1AFB9204008FA782 /* Debug */,
@@ -601,7 +601,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "KalturaClient_Example" */ = {
+		607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "VidiunClient_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACF01AFB9204008FA782 /* Debug */,
@@ -610,7 +610,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "KalturaClient_Tests" */ = {
+		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "VidiunClient_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACF31AFB9204008FA782 /* Debug */,

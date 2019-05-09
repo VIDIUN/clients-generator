@@ -1,4 +1,4 @@
-package com.kaltura.client.utils;
+package com.vidiun.client.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -7,9 +7,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.APIException.FailureStep;
-import com.kaltura.client.types.ListResponse;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.APIException.FailureStep;
+import com.vidiun.client.types.ListResponse;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -30,7 +30,7 @@ public class GsonParser {
 
     @SuppressWarnings("unchecked")
 	public static <T> Class<T> getObjectClass(String objectType, Class<T> defaultClass) {
-        String className = "com.kaltura.client.types." + objectType.replaceAll("^Kaltura", "");
+        String className = "com.vidiun.client.types." + objectType.replaceAll("^Vidiun", "");
 
 		try {
 			return (Class<T>) Class.forName(className);
@@ -109,7 +109,7 @@ public class GsonParser {
         }
         else if(objectTypeElement != null) {
 	        String objectType = objectTypeElement.getAsString();
-	        if(objectType.equals("KalturaAPIException")) {
+	        if(objectType.equals("VidiunAPIException")) {
 	        	throw parseException(jsonObject);
 	        }
 	        clz = getObjectClass(objectType, clz);
@@ -152,7 +152,7 @@ public class GsonParser {
         if(jsonElement.isJsonObject()) {
         	JsonObject jsonObject = jsonElement.getAsJsonObject();
 	        String objectType = jsonObject.getAsJsonPrimitive(ObjectTypeKey).getAsString();
-	        if(objectType.equals("KalturaAPIException")) {
+	        if(objectType.equals("VidiunAPIException")) {
 	        	throw parseException(jsonObject);
 	        }
         }
@@ -203,7 +203,7 @@ public class GsonParser {
         if(jsonElement.isJsonObject()) {
         	JsonObject jsonObject = jsonElement.getAsJsonObject();
 	        String objectType = jsonObject.getAsJsonPrimitive(ObjectTypeKey).getAsString();
-	        if(objectType.equals("KalturaAPIException")) {
+	        if(objectType.equals("VidiunAPIException")) {
 	        	throw parseException(jsonObject);
 	        }
         }
@@ -246,7 +246,7 @@ public class GsonParser {
     	}
         
         String objectType = jsonObject.getAsJsonPrimitive(ObjectTypeKey).getAsString();
-        if(objectType.equals("KalturaAPIException")) {
+        if(objectType.equals("VidiunAPIException")) {
         	throw parseException(jsonObject);
         }
         
@@ -279,7 +279,7 @@ public class GsonParser {
 
     private static APIException parseException(JsonObject jsonObject) {
         String objectType = jsonObject.getAsJsonPrimitive(ObjectTypeKey).getAsString();
-        if(objectType.equals("KalturaAPIException")) {
+        if(objectType.equals("VidiunAPIException")) {
         	return gson.fromJson(jsonObject, APIException.class);
         }
         
@@ -344,7 +344,7 @@ public class GsonParser {
 		for (Map.Entry<String, JsonElement> entry : jsonMap.entrySet()) {
     		jsonObject = entry.getValue().getAsJsonObject();
 	        objectType = jsonObject.getAsJsonPrimitive(ObjectTypeKey).getAsString();
-	        if(objectType.equals("KalturaAPIException")) {
+	        if(objectType.equals("VidiunAPIException")) {
 	        	throw parseException(jsonObject);
 	        }
 	        clz = getObjectClass(objectType, clz);

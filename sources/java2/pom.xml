@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <!-- -->
 <!-- Maven POM file for packaging and testing the -->
-<!-- KalturaApiClient Java library. -->
+<!-- VidiunApiClient Java library. -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <!-- Define the GAV coordinate for the project -->
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.kaltura</groupId>
-    <artifactId>KalturaApiClient</artifactId>
+    <groupId>com.vidiun</groupId>
+    <artifactId>VidiunApiClient</artifactId>
     <version>@VERSION@-SNAPSHOT</version>
 
     <packaging>jar</packaging>
@@ -18,17 +18,17 @@
     </properties>
 
     <!-- Project description -->
-    <name>Kaltura API Java Client Library</name>
+    <name>Vidiun API Java Client Library</name>
     <description>
-        KalturaApiClient is a library of Java classes that can be used to interact
-        with the Kaltura REST API. More information about the REST API can be
-        found at http://corp.kaltura.com/Products/Kaltura-API Many of the Java classes
+        VidiunApiClient is a library of Java classes that can be used to interact
+        with the Vidiun REST API. More information about the REST API can be
+        found at http://corp.vidiun.com/Products/Vidiun-API Many of the Java classes
         in this library are auto-generated from a schema that defines the objects that
         are used to interact with the API. The current schema can be found at
-        http://www.kaltura.com/api_v3/api_schema.php
-        This library replaces the deprecated KalturaClient library.
+        http://www.vidiun.com/api_v3/api_schema.php
+        This library replaces the deprecated VidiunClient library.
     </description>
-    <url>http://github.com/kaltura/KalturaGeneratedAPIClientsJava</url>
+    <url>http://github.com/vidiun/VidiunGeneratedAPIClientsJava</url>
 
     <!-- Define the license under which this software can be used. -->
     <licenses>
@@ -55,31 +55,31 @@
     <developers>
         <developer>
             <name>Jess Portnoy</name>
-            <email>jess.portnoy@kaltura.com</email>
-            <organization>Kaltura</organization>
-            <organizationUrl>http://www.kaltura.com</organizationUrl>
+            <email>jess.portnoy@vidiun.com</email>
+            <organization>Vidiun</organization>
+            <organizationUrl>http://www.vidiun.com</organizationUrl>
         </developer>
         <developer>
             <name>Tehila Rozin</name>
-            <email>Tehila.Rozin@kaltura.com</email>
-            <organization>Kaltura</organization>
-            <organizationUrl>http://www.kaltura.com</organizationUrl>
+            <email>Tehila.Rozin@vidiun.com</email>
+            <organization>Vidiun</organization>
+            <organizationUrl>http://www.vidiun.com</organizationUrl>
         </developer>
         <developer>
             <name>Johnathan Amit-Kanarek</name>
-            <email>Jonathan.Kanarek@kaltura.com</email>
-            <organization>Kaltura</organization>
-            <organizationUrl>http://www.kaltura.com</organizationUrl>
+            <email>Jonathan.Kanarek@vidiun.com</email>
+            <organization>Vidiun</organization>
+            <organizationUrl>http://www.vidiun.com</organizationUrl>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:kaltura/KalturaGeneratedAPIClientsJava.git</connection>
-        <developerConnection>scm:git:git@github.com:kaltura/KalturaGeneratedAPIClientsJava.git</developerConnection>
-        <url>scm:git:git@github.com:kaltura/KalturaGeneratedAPIClientsJava.git</url>
+        <connection>scm:git:git@github.com:vidiun/VidiunGeneratedAPIClientsJava.git</connection>
+        <developerConnection>scm:git:git@github.com:vidiun/VidiunGeneratedAPIClientsJava.git</developerConnection>
+        <url>scm:git:git@github.com:vidiun/VidiunGeneratedAPIClientsJava.git</url>
     </scm>
 
-    <!-- Libraries on which the KalturaClient depends -->
+    <!-- Libraries on which the VidiunClient depends -->
     <dependencies>
         <dependency>
             <groupId>commons-codec</groupId>

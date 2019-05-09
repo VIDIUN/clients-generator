@@ -1,18 +1,18 @@
-import { KalturaRequestBase } from '../api/kaltura-request-base';
-import { KalturaClientOptions } from '../kaltura-client-options';
-import { KalturaRequestOptions, KalturaRequestOptionsArgs } from '../api/kaltura-request-options';
-import { KalturaMultiRequest } from '../api/kaltura-multi-request';
-import { KalturaRequest } from '../api/kaltura-request';
-import { KalturaFileRequest } from '../api/kaltura-file-request';
+import { VidiunRequestBase } from '../api/vidiun-request-base';
+import { VidiunClientOptions } from '../vidiun-client-options';
+import { VidiunRequestOptions, VidiunRequestOptionsArgs } from '../api/vidiun-request-options';
+import { VidiunMultiRequest } from '../api/vidiun-multi-request';
+import { VidiunRequest } from '../api/vidiun-request';
+import { VidiunFileRequest } from '../api/vidiun-file-request';
 import { environment } from '../environment';
 
-export type CreateEndpointOptions = KalturaClientOptions & {
+export type CreateEndpointOptions = VidiunClientOptions & {
   service: string,
   action?: string,
   format?: string
 }
 
-export function createEndpoint(request: KalturaRequestBase, options: CreateEndpointOptions): string {
+export function createEndpoint(request: VidiunRequestBase, options: CreateEndpointOptions): string {
   const endpoint = options.endpointUrl;
   const clientTag = createClientTag(request, options);
   let result = `${endpoint}/api_v3/service/${options.service}`;
@@ -34,7 +34,7 @@ export function createEndpoint(request: KalturaRequestBase, options: CreateEndpo
   return result;
 }
 
-export function createClientTag(request: KalturaRequestBase, options: KalturaClientOptions)
+export function createClientTag(request: VidiunRequestBase, options: VidiunClientOptions)
 {
 	const networkTag = (request.getNetworkTag() || "").trim();
 	const clientTag = (options.clientTag || "").trim() || "ng-app";
@@ -79,7 +79,7 @@ export function getHeaders(): any {
 	};
 }
 
-export function prepareParameters(request: KalturaRequest<any> | KalturaMultiRequest | KalturaFileRequest,  options: KalturaClientOptions,  defaultRequestOptions: KalturaRequestOptions): any {
+export function prepareParameters(request: VidiunRequest<any> | VidiunMultiRequest | VidiunFileRequest,  options: VidiunClientOptions,  defaultRequestOptions: VidiunRequestOptions): any {
 
 	return Object.assign(
 		{},

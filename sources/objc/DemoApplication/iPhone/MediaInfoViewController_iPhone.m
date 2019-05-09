@@ -1,9 +1,9 @@
 //
 //  MediaInfoViewController_iPhone.m
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 29.02.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import "MediaInfoViewController_iPhone.h"
@@ -68,9 +68,9 @@ const CGRect PlayerCGRect = { { 0.0f, 0.0f }, { 320.0f, 180.0f } };
             MFMailComposeViewController *_controller = [[MFMailComposeViewController alloc] init];    
             _controller.mailComposeDelegate = self;
             
-            [_controller setSubject:@"Kaltura"];
+            [_controller setSubject:@"Vidiun"];
             
-            NSString *str = [NSString stringWithFormat:@"I just saw this great video on Kaltura mobile app, check it out:\n%@", [[Client instance] getShareURL:self.mediaEntry]];
+            NSString *str = [NSString stringWithFormat:@"I just saw this great video on Vidiun mobile app, check it out:\n%@", [[Client instance] getShareURL:self.mediaEntry]];
             [_controller setMessageBody:str isHTML:NO];
             
             [self presentViewController:_controller animated:YES completion:nil];
@@ -211,7 +211,7 @@ const CGRect PlayerCGRect = { { 0.0f, 0.0f }, { 320.0f, 180.0f } };
     [self.navigationController setDelegate:self];
     
     if ( !playerViewController ) {
-        playerViewController = [[ KPViewController alloc] init];
+        playerViewController = [[ VPViewController alloc] init];
         
         playerViewController.view.frame = PlayerCGRect;
     }

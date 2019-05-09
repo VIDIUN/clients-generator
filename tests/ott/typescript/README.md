@@ -1,13 +1,13 @@
-# Kaltura OTT Typescript Client
+# Vidiun OTT Typescript Client
 
-Compatible with Kaltura OTT server version @VERSION@ and above.
+Compatible with Vidiun OTT server version @VERSION@ and above.
 
 
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![Gitter chat](https://badges.gitter.im/kaltura-ng/kaltura-ng.png)](https://gitter.im/kaltura-ng/kaltura-ng) [![Build Status](https://travis-ci.org/kaltura/KalturaOttGeneratedAPIClientsTypescript.svg?branch=master)](https://travis-ci.org/kaltura/KalturaOttGeneratedAPIClientsTypescript)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![Gitter chat](https://badges.gitter.im/vidiun-ng/vidiun-ng.png)](https://gitter.im/vidiun-ng/vidiun-ng) [![Build Status](https://travis-ci.org/vidiun/VidiunOttGeneratedAPIClientsTypescript.svg?branch=master)](https://travis-ci.org/vidiun/VidiunOttGeneratedAPIClientsTypescript)
 
-> An easy-to-use facade to Kaltura OTT server with typescript support for action requests, classes and enums.
+> An easy-to-use facade to Vidiun OTT server with typescript support for action requests, classes and enums.
 
-[![NPM](https://nodei.co/npm/kaltura-ott-typescript-client.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/kaltura-ott-typescript-client/)
+[![NPM](https://nodei.co/npm/vidiun-ott-typescript-client.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/vidiun-ott-typescript-client/)
 
 ## Instructions
 
@@ -16,17 +16,17 @@ To keep being update review the [changelog](CHANGELOG.md) frequently.
 
 You can install this client library using npm with:
 ```
-npm install kaltura-ott-typescript-client@@VERSION_JS@
+npm install vidiun-ott-typescript-client@@VERSION_JS@
 ```
 
- **Found a bug?** create [kaltura/clients-generator issue](https://github.com/kaltura/clients-generator/issues)
+ **Found a bug?** create [vidiun/clients-generator issue](https://github.com/vidiun/clients-generator/issues)
 
 
 ## Features list
 View list of features [here](features.md).
 
 # Building the sources
-> This library is auto-generated using `kaltura/clients-generator` php engine. Feel free to clone, build and play with this library but in order to submit PR you should work against the [kaltura/clients-generator](https://github.com/kaltura/clients-generator) repo.
+> This library is auto-generated using `vidiun/clients-generator` php engine. Feel free to clone, build and play with this library but in order to submit PR you should work against the [vidiun/clients-generator](https://github.com/vidiun/clients-generator) repo.
 
 
 ## Adding this library as a dependency to your project
@@ -36,7 +36,7 @@ Since this library was designed to be consumed directly and not using npmjs repo
 $ npm install
 $ npm run deploy
 ```
-2. open folder `dist` and find a `tar.gz` file starting with `kaltura-ngx-client-v`.
+2. open folder `dist` and find a `tar.gz` file starting with `vidiun-ngx-client-v`.
 3. copy this file to your project (we recommend coping it to folder `libs`)
 4. run the following command
  ```
@@ -44,7 +44,7 @@ $ npm run deploy
  ```
 > make sure you prefix the path with `file:` as shown above.
 
-An example of a vaild command will be: `npm install file:libs/kaltura-ngx-client-v7.1.0-20173010-1053.tgz`
+An example of a vaild command will be: `npm install file:libs/vidiun-ngx-client-v7.1.0-20173010-1053.tgz`
 
 5. if you already have older version, delete that file. You should do this only after you installed the new version.
 
@@ -53,10 +53,10 @@ An example of a vaild command will be: `npm install file:libs/kaltura-ngx-client
 - Modify the file content to include valid information.
 - Run `npm run test` to test the library
 
-> If you want to test the library against the production server use the following as the endpoint in the config file: http://www.kaltura.com/api_v3/index.php/
+> If you want to test the library against the production server use the following as the endpoint in the config file: http://www.vidiun.com/api_v3/index.php/
 
 
 ## License and Copyright Information
 All code in this project is released under the [AGPLv3 license](http://www.gnu.org/licenses/agpl-3.0.html) unless a different license for a particular library is specified in the applicable library path.
 
-Copyright © Kaltura Inc. All rights reserved.
+Copyright © Vidiun Inc. All rights reserved.

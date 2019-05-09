@@ -5,11 +5,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,7 +28,7 @@
 // ===================================================================================================
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
 class MultiRequestSubResult implements ArrayAccess
@@ -68,10 +68,10 @@ class MultiRequestSubResult implements ArrayAccess
 }
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-class KalturaNull
+class VidiunNull
 {
 	private static $instance;
 
@@ -97,16 +97,16 @@ class KalturaNull
 }
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-class KalturaClientBase
+class VidiunClientBase
 {
-	const KALTURA_SERVICE_FORMAT_JSON = 1;
-	const KALTURA_SERVICE_FORMAT_XML  = 2;
-	const KALTURA_SERVICE_FORMAT_PHP  = 3;
+	const VIDIUN_SERVICE_FORMAT_JSON = 1;
+	const VIDIUN_SERVICE_FORMAT_XML  = 2;
+	const VIDIUN_SERVICE_FORMAT_PHP  = 3;
 
-	// KS V2 constants
+	// VS V2 constants
 	const RANDOM_SIZE = 16;
 
 	const FIELD_EXPIRY =              '_e';
@@ -117,7 +117,7 @@ class KalturaClientBase
 	const METHOD_GET 	= 'GET';
 
 	/**
-	 * @var KalturaConfiguration
+	 * @var VidiunConfiguration
 	 */
 	protected $config;
 
@@ -149,7 +149,7 @@ class KalturaClientBase
 	/**
 	 * Array of all plugin services
 	 *
-	 * @var array<KalturaServiceBase>
+	 * @var array<VidiunServiceBase>
 	 */
 	protected $pluginServices = array();
 
@@ -179,11 +179,11 @@ class KalturaClientBase
 	}
 
 	/**
-	 * Kaltura client constructor
+	 * Vidiun client constructor
 	 *
-	 * @param KalturaConfiguration $config
+	 * @param VidiunConfiguration $config
 	 */
-	public function __construct(KalturaConfiguration $config)
+	public function __construct(VidiunConfiguration $config)
 	{
 	    $this->config = $config;
 
@@ -194,7 +194,7 @@ class KalturaClientBase
 		}
 
 		// load all plugins
-		$pluginsFolder = realpath(dirname(__FILE__)) . '/KalturaPlugins';
+		$pluginsFolder = realpath(dirname(__FILE__)) . '/VidiunPlugins';
 		if(is_dir($pluginsFolder))
 		{
 			$dir = dir($pluginsFolder);
@@ -206,11 +206,11 @@ class KalturaClientBase
 					require_once("$pluginsFolder/$fileName");
 
 					$pluginClass = $matches[1];
-					if(!class_exists($pluginClass) || !in_array('IKalturaClientPlugin', class_implements($pluginClass)))
+					if(!class_exists($pluginClass) || !in_array('IVidiunClientPlugin', class_implements($pluginClass)))
 						continue;
 
 					$plugin = call_user_func(array($pluginClass, 'get'), $this);
-					if(!($plugin instanceof IKalturaClientPlugin))
+					if(!($plugin instanceof IVidiunClientPlugin))
 						continue;
 
 					$pluginName = $plugin->getName();
@@ -260,7 +260,7 @@ class KalturaClientBase
 
 		$params = array_merge($params, $call->params);
 		$signature = $this->signature($params);
-		$this->addParam($params, "kalsig", $signature);
+		$this->addParam($params, "vidsig", $signature);
 
 		$url = $this->config->serviceUrl . "/api_v3/service/{$call->service}/action/{$call->action}";
 		$url .= '?' . http_build_query($params);
@@ -275,7 +275,7 @@ class KalturaClientBase
 			$this->addParam($params, $param, $value);
 		}
 
-		$call = new KalturaServiceActionCall($service, $action, $params, $files);
+		$call = new VidiunServiceActionCall($service, $action, $params, $files);
 		$this->callsQueue[] = $call;
 	}
 
@@ -297,7 +297,7 @@ class KalturaClientBase
 		if($this->isMultiRequest && ($this->destinationPath || $this->returnServedResult))
 		{
 			$this->resetRequest();
-			throw new KalturaClientException("Downloading files is not supported as part of multi-request.", KalturaClientException::ERROR_DOWNLOAD_IN_MULTIREQUEST);
+			throw new VidiunClientException("Downloading files is not supported as part of multi-request.", VidiunClientException::ERROR_DOWNLOAD_IN_MULTIREQUEST);
 		}
 
 		if (count($this->callsQueue) == 0)
@@ -344,7 +344,7 @@ class KalturaClientBase
 		}
 
 		$signature = $this->signature($params);
-		$this->addParam($params, "kalsig", $signature);
+		$this->addParam($params, "vidsig", $signature);
 
 		try
 		{
@@ -359,7 +359,7 @@ class KalturaClientBase
 		if ($error)
 		{
 			$this->resetRequest();
-			throw new KalturaClientException($error, KalturaClientException::ERROR_GENERIC);
+			throw new VidiunClientException($error, VidiunClientException::ERROR_GENERIC);
 		}
 		else
 		{
@@ -371,7 +371,7 @@ class KalturaClientBase
 				$splittedHeader = explode(':', $curHeader, 2);
 				if ($splittedHeader[0] == 'X-Me')
 					$serverName = trim($splittedHeader[1]);
-				else if ($splittedHeader[0] == 'X-Kaltura-Session')
+				else if ($splittedHeader[0] == 'X-Vidiun-Session')
 					$serverSession = trim($splittedHeader[1]);
 			}
 			if (!is_null($serverName) || !is_null($serverSession))
@@ -388,28 +388,28 @@ class KalturaClientBase
 				if(!$postResult)
 				{
 					$this->resetRequest();
-					throw new KalturaClientException("failed to download file", KalturaClientException::ERROR_READ_FAILED);
+					throw new VidiunClientException("failed to download file", VidiunClientException::ERROR_READ_FAILED);
 				}
 			}
-			elseif ($this->config->format == self::KALTURA_SERVICE_FORMAT_PHP)
+			elseif ($this->config->format == self::VIDIUN_SERVICE_FORMAT_PHP)
 			{
 				$result = @unserialize($postResult);
 
 				if ($result === false && serialize(false) !== $postResult)
 				{
 					$this->resetRequest();
-					throw new KalturaClientException("failed to unserialize server result\n$postResult", KalturaClientException::ERROR_UNSERIALIZE_FAILED);
+					throw new VidiunClientException("failed to unserialize server result\n$postResult", VidiunClientException::ERROR_UNSERIALIZE_FAILED);
 				}
 				$dump = print_r($result, true);
 				$this->log("result (object dump): " . $dump);
 			}
-			elseif ($this->config->format == self::KALTURA_SERVICE_FORMAT_JSON)
+			elseif ($this->config->format == self::VIDIUN_SERVICE_FORMAT_JSON)
 			{
 				$result = json_decode($postResult);
 				if(is_null($result) && strtolower($postResult) !== 'null')
 				{
 					$this->resetRequest();
-					throw new KalturaClientException("failed to unserialize server result\n$postResult", KalturaClientException::ERROR_UNSERIALIZE_FAILED);
+					throw new VidiunClientException("failed to unserialize server result\n$postResult", VidiunClientException::ERROR_UNSERIALIZE_FAILED);
 				}
 				$result = $this->jsObjectToClientObject($result);
 				$dump = print_r($result, true);
@@ -418,7 +418,7 @@ class KalturaClientBase
 			else
 			{
 				$this->resetRequest();
-				throw new KalturaClientException("unsupported format: $postResult", KalturaClientException::ERROR_FORMAT_NOT_SUPPORTED);
+				throw new VidiunClientException("unsupported format: $postResult", VidiunClientException::ERROR_FORMAT_NOT_SUPPORTED);
 			}
 		}
 		$this->resetRequest();
@@ -437,12 +437,12 @@ class KalturaClientBase
 	 * @param int $flags
 	 * @return boolean
 	 */
-	protected function ksortRecursive(&$array, $flags = null) 
+	protected function vsortRecursive(&$array, $flags = null) 
 	{
-		ksort($array, $flags);
+		vsort($array, $flags);
 		foreach($array as &$arr) {
 			if(is_array($arr))
-				$this->ksortRecursive($arr, $flags);
+				$this->vsortRecursive($arr, $flags);
 		}
 		return true;
 	}
@@ -455,7 +455,7 @@ class KalturaClientBase
 	 */
 	private function signature($params)
 	{
-		$this->ksortRecursive($params);
+		$this->vsortRecursive($params);
 		return md5($this->jsonEncode($params));
 	}
 
@@ -472,7 +472,7 @@ class KalturaClientBase
 			return $this->doCurl($url, $params, $files);
 
 		if($this->destinationPath || $this->returnServedResult)
-			throw new KalturaClientException("Downloading files is not supported with stream context http request, please use curl.", KalturaClientException::ERROR_DOWNLOAD_NOT_SUPPORTED);
+			throw new VidiunClientException("Downloading files is not supported with stream context http request, please use curl.", VidiunClientException::ERROR_DOWNLOAD_NOT_SUPPORTED);
 
 		return $this->doPostRequest($url, $params, $files);
 	}
@@ -492,7 +492,7 @@ class KalturaClientBase
 		$params = $this->jsonEncode($params);
 		$this->log("curl: $url");
 		$this->log("post: $params");
-		if($this->config->format == self::KALTURA_SERVICE_FORMAT_JSON)
+		if($this->config->format == self::VIDIUN_SERVICE_FORMAT_JSON)
 		{
 			$requestHeaders[] = 'Accept: application/json';
 		}
@@ -605,7 +605,7 @@ class KalturaClientBase
 	private function doPostRequest($url, $params = array(), $files = array())
 	{
 		if (count($files) > 0)
-			throw new KalturaClientException("Uploading files is not supported with stream context http request, please use curl.", KalturaClientException::ERROR_UPLOAD_NOT_SUPPORTED);
+			throw new VidiunClientException("Uploading files is not supported with stream context http request, please use curl.", VidiunClientException::ERROR_UPLOAD_NOT_SUPPORTED);
 
 		$formattedData = http_build_query($params , "", "&");
 		$this->log("post: $url?$formattedData");
@@ -619,7 +619,7 @@ class KalturaClientBase
 		          ));
 
 		if (isset($this->config->proxyType) && $this->config->proxyType === 'SOCKS5') {
-			throw new KalturaClientException("Cannot use SOCKS5 without curl installed.", KalturaClientException::ERROR_CONNECTION_FAILED);
+			throw new VidiunClientException("Cannot use SOCKS5 without curl installed.", VidiunClientException::ERROR_CONNECTION_FAILED);
 		}
 		if (isset($this->config->proxyHost)) {
 			$proxyhost = 'tcp://' . $this->config->proxyHost;
@@ -638,11 +638,11 @@ class KalturaClientBase
 		$fp = @fopen($url, 'rb', false, $ctx);
 		if (!$fp) {
 			$phpErrorMsg = "";
-			throw new KalturaClientException("Problem with $url, $phpErrorMsg", KalturaClientException::ERROR_CONNECTION_FAILED);
+			throw new VidiunClientException("Problem with $url, $phpErrorMsg", VidiunClientException::ERROR_CONNECTION_FAILED);
 		}
 		$response = @stream_get_contents($fp);
 		if ($response === false) {
-		   throw new KalturaClientException("Problem reading data from $url, $phpErrorMsg", KalturaClientException::ERROR_READ_FAILED);
+		   throw new VidiunClientException("Problem reading data from $url, $phpErrorMsg", VidiunClientException::ERROR_READ_FAILED);
 		}
 		return array($response, '');
 	}
@@ -680,7 +680,7 @@ class KalturaClientBase
 	}
 
 	/**
-	 * @return KalturaConfiguration
+	 * @return VidiunConfiguration
 	 */
 	public function getConfig()
 	{
@@ -688,22 +688,22 @@ class KalturaClientBase
 	}
 
 	/**
-	 * @param KalturaConfiguration $config
+	 * @param VidiunConfiguration $config
 	 */
-	public function setConfig(KalturaConfiguration $config)
+	public function setConfig(VidiunConfiguration $config)
 	{
 		$this->config = $config;
 
 		$logger = $this->config->getLogger();
-		if ($logger instanceof IKalturaLogger)
+		if ($logger instanceof IVidiunLogger)
 		{
 			$this->shouldLog = true;
 		}
 	}
 
-	public function setClientConfiguration(KalturaClientConfiguration $configuration)
+	public function setClientConfiguration(VidiunClientConfiguration $configuration)
 	{
-		$params = get_class_vars('KalturaClientConfiguration');
+		$params = get_class_vars('VidiunClientConfiguration');
 		foreach($params as $param => $value)
 		{
 			if(is_null($configuration->$param))
@@ -720,9 +720,9 @@ class KalturaClientBase
 		}
 	}
 
-	public function setRequestConfiguration(KalturaRequestConfiguration $configuration)
+	public function setRequestConfiguration(VidiunRequestConfiguration $configuration)
 	{
-		$params = get_class_vars('KalturaRequestConfiguration');
+		$params = get_class_vars('VidiunRequestConfiguration');
 		foreach($params as $param => $value)
 		{
 			if(is_null($configuration->$param))
@@ -751,12 +751,12 @@ class KalturaClientBase
 		if ($paramValue === null)
 			return;
 
-		if ($paramValue instanceof KalturaNull) {
+		if ($paramValue instanceof VidiunNull) {
 			$params[$paramName . '__null'] = '';
 			return;
 		}
 
-		if(is_object($paramValue) && $paramValue instanceof KalturaObjectBase)
+		if(is_object($paramValue) && $paramValue instanceof VidiunObjectBase)
 		{
 			$params[$paramName] = array(
 				'objectType' => get_class($paramValue)
@@ -818,12 +818,12 @@ class KalturaClientBase
 					}
 					return (array) $value;
 				}
-				throw new KalturaException($value->message, $value->code, $value->args);
+				throw new VidiunException($value->message, $value->code, $value->args);
 			}
 			
 			if(!isset($value->objectType))
 			{
-				throw new KalturaClientException("Response format not supported - objectType is required for all objects", KalturaClientException::ERROR_FORMAT_NOT_SUPPORTED);
+				throw new VidiunClientException("Response format not supported - objectType is required for all objects", VidiunClientException::ERROR_FORMAT_NOT_SUPPORTED);
 			}
 			
 			$objectType = $value->objectType;
@@ -891,7 +891,7 @@ class KalturaClientBase
 	{
 		if ($this->isError($resultObject))
 		{
-			throw new KalturaException($resultObject["message"], $resultObject["code"], $resultObject["args"]);
+			throw new VidiunException($resultObject["message"], $resultObject["code"], $resultObject["args"]);
 		}
 	}
 
@@ -924,21 +924,21 @@ class KalturaClientBase
 		{
 			if (!($resultObject instanceof $objectType))
 			{
-				throw new KalturaClientException("Invalid object type - not instance of $objectType", KalturaClientException::ERROR_INVALID_OBJECT_TYPE);
+				throw new VidiunClientException("Invalid object type - not instance of $objectType", VidiunClientException::ERROR_INVALID_OBJECT_TYPE);
 			}
 		}
-		else if(class_exists($objectType) && is_subclass_of($objectType, 'KalturaEnumBase'))
+		else if(class_exists($objectType) && is_subclass_of($objectType, 'VidiunEnumBase'))
 		{
 			$enum = new ReflectionClass($objectType);
 			$values = array_map('strval', $enum->getConstants());
 			if(!in_array($resultObject, $values))
 			{
-				throw new KalturaClientException("Invalid enum value", KalturaClientException::ERROR_INVALID_ENUM_VALUE);
+				throw new VidiunClientException("Invalid enum value", VidiunClientException::ERROR_INVALID_ENUM_VALUE);
 			}
 		}
 		else if(gettype($resultObject) !== $objectType)
 		{
-			throw new KalturaClientException("Invalid object type", KalturaClientException::ERROR_INVALID_OBJECT_TYPE);
+			throw new VidiunClientException("Invalid object type", VidiunClientException::ERROR_INVALID_OBJECT_TYPE);
 		}
 	}
 
@@ -1060,8 +1060,8 @@ class KalturaClientBase
 
 		// encrypt and encode
 		$encryptedFields = self::aesEncrypt($adminSecretForSigning, $fieldsStr);
-		$decodedKs = "v2|{$partnerId}|" . $encryptedFields;
-		return str_replace(array('+', '/'), array('-', '_'), base64_encode($decodedKs));
+		$decodedVs = "v2|{$partnerId}|" . $encryptedFields;
+		return str_replace(array('+', '/'), array('-', '_'), base64_encode($decodedVs));
 	}
 
 	protected static function aesEncrypt($key, $message)
@@ -1100,29 +1100,29 @@ class KalturaClientBase
 	}
 
 	/**
-	 * @return KalturaNull
+	 * @return VidiunNull
 	 */
-	public static function getKalturaNullValue()
+	public static function getVidiunNullValue()
 	{
 
-        return KalturaNull::getInstance();
+        return VidiunNull::getInstance();
 	}
 
 }
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-interface IKalturaClientPlugin
+interface IVidiunClientPlugin
 {
 	/**
-	 * @return KalturaClientPlugin
+	 * @return VidiunClientPlugin
 	 */
-	public static function get(KalturaClient $client);
+	public static function get(VidiunClient $client);
 
 	/**
-	 * @return array<KalturaServiceBase>
+	 * @return array<VidiunServiceBase>
 	 */
 	public function getServices();
 
@@ -1133,22 +1133,22 @@ interface IKalturaClientPlugin
 }
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-abstract class KalturaClientPlugin implements IKalturaClientPlugin
+abstract class VidiunClientPlugin implements IVidiunClientPlugin
 {
-	protected function __construct(KalturaClient $client)
+	protected function __construct(VidiunClient $client)
 	{
 
 	}
 }
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-class KalturaServiceActionCall
+class VidiunServiceActionCall
 {
 	/**
 	 * @var string
@@ -1172,7 +1172,7 @@ class KalturaServiceActionCall
 	public $files;
 
 	/**
-	 * Contruct new Kaltura service action call, if params array contain sub arrays (for objects), it will be flattened
+	 * Contruct new Vidiun service action call, if params array contain sub arrays (for objects), it will be flattened
 	 *
 	 * @param string $service
 	 * @param string $action
@@ -1245,30 +1245,30 @@ class KalturaServiceActionCall
 /**
  * Abstract base class for all client services
  *
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-abstract class KalturaServiceBase
+abstract class VidiunServiceBase
 {
 	/**
-	 * @var KalturaClient
+	 * @var VidiunClient
 	 */
 	protected $client;
 
 	/**
-	 * Initialize the service keeping reference to the KalturaClient
+	 * Initialize the service keeping reference to the VidiunClient
 	 *
-	 * @param KalturaClient $client
+	 * @param VidiunClient $client
 	 */
-	public function __construct(KalturaClient $client = null)
+	public function __construct(VidiunClient $client = null)
 	{
 		$this->client = $client;
 	}
 
 	/**
-	 * @param KalturaClient $client
+	 * @param VidiunClient $client
 	 */
-	public function setClient(KalturaClient $client)
+	public function setClient(VidiunClient $client)
 	{
 		$this->client = $client;
 	}
@@ -1277,20 +1277,20 @@ abstract class KalturaServiceBase
 /**
  * Abstract base class for all client enums
  *
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-abstract class KalturaEnumBase
+abstract class VidiunEnumBase
 {
 }
 
 /**
  * Abstract base class for all client objects
  *
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-abstract class KalturaObjectBase
+abstract class VidiunObjectBase
 {
 	/**
 	 * @var array
@@ -1302,7 +1302,7 @@ abstract class KalturaObjectBase
 		foreach ($params as $key => $value)
 		{
 			if (!property_exists($this, $key))
-				throw new KalturaClientException("property [{$key}] does not exist on object [".get_class($this)."]", KalturaClientException::ERROR_INVALID_OBJECT_FIELD);
+				throw new VidiunClientException("property [{$key}] does not exist on object [".get_class($this)."]", VidiunClientException::ERROR_INVALID_OBJECT_FIELD);
 			$this->$key = $value;
 		}
 	}
@@ -1311,7 +1311,7 @@ abstract class KalturaObjectBase
 	{
 		if ($paramValue !== null)
 		{
-			if($paramValue instanceof KalturaObjectBase)
+			if($paramValue instanceof VidiunObjectBase)
 			{
 				$params[$paramName] = $paramValue->toParams();
 			}
@@ -1335,10 +1335,10 @@ abstract class KalturaObjectBase
 }
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-class KalturaException extends Exception
+class VidiunException extends Exception
 {
 	private $arguments;
 
@@ -1373,10 +1373,10 @@ class KalturaException extends Exception
 }
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-class KalturaClientException extends Exception
+class VidiunClientException extends Exception
 {
 	const ERROR_GENERIC = -1;
 	const ERROR_UNSERIALIZE_FAILED = -2;
@@ -1394,15 +1394,15 @@ class KalturaClientException extends Exception
 }
 
 /**
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-class KalturaConfiguration
+class VidiunConfiguration
 {
 	private $logger;
 
-	public $serviceUrl    				= "http://www.kaltura.com/";
-	public $format        				= KalturaClientBase::KALTURA_SERVICE_FORMAT_PHP;
+	public $serviceUrl    				= "http://www.vidiun.com/";
+	public $format        				= VidiunClientBase::VIDIUN_SERVICE_FORMAT_PHP;
 	public $curlTimeout   				= 120;
 	public $userAgent					= '';
 	public $startZendDebuggerSession 	= false;
@@ -1414,14 +1414,14 @@ class KalturaConfiguration
 	public $verifySSL 					= true;
 	public $sslCertificatePath			= null;
 	public $requestHeaders				= array();
-	public $method						= KalturaClientBase::METHOD_POST;
+	public $method						= VidiunClientBase::METHOD_POST;
 
 	/**
-	 * Set logger to get kaltura client debug logs
+	 * Set logger to get vidiun client debug logs
 	 *
-	 * @param IKalturaLogger $log
+	 * @param IVidiunLogger $log
 	 */
-	public function setLogger(IKalturaLogger $log)
+	public function setLogger(IVidiunLogger $log)
 	{
 		$this->logger = $log;
 	}
@@ -1429,7 +1429,7 @@ class KalturaConfiguration
 	/**
 	 * Gets the logger (Internal client use)
 	 *
-	 * @return IKalturaLogger
+	 * @return IVidiunLogger
 	 */
 	public function getLogger()
 	{
@@ -1438,12 +1438,12 @@ class KalturaConfiguration
 }
 
 /**
- * Implement to get Kaltura Client logs
+ * Implement to get Vidiun Client logs
  *
- * @package Kaltura
+ * @package Vidiun
  * @subpackage Client
  */
-interface IKalturaLogger
+interface IVidiunLogger
 {
 	function log($msg);
 }

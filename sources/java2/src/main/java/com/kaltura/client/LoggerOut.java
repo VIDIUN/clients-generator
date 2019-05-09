@@ -1,4 +1,4 @@
-package com.kaltura.client;
+package com.vidiun.client;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

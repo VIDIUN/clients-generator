@@ -1,12 +1,12 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.kaltura.bar.ActionBar;
-import com.kaltura.mediatorActivity.TemplateActivity;
+import com.vidiun.bar.ActionBar;
+import com.vidiun.mediatorActivity.TemplateActivity;
 
 public class SuccessUpload extends TemplateActivity {
 

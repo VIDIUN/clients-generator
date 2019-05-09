@@ -1,32 +1,32 @@
-import { KalturaRequest } from './api/kaltura-request';
-import { KalturaMultiRequest } from './api/kaltura-multi-request';
-import { KalturaMultiResponse } from './api/kaltura-multi-response';
-import { KalturaFileRequest } from './api/kaltura-file-request';
-import { KalturaUploadRequest } from './api/kaltura-upload-request';
-import { KalturaRequestAdapter } from './adapters/kaltura-request-adapter';
-import { KalturaFileRequestAdapter } from './adapters/kaltura-file-request-adapter';
-import { KalturaClientOptions } from './kaltura-client-options';
-import { KalturaMultiRequestAdapter } from './adapters/kaltura-multi-request-adapter';
-import { KalturaClientException } from './api/kaltura-client-exception';
-import { KalturaUploadRequestAdapter } from './adapters/kaltura-upload-request-adapter';
+import { VidiunRequest } from './api/vidiun-request';
+import { VidiunMultiRequest } from './api/vidiun-multi-request';
+import { VidiunMultiResponse } from './api/vidiun-multi-response';
+import { VidiunFileRequest } from './api/vidiun-file-request';
+import { VidiunUploadRequest } from './api/vidiun-upload-request';
+import { VidiunRequestAdapter } from './adapters/vidiun-request-adapter';
+import { VidiunFileRequestAdapter } from './adapters/vidiun-file-request-adapter';
+import { VidiunClientOptions } from './vidiun-client-options';
+import { VidiunMultiRequestAdapter } from './adapters/vidiun-multi-request-adapter';
+import { VidiunClientException } from './api/vidiun-client-exception';
+import { VidiunUploadRequestAdapter } from './adapters/vidiun-upload-request-adapter';
 import {
-    KalturaRequestOptions,
-    KalturaRequestOptionsArgs
-} from './api/kaltura-request-options';
+    VidiunRequestOptions,
+    VidiunRequestOptionsArgs
+} from './api/vidiun-request-options';
 import { CancelableAction } from './cancelable-action';
 
-export class KalturaClient {
+export class VidiunClient {
 
-    private _defaultRequestOptions: KalturaRequestOptions;
+    private _defaultRequestOptions: VidiunRequestOptions;
 
-    constructor(private _options?: KalturaClientOptions,
-                defaultRequestOptionsArgs?: KalturaRequestOptionsArgs) {
-        this._defaultRequestOptions = new KalturaRequestOptions(defaultRequestOptionsArgs || {});
+    constructor(private _options?: VidiunClientOptions,
+                defaultRequestOptionsArgs?: VidiunRequestOptionsArgs) {
+        this._defaultRequestOptions = new VidiunRequestOptions(defaultRequestOptionsArgs || {});
     }
 
-    public appendOptions(options: KalturaClientOptions): void {
+    public appendOptions(options: VidiunClientOptions): void {
         if (!options) {
-            throw new KalturaClientException('client::append_options',`missing required argument 'options'`);
+            throw new VidiunClientException('client::append_options',`missing required argument 'options'`);
         }
 
         this._options = Object.assign(
@@ -34,51 +34,51 @@ export class KalturaClient {
         );
     }
 
-    public setOptions(options: KalturaClientOptions): void {
+    public setOptions(options: VidiunClientOptions): void {
         if (!options) {
-            throw new KalturaClientException('client::set_options',`missing required argument 'options'`);
+            throw new VidiunClientException('client::set_options',`missing required argument 'options'`);
         }
 
         this._options = options;
     }
 
-    public appendDefaultRequestOptions(args: KalturaRequestOptionsArgs): void {
+    public appendDefaultRequestOptions(args: VidiunRequestOptionsArgs): void {
         if (!args) {
-            throw new KalturaClientException('client::append_default_request_options',`missing required argument 'args'`);
+            throw new VidiunClientException('client::append_default_request_options',`missing required argument 'args'`);
         }
 
         this._defaultRequestOptions = Object.assign(
-            this._defaultRequestOptions || new KalturaRequestOptions(), new KalturaRequestOptions(args)
+            this._defaultRequestOptions || new VidiunRequestOptions(), new VidiunRequestOptions(args)
         );
     }
 
-    public setDefaultRequestOptions(args: KalturaRequestOptionsArgs): void {
+    public setDefaultRequestOptions(args: VidiunRequestOptionsArgs): void {
         if (!args) {
-            throw new KalturaClientException('client::set_default_request_options',`missing required argument 'args'`);
+            throw new VidiunClientException('client::set_default_request_options',`missing required argument 'args'`);
         }
 
-        this._defaultRequestOptions = new KalturaRequestOptions(args);
+        this._defaultRequestOptions = new VidiunRequestOptions(args);
     }
 
     private _validateOptions(): Error | null {
         if (!this._options) {
-            return new KalturaClientException('client::missing_options','cannot transmit request, missing client options (did you forgot to provide options manually?)');
+            return new VidiunClientException('client::missing_options','cannot transmit request, missing client options (did you forgot to provide options manually?)');
         }
 
         if (!this._options.endpointUrl) {
-            return new KalturaClientException('client::missing_options', `cannot transmit request, missing 'endpointUrl' in client options`);
+            return new VidiunClientException('client::missing_options', `cannot transmit request, missing 'endpointUrl' in client options`);
         }
 
         if (!this._options.clientTag) {
-            return new KalturaClientException('client::missing_options', `cannot transmit request, missing 'clientTag' in client options`);
+            return new VidiunClientException('client::missing_options', `cannot transmit request, missing 'clientTag' in client options`);
         }
 
         return null;
     }
 
-    public request<T>(request: KalturaRequest<T>): CancelableAction<T>;
-    public request<T>(request: KalturaFileRequest): CancelableAction<{ url: string }>;
-    public request<T>(request: KalturaRequest<T> | KalturaFileRequest): CancelableAction<T | { url: string }> {
+    public request<T>(request: VidiunRequest<T>): CancelableAction<T>;
+    public request<T>(request: VidiunFileRequest): CancelableAction<{ url: string }>;
+    public request<T>(request: VidiunRequest<T> | VidiunFileRequest): CancelableAction<T | { url: string }> {
 
         const optionsViolationError = this._validateOptions();
 
@@ -86,37 +86,37 @@ export class KalturaClient {
             return CancelableAction.reject(optionsViolationError);
         }
 
-        if (request instanceof KalturaFileRequest) {
-            return new KalturaFileRequestAdapter().transmit(request, this._options, this._defaultRequestOptions);
+        if (request instanceof VidiunFileRequest) {
+            return new VidiunFileRequestAdapter().transmit(request, this._options, this._defaultRequestOptions);
 
-        } else if (request instanceof KalturaUploadRequest) {
-            return new KalturaUploadRequestAdapter(this._options, this._defaultRequestOptions).transmit(request);
+        } else if (request instanceof VidiunUploadRequest) {
+            return new VidiunUploadRequestAdapter(this._options, this._defaultRequestOptions).transmit(request);
         }
-        else if (request instanceof KalturaRequest) {
-            return new KalturaRequestAdapter().transmit(request, this._options, this._defaultRequestOptions);
+        else if (request instanceof VidiunRequest) {
+            return new VidiunRequestAdapter().transmit(request, this._options, this._defaultRequestOptions);
         } else {
-            return CancelableAction.reject(new KalturaClientException("client::request_type_error", 'unsupported request type requested'));
+            return CancelableAction.reject(new VidiunClientException("client::request_type_error", 'unsupported request type requested'));
         }
     }
 
-    public multiRequest(requests: KalturaRequest<any>[]): CancelableAction<KalturaMultiResponse>
-    public multiRequest(request: KalturaMultiRequest): CancelableAction<KalturaMultiResponse>;
-    public multiRequest(arg: KalturaMultiRequest | KalturaRequest<any>[]): CancelableAction<KalturaMultiResponse> {
+    public multiRequest(requests: VidiunRequest<any>[]): CancelableAction<VidiunMultiResponse>
+    public multiRequest(request: VidiunMultiRequest): CancelableAction<VidiunMultiResponse>;
+    public multiRequest(arg: VidiunMultiRequest | VidiunRequest<any>[]): CancelableAction<VidiunMultiResponse> {
         const optionsViolationError = this._validateOptions();
         if (optionsViolationError) {
             return CancelableAction.reject(optionsViolationError);
         }
 
-        const request = arg instanceof KalturaMultiRequest ? arg : (arg instanceof Array ? new KalturaMultiRequest(...arg) : null);
+        const request = arg instanceof VidiunMultiRequest ? arg : (arg instanceof Array ? new VidiunMultiRequest(...arg) : null);
         if (!request) {
-            return CancelableAction.reject(new KalturaClientException('client::invalid_request', `Expected argument of type Array or KalturaMultiRequest`));
+            return CancelableAction.reject(new VidiunClientException('client::invalid_request', `Expected argument of type Array or VidiunMultiRequest`));
         }
 
-        const containsFileRequest = request.requests.some(item => item instanceof KalturaFileRequest);
+        const containsFileRequest = request.requests.some(item => item instanceof VidiunFileRequest);
         if (containsFileRequest) {
-            return CancelableAction.reject(new KalturaClientException('client::invalid_request', `multi-request not support requests of type 'KalturaFileRequest', use regular request instead`));
+            return CancelableAction.reject(new VidiunClientException('client::invalid_request', `multi-request not support requests of type 'VidiunFileRequest', use regular request instead`));
         } else {
-            return new KalturaMultiRequestAdapter().transmit(request, this._options, this._defaultRequestOptions);
+            return new VidiunMultiRequestAdapter().transmit(request, this._options, this._defaultRequestOptions);
         }
     }
 }

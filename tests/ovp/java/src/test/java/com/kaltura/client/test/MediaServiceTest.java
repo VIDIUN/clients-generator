@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,30 +38,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.KalturaClient;
-import com.kaltura.client.enums.KalturaEntryStatus;
-import com.kaltura.client.enums.KalturaEntryType;
-import com.kaltura.client.enums.KalturaMediaType;
-import com.kaltura.client.enums.KalturaModerationFlagType;
-import com.kaltura.client.services.KalturaMediaService;
-import com.kaltura.client.types.KalturaBaseEntry;
-import com.kaltura.client.types.KalturaDataEntry;
-import com.kaltura.client.types.KalturaFlavorAsset;
-import com.kaltura.client.types.KalturaMediaEntry;
-import com.kaltura.client.types.KalturaMediaEntryFilter;
-import com.kaltura.client.types.KalturaMediaEntryFilterForPlaylist;
-import com.kaltura.client.types.KalturaMediaListResponse;
-import com.kaltura.client.types.KalturaModerationFlag;
-import com.kaltura.client.types.KalturaModerationFlagListResponse;
-import com.kaltura.client.types.KalturaUploadToken;
-import com.kaltura.client.types.KalturaUploadedFileTokenResource;
-import com.kaltura.client.IKalturaLogger;
-import com.kaltura.client.KalturaLogger;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.VidiunClient;
+import com.vidiun.client.enums.VidiunEntryStatus;
+import com.vidiun.client.enums.VidiunEntryType;
+import com.vidiun.client.enums.VidiunMediaType;
+import com.vidiun.client.enums.VidiunModerationFlagType;
+import com.vidiun.client.services.VidiunMediaService;
+import com.vidiun.client.types.VidiunBaseEntry;
+import com.vidiun.client.types.VidiunDataEntry;
+import com.vidiun.client.types.VidiunFlavorAsset;
+import com.vidiun.client.types.VidiunMediaEntry;
+import com.vidiun.client.types.VidiunMediaEntryFilter;
+import com.vidiun.client.types.VidiunMediaEntryFilterForPlaylist;
+import com.vidiun.client.types.VidiunMediaListResponse;
+import com.vidiun.client.types.VidiunModerationFlag;
+import com.vidiun.client.types.VidiunModerationFlagListResponse;
+import com.vidiun.client.types.VidiunUploadToken;
+import com.vidiun.client.types.VidiunUploadedFileTokenResource;
+import com.vidiun.client.IVidiunLogger;
+import com.vidiun.client.VidiunLogger;
 
 public class MediaServiceTest extends BaseTest {
 
-	private IKalturaLogger logger = KalturaLogger.getLogger(MediaServiceTest.class);
+	private IVidiunLogger logger = VidiunLogger.getLogger(MediaServiceTest.class);
 	
 	/**
 	 * Tests the following : 
@@ -76,28 +76,28 @@ public class MediaServiceTest extends BaseTest {
 		
 		try {
 			startUserSession();
-			KalturaMediaEntry addedEntry = addClipFromUrl(this, client, name);
+			VidiunMediaEntry addedEntry = addClipFromUrl(this, client, name);
 			assertNotNull(addedEntry);
 			assertNotNull(addedEntry.id);
 			assertEquals(name, addedEntry.name);
-			assertEquals(KalturaEntryStatus.IMPORT, addedEntry.status);
+			assertEquals(VidiunEntryStatus.IMPORT, addedEntry.status);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
 	
-	public KalturaMediaEntry addClipFromUrl(BaseTest testContainer,
-			KalturaClient client, String name) throws KalturaApiException {
+	public VidiunMediaEntry addClipFromUrl(BaseTest testContainer,
+			VidiunClient client, String name) throws VidiunApiException {
 
-		KalturaMediaEntry entry = new KalturaMediaEntry();
+		VidiunMediaEntry entry = new VidiunMediaEntry();
 
 		entry.name = name;
-		entry.type = KalturaEntryType.MEDIA_CLIP;
-		entry.mediaType = KalturaMediaType.VIDEO;
+		entry.type = VidiunEntryType.MEDIA_CLIP;
+		entry.mediaType = VidiunMediaType.VIDEO;
 
-		KalturaMediaService mediaService = client.getMediaService();
-		KalturaMediaEntry addedEntry = mediaService.addFromUrl(entry, testConfig.getTestUrl());
+		VidiunMediaService mediaService = client.getMediaService();
+		VidiunMediaEntry addedEntry = mediaService.addFromUrl(entry, testConfig.getTestUrl());
 
 		if(addedEntry != null)
 			testContainer.testIds.add(addedEntry.id);
@@ -127,17 +127,17 @@ public class MediaServiceTest extends BaseTest {
 			int fileSize = fileData.available();
 			String uniqueTag = "test_" + getUniqueString();
 
-			KalturaMediaEntryFilter filter = new KalturaMediaEntryFilter();
+			VidiunMediaEntryFilter filter = new VidiunMediaEntryFilter();
 			filter.tagsLike = uniqueTag;
 			
 			startUserSession();
 			int sz = client.getMediaService().count(filter);
 			
 			// Create entry
-			KalturaMediaEntry entry = new KalturaMediaEntry();
+			VidiunMediaEntry entry = new VidiunMediaEntry();
 			entry.name =  "test (" + new Date() + ")";
-			entry.type = KalturaEntryType.MEDIA_CLIP;
-			entry.mediaType = KalturaMediaType.VIDEO;
+			entry.type = VidiunEntryType.MEDIA_CLIP;
+			entry.mediaType = VidiunMediaType.VIDEO;
 			entry.tags = uniqueTag;
 			
 			entry = client.getMediaService().add(entry);
@@ -146,14 +146,14 @@ public class MediaServiceTest extends BaseTest {
 			testIds.add(entry.id);
 			
 			// Create token
-			KalturaUploadToken uploadToken = new KalturaUploadToken();
+			VidiunUploadToken uploadToken = new VidiunUploadToken();
 			uploadToken.fileName = testConfig.getUploadVideo();
 			uploadToken.fileSize = fileSize;
-			KalturaUploadToken token = client.getUploadTokenService().add(uploadToken);
+			VidiunUploadToken token = client.getUploadTokenService().add(uploadToken);
 			assertNotNull(token);
 			
 			// Define content
-			KalturaUploadedFileTokenResource resource = new KalturaUploadedFileTokenResource();
+			VidiunUploadedFileTokenResource resource = new VidiunUploadedFileTokenResource();
 			resource.token = token.id;
 			entry = client.getMediaService().addContent(entry.id, resource);
 			assertNotNull(entry);
@@ -167,7 +167,7 @@ public class MediaServiceTest extends BaseTest {
 			assertNotNull(entry);
 			
 			// Test get flavor asset by entry id.
-			List<KalturaFlavorAsset> listFlavors = client.getFlavorAssetService().getByEntryId(entry.id);
+			List<VidiunFlavorAsset> listFlavors = client.getFlavorAssetService().getByEntryId(entry.id);
 			assertNotNull(listFlavors);
 			assertTrue(listFlavors.size() >= 1); // Should contain at least the source
 			
@@ -188,10 +188,10 @@ public class MediaServiceTest extends BaseTest {
 		startUserSession();
 		
 		// Create token
-		KalturaUploadToken uploadToken = new KalturaUploadToken();
+		VidiunUploadToken uploadToken = new VidiunUploadToken();
 		uploadToken.fileName = file.getName();
 		uploadToken.fileSize = file.length();
-		KalturaUploadToken token = client.getUploadTokenService().add(uploadToken);
+		VidiunUploadToken token = client.getUploadTokenService().add(uploadToken);
 		assertNotNull(token);
 		
 		// upload
@@ -208,7 +208,7 @@ public class MediaServiceTest extends BaseTest {
 	 * Tests the following : 
 	 * Media Service -
 	 *  - add From Url
-	 * http://www.kaltura.org/how-update-supposed-work-api-v3
+	 * http://www.vidiun.org/how-update-supposed-work-api-v3
 	 */
 	public void testUpdate() {
 		if (logger.isEnabled())
@@ -218,17 +218,17 @@ public class MediaServiceTest extends BaseTest {
 		
 		try {
 			startUserSession();
-			KalturaMediaEntry addedEntry = addTestImage(this, name);
+			VidiunMediaEntry addedEntry = addTestImage(this, name);
 			assertNotNull(addedEntry);
 			assertNotNull(addedEntry.id);
 			
 			String name2 = "test (" + new Date() + ")";
 			
-			KalturaMediaEntry updatedEntry = new KalturaMediaEntry();
+			VidiunMediaEntry updatedEntry = new VidiunMediaEntry();
 			updatedEntry.name = name2;			
 			client.getMediaService().update(addedEntry.id, updatedEntry);
 			
-			KalturaMediaEntry queriedEntry  = getProcessedEntry(client, addedEntry.id, true);
+			VidiunMediaEntry queriedEntry  = getProcessedEntry(client, addedEntry.id, true);
 			assertEquals(name2, queriedEntry.name);
 			
 		} catch (Exception e) {
@@ -247,13 +247,13 @@ public class MediaServiceTest extends BaseTest {
 			logger.info("Starting badGet test");
 		
 		// look for one we know doesn't exist
-		KalturaMediaEntry badEntry = null;
+		VidiunMediaEntry badEntry = null;
 		try {
 			startUserSession();
-			KalturaMediaService mediaService = this.client.getMediaService();
+			VidiunMediaService mediaService = this.client.getMediaService();
 			badEntry = mediaService.get("badid");
 			fail("Getting invalid entry id should fail");
-		} catch (KalturaApiException kae) {
+		} catch (VidiunApiException vae) {
 			// expected behavior
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -276,9 +276,9 @@ public class MediaServiceTest extends BaseTest {
 		
 		try {
 			startUserSession();
-			KalturaMediaEntry addedEntry = addTestImage(this, name);
-			KalturaMediaService mediaService = this.client.getMediaService();
-			KalturaMediaEntry retrievedEntry = mediaService.get(addedEntry.id);
+			VidiunMediaEntry addedEntry = addTestImage(this, name);
+			VidiunMediaService mediaService = this.client.getMediaService();
+			VidiunMediaEntry retrievedEntry = mediaService.get(addedEntry.id);
 			
 			assertNotNull(retrievedEntry);
 			assertEquals(addedEntry.id, retrievedEntry.id);
@@ -304,29 +304,29 @@ public class MediaServiceTest extends BaseTest {
 			startUserSession();
 			// add test clips
 			String name1 = "test one (" + new Date() + ")";
-			KalturaMediaEntry addedEntry1 = addTestImage(this, name1);
+			VidiunMediaEntry addedEntry1 = addTestImage(this, name1);
 			String name2 = "test two (" + new Date() + ")";
-			KalturaMediaEntry addedEntry2 = addTestImage(this, name2);
+			VidiunMediaEntry addedEntry2 = addTestImage(this, name2);
 
 			// Make sure were updated
 			getProcessedEntry(client, addedEntry1.id, true);
 			getProcessedEntry(client, addedEntry2.id, true);
 
-			KalturaMediaService mediaService = this.client.getMediaService();
+			VidiunMediaService mediaService = this.client.getMediaService();
 
 			// get a list of clips starting with "test"
-			KalturaMediaEntryFilter filter = new KalturaMediaEntryFilter();
+			VidiunMediaEntryFilter filter = new VidiunMediaEntryFilter();
 			filter.mediaTypeEqual = null;
 			filter.statusEqual = null;
 			filter.typeEqual = null;
 			filter.nameMultiLikeOr = name1 + "," + name2;
 
-			KalturaMediaListResponse listResponse = mediaService.list(filter);
+			VidiunMediaListResponse listResponse = mediaService.list(filter);
 			assertEquals(listResponse.totalCount, 2);
 
 			boolean found1 = false;
 			boolean found2 = false;
-			for (KalturaMediaEntry entry : listResponse.objects) {
+			for (VidiunMediaEntry entry : listResponse.objects) {
 				if (logger.isEnabled())
 					logger.debug("id:" + entry.id);
 				if (entry.id.equals(addedEntry1.id)) {
@@ -367,26 +367,26 @@ public class MediaServiceTest extends BaseTest {
 			
 			startAdminSession();
 
-			KalturaMediaEntry addedEntry = addTestImage(this, name);
+			VidiunMediaEntry addedEntry = addTestImage(this, name);
 			//wait for the newly-added clip to process
 			getProcessedEntry(client, addedEntry.id);
 						
-			KalturaMediaService mediaService = this.client.getMediaService();
+			VidiunMediaService mediaService = this.client.getMediaService();
 			
 			// flag the clip
-			KalturaModerationFlag flag = new KalturaModerationFlag();
+			VidiunModerationFlag flag = new VidiunModerationFlag();
 			flag.flaggedEntryId = addedEntry.id;
-			flag.flagType = KalturaModerationFlagType.SPAM_COMMERCIALS;
+			flag.flagType = VidiunModerationFlagType.SPAM_COMMERCIALS;
 			flag.comments = FLAG_COMMENTS;
 			mediaService.flag(flag);
 			
 			// get the list of flags for this entry
-			KalturaModerationFlagListResponse flagList = mediaService.listFlags(addedEntry.id);
+			VidiunModerationFlagListResponse flagList = mediaService.listFlags(addedEntry.id);
 			assertEquals(flagList.totalCount, 1);
 
 			// check that the flag we put in is the flag we got back
-			KalturaModerationFlag retFlag = (KalturaModerationFlag)flagList.objects.get(0);						
-			assertEquals(retFlag.flagType, KalturaModerationFlagType.SPAM_COMMERCIALS);
+			VidiunModerationFlag retFlag = (VidiunModerationFlag)flagList.objects.get(0);						
+			assertEquals(retFlag.flagType, VidiunModerationFlagType.SPAM_COMMERCIALS);
 			assertEquals(retFlag.comments, FLAG_COMMENTS);
 			
 		} catch (Exception e) {
@@ -413,12 +413,12 @@ public class MediaServiceTest extends BaseTest {
 		String idToDelete = "";
 		
 		startUserSession();
-		KalturaMediaService mediaService = this.client.getMediaService();
+		VidiunMediaService mediaService = this.client.getMediaService();
 		
 		// First delete - should succeed
 		try {
 			
-			KalturaMediaEntry addedEntry = addTestImage(this, name);
+			VidiunMediaEntry addedEntry = addTestImage(this, name);
 			assertNotNull(addedEntry);
 			idToDelete = addedEntry.id;
 			
@@ -434,11 +434,11 @@ public class MediaServiceTest extends BaseTest {
 		} 
 
 		// Second delete - should fail
-		KalturaMediaEntry deletedEntry = null;
+		VidiunMediaEntry deletedEntry = null;
 		try {
 			deletedEntry = mediaService.get(idToDelete);
 			fail("Getting deleted entry should fail");
-		} catch (KalturaApiException kae) {
+		} catch (VidiunApiException vae) {
 			// Wanted behavior
 		} 
 		
@@ -459,10 +459,10 @@ public class MediaServiceTest extends BaseTest {
 		
 		String name = "test (" + new Date() + ")";
 		
-		KalturaMediaEntry entry = new KalturaMediaEntry();
+		VidiunMediaEntry entry = new VidiunMediaEntry();
 		try {
 			startUserSession();
-			KalturaMediaService mediaService = this.client.getMediaService();
+			VidiunMediaService mediaService = this.client.getMediaService();
 
 			InputStream fileData = TestUtils.getTestVideo();
 			int fileSize = fileData.available();
@@ -471,8 +471,8 @@ public class MediaServiceTest extends BaseTest {
 			if (logger.isEnabled())
 				logger.debug("After upload, result:" + result);			
 			entry.name = name;
-			entry.type = KalturaEntryType.MEDIA_CLIP;
-			entry.mediaType = KalturaMediaType.VIDEO;
+			entry.type = VidiunEntryType.MEDIA_CLIP;
+			entry.mediaType = VidiunMediaType.VIDEO;
 			entry = mediaService.addFromUploadedFile(entry, result);
 		} catch (Exception e) {
 			if (logger.isEnabled())
@@ -506,14 +506,14 @@ public class MediaServiceTest extends BaseTest {
 			startAdminSession();
 			
 			// Create entry
-			KalturaMediaEntry entry = addTestImage(this, "test (" + new Date() + ")");
+			VidiunMediaEntry entry = addTestImage(this, "test (" + new Date() + ")");
 			
 			// generate filter
-			KalturaMediaEntryFilterForPlaylist filter = new KalturaMediaEntryFilterForPlaylist();
+			VidiunMediaEntryFilterForPlaylist filter = new VidiunMediaEntryFilterForPlaylist();
 			filter.referenceIdEqual = entry.referenceId;
-			ArrayList<KalturaMediaEntryFilterForPlaylist> filters = new ArrayList<KalturaMediaEntryFilterForPlaylist>();
+			ArrayList<VidiunMediaEntryFilterForPlaylist> filters = new ArrayList<VidiunMediaEntryFilterForPlaylist>();
 			filters.add(filter);
-			List<KalturaBaseEntry> res = client.getPlaylistService().executeFromFilters(filters, 5);
+			List<VidiunBaseEntry> res = client.getPlaylistService().executeFromFilters(filters, 5);
 			assertNotNull(res);
 			assertEquals(1, res.size());
 			
@@ -529,10 +529,10 @@ public class MediaServiceTest extends BaseTest {
 			startUserSession();
 			
 			// Add Entry
-			KalturaDataEntry dataEntry = new KalturaDataEntry();
+			VidiunDataEntry dataEntry = new VidiunDataEntry();
 			dataEntry.name = "test (" + new Date() + ")";
 			dataEntry.dataContent = test;
-			KalturaDataEntry addedDataEntry = client.getDataService().add(dataEntry);
+			VidiunDataEntry addedDataEntry = client.getDataService().add(dataEntry);
 			
 			// serve
 			String serveUrl = client.getDataService().serve(addedDataEntry.id);

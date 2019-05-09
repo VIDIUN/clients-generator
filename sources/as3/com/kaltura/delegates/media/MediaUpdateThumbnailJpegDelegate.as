@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,14 +25,14 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.delegates.media
+package com.vidiun.delegates.media
 {
-	import com.kaltura.config.KalturaConfig;
-	import com.kaltura.core.KClassFactory;
-	import com.kaltura.delegates.WebDelegateBase;
-	import com.kaltura.errors.KalturaError;
-	import com.kaltura.net.KalturaCall;
-	import com.kaltura.net.KalturaFileCall;
+	import com.vidiun.config.VidiunConfig;
+	import com.vidiun.core.VClassFactory;
+	import com.vidiun.delegates.WebDelegateBase;
+	import com.vidiun.errors.VidiunError;
+	import com.vidiun.net.VidiunCall;
+	import com.vidiun.net.VidiunFileCall;
 
 	import flash.events.Event;
 	import flash.net.URLLoaderDataFormat;
@@ -45,15 +45,15 @@ package com.kaltura.delegates.media
 	{
 		protected var mrloader:MultipartURLLoader;
 
-		public function MediaUpdateThumbnailJpegDelegate(call:KalturaCall, config:KalturaConfig)
+		public function MediaUpdateThumbnailJpegDelegate(call:VidiunCall, config:VidiunConfig)
 		{
 			super(call, config);
 		}
 
 		override public function parse( result : XML ) : *
 		{
-			var cls : Class = getDefinitionByName('com.kaltura.vo.'+ result.result.objectType) as Class;
-			var obj : * = (new KClassFactory( cls )).newInstanceFromXML( result.result );
+			var cls : Class = getDefinitionByName('com.vidiun.vo.'+ result.result.objectType) as Class;
+			var obj : * = (new VClassFactory( cls )).newInstanceFromXML( result.result );
 			return obj;
 		}
 
@@ -64,7 +64,7 @@ package com.kaltura.delegates.media
 			//create the service request for normal calls
 			var variables:String = decodeURIComponent(call.args.toString());
 			var req:String = _config.protocol + _config.domain +"/"+_config.srvUrl+"/service/"+call.service+"/action/"+call.action +'?'+variables;
-			mrloader.addFile((call as KalturaFileCall).bytes, UIDUtil.createUID(), 'fileData');
+			mrloader.addFile((call as VidiunFileCall).bytes, UIDUtil.createUID(), 'fileData');
 
 			mrloader.dataFormat = URLLoaderDataFormat.TEXT;
 			mrloader.load(req);
@@ -77,10 +77,10 @@ package com.kaltura.delegates.media
 			}
 			catch( e:Error )
 			{
-				var kErr : KalturaError = new KalturaError();
-				kErr.errorCode = String(e.errorID);
-				kErr.errorMsg = e.message;
-				_call.handleError( kErr );
+				var vErr : VidiunError = new VidiunError();
+				vErr.errorCode = String(e.errorID);
+				vErr.errorMsg = e.message;
+				_call.handleError( vErr );
 			}
 		}
 

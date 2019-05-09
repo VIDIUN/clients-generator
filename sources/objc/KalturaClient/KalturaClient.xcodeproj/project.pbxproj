@@ -30,19 +30,19 @@
 		291334C0149648C2006D8A8C /* ASIProgressDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 29133476149648C2006D8A8C /* ASIProgressDelegate.h */; };
 		291334C1149648C2006D8A8C /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 29133478149648C2006D8A8C /* Reachability.h */; };
 		291334C2149648C2006D8A8C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 29133479149648C2006D8A8C /* Reachability.m */; };
-		291334C3149648C2006D8A8C /* KalturaClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 2913347A149648C2006D8A8C /* KalturaClient.h */; };
-		291334C4149648C2006D8A8C /* KalturaClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2913347B149648C2006D8A8C /* KalturaClient.m */; };
-		291334C5149648C2006D8A8C /* KalturaClientBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 2913347C149648C2006D8A8C /* KalturaClientBase.h */; };
-		291334C6149648C2006D8A8C /* KalturaClientBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2913347D149648C2006D8A8C /* KalturaClientBase.m */; };
-		291334F3149648C2006D8A8C /* KalturaXmlParsers.h in Headers */ = {isa = PBXBuildFile; fileRef = 291334AB149648C2006D8A8C /* KalturaXmlParsers.h */; };
-		291334F4149648C2006D8A8C /* KalturaXmlParsers.m in Sources */ = {isa = PBXBuildFile; fileRef = 291334AC149648C2006D8A8C /* KalturaXmlParsers.m */; };
+		291334C3149648C2006D8A8C /* VidiunClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 2913347A149648C2006D8A8C /* VidiunClient.h */; };
+		291334C4149648C2006D8A8C /* VidiunClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2913347B149648C2006D8A8C /* VidiunClient.m */; };
+		291334C5149648C2006D8A8C /* VidiunClientBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 2913347C149648C2006D8A8C /* VidiunClientBase.h */; };
+		291334C6149648C2006D8A8C /* VidiunClientBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2913347D149648C2006D8A8C /* VidiunClientBase.m */; };
+		291334F3149648C2006D8A8C /* VidiunXmlParsers.h in Headers */ = {isa = PBXBuildFile; fileRef = 291334AB149648C2006D8A8C /* VidiunXmlParsers.h */; };
+		291334F4149648C2006D8A8C /* VidiunXmlParsers.m in Sources */ = {isa = PBXBuildFile; fileRef = 291334AC149648C2006D8A8C /* VidiunXmlParsers.m */; };
 <<< PBXBuildFile plugins >>>
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		29133452149646BB006D8A8C /* libKalturaClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libKalturaClient.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		29133452149646BB006D8A8C /* libVidiunClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVidiunClient.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		29133455149646BB006D8A8C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		29133459149646BB006D8A8C /* KalturaClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KalturaClient-Prefix.pch"; sourceTree = "<group>"; };
+		29133459149646BB006D8A8C /* VidiunClient-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VidiunClient-Prefix.pch"; sourceTree = "<group>"; };
 		29133463149648C2006D8A8C /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		29133464149648C2006D8A8C /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		29133465149648C2006D8A8C /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
@@ -66,12 +66,12 @@
 		29133477149648C2006D8A8C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		29133478149648C2006D8A8C /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		29133479149648C2006D8A8C /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		2913347A149648C2006D8A8C /* KalturaClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KalturaClient.h; sourceTree = "<group>"; };
-		2913347B149648C2006D8A8C /* KalturaClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KalturaClient.m; sourceTree = "<group>"; };
-		2913347C149648C2006D8A8C /* KalturaClientBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KalturaClientBase.h; sourceTree = "<group>"; };
-		2913347D149648C2006D8A8C /* KalturaClientBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KalturaClientBase.m; sourceTree = "<group>"; };
-		291334AB149648C2006D8A8C /* KalturaXmlParsers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KalturaXmlParsers.h; sourceTree = "<group>"; };
-		291334AC149648C2006D8A8C /* KalturaXmlParsers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KalturaXmlParsers.m; sourceTree = "<group>"; };
+		2913347A149648C2006D8A8C /* VidiunClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VidiunClient.h; sourceTree = "<group>"; };
+		2913347B149648C2006D8A8C /* VidiunClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VidiunClient.m; sourceTree = "<group>"; };
+		2913347C149648C2006D8A8C /* VidiunClientBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VidiunClientBase.h; sourceTree = "<group>"; };
+		2913347D149648C2006D8A8C /* VidiunClientBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VidiunClientBase.m; sourceTree = "<group>"; };
+		291334AB149648C2006D8A8C /* VidiunXmlParsers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VidiunXmlParsers.h; sourceTree = "<group>"; };
+		291334AC149648C2006D8A8C /* VidiunXmlParsers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VidiunXmlParsers.m; sourceTree = "<group>"; };
 <<< PBXFileReference plugins >>>
 /* End PBXFileReference section */
 
@@ -90,7 +90,7 @@
 		29133447149646BB006D8A8C = {
 			isa = PBXGroup;
 			children = (
-				29133457149646BB006D8A8C /* KalturaClient */,
+				29133457149646BB006D8A8C /* VidiunClient */,
 				29133454149646BB006D8A8C /* Frameworks */,
 				29133453149646BB006D8A8C /* Products */,
 			);
@@ -99,7 +99,7 @@
 		29133453149646BB006D8A8C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				29133452149646BB006D8A8C /* libKalturaClient.a */,
+				29133452149646BB006D8A8C /* libVidiunClient.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,26 +112,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		29133457149646BB006D8A8C /* KalturaClient */ = {
+		29133457149646BB006D8A8C /* VidiunClient */ = {
 			isa = PBXGroup;
 			children = (
 				29133462149648C2006D8A8C /* ASIHttpRequest */,
-				2913347A149648C2006D8A8C /* KalturaClient.h */,
-				2913347B149648C2006D8A8C /* KalturaClient.m */,
-				2913347C149648C2006D8A8C /* KalturaClientBase.h */,
-				2913347D149648C2006D8A8C /* KalturaClientBase.m */,
-				2913347E149648C2006D8A8C /* KalturaPlugins */,
-				291334AB149648C2006D8A8C /* KalturaXmlParsers.h */,
-				291334AC149648C2006D8A8C /* KalturaXmlParsers.m */,
+				2913347A149648C2006D8A8C /* VidiunClient.h */,
+				2913347B149648C2006D8A8C /* VidiunClient.m */,
+				2913347C149648C2006D8A8C /* VidiunClientBase.h */,
+				2913347D149648C2006D8A8C /* VidiunClientBase.m */,
+				2913347E149648C2006D8A8C /* VidiunPlugins */,
+				291334AB149648C2006D8A8C /* VidiunXmlParsers.h */,
+				291334AC149648C2006D8A8C /* VidiunXmlParsers.m */,
 				29133458149646BB006D8A8C /* Supporting Files */,
 			);
-			path = KalturaClient;
+			path = VidiunClient;
 			sourceTree = "<group>";
 		};
 		29133458149646BB006D8A8C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				29133459149646BB006D8A8C /* KalturaClient-Prefix.pch */,
+				29133459149646BB006D8A8C /* VidiunClient-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -166,12 +166,12 @@
 			path = ASIHttpRequest;
 			sourceTree = "<group>";
 		};
-		2913347E149648C2006D8A8C /* KalturaPlugins */ = {
+		2913347E149648C2006D8A8C /* VidiunPlugins */ = {
 			isa = PBXGroup;
 			children = (
 <<< PBXGroup plugins >>>
 			);
-			path = KalturaPlugins;
+			path = VidiunPlugins;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,9 +194,9 @@
 				291334BE149648C2006D8A8C /* ASINetworkQueue.h in Headers */,
 				291334C0149648C2006D8A8C /* ASIProgressDelegate.h in Headers */,
 				291334C1149648C2006D8A8C /* Reachability.h in Headers */,
-				291334C3149648C2006D8A8C /* KalturaClient.h in Headers */,
-				291334C5149648C2006D8A8C /* KalturaClientBase.h in Headers */,
-				291334F3149648C2006D8A8C /* KalturaXmlParsers.h in Headers */,
+				291334C3149648C2006D8A8C /* VidiunClient.h in Headers */,
+				291334C5149648C2006D8A8C /* VidiunClientBase.h in Headers */,
+				291334F3149648C2006D8A8C /* VidiunXmlParsers.h in Headers */,
 <<< PBXHeadersBuildPhase plugins >>>
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -204,9 +204,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		29133451149646BB006D8A8C /* KalturaClient */ = {
+		29133451149646BB006D8A8C /* VidiunClient */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2913345F149646BB006D8A8C /* Build configuration list for PBXNativeTarget "KalturaClient" */;
+			buildConfigurationList = 2913345F149646BB006D8A8C /* Build configuration list for PBXNativeTarget "VidiunClient" */;
 			buildPhases = (
 				2913344E149646BB006D8A8C /* Sources */,
 				2913344F149646BB006D8A8C /* Frameworks */,
@@ -216,9 +216,9 @@
 			);
 			dependencies = (
 			);
-			name = KalturaClient;
-			productName = KalturaClient;
-			productReference = 29133452149646BB006D8A8C /* libKalturaClient.a */;
+			name = VidiunClient;
+			productName = VidiunClient;
+			productReference = 29133452149646BB006D8A8C /* libVidiunClient.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -229,7 +229,7 @@
 			attributes = {
 				LastUpgradeCheck = 0610;
 			};
-			buildConfigurationList = 2913344C149646BB006D8A8C /* Build configuration list for PBXProject "KalturaClient" */;
+			buildConfigurationList = 2913344C149646BB006D8A8C /* Build configuration list for PBXProject "VidiunClient" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -241,7 +241,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				29133451149646BB006D8A8C /* KalturaClient */,
+				29133451149646BB006D8A8C /* VidiunClient */,
 			);
 		};
 /* End PBXProject section */
@@ -260,9 +260,9 @@
 				291334BD149648C2006D8A8C /* ASIInputStream.m in Sources */,
 				291334BF149648C2006D8A8C /* ASINetworkQueue.m in Sources */,
 				291334C2149648C2006D8A8C /* Reachability.m in Sources */,
-				291334C4149648C2006D8A8C /* KalturaClient.m in Sources */,
-				291334C6149648C2006D8A8C /* KalturaClientBase.m in Sources */,
-				291334F4149648C2006D8A8C /* KalturaXmlParsers.m in Sources */,
+				291334C4149648C2006D8A8C /* VidiunClient.m in Sources */,
+				291334C6149648C2006D8A8C /* VidiunClientBase.m in Sources */,
+				291334F4149648C2006D8A8C /* VidiunXmlParsers.m in Sources */,
 <<< PBXSourcesBuildPhase plugins >>>
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,9 +314,9 @@
 		29133460149646BB006D8A8C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /tmp/KalturaClient.dst;
+				DSTROOT = /tmp/VidiunClient.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "KalturaClient/KalturaClient-Prefix.pch";
+				GCC_PREFIX_HEADER = "VidiunClient/VidiunClient-Prefix.pch";
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-ObjC";
@@ -328,9 +328,9 @@
 		29133461149646BB006D8A8C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /tmp/KalturaClient.dst;
+				DSTROOT = /tmp/VidiunClient.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "KalturaClient/KalturaClient-Prefix.pch";
+				GCC_PREFIX_HEADER = "VidiunClient/VidiunClient-Prefix.pch";
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-ObjC";
@@ -342,7 +342,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2913344C149646BB006D8A8C /* Build configuration list for PBXProject "KalturaClient" */ = {
+		2913344C149646BB006D8A8C /* Build configuration list for PBXProject "VidiunClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2913345D149646BB006D8A8C /* Debug */,
@@ -351,7 +351,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2913345F149646BB006D8A8C /* Build configuration list for PBXNativeTarget "KalturaClient" */ = {
+		2913345F149646BB006D8A8C /* Build configuration list for PBXNativeTarget "VidiunClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				29133460149646BB006D8A8C /* Debug */,

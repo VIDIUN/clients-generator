@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- -->
 <!-- Maven POM file for packaging and testing the -->
-<!-- KalturaOttApiClient Java library. -->
+<!-- VidiunOttApiClient Java library. -->
 <!-- -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -9,8 +9,8 @@
 
     <!-- Define the GAV coordinate for the project -->
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.kaltura</groupId>
-    <artifactId>KalturaOttApiClient</artifactId>
+    <groupId>com.vidiun</groupId>
+    <artifactId>VidiunOttApiClient</artifactId>
     <version>@VERSION@-SNAPSHOT</version>
 
     <packaging>jar</packaging>
@@ -20,15 +20,15 @@
     </properties>
 
     <!-- Project description -->
-    <name>Kaltura OTT API Java Client Library</name>
+    <name>Vidiun OTT API Java Client Library</name>
     <description>
-        KalturaOttApiClient is a library of Java classes that can be used to interact
-        with the Kaltura OTT REST API. More information about the REST API can be
-        found at https://ott.developer.kaltura.com/ Many of the Java classes
+        VidiunOttApiClient is a library of Java classes that can be used to interact
+        with the Vidiun OTT REST API. More information about the REST API can be
+        found at https://ott.developer.vidiun.com/ Many of the Java classes
         in this library are auto-generated from a schema that defines the objects that
         are used to interact with the API.
     </description>
-    <url>http://github.com/kaltura/KalturaOttGeneratedAPIClientsJava</url>
+    <url>http://github.com/vidiun/VidiunOttGeneratedAPIClientsJava</url>
 
     <!-- Define the license under which this software can be used. -->
     <licenses>
@@ -55,31 +55,31 @@
     <developers>
         <developer>
             <name>Jess Portnoy</name>
-            <email>jess.portnoy@kaltura.com</email>
-            <organization>Kaltura</organization>
-            <organizationUrl>http://www.kaltura.com</organizationUrl>
+            <email>jess.portnoy@vidiun.com</email>
+            <organization>Vidiun</organization>
+            <organizationUrl>http://www.vidiun.com</organizationUrl>
         </developer>
         <developer>
             <name>Tehila Rozin</name>
-            <email>Tehila.Rozin@kaltura.com</email>
-            <organization>Kaltura</organization>
-            <organizationUrl>http://www.kaltura.com</organizationUrl>
+            <email>Tehila.Rozin@vidiun.com</email>
+            <organization>Vidiun</organization>
+            <organizationUrl>http://www.vidiun.com</organizationUrl>
         </developer>
         <developer>
             <name>Johnathan Amit-Kanarek</name>
-            <email>Jonathan.Kanarek@kaltura.com</email>
-            <organization>Kaltura</organization>
-            <organizationUrl>http://www.kaltura.com</organizationUrl>
+            <email>Jonathan.Kanarek@vidiun.com</email>
+            <organization>Vidiun</organization>
+            <organizationUrl>http://www.vidiun.com</organizationUrl>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:kaltura/KalturaOttGeneratedAPIClientsJava.git</connection>
-        <developerConnection>scm:git:git@github.com:kaltura/KalturaOttGeneratedAPIClientsJava.git</developerConnection>
-        <url>scm:git:git@github.com:kaltura/KalturaOttGeneratedAPIClientsJava.git</url>
+        <connection>scm:git:git@github.com:vidiun/VidiunOttGeneratedAPIClientsJava.git</connection>
+        <developerConnection>scm:git:git@github.com:vidiun/VidiunOttGeneratedAPIClientsJava.git</developerConnection>
+        <url>scm:git:git@github.com:vidiun/VidiunOttGeneratedAPIClientsJava.git</url>
     </scm>
 
-    <!-- Libraries on which the KalturaClient depends -->
+    <!-- Libraries on which the VidiunClient depends -->
     <dependencies>
         <dependency>
             <groupId>commons-codec</groupId>

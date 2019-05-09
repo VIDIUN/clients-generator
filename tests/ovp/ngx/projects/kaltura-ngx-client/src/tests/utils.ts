@@ -2,8 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import {TestsConfig} from "./tests-config";
 import {SessionStartAction} from "../lib/api/types/SessionStartAction";
-import {KalturaSessionType} from "../lib/api/types/KalturaSessionType";
-import {KalturaClient} from "../lib/kaltura-client.service";
+import {VidiunSessionType} from "../lib/api/types/VidiunSessionType";
+import {VidiunClient} from "../lib/vidiun-client.service";
 import {Observable} from "rxjs";
 import {TestBed} from "@angular/core/testing";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
@@ -25,7 +25,7 @@ export function asyncAssert(callback) {
   }
 }
 
-export function getClient(): Observable<KalturaClient> {
+export function getClient(): Observable<VidiunClient> {
   TestBed.configureTestingModule({
     imports: [HttpClientModule]
   });
@@ -35,17 +35,17 @@ export function getClient(): Observable<KalturaClient> {
     clientTag: TestsConfig.clientTag
   };
 
-  const client = new KalturaClient(TestBed.get(HttpClient), httpConfiguration, null);
+  const client = new VidiunClient(TestBed.get(HttpClient), httpConfiguration, null);
 
 
   return client.request(new SessionStartAction({
     secret: TestsConfig.adminSecret,
     userId: TestsConfig.userName,
-    type: KalturaSessionType.admin,
+    type: VidiunSessionType.admin,
     partnerId: <any>TestsConfig.partnerId * 1
   })).pipe(
-    map(ks => {
-      client.setDefaultRequestOptions({ks});
+    map(vs => {
+      client.setDefaultRequestOptions({vs});
       return client;
     }),
     catchError( error => {

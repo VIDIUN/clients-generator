@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,13 +25,13 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import java.io.IOException;
 
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.enums.KalturaSessionType;
-import com.kaltura.client.types.KalturaMediaListResponse;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.enums.VidiunSessionType;
+import com.vidiun.client.types.VidiunMediaListResponse;
 
 public class SessionServiceTest extends BaseTest {
 
@@ -47,13 +47,13 @@ public class SessionServiceTest extends BaseTest {
 			startUserSession();
 			assertNotNull(client.getSessionId());
 			
-			KalturaMediaListResponse response = client.getMediaService().list();
+			VidiunMediaListResponse response = client.getMediaService().list();
 			assertNotNull(response);
 			
 			// Close session
 			BaseTest.closeSession(client);
 			
-		} catch (KalturaApiException e) {
+		} catch (VidiunApiException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
@@ -61,8 +61,8 @@ public class SessionServiceTest extends BaseTest {
 		// Test close connection
 		try {
 			client.getMediaService().list();
-			fail("Listing entries without KS should fail");
-		} catch (KalturaApiException e) {
+			fail("Listing entries without VS should fail");
+		} catch (VidiunApiException e) {
 			// Should fail since the connection is closed.
 		}
 		
@@ -70,12 +70,12 @@ public class SessionServiceTest extends BaseTest {
 	
 	public void testExpiredSession() {
 		try {
-			String KS = client.generateSession(testConfig.getAdminSecret(),
-					"asdasd", KalturaSessionType.USER,
+			String VS = client.generateSession(testConfig.getAdminSecret(),
+					"asdasd", VidiunSessionType.USER,
 					testConfig.getPartnerId(), 60 * 60 * 24);
-			client.setSessionId(KS);
+			client.setSessionId(VS);
 
-			KalturaMediaListResponse response = client.getMediaService().list();
+			VidiunMediaListResponse response = client.getMediaService().list();
 			assertNotNull(response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,16 +83,16 @@ public class SessionServiceTest extends BaseTest {
 		}
 
 		try {
-			String KS = client.generateSession(testConfig.getAdminSecret(),
-					"asdasd", KalturaSessionType.USER,
+			String VS = client.generateSession(testConfig.getAdminSecret(),
+					"asdasd", VidiunSessionType.USER,
 					testConfig.getPartnerId(), -60 * 60 * 24);
-			client.setSessionId(KS);
+			client.setSessionId(VS);
 
 			client.getMediaService().list();
-			fail("Listing entries with invalid KS should fail");
+			fail("Listing entries with invalid VS should fail");
 		} catch (Exception e) {
-			assertTrue(e instanceof KalturaApiException);
-			String msg = ((KalturaApiException)e).getMessage();
+			assertTrue(e instanceof VidiunApiException);
+			String msg = ((VidiunApiException)e).getMessage();
 			assertTrue(msg.contains("EXPIRED"));
 		}
 

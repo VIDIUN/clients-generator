@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2016  Kaltura Inc.
+// Copyright (C) 2006-2016  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -26,10 +26,10 @@
 // @ignore
 // ===================================================================================================
 using System;
-using Kaltura.Types;
-using Kaltura.Enums;
+using Vidiun.Types;
+using Vidiun.Enums;
 
-namespace Kaltura
+namespace Vidiun
 {
 	public class Client : ClientBase
 	{
@@ -77,15 +77,15 @@ namespace Kaltura
  			}
  		}
 			
- 		public string KS
+ 		public string VS
  		{
  			get
  			{
- 				return requestConfiguration.Ks;
+ 				return requestConfiguration.Vs;
  			}
  			set
  			{
- 				requestConfiguration.Ks = value;
+ 				requestConfiguration.Vs = value;
  			}
  		}
 			
@@ -93,11 +93,11 @@ namespace Kaltura
  		{
  			get
  			{
- 				return requestConfiguration.Ks;
+ 				return requestConfiguration.Vs;
  			}
  			set
  			{
- 				requestConfiguration.Ks = value;
+ 				requestConfiguration.Vs = value;
  			}
  		}
 			

@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -37,20 +37,20 @@ using System.Xml.XPath;
 using System.Runtime.Serialization;
 using System.Threading;
 
-namespace Kaltura
+namespace Vidiun
 {
-    public class KalturaClientBase
+    public class VidiunClientBase
     {
         #region Private Fields
 
         protected IDictionary<string, Object> clientConfiguration;
         protected IDictionary<string, Object> requestConfiguration;
 
-        protected KalturaConfiguration _Config;
+        protected VidiunConfiguration _Config;
         private bool _ShouldLog;
-        private List<KalturaServiceActionCall> _CallsQueue;
+        private List<VidiunServiceActionCall> _CallsQueue;
         private List<string> _MultiRequestReturnType;
-        private KalturaParams _MultiRequestParamsMap;
+        private VidiunParams _MultiRequestParamsMap;
         private WebHeaderCollection _ResponseHeaders;
 
         #endregion
@@ -71,7 +71,7 @@ namespace Kaltura
 
         #region CTor
 
-        public KalturaClientBase(KalturaConfiguration config)
+        public VidiunClientBase(VidiunConfiguration config)
         {
             clientConfiguration = new Dictionary<string, Object>();
             requestConfiguration = new Dictionary<string, Object>();
@@ -81,36 +81,36 @@ namespace Kaltura
             {
                 _ShouldLog = true;
             }
-            _CallsQueue = new List<KalturaServiceActionCall>();
-            _MultiRequestParamsMap = new KalturaParams();
+            _CallsQueue = new List<VidiunServiceActionCall>();
+            _MultiRequestParamsMap = new VidiunParams();
         }
 
         #endregion
 
         #region Methods
 
-        public void QueueServiceCall(string service, string action, string fallbackClass, KalturaParams kparams)
+        public void QueueServiceCall(string service, string action, string fallbackClass, VidiunParams vparams)
         {
-            this.QueueServiceCall(service, action, fallbackClass, kparams, new KalturaFiles());
+            this.QueueServiceCall(service, action, fallbackClass, vparams, new VidiunFiles());
         }
 
-        public void QueueServiceCall(string service, string action, string fallbackClass, KalturaParams kparams, KalturaFiles kfiles)
+        public void QueueServiceCall(string service, string action, string fallbackClass, VidiunParams vparams, VidiunFiles vfiles)
         {
             Object value;
             foreach (string param in requestConfiguration.Keys)
             {
                 value = requestConfiguration[param];
-                if (value is KalturaObjectBase)
+                if (value is VidiunObjectBase)
                 {
-                    kparams.Add(param, ((KalturaObjectBase)value).ToParams());
+                    vparams.Add(param, ((VidiunObjectBase)value).ToParams());
                 }
                 else
                 {
-                    kparams.Add(param, value.ToString());
+                    vparams.Add(param, value.ToString());
                 }
             }
 
-            KalturaServiceActionCall call = new KalturaServiceActionCall(service, action, kparams, kfiles);
+            VidiunServiceActionCall call = new VidiunServiceActionCall(service, action, vparams, vfiles);
             if (_MultiRequestReturnType != null)
                 _MultiRequestReturnType.Add(fallbackClass);
             this._CallsQueue.Add(call);
@@ -128,14 +128,14 @@ namespace Kaltura
 
             this.Log("service url: [" + this._Config.ServiceUrl + "]");
 
-            KalturaParams kparams = new KalturaParams();
-            KalturaFiles kfiles = new KalturaFiles();
+            VidiunParams vparams = new VidiunParams();
+            VidiunFiles vfiles = new VidiunFiles();
 
             foreach (string param in clientConfiguration.Keys)
             {
-                kparams.Add(param, clientConfiguration[param].ToString());
+                vparams.Add(param, clientConfiguration[param].ToString());
             }
-            kparams.AddIfNotNull("format", this._Config.ServiceFormat.GetHashCode());
+            vparams.AddIfNotNull("format", this._Config.ServiceFormat.GetHashCode());
 
             string url = this._Config.ServiceUrl + "/api_v3";
 
@@ -143,44 +143,44 @@ namespace Kaltura
             {
                 url += "/service/multirequest";
                 int i = 1;
-                foreach (KalturaServiceActionCall call in _CallsQueue)
+                foreach (VidiunServiceActionCall call in _CallsQueue)
                 {
-                    KalturaParams callParams = call.GetParamsForMultiRequest(i);
-                    kparams.Add(callParams);
-                    KalturaFiles callFiles = call.GetFilesForMultiRequest(i);
-                    kfiles.Add(callFiles);
+                    VidiunParams callParams = call.GetParamsForMultiRequest(i);
+                    vparams.Add(callParams);
+                    VidiunFiles callFiles = call.GetFilesForMultiRequest(i);
+                    vfiles.Add(callFiles);
                     i++;
                 }
 
                 // map params
-                foreach (KeyValuePair<string, IKalturaSerializable> item in _MultiRequestParamsMap)
+                foreach (KeyValuePair<string, IVidiunSerializable> item in _MultiRequestParamsMap)
                 {
                     string requestParam = item.Key;
-                    IKalturaSerializable resultParam = item.Value;
+                    IVidiunSerializable resultParam = item.Value;
 
-                    if (kparams.ContainsKey(requestParam))
+                    if (vparams.ContainsKey(requestParam))
                     {
-                        kparams[requestParam] = resultParam;
+                        vparams[requestParam] = resultParam;
                     }
                 }
             }
             else
             {
-                KalturaServiceActionCall call = _CallsQueue[0];
+                VidiunServiceActionCall call = _CallsQueue[0];
                 url += "/service/" + call.Service + "/action/" + call.Action;
-                kparams.Add(call.Params);
-                kfiles.Add(call.Files);
+                vparams.Add(call.Params);
+                vfiles.Add(call.Files);
             }
 
-            kparams.Add("kalsig", this.Signature(kparams));
-            string json = kparams.ToJson();
+            vparams.Add("vidsig", this.Signature(vparams));
+            string json = vparams.ToJson();
 
             this.Log("full reqeust url: [" + url + "]");
             this.Log("full reqeust data: [" + json + "]");
 
             // build request
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
-            if (kfiles.Count == 0)
+            if (vfiles.Count == 0)
             {
                 request.Timeout = _Config.Timeout;
             }
@@ -196,9 +196,9 @@ namespace Kaltura
             // Add proxy information if required
             createProxy(request, _Config);
 
-            if (kfiles.Count > 0)
+            if (vfiles.Count > 0)
             {
-                this.PostMultiPartWithFiles(request, json, kfiles);
+                this.PostMultiPartWithFiles(request, json, vfiles);
             }
             else
             {
@@ -219,7 +219,7 @@ namespace Kaltura
                 {
                     if (this._ResponseHeaders.Keys[i] == "X-Me")
                         serverName = this._ResponseHeaders[i];
-                    if (this._ResponseHeaders.Keys[i] == "X-Kaltura-Session")
+                    if (this._ResponseHeaders.Keys[i] == "X-Vidiun-Session")
                         serverSession = this._ResponseHeaders[i];
                 }
                 if (serverName != null || serverSession != null)
@@ -244,7 +244,7 @@ namespace Kaltura
                 return result;
             }
         }
-        private void createProxy(HttpWebRequest request, KalturaConfiguration _Config)
+        private void createProxy(HttpWebRequest request, VidiunConfiguration _Config)
         {
             if (String.IsNullOrEmpty(_Config.ProxyAddress))
                 return;
@@ -265,11 +265,11 @@ namespace Kaltura
             _MultiRequestReturnType = new List<string>();
         }
 
-        public KalturaMultiResponse DoMultiRequest()
+        public VidiunMultiResponse DoMultiRequest()
         {
             XmlElement multiRequestResult = DoQueue();
 
-            KalturaMultiResponse multiResponse = new KalturaMultiResponse();
+            VidiunMultiResponse multiResponse = new VidiunMultiResponse();
             if (multiRequestResult == null)
             {
                 resetRequest();
@@ -281,22 +281,22 @@ namespace Kaltura
             return multiResponse;
         }
         
-        private KalturaMultiResponse ParseMultiRequestResult(XmlElement childNode) 
+        private VidiunMultiResponse ParseMultiRequestResult(XmlElement childNode) 
         {
             return ParseMultiRequestResult(childNode, true);
         }
         
-        private KalturaMultiResponse ParseMultiRequestResult(XmlElement childNode, bool incrementI)  
+        private VidiunMultiResponse ParseMultiRequestResult(XmlElement childNode, bool incrementI)  
         {
             int i = 0;
-            KalturaMultiResponse multiResponse = new KalturaMultiResponse();
+            VidiunMultiResponse multiResponse = new VidiunMultiResponse();
             foreach(XmlElement arrayNode in childNode.ChildNodes) 
             {
                 XmlElement error = arrayNode["error"];
                 if (error != null && error["code"] != null && error["message"] != null) 
-                    multiResponse.Add(new KalturaAPIException(error["code"].InnerText, error["message"].InnerText));
+                    multiResponse.Add(new VidiunAPIException(error["code"].InnerText, error["message"].InnerText));
                 else if (arrayNode["objectType"] != null)
-                    multiResponse.Add(KalturaObjectFactory.Create(arrayNode, _MultiRequestReturnType[i]));
+                    multiResponse.Add(VidiunObjectFactory.Create(arrayNode, _MultiRequestReturnType[i]));
                 else if (arrayNode["item"] != null)
                     multiResponse.Add(ParseMultiRequestResult(arrayNode, false));
                 else
@@ -332,41 +332,41 @@ namespace Kaltura
 
         public string GenerateSession(string adminSecretForSigning, string userId)
         {
-            return this.GenerateSession(adminSecretForSigning, userId, (KalturaSessionType)(0));
+            return this.GenerateSession(adminSecretForSigning, userId, (VidiunSessionType)(0));
         }
 
-        public string GenerateSession(string adminSecretForSigning, string userId, KalturaSessionType type)
+        public string GenerateSession(string adminSecretForSigning, string userId, VidiunSessionType type)
         {
             return this.GenerateSession(adminSecretForSigning, userId, type, -1);
         }
 
-        public string GenerateSession(string adminSecretForSigning, string userId, KalturaSessionType type, int partnerId)
+        public string GenerateSession(string adminSecretForSigning, string userId, VidiunSessionType type, int partnerId)
         {
             return this.GenerateSession(adminSecretForSigning, userId, type, partnerId, 86400);
         }
 
-        public string GenerateSession(string adminSecretForSigning, string userId, KalturaSessionType type, int partnerId, int expiry)
+        public string GenerateSession(string adminSecretForSigning, string userId, VidiunSessionType type, int partnerId, int expiry)
         {
             return this.GenerateSession(adminSecretForSigning, userId, type, partnerId, expiry, "");
         }
 
-        public string GenerateSession(string adminSecretForSigning, string userId, KalturaSessionType type, int partnerId, int expiry, string privileges)
+        public string GenerateSession(string adminSecretForSigning, string userId, VidiunSessionType type, int partnerId, int expiry, string privileges)
         {
-            string ks = string.Format("{0};{0};{1};{2};{3};{4};{5};", partnerId, UnixTimeNow() + expiry, type.GetHashCode(), DateTime.Now.Ticks, userId, privileges);
+            string vs = string.Format("{0};{0};{1};{2};{3};{4};{5};", partnerId, UnixTimeNow() + expiry, type.GetHashCode(), DateTime.Now.Ticks, userId, privileges);
 
             SHA1 sha = new SHA1CryptoServiceProvider();
 
-            byte[] ksTextBytes = Encoding.ASCII.GetBytes(adminSecretForSigning + ks);
+            byte[] vsTextBytes = Encoding.ASCII.GetBytes(adminSecretForSigning + vs);
 
-            byte[] sha1Bytes = sha.ComputeHash(ksTextBytes);
+            byte[] sha1Bytes = sha.ComputeHash(vsTextBytes);
 
             string sha1Hex = "";
             foreach (char c in sha1Bytes)
                 sha1Hex += string.Format("{0:x2}", (int)c);
 
-            ks = sha1Hex.ToLower() + "|" + ks;
+            vs = sha1Hex.ToLower() + "|" + vs;
 
-            return EncodeTo64(ks);
+            return EncodeTo64(vs);
         }
 
         #endregion
@@ -381,10 +381,10 @@ namespace Kaltura
             }
         }
 
-        private string Signature(KalturaParams kparams)
+        private string Signature(VidiunParams vparams)
         {
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            byte[] data = Encoding.ASCII.GetBytes(kparams.ToJson());
+            byte[] data = Encoding.ASCII.GetBytes(vparams.ToJson());
             data = md5.ComputeHash(data);
             StringBuilder sBuilder = new StringBuilder();
             for (int i = 0; i < data.Length; i++)
@@ -415,11 +415,11 @@ namespace Kaltura
             if (error != null && error["code"] != null && error["message"] != null)
             {
                 resetRequest();
-                throw new KalturaAPIException(error["code"].InnerText, error["message"].InnerText);
+                throw new VidiunAPIException(error["code"].InnerText, error["message"].InnerText);
             }
         }
 
-        private void PostMultiPartWithFiles(HttpWebRequest request, string json, KalturaFiles kfiles)
+        private void PostMultiPartWithFiles(HttpWebRequest request, string json, VidiunFiles vfiles)
         {
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
             request.ContentType = "multipart/form-data; boundary=" + boundary;
@@ -427,7 +427,7 @@ namespace Kaltura
             byte[] paramsBuffer = BuildMultiPartParamsBuffer(json, boundary);
 
             SortedList<string, MultiPartFileDescriptor> filesDescriptions = new SortedList<string, MultiPartFileDescriptor>();
-            foreach (KeyValuePair<string, Stream> file in kfiles)
+            foreach (KeyValuePair<string, Stream> file in vfiles)
                 filesDescriptions.Add(file.Key, BuildMultiPartFileDescriptor(file, boundary));
 
             // Set content's length
@@ -457,7 +457,7 @@ namespace Kaltura
         /// <summary>
         /// Compiles the parameters required for PostMultiPartWithFiles(...) into a byte buffer ready to be streamed.
         /// </summary>
-        /// <param name="kparams">The request's parameters.</param>
+        /// <param name="vparams">The request's parameters.</param>
         /// <param name="boundary">The multipart's boundary.</param>
         /// <returns>
         /// The parameters' byte array ready to be streamed.

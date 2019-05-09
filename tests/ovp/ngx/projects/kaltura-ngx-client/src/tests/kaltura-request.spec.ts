@@ -1,33 +1,33 @@
 import {BaseEntryListAction} from "../lib/api/types/BaseEntryListAction";
 import {UserLoginByLoginIdAction} from "../lib/api/types/UserLoginByLoginIdAction";
-import {KalturaDetachedResponseProfile} from "../lib/api/types/KalturaDetachedResponseProfile";
-import {KalturaBaseEntryFilter} from "../lib/api/types/KalturaBaseEntryFilter";
-import {KalturaSearchOperator} from "../lib/api/types/KalturaSearchOperator";
-import {KalturaNullableBoolean} from "../lib/api/types/KalturaNullableBoolean";
+import {VidiunDetachedResponseProfile} from "../lib/api/types/VidiunDetachedResponseProfile";
+import {VidiunBaseEntryFilter} from "../lib/api/types/VidiunBaseEntryFilter";
+import {VidiunSearchOperator} from "../lib/api/types/VidiunSearchOperator";
+import {VidiunNullableBoolean} from "../lib/api/types/VidiunNullableBoolean";
 import {AppTokenAddAction} from "../lib/api/types/AppTokenAddAction";
-import {KalturaAppToken} from "../lib/api/types/KalturaAppToken";
-import {KalturaSearchOperatorType} from "../lib/api/types/KalturaSearchOperatorType";
-import {KalturaContentDistributionSearchItem} from "../lib/api/types/KalturaContentDistributionSearchItem";
+import {VidiunAppToken} from "../lib/api/types/VidiunAppToken";
+import {VidiunSearchOperatorType} from "../lib/api/types/VidiunSearchOperatorType";
+import {VidiunContentDistributionSearchItem} from "../lib/api/types/VidiunContentDistributionSearchItem";
 import {UserGetAction} from "../lib/api/types/UserGetAction";
 import {PlaylistListAction} from "../lib/api/types/PlaylistListAction";
-import {KalturaBaseEntryListResponse} from "../lib/api/types/KalturaBaseEntryListResponse";
-import {KalturaPlaylist} from "../lib/api/types/KalturaPlaylist";
+import {VidiunBaseEntryListResponse} from "../lib/api/types/VidiunBaseEntryListResponse";
+import {VidiunPlaylist} from "../lib/api/types/VidiunPlaylist";
 import {PartnerGetAction} from "../lib/api/types/PartnerGetAction";
-import {KalturaPlaylistType} from "../lib/api/types/KalturaPlaylistType";
-import {KalturaEntryReplacementStatus} from "../lib/api/types/KalturaEntryReplacementStatus";
-import {KalturaMediaEntryFilterForPlaylist} from "../lib/api/types/KalturaMediaEntryFilterForPlaylist";
-import {KalturaAPIException} from "../lib/api/kaltura-api-exception";
-import {KalturaAppTokenHashType} from "../lib/api/types/KalturaAppTokenHashType";
-import {KalturaMediaEntryFilter} from "../lib/api/types/KalturaMediaEntryFilter";
-import {KalturaMediaEntry} from "../lib/api/types/KalturaMediaEntry";
+import {VidiunPlaylistType} from "../lib/api/types/VidiunPlaylistType";
+import {VidiunEntryReplacementStatus} from "../lib/api/types/VidiunEntryReplacementStatus";
+import {VidiunMediaEntryFilterForPlaylist} from "../lib/api/types/VidiunMediaEntryFilterForPlaylist";
+import {VidiunAPIException} from "../lib/api/vidiun-api-exception";
+import {VidiunAppTokenHashType} from "../lib/api/types/VidiunAppTokenHashType";
+import {VidiunMediaEntryFilter} from "../lib/api/types/VidiunMediaEntryFilter";
+import {VidiunMediaEntry} from "../lib/api/types/VidiunMediaEntry";
 import { asyncAssert, escapeRegExp, getClient } from "./utils";
-import {LoggerSettings, LogLevels} from "../lib/api/kaltura-logger";
-import {KalturaFilterPager} from "../lib/api/types/KalturaFilterPager";
-import {KalturaClient} from "../lib/kaltura-client.service";
+import {LoggerSettings, LogLevels} from "../lib/api/vidiun-logger";
+import {VidiunFilterPager} from "../lib/api/types/VidiunFilterPager";
+import {VidiunClient} from "../lib/vidiun-client.service";
 import {TestsConfig} from './tests-config';
 
-describe("Kaltura server API request", () => {
-	let kalturaClient: KalturaClient = null;
+describe("Vidiun server API request", () => {
+	let vidiunClient: VidiunClient = null;
 
 	beforeAll(async () => {
 		LoggerSettings.logLevel = LogLevels.error; // suspend warnings
@@ -35,14 +35,14 @@ describe("Kaltura server API request", () => {
 		return new Promise((resolve => {
 			getClient()
 				.subscribe(client => {
-					kalturaClient = client;
+					vidiunClient = client;
 					resolve(client);
 				});
 		}));
 	});
 
 	afterAll(() => {
-		kalturaClient = null;
+		vidiunClient = null;
 	});
 
 
@@ -61,8 +61,8 @@ describe("Kaltura server API request", () => {
 			);
 
 			userLoginByLoginIdAction.setRequestOptions({
-				ks: "valid ks",
-				responseProfile: new KalturaDetachedResponseProfile().setData(data => {
+				vs: "valid vs",
+				responseProfile: new VidiunDetachedResponseProfile().setData(data => {
 					data.fields = "fields";
 				})
 			});
@@ -73,10 +73,10 @@ describe("Kaltura server API request", () => {
 			const pojoRequest = <any>userLoginByLoginIdAction.buildRequest(null);
 			expect(pojoRequest.service).toBe("user");
 			expect(pojoRequest.action).toBe("loginByLoginId");
-			expect(pojoRequest.ks).toBe("valid ks");
+			expect(pojoRequest.vs).toBe("valid vs");
 			expect(pojoRequest.partnerId).toBe(1234);
 			expect(pojoRequest.responseProfile).toBeDefined();
-			expect(pojoRequest.responseProfile.objectType).toBe("KalturaDetachedResponseProfile");
+			expect(pojoRequest.responseProfile.objectType).toBe("VidiunDetachedResponseProfile");
 			expect(pojoRequest.responseProfile.fields).toBe("fields");
 
 		});
@@ -84,33 +84,33 @@ describe("Kaltura server API request", () => {
 		test("create a pojo of the request by and emit ", () => {
 			const request = new BaseEntryListAction(
 				{
-					filter: new KalturaBaseEntryFilter().setData(data => {
-						data.advancedSearch = new KalturaSearchOperator();
+					filter: new VidiunBaseEntryFilter().setData(data => {
+						data.advancedSearch = new VidiunSearchOperator();
 					})
 				}
 			);
 
 			expect(request.filter).toBeDefined();
-			expect(request.filter instanceof KalturaBaseEntryFilter).toBeTruthy();
+			expect(request.filter instanceof VidiunBaseEntryFilter).toBeTruthy();
 			expect(request.filter.advancedSearch).toBeDefined();
-			expect(request.filter.advancedSearch instanceof KalturaSearchOperator).toBeTruthy();
+			expect(request.filter.advancedSearch instanceof VidiunSearchOperator).toBeTruthy();
 
 			const pojoRequest: any = <any>request.buildRequest(null);
 			expect(pojoRequest).toBeDefined();
 
 			expect(pojoRequest.filter).toBeDefined();
-			expect(pojoRequest.filter.objectType).toBe("KalturaBaseEntryFilter");
-			expect(pojoRequest.filter instanceof KalturaBaseEntryFilter).toBeFalsy();
+			expect(pojoRequest.filter.objectType).toBe("VidiunBaseEntryFilter");
+			expect(pojoRequest.filter instanceof VidiunBaseEntryFilter).toBeFalsy();
 			expect(pojoRequest.filter.advancedSearch).toBeDefined();
-			expect(pojoRequest.filter.advancedSearch.objectType).toBe("KalturaSearchOperator");
-			expect(pojoRequest.filter.advancedSearch instanceof KalturaSearchOperator).toBeFalsy();
+			expect(pojoRequest.filter.advancedSearch.objectType).toBe("VidiunSearchOperator");
+			expect(pojoRequest.filter.advancedSearch instanceof VidiunSearchOperator).toBeFalsy();
 		});
 
 		test("ignore undefined/null/empty array values in request", () => {
 			const request = new BaseEntryListAction(
 				{
-					filter: new KalturaBaseEntryFilter(),
-					responseProfile: new KalturaDetachedResponseProfile()
+					filter: new VidiunBaseEntryFilter(),
+					responseProfile: new VidiunDetachedResponseProfile()
 				});
 
 			const pojoRequest = <any>request.buildRequest(null);
@@ -125,7 +125,7 @@ describe("Kaltura server API request", () => {
 		test("ignore local action properties properties in request", () => {
 			const request = new BaseEntryListAction(
 				{
-					filter: new KalturaBaseEntryFilter()
+					filter: new VidiunBaseEntryFilter()
 				});
 
 			const pojoRequest = <any>request.buildRequest(null);
@@ -137,8 +137,8 @@ describe("Kaltura server API request", () => {
 		test("send enum of type int in request", () => {
 			const request = new BaseEntryListAction(
 				{
-					filter: new KalturaBaseEntryFilter().setData(data => {
-						data.isRoot = KalturaNullableBoolean.trueValue;
+					filter: new VidiunBaseEntryFilter().setData(data => {
+						data.isRoot = VidiunNullableBoolean.trueValue;
 					})
 				}
 			);
@@ -152,26 +152,26 @@ describe("Kaltura server API request", () => {
 		test("send enum of type string in request", () => {
 			const request = new AppTokenAddAction(
 				{
-					appToken: new KalturaAppToken().setData(
+					appToken: new VidiunAppToken().setData(
 						request => {
-							request.hashType = KalturaAppTokenHashType.sha1;
+							request.hashType = VidiunAppTokenHashType.sha1;
 						}
 					)
 				}
 			);
 
-			expect(KalturaAppTokenHashType.sha1).toBe(KalturaAppTokenHashType.sha1);
+			expect(VidiunAppTokenHashType.sha1).toBe(VidiunAppTokenHashType.sha1);
 
 			const pojoRequest: any = request.buildRequest(null);
 			expect(pojoRequest).toBeDefined();
-			expect(pojoRequest.appToken.hashType).toBe(KalturaAppTokenHashType.sha1.toString());
+			expect(pojoRequest.appToken.hashType).toBe(VidiunAppTokenHashType.sha1.toString());
 			expect(typeof pojoRequest.appToken.hashType === "string");
 		});
 
 		test("send object in request", () => {
 			const request = new BaseEntryListAction(
 				{
-					filter: new KalturaBaseEntryFilter().setData(data => {
+					filter: new VidiunBaseEntryFilter().setData(data => {
 						data.statusIn = "2";
 					})
 				}
@@ -180,8 +180,8 @@ describe("Kaltura server API request", () => {
 			const pojoRequest: any = request.buildRequest(null);
 			expect(pojoRequest).toBeDefined();
 			expect(pojoRequest.filter).toBeDefined();
-			expect(pojoRequest.filter instanceof KalturaBaseEntryFilter).toBeFalsy();
-			expect(pojoRequest.filter.objectType).toBe("KalturaBaseEntryFilter");
+			expect(pojoRequest.filter instanceof VidiunBaseEntryFilter).toBeFalsy();
+			expect(pojoRequest.filter.objectType).toBe("VidiunBaseEntryFilter");
 
 		});
 
@@ -190,7 +190,7 @@ describe("Kaltura server API request", () => {
 			// const request = new BaseEntryListAction(
 			// {
 			// filter:
-			//     new KalturaBaseEntryFilter().setData(data =>
+			//     new VidiunBaseEntryFilter().setData(data =>
 			//     {
 			//         data.createdAtGreaterThanOrEqual = new Date("1980-08-11");
 			//     })
@@ -210,19 +210,19 @@ describe("Kaltura server API request", () => {
 		test("send array of objects in request", () => {
 			const request = new BaseEntryListAction(
 				{
-					filter: new KalturaBaseEntryFilter().setData(data => {
+					filter: new VidiunBaseEntryFilter().setData(data => {
 						data.statusIn = "2";
-						data.advancedSearch = new KalturaSearchOperator().setData(data => {
-							data.type = KalturaSearchOperatorType.searchAnd;
+						data.advancedSearch = new VidiunSearchOperator().setData(data => {
+							data.type = VidiunSearchOperatorType.searchAnd;
 							data.items.push(
-								new KalturaSearchOperator(),
-								new KalturaSearchOperator().setData(searchOperator => {
-									searchOperator.type = KalturaSearchOperatorType.searchOr;
+								new VidiunSearchOperator(),
+								new VidiunSearchOperator().setData(searchOperator => {
+									searchOperator.type = VidiunSearchOperatorType.searchOr;
 									searchOperator.items.push(
-										new KalturaContentDistributionSearchItem().setData(distribution => {
+										new VidiunContentDistributionSearchItem().setData(distribution => {
 											distribution.distributionProfileId = 1;
 										}),
-										new KalturaContentDistributionSearchItem().setData(distribution => {
+										new VidiunContentDistributionSearchItem().setData(distribution => {
 											distribution.distributionProfileId = 2;
 										})
 									);
@@ -248,7 +248,7 @@ describe("Kaltura server API request", () => {
 		test("handle default value property of type int correctly", () => {
 			const request = new BaseEntryListAction(
 				{
-					filter: new KalturaBaseEntryFilter()
+					filter: new VidiunBaseEntryFilter()
 				}
 			);
 
@@ -266,7 +266,7 @@ describe("Kaltura server API request", () => {
 		test("handle default value property of type string correctly", () => {
 			const request = new BaseEntryListAction(
 				{
-					filter: new KalturaBaseEntryFilter()
+					filter: new VidiunBaseEntryFilter()
 				}
 			);
 
@@ -306,15 +306,15 @@ describe("Kaltura server API request", () => {
 
 			const request = new BaseEntryListAction(
 				{
-					filter: new KalturaBaseEntryFilter().setData(data => {
+					filter: new VidiunBaseEntryFilter().setData(data => {
 						data.statusIn = "2";
-						data.advancedSearch = new KalturaSearchOperator().setData(data => {
-							data.type = KalturaSearchOperatorType.searchAnd;
+						data.advancedSearch = new VidiunSearchOperator().setData(data => {
+							data.type = VidiunSearchOperatorType.searchAnd;
 							data.items.push(
-								new KalturaSearchOperator().setData(searchOperator => {
-									searchOperator.type = KalturaSearchOperatorType.searchOr;
+								new VidiunSearchOperator().setData(searchOperator => {
+									searchOperator.type = VidiunSearchOperatorType.searchOr;
 									searchOperator.items.push(
-										new KalturaContentDistributionSearchItem().setData(distribution => {
+										new VidiunContentDistributionSearchItem().setData(distribution => {
 											distribution.distributionProfileId = 12333;
 										})
 									);
@@ -330,17 +330,17 @@ describe("Kaltura server API request", () => {
 
 			const requestFilter: any = pojoRequest.filter;
 			expect(requestFilter).toBeDefined();
-			expect(requestFilter instanceof KalturaBaseEntryFilter).toBeFalsy();
+			expect(requestFilter instanceof VidiunBaseEntryFilter).toBeFalsy();
 			expect(requestFilter.statusIn).toBe("2");
-			expect(requestFilter.advancedSearch.objectType).toBe("KalturaSearchOperator");
-			expect(requestFilter.advancedSearch.type).toBe(KalturaSearchOperatorType.searchAnd);
+			expect(requestFilter.advancedSearch.objectType).toBe("VidiunSearchOperator");
+			expect(requestFilter.advancedSearch.type).toBe(VidiunSearchOperatorType.searchAnd);
 			const advancedSearchItem: any = requestFilter.advancedSearch.items["0"];
 			expect(advancedSearchItem).toBeDefined();
-			expect(advancedSearchItem.type).toBe(KalturaSearchOperatorType.searchOr);
+			expect(advancedSearchItem.type).toBe(VidiunSearchOperatorType.searchOr);
 			expect(advancedSearchItem.items).toBeDefined();
 			const distributionSearchItem: any = advancedSearchItem.items["0"];
 			expect(distributionSearchItem).toBeDefined();
-			expect(distributionSearchItem.objectType).toBe("KalturaContentDistributionSearchItem");
+			expect(distributionSearchItem.objectType).toBe("VidiunContentDistributionSearchItem");
 			expect(distributionSearchItem.distributionProfileId).toBe(12333);
 		});
 
@@ -370,7 +370,7 @@ describe("Kaltura server API request", () => {
 			expect(pojoRequest).toBeDefined();
 			expect(pojoRequest.expiry).toBe(1234);
 
-			const filter = new KalturaBaseEntryFilter();
+			const filter = new VidiunBaseEntryFilter();
 			filter.statusIn = "2";
 			const request2: BaseEntryListAction = new BaseEntryListAction({filter: filter});
 
@@ -378,36 +378,36 @@ describe("Kaltura server API request", () => {
 
 			expect(pojoRequest2).toBeDefined();
 			expect(pojoRequest2.filter).toBeDefined();
-			expect(pojoRequest2.filter instanceof KalturaBaseEntryFilter).toBeDefined();
+			expect(pojoRequest2.filter instanceof VidiunBaseEntryFilter).toBeDefined();
 			expect(pojoRequest2.filter["statusIn"]).toBe("2");
 
 		});
 
 
-		test("allow overriding the general request configuration for ks/partnerid for specific request", () => {
-			// build request with default ks (not settings ks explicitly)
-			const requestWithDefaultKS = new UserLoginByLoginIdAction({
+		test("allow overriding the general request configuration for vs/partnerid for specific request", () => {
+			// build request with default vs (not settings vs explicitly)
+			const requestWithDefaultVS = new UserLoginByLoginIdAction({
 				loginId: "username",
 				password: "password"
 			});
 
 
-			const pojoRequest: any = requestWithDefaultKS.buildRequest(null);
+			const pojoRequest: any = requestWithDefaultVS.buildRequest(null);
 			expect(pojoRequest).toBeDefined();
-			expect(pojoRequest.ks).toBeUndefined();
+			expect(pojoRequest.vs).toBeUndefined();
 
-			// build request with custom ks
-			const requestWithCustomKS = new UserLoginByLoginIdAction({
+			// build request with custom vs
+			const requestWithCustomVS = new UserLoginByLoginIdAction({
 				loginId: "username",
 				password: "password"
 			});
 
-			requestWithCustomKS.setRequestOptions({ks: "custom request KS"});
+			requestWithCustomVS.setRequestOptions({vs: "custom request VS"});
 
-			const pojoRequest2: any = requestWithCustomKS.buildRequest(null);
+			const pojoRequest2: any = requestWithCustomVS.buildRequest(null);
 
 			expect(pojoRequest2).toBeDefined();
-			expect(pojoRequest2.ks).toBe("custom request KS");
+			expect(pojoRequest2.vs).toBe("custom request VS");
 
 
 		});
@@ -417,7 +417,7 @@ describe("Kaltura server API request", () => {
 				loginId: "username",
 				password: "password"
 			});
-			request.setRequestOptions({ks: "custom request KS"});
+			request.setRequestOptions({vs: "custom request VS"});
 			const setCompletionResult = request.setCompletion(() => {
 			});
 
@@ -444,20 +444,20 @@ describe("Kaltura server API request", () => {
 		});
 	});
 
-	describe("Invoking kaltura response", () => {
+	describe("Invoking vidiun response", () => {
 		test("parse action response type", (done) => {
 			// example of assignment by setParameters function (support chaining)
 			const listAction: BaseEntryListAction = new BaseEntryListAction(
 				{
-					filter: new KalturaBaseEntryFilter().setData(filter => {
+					filter: new VidiunBaseEntryFilter().setData(filter => {
 						filter.statusIn = "2";
 					})
 				});
 			expect.assertions(1);
-			kalturaClient.request(listAction).subscribe(
+			vidiunClient.request(listAction).subscribe(
 				(response) => {
 					asyncAssert(() => {
-						expect(response instanceof KalturaBaseEntryListResponse).toBeTruthy();
+						expect(response instanceof VidiunBaseEntryListResponse).toBeTruthy();
 					});
 					done();
 				},
@@ -478,10 +478,10 @@ describe("Kaltura server API request", () => {
 
 		test("parse object response property", (done) => {
 			expect.assertions(3);
-			kalturaClient.request(new BaseEntryListAction()).subscribe(
+			vidiunClient.request(new BaseEntryListAction()).subscribe(
 				(response) => {
 					asyncAssert(() => {
-						expect(response instanceof KalturaBaseEntryListResponse).toBeTruthy();
+						expect(response instanceof VidiunBaseEntryListResponse).toBeTruthy();
 						expect(response.objects).toBeDefined();
 						const object1 = response.objects[0];
 						expect(object1).toBeDefined();
@@ -496,8 +496,8 @@ describe("Kaltura server API request", () => {
 
 		test("parse object response property that inherit from expected property type", (done) => {
 			expect.assertions(4);
-			kalturaClient.request(new BaseEntryListAction({
-				filter: new KalturaMediaEntryFilter()
+			vidiunClient.request(new BaseEntryListAction({
+				filter: new VidiunMediaEntryFilter()
 			})).subscribe(
 				(response) => {
 
@@ -507,7 +507,7 @@ describe("Kaltura server API request", () => {
 
 						const object0 = response.objects[0];
 						expect(object0).toBeDefined();
-						expect(object0 instanceof KalturaMediaEntry).toBeTruthy();
+						expect(object0 instanceof VidiunMediaEntry).toBeTruthy();
 					});
 					done();
 				},
@@ -523,7 +523,7 @@ describe("Kaltura server API request", () => {
 
 		test("parse number response property", (done) => {
 			expect.assertions(3);
-			kalturaClient.request(new BaseEntryListAction()).subscribe(
+			vidiunClient.request(new BaseEntryListAction()).subscribe(
 				(response) => {
 					asyncAssert(() => {
 						expect(response).toBeDefined();
@@ -541,7 +541,7 @@ describe("Kaltura server API request", () => {
 
 		test("parse number response property while provided value is boolean", (done) => {
 			expect.assertions(2);
-			kalturaClient.request(new PartnerGetAction({id: TestsConfig.partnerId})).subscribe(
+			vidiunClient.request(new PartnerGetAction({id: TestsConfig.partnerId})).subscribe(
 				(response) => {
 					asyncAssert(() => {
 						expect(response).toBeDefined();
@@ -557,7 +557,7 @@ describe("Kaltura server API request", () => {
 
 		test("parse number response property while provided value is valid number as string", (done) => {
 			expect.assertions(4);
-			kalturaClient.request(new BaseEntryListAction()).subscribe(
+			vidiunClient.request(new BaseEntryListAction()).subscribe(
 				(response) => {
 					asyncAssert(() => {
 						expect(response).toBeDefined();
@@ -580,7 +580,7 @@ describe("Kaltura server API request", () => {
 
 		test("parse string response property", (done) => {
 			expect.assertions(3);
-			kalturaClient.request(new BaseEntryListAction()).subscribe(
+			vidiunClient.request(new BaseEntryListAction()).subscribe(
 				(response) => {
 					asyncAssert(() => {
 						expect(response).toBeDefined();
@@ -598,7 +598,7 @@ describe("Kaltura server API request", () => {
 
 		test("parse string response property while provided value is of type number", (done) => {
 			expect.assertions(2);
-			kalturaClient.request(new PartnerGetAction({id: TestsConfig.partnerId})).subscribe(
+			vidiunClient.request(new PartnerGetAction({id: TestsConfig.partnerId})).subscribe(
 				(response) => {
 					asyncAssert(() => {
 						expect(response).toBeDefined();
@@ -614,8 +614,8 @@ describe("Kaltura server API request", () => {
 
 		test("parse array response property", (done) => {
 			expect.assertions(5);
-			kalturaClient.request(new BaseEntryListAction({
-				pager: new KalturaFilterPager({
+			vidiunClient.request(new BaseEntryListAction({
+				pager: new VidiunFilterPager({
 					pageSize: 30
 				})
 			})).subscribe(
@@ -644,7 +644,7 @@ describe("Kaltura server API request", () => {
 
 		test("parse boolean response property while provided value is valid number as string", (done) => {
 			expect.assertions(2);
-			kalturaClient.request(new PartnerGetAction({id: TestsConfig.partnerId})).subscribe(
+			vidiunClient.request(new PartnerGetAction({id: TestsConfig.partnerId})).subscribe(
 				(response) => {
 					asyncAssert(() => {
 						expect(response).toBeDefined();
@@ -669,13 +669,13 @@ describe("Kaltura server API request", () => {
 		xtest("parse date response property", () => {
 			pending("waiting to a server support for dates");
 			// expect.assertions(4);
-			// kalturaClient.request(new BaseEntryListAction()).then(
+			// vidiunClient.request(new BaseEntryListAction()).then(
 			//     (response) =>
 			//     {
 			// asyncAssert(() => {
-			//   const kalturaMediaEntry : KalturaMediaEntry = <KalturaMediaEntry>response.objects[0];
-			//   expect(kalturaMediaEntry.createdAt instanceof Date).toBeTruthy();// known dates are converted by the api
-			//   expect(kalturaMediaEntry.createdAt.getTime() ).toBe((new Date(1450013576 * 1000)).getTime()); // TODO [kmc] response.{typed array}.{DATE VALUE}
+			//   const vidiunMediaEntry : VidiunMediaEntry = <VidiunMediaEntry>response.objects[0];
+			//   expect(vidiunMediaEntry.createdAt instanceof Date).toBeTruthy();// known dates are converted by the api
+			//   expect(vidiunMediaEntry.createdAt.getTime() ).toBe((new Date(1450013576 * 1000)).getTime()); // TODO [vmc] response.{typed array}.{DATE VALUE}
 			// });
 
 			// done();
@@ -689,14 +689,14 @@ describe("Kaltura server API request", () => {
 
 		test("parse enum of type int response property", (done) => {
 			expect.assertions(4);
-			kalturaClient.request(new PlaylistListAction()).subscribe(
+			vidiunClient.request(new PlaylistListAction()).subscribe(
 				(response) => {
 					asyncAssert(() => {
 						expect(response).toBeDefined();
 						expect(response.objects).toBeDefined();
-						const object0: KalturaPlaylist = <KalturaPlaylist>response.objects[0];
+						const object0: VidiunPlaylist = <VidiunPlaylist>response.objects[0];
 						expect(object0).toBeDefined();
-						expect([KalturaPlaylistType.dynamic, KalturaPlaylistType.external, KalturaPlaylistType.staticList]).toContain(object0.playlistType);
+						expect([VidiunPlaylistType.dynamic, VidiunPlaylistType.external, VidiunPlaylistType.staticList]).toContain(object0.playlistType);
 					});
 					done();
 				},
@@ -708,11 +708,11 @@ describe("Kaltura server API request", () => {
 
 		xtest("parse enum of type string response property when the provided value is of type int", (done) => {
 			expect.assertions(1);
-			kalturaClient.request(new BaseEntryListAction()).subscribe(
+			vidiunClient.request(new BaseEntryListAction()).subscribe(
 				(response) => {
 					asyncAssert(() => {
-						const kalturaMediaEntry: KalturaMediaEntry = <KalturaMediaEntry>response.objects[0];
-						expect(kalturaMediaEntry.replacementStatus).toBe(KalturaEntryReplacementStatus.none);
+						const vidiunMediaEntry: VidiunMediaEntry = <VidiunMediaEntry>response.objects[0];
+						expect(vidiunMediaEntry.replacementStatus).toBe(VidiunEntryReplacementStatus.none);
 					});
 					done();
 				},
@@ -732,16 +732,16 @@ describe("Kaltura server API request", () => {
 
 		test("parse array of objects response property", (done) => {
 			expect.assertions(6);
-			kalturaClient.request(new BaseEntryListAction(
+			vidiunClient.request(new BaseEntryListAction(
 				{
-					pager: new KalturaFilterPager({
+					pager: new VidiunFilterPager({
 						pageSize: 30
 					})
 				}
 			)).subscribe(
 				(response) => {
 					asyncAssert(() => {
-						expect(response instanceof KalturaBaseEntryListResponse).toBeTruthy();
+						expect(response instanceof VidiunBaseEntryListResponse).toBeTruthy();
 
 						// verify length of array and totalCount
 						expect(response.totalCount).toBeGreaterThan(0);
@@ -749,11 +749,11 @@ describe("Kaltura server API request", () => {
 						expect(response.objects.length).toBeGreaterThan(0);
 
 						// verify item is of the right type
-						const kalturaMediaEntry: KalturaMediaEntry = <KalturaMediaEntry>response.objects[0];
-						expect(kalturaMediaEntry).toBeDefined();
+						const vidiunMediaEntry: VidiunMediaEntry = <VidiunMediaEntry>response.objects[0];
+						expect(vidiunMediaEntry).toBeDefined();
 
-						const kalturaPlaylist: KalturaPlaylist = <KalturaPlaylist>response.objects[4];
-						expect(kalturaPlaylist).toBeDefined();
+						const vidiunPlaylist: VidiunPlaylist = <VidiunPlaylist>response.objects[4];
+						expect(vidiunPlaylist).toBeDefined();
 					});
 					done();
 				},
@@ -763,17 +763,17 @@ describe("Kaltura server API request", () => {
 			);
 		});
 
-		test("parse kaltura api exception response", (done) => {
+		test("parse vidiun api exception response", (done) => {
 			const listAction: BaseEntryListAction = new BaseEntryListAction();
-			listAction.setRequestOptions({ks: "invalid ks"});
+			listAction.setRequestOptions({vs: "invalid vs"});
 			expect.assertions(1);
-			kalturaClient.request(listAction).subscribe(
+			vidiunClient.request(listAction).subscribe(
 				(response) => {
 					done.fail(`should not reach this part: ${response}`);
 				},
 				(error) => {
 					asyncAssert(() => {
-						expect(error instanceof KalturaAPIException).toBeTruthy();
+						expect(error instanceof VidiunAPIException).toBeTruthy();
 					});
 					done();
 				}
@@ -781,20 +781,20 @@ describe("Kaltura server API request", () => {
 
 		});
 
-		xtest("reflect network exceptions as kaltura api exception", () => {
+		xtest("reflect network exceptions as vidiun api exception", () => {
 			pending("TBD");
 		});
 
-		xtest("reflect missing requst argument as kaltura api exception", () => {
+		xtest("reflect missing requst argument as vidiun api exception", () => {
 			pending("TBD");
 		});
 
 		test("process request without setting completion to that request", (done) => {
 			expect.assertions(1);
-			kalturaClient.request(new BaseEntryListAction()).subscribe(
+			vidiunClient.request(new BaseEntryListAction()).subscribe(
 				(response) => {
 					asyncAssert(() => {
-						expect(response instanceof KalturaBaseEntryListResponse).toBeTruthy();
+						expect(response instanceof VidiunBaseEntryListResponse).toBeTruthy();
 					});
 					done();
 				},

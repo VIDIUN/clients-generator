@@ -1,4 +1,4 @@
-package com.kaltura.boxAdapter;
+package com.vidiun.boxAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +12,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.KalturaCategory;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.VidiunCategory;
 
 /**
  *
  */
 public class BoxAdapterAllCategories extends BaseAdapter {
 
-    private List<KalturaCategory> list;
+    private List<VidiunCategory> list;
     private LayoutInflater lInflater;
     private Typeface typeFont;
     private int textColor;
@@ -29,7 +29,7 @@ public class BoxAdapterAllCategories extends BaseAdapter {
     private int highlightIndex = 0;
     private int backgroundColor;
 
-    public BoxAdapterAllCategories(Context context, List<KalturaCategory> list, int textColor, int arrow, int backgroundColor) {
+    public BoxAdapterAllCategories(Context context, List<VidiunCategory> list, int textColor, int arrow, int backgroundColor) {
         this.textColor = textColor;
         this.arrow = arrow;
         this.backgroundColor = backgroundColor;
@@ -40,7 +40,7 @@ public class BoxAdapterAllCategories extends BaseAdapter {
         if (list != null) {
             this.list = list;
         } else {
-            this.list = new ArrayList<KalturaCategory>();
+            this.list = new ArrayList<VidiunCategory>();
         }
 
         lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

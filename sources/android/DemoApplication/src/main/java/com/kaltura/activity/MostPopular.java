@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,19 +26,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kaltura.bar.ActionBar;
-import com.kaltura.boxAdapter.BoxAdapterAllEntries;
-import com.kaltura.client.enums.KalturaMediaType;
-import com.kaltura.client.types.KalturaMediaEntry;
-import com.kaltura.client.types.KalturaMediaEntryFilter;
-import com.kaltura.components.GridForLand;
-import com.kaltura.components.GridForPort;
-import com.kaltura.enums.States;
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.Media;
-import com.kaltura.utils.SearchTextEntry;
-import com.kaltura.utils.Sort;
-import com.kaltura.utils.Utils;
+import com.vidiun.bar.ActionBar;
+import com.vidiun.boxAdapter.BoxAdapterAllEntries;
+import com.vidiun.client.enums.VidiunMediaType;
+import com.vidiun.client.types.VidiunMediaEntry;
+import com.vidiun.client.types.VidiunMediaEntryFilter;
+import com.vidiun.components.GridForLand;
+import com.vidiun.components.GridForPort;
+import com.vidiun.enums.States;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.Media;
+import com.vidiun.utils.SearchTextEntry;
+import com.vidiun.utils.Sort;
+import com.vidiun.utils.Utils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -46,12 +46,12 @@ import com.nostra13.universalimageloader.core.ImageLoadingListener;
 
 public class MostPopular extends TemplateActivity implements Observer {
 
-    private List<KalturaMediaEntry> listEntries;
-    private List<KalturaMediaEntry> copyEntries;
+    private List<VidiunMediaEntry> listEntries;
+    private List<VidiunMediaEntry> copyEntries;
     private BoxAdapterAllEntries gridAllEntries;
     private EditText etSearch;
     private SearchTextEntry searchText;
-    private KalturaMediaEntry mostPlaysEntry;
+    private VidiunMediaEntry mostPlaysEntry;
     private RelativeLayout rl_category;
     private DownloadListCatigoriesTask downloadTask;
     private View search;
@@ -67,7 +67,7 @@ public class MostPopular extends TemplateActivity implements Observer {
     private View itemTopRight;
     private List<GridForLand> contentLand;
     private List<GridForPort> contentPort;
-    private KalturaMediaEntry rightTopEntry;
+    private VidiunMediaEntry rightTopEntry;
     private Bitmap rightTopBimap;
     private boolean listCategoriesIsLoaded = false;
     private Activity activity;
@@ -77,8 +77,8 @@ public class MostPopular extends TemplateActivity implements Observer {
     int k = 0;
 
     public MostPopular() {
-        listEntries = new ArrayList<KalturaMediaEntry>();
-        copyEntries = new ArrayList<KalturaMediaEntry>();
+        listEntries = new ArrayList<VidiunMediaEntry>();
+        copyEntries = new ArrayList<VidiunMediaEntry>();
         searchText = new SearchTextEntry();
         searchText.addObserver(this);
         downloadTask = new DownloadListCatigoriesTask();
@@ -258,12 +258,12 @@ public class MostPopular extends TemplateActivity implements Observer {
         }
     }
 
-    private class DownloadListCatigoriesTask extends AsyncTask<Void, States, List<KalturaMediaEntry>> {
+    private class DownloadListCatigoriesTask extends AsyncTask<Void, States, List<VidiunMediaEntry>> {
 
         private String message;
 
         @Override
-        protected List<KalturaMediaEntry> doInBackground(Void... params) {
+        protected List<VidiunMediaEntry> doInBackground(Void... params) {
             // Test for connection
             try {
                 if (Utils.checkInternetConnection(getApplicationContext())) {
@@ -274,8 +274,8 @@ public class MostPopular extends TemplateActivity implements Observer {
                     /**
                      * Getting list of all entries category
                      */
-                    KalturaMediaEntryFilter filter = new KalturaMediaEntryFilter();
-                    filter.mediaTypeEqual = KalturaMediaType.VIDEO;
+                    VidiunMediaEntryFilter filter = new VidiunMediaEntryFilter();
+                    filter.mediaTypeEqual = VidiunMediaType.VIDEO;
                     listEntries = Media.listAllEntriesByIdCategories(TAG, filter, 1, 500);
                 }
                 listCategoriesIsLoaded = true;
@@ -290,7 +290,7 @@ public class MostPopular extends TemplateActivity implements Observer {
         }
 
         @Override
-        protected void onPostExecute(List<KalturaMediaEntry> listCategory) {
+        protected void onPostExecute(List<VidiunMediaEntry> listCategory) {
             progressDialog.hide();
             if (listEntries.size() != 0) {
                 searchText.init(TAG, etSearch, listEntries);
@@ -376,7 +376,7 @@ public class MostPopular extends TemplateActivity implements Observer {
             });
         }
 
-        for (KalturaMediaEntry entry : copyEntries) {
+        for (VidiunMediaEntry entry : copyEntries) {
             url.add(entry.thumbnailUrl + "/width/" + new Integer(250/*
                      * display.getWidth()/2
                      */).toString() + "/height/" + new Integer(250/*
@@ -483,18 +483,18 @@ public class MostPopular extends TemplateActivity implements Observer {
 
     }
 
-    private void updateData(List<KalturaMediaEntry> listEntries) {
-        copyEntries = new ArrayList<KalturaMediaEntry>();
+    private void updateData(List<VidiunMediaEntry> listEntries) {
+        copyEntries = new ArrayList<VidiunMediaEntry>();
         copyEntries.addAll(listEntries);
 
         if (copyEntries.size() > 0) {
             sizeListentry = copyEntries.size();
-            for (KalturaMediaEntry kalturaMediaEntry : copyEntries) {
-                Log.w(TAG, "before sort: " + kalturaMediaEntry.plays);
+            for (VidiunMediaEntry vidiunMediaEntry : copyEntries) {
+                Log.w(TAG, "before sort: " + vidiunMediaEntry.plays);
             }
-            Collections.sort(copyEntries, new Sort<KalturaMediaEntry>("plays", "reverse"));
-            for (KalturaMediaEntry kalturaMediaEntry : copyEntries) {
-                Log.w(TAG, "after sort: " + kalturaMediaEntry.plays);
+            Collections.sort(copyEntries, new Sort<VidiunMediaEntry>("plays", "reverse"));
+            for (VidiunMediaEntry vidiunMediaEntry : copyEntries) {
+                Log.w(TAG, "after sort: " + vidiunMediaEntry.plays);
             }
             mostPlaysEntry = copyEntries.get(0);
             copyEntries.remove(mostPlaysEntry);
@@ -761,6 +761,6 @@ public class MostPopular extends TemplateActivity implements Observer {
 
     @Override
     public void update(Observable paramObservable, Object paramObject) {
-        updateData((List<KalturaMediaEntry>) paramObject);
+        updateData((List<VidiunMediaEntry>) paramObject);
     }
 }

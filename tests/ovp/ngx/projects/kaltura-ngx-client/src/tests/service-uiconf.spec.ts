@@ -1,15 +1,15 @@
 import {UiConfListAction} from "../lib/api/types/UiConfListAction";
-import {KalturaUiConfListResponse} from "../lib/api/types/KalturaUiConfListResponse";
-import {KalturaUiConf} from "../lib/api/types/KalturaUiConf";
-import {KalturaUiConfFilter} from "../lib/api/types/KalturaUiConfFilter";
-import {KalturaUiConfObjType} from "../lib/api/types/KalturaUiConfObjType";
+import {VidiunUiConfListResponse} from "../lib/api/types/VidiunUiConfListResponse";
+import {VidiunUiConf} from "../lib/api/types/VidiunUiConf";
+import {VidiunUiConfFilter} from "../lib/api/types/VidiunUiConfFilter";
+import {VidiunUiConfObjType} from "../lib/api/types/VidiunUiConfObjType";
 import {UiConfListTemplatesAction} from "../lib/api/types/UiConfListTemplatesAction";
 import { asyncAssert, getClient } from "./utils";
-import {LoggerSettings, LogLevels} from "../lib/api/kaltura-logger";
-import {KalturaClient} from "../lib/kaltura-client.service";
+import {LoggerSettings, LogLevels} from "../lib/api/vidiun-logger";
+import {VidiunClient} from "../lib/vidiun-client.service";
 
 describe(`service "UIConf" tests`, () => {
-  let kalturaClient: KalturaClient = null;
+  let vidiunClient: VidiunClient = null;
 
   beforeAll(async () => {
     LoggerSettings.logLevel = LogLevels.error; // suspend warnings
@@ -17,25 +17,25 @@ describe(`service "UIConf" tests`, () => {
     return new Promise((resolve => {
       getClient()
         .subscribe(client => {
-          kalturaClient = client;
+          vidiunClient = client;
           resolve(client);
         });
     }));
   });
 
   afterAll(() => {
-    kalturaClient = null;
+    vidiunClient = null;
   });
 
   test("uiconf list", (done) => {
     expect.assertions(3);
-    kalturaClient.request(new UiConfListAction())
+    vidiunClient.request(new UiConfListAction())
       .subscribe(
         response => {
           asyncAssert(() => {
-            expect(response instanceof KalturaUiConfListResponse).toBeTruthy();
+            expect(response instanceof VidiunUiConfListResponse).toBeTruthy();
             expect(Array.isArray(response.objects)).toBeTruthy();
-            expect(response.objects.every(obj => obj instanceof KalturaUiConf)).toBeTruthy();
+            expect(response.objects.every(obj => obj instanceof VidiunUiConf)).toBeTruthy();
           });
           done();
         },
@@ -46,12 +46,12 @@ describe(`service "UIConf" tests`, () => {
   });
 
 
-  // TODO [kmc] investigate response
+  // TODO [vmc] investigate response
   xtest("get players", (done) => {
-    const players = [KalturaUiConfObjType.player, KalturaUiConfObjType.playerV3, KalturaUiConfObjType.playerSl];
-    const filter = new KalturaUiConfFilter({objTypeIn: players.join(",")});
+    const players = [VidiunUiConfObjType.player, VidiunUiConfObjType.playerV3, VidiunUiConfObjType.playerSl];
+    const filter = new VidiunUiConfFilter({objTypeIn: players.join(",")});
     expect.assertions(1);
-    kalturaClient.request(new UiConfListAction(filter))
+    vidiunClient.request(new UiConfListAction(filter))
       .subscribe(
         response => {
           asyncAssert(() => {
@@ -66,14 +66,14 @@ describe(`service "UIConf" tests`, () => {
   });
 
   test("get video players", (done) => {
-    const players = [KalturaUiConfObjType.player, KalturaUiConfObjType.playerV3, KalturaUiConfObjType.playerSl];
-    const filter = new KalturaUiConfFilter({
+    const players = [VidiunUiConfObjType.player, VidiunUiConfObjType.playerV3, VidiunUiConfObjType.playerSl];
+    const filter = new VidiunUiConfFilter({
       objTypeIn: players.join(","),
       tagsMultiLikeOr: "player"
     });
 
     expect.assertions(2);
-    kalturaClient.request(new UiConfListAction(filter))
+    vidiunClient.request(new UiConfListAction(filter))
       .subscribe(
         response => {
           asyncAssert(() => {
@@ -95,13 +95,13 @@ describe(`service "UIConf" tests`, () => {
 
   test("uiconf list templates", (done) => {
     expect.assertions(3);
-    kalturaClient.request(new UiConfListTemplatesAction())
+    vidiunClient.request(new UiConfListTemplatesAction())
       .subscribe(
         response => {
           asyncAssert(() => {
-            expect(response instanceof KalturaUiConfListResponse).toBeTruthy();
+            expect(response instanceof VidiunUiConfListResponse).toBeTruthy();
             expect(Array.isArray(response.objects)).toBeTruthy();
-            expect(response.objects.every(obj => obj instanceof KalturaUiConf)).toBeTruthy();
+            expect(response.objects.every(obj => obj instanceof VidiunUiConf)).toBeTruthy();
           });
           done();
         },

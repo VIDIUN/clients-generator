@@ -15,7 +15,7 @@ android {
 }
 
 dependencies {
-    compile project(':KalturaClient')
+    compile project(':VidiunClient')
 	
     androidTestCompile 'com.android.support.test:runner:0.4'
     // Set this dependency to use JUnit 4 rules

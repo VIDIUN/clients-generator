@@ -1,9 +1,9 @@
 //
 //  UploadSelectViewController_iPhone.m
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 06.03.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import "UploadSelectViewController_iPhone.h"
@@ -82,7 +82,7 @@
     
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeMovie, nil]; 
+    imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) vUTTypeMovie, nil]; 
     imagePicker.allowsEditing = NO;
     imagePicker.videoQuality = UIImagePickerControllerQualityTypeHigh;
     imagePicker.delegate = self;

@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -12,13 +12,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kaltura.bar.ActionBar;
-import com.kaltura.client.types.KalturaMediaEntry;
-import com.kaltura.enums.States;
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.Media;
-import com.kaltura.services.UploadToken;
-import com.kaltura.utils.Utils;
+import com.vidiun.bar.ActionBar;
+import com.vidiun.client.types.VidiunMediaEntry;
+import com.vidiun.enums.States;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.Media;
+import com.vidiun.services.UploadToken;
+import com.vidiun.utils.Utils;
 
 public class Uploading extends TemplateActivity {
 
@@ -114,7 +114,7 @@ public class Uploading extends TemplateActivity {
 
                     if (pathfromURI != null && category != null && title != null && description != null && tags != null) {
                         message = "Create new entry";
-                        KalturaMediaEntry newEntry = Media.addEmptyEntry(TAG, category, title, description, tags);
+                        VidiunMediaEntry newEntry = Media.addEmptyEntry(TAG, category, title, description, tags);
                         message = "Uploading data";
                         isUploaded = uploadToken.uploadMediaFileAndAttachToEmptyEntry(TAG, newEntry, pathfromURI);
                     } else {

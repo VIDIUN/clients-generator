@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.activity.components;
+package com.vidiun.activity.components;
 
 import java.util.HashMap;
 import java.util.Observable;
@@ -18,8 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.KalturaMediaEntry;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.VidiunMediaEntry;
 
 /**
  *
@@ -35,7 +35,7 @@ public class ItemGrid implements Observer{
     private TextView tv_name;
     private TextView tv_episode;
     private ProgressBar pb_loading;
-    private KalturaMediaEntry key;
+    private VidiunMediaEntry key;
     private boolean isSetBitmap = false;
     private Bitmap bitmap;
     private RelativeLayout rl_item_entry;
@@ -74,11 +74,11 @@ public class ItemGrid implements Observer{
         return pb_loading;
     }
     
-     public void setKey(KalturaMediaEntry key){
+     public void setKey(VidiunMediaEntry key){
         if(key != null){
             this.key = key;
         }else{
-            this.key = new KalturaMediaEntry();
+            this.key = new VidiunMediaEntry();
         }
     }
 

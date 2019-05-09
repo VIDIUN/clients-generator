@@ -82,7 +82,7 @@
 		848E879214FC3CDE000D2A13 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 848E879114FC3CDE000D2A13 /* libxml2.dylib */; };
 		848E879414FC3CE6000D2A13 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 848E879314FC3CE6000D2A13 /* libz.dylib */; };
 		849E6AA2150388D50078895E /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 849E6AA1150388D50078895E /* icon_ipad.png */; };
-		849EDFBC152900C2005A0112 /* KalturaThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 849EDFBB152900C2005A0112 /* KalturaThumbView.m */; };
+		849EDFBC152900C2005A0112 /* VidiunThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 849EDFBB152900C2005A0112 /* VidiunThumbView.m */; };
 		84AAFB291521DC50007E8B99 /* toolbar_pad.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AAFB241521DC50007E8B99 /* toolbar_pad.png */; };
 		84AAFB2A1521DC50007E8B99 /* button_close_upload.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AAFB261521DC50007E8B99 /* button_close_upload.png */; };
 		84AAFB2B1521DC50007E8B99 /* button_pick_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 84AAFB271521DC50007E8B99 /* button_pick_ipad.png */; };
@@ -149,7 +149,7 @@
 		84FFFDD115042F0600204032 /* button_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 84FFFDCD15042F0600204032 /* button_login.png */; };
 		84FFFDD215042F0600204032 /* button_login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84FFFDCE15042F0600204032 /* button_login@2x.png */; };
 		B325FDFC1A67E24400405870 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF35D073184B68D500D4A391 /* Default-568h@2x.png */; };
-		B325FE121A68026B00405870 /* libKalturaClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B325FE0F1A68025D00405870 /* libKalturaClient.a */; };
+		B325FE121A68026B00405870 /* libVidiunClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B325FE0F1A68025D00405870 /* libVidiunClient.a */; };
 		B3283A251A640E2F00257FBD /* GoogleCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3283A241A640E2F00257FBD /* GoogleCast.framework */; };
 		B3283A2A1A64101000257FBD /* libWViPhoneAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B3283A291A64101000257FBD /* libWViPhoneAPI.a */; };
 		B3283A2C1A64104000257FBD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3283A2B1A64104000257FBD /* AudioToolbox.framework */; };
@@ -165,11 +165,11 @@
 		B3283A511A641B4A00257FBD /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B3283A501A641B4A00257FBD /* libxml2.2.dylib */; };
 		B3283A531A641BAA00257FBD /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B3283A521A641BAA00257FBD /* libstdc++.6.0.9.dylib */; };
 		B3283A551A641BF400257FBD /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B3283A541A641BF400257FBD /* libc++.dylib */; };
-		B32FD9291A6964E3001203F4 /* libKALTURAPlayerSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B32FD9221A6964D5001203F4 /* libKALTURAPlayerSDK.a */; };
+		B32FD9291A6964E3001203F4 /* libVIDIUNPlayerSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B32FD9221A6964D5001203F4 /* libVIDIUNPlayerSDK.a */; };
 		BF17DF7A17FACF7000026F62 /* settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF17DF7917FACF7000026F62 /* settings.plist */; };
 		BF17DF7B17FACF7000026F62 /* settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF17DF7917FACF7000026F62 /* settings.plist */; };
 		BF35D074184B68D500D4A391 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BF35D073184B68D500D4A391 /* Default-568h@2x.png */; };
-		BF7C4E59175DD1D300B48522 /* KWVSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C4E58175DD1D300B48522 /* KWVSettings.m */; };
+		BF7C4E59175DD1D300B48522 /* VWVSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C4E58175DD1D300B48522 /* VWVSettings.m */; };
 		BF8D9C0017520D350096AA03 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8D9BFF17520D350096AA03 /* libstdc++.dylib */; };
 		BF9A661F1770A0E300028D7D /* MainWindow_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2860E327111B887F00E27156 /* MainWindow_iPhone.xib */; };
 		BF9A66201770A0E300028D7D /* MainWindow_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2860E32D111B888700E27156 /* MainWindow_iPad.xib */; };
@@ -300,8 +300,8 @@
 		BF9A669F1770A0E300028D7D /* PlayerViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 848E60BB151BA203003B1080 /* PlayerViewController_iPhone.m */; };
 		BF9A66A01770A0E300028D7D /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 848E60D7151BCBA5003B1080 /* Utils.m */; };
 		BF9A66A11770A0E300028D7D /* PlayerViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8417EE5E151F60B300431BEB /* PlayerViewController_iPad.m */; };
-		BF9A66A21770A0E300028D7D /* KalturaThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 849EDFBB152900C2005A0112 /* KalturaThumbView.m */; };
-		BF9A66A31770A0E300028D7D /* KWVSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C4E58175DD1D300B48522 /* KWVSettings.m */; };
+		BF9A66A21770A0E300028D7D /* VidiunThumbView.m in Sources */ = {isa = PBXBuildFile; fileRef = 849EDFBB152900C2005A0112 /* VidiunThumbView.m */; };
+		BF9A66A31770A0E300028D7D /* VWVSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7C4E58175DD1D300B48522 /* VWVSettings.m */; };
 		BF9A66A51770A0E300028D7D /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8D9BFF17520D350096AA03 /* libstdc++.dylib */; };
 		BF9A66A71770A0E300028D7D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B7DB911520E0E20087CB74 /* CoreMedia.framework */; };
 		BF9A66A81770A0E300028D7D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B7DB8F1520E0DD0087CB74 /* AVFoundation.framework */; };
@@ -322,51 +322,51 @@
 /* Begin PBXContainerItemProxy section */
 		B325FE0E1A68025D00405870 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B325FE0A1A68025D00405870 /* KalturaClient.xcodeproj */;
+			containerPortal = B325FE0A1A68025D00405870 /* VidiunClient.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 29133452149646BB006D8A8C;
-			remoteInfo = KalturaClient;
+			remoteInfo = VidiunClient;
 		};
 		B325FE101A68026400405870 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B325FE0A1A68025D00405870 /* KalturaClient.xcodeproj */;
+			containerPortal = B325FE0A1A68025D00405870 /* VidiunClient.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 29133451149646BB006D8A8C;
-			remoteInfo = KalturaClient;
+			remoteInfo = VidiunClient;
 		};
 		B32FD9211A6964D5001203F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B32FD91B1A6964D5001203F4 /* KALTURAPlayerSDK.xcodeproj */;
+			containerPortal = B32FD91B1A6964D5001203F4 /* VIDIUNPlayerSDK.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = BFFFA727182F9E31005B3B24;
-			remoteInfo = KALTURAPlayerSDK;
+			remoteInfo = VIDIUNPlayerSDK;
 		};
 		B32FD9231A6964D5001203F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B32FD91B1A6964D5001203F4 /* KALTURAPlayerSDK.xcodeproj */;
+			containerPortal = B32FD91B1A6964D5001203F4 /* VIDIUNPlayerSDK.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = BFFFA738182F9E31005B3B24;
-			remoteInfo = KALTURAPlayerSDKTests;
+			remoteInfo = VIDIUNPlayerSDKTests;
 		};
 		B32FD9251A6964D5001203F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B32FD91B1A6964D5001203F4 /* KALTURAPlayerSDK.xcodeproj */;
+			containerPortal = B32FD91B1A6964D5001203F4 /* VIDIUNPlayerSDK.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = B3D7588B1A1CBEDF00CA5A96;
 			remoteInfo = Test;
 		};
 		B32FD9271A6964DD001203F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B32FD91B1A6964D5001203F4 /* KALTURAPlayerSDK.xcodeproj */;
+			containerPortal = B32FD91B1A6964D5001203F4 /* VIDIUNPlayerSDK.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = BFFFA726182F9E31005B3B24;
-			remoteInfo = KALTURAPlayerSDK;
+			remoteInfo = VIDIUNPlayerSDK;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* Kaltura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kaltura.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Vidiun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vidiun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2860E325111B887F00E27156 /* AppDelegate_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate_iPhone.h; sourceTree = "<group>"; };
 		2860E326111B887F00E27156 /* AppDelegate_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate_iPhone.m; sourceTree = "<group>"; };
@@ -376,7 +376,7 @@
 		2860E32D111B888700E27156 /* MainWindow_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow_iPad.xib; sourceTree = "<group>"; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Shared/main.m; sourceTree = "<group>"; };
-		32CA4F630368D1EE00C91783 /* Kaltura_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kaltura_Prefix.pch; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* Vidiun_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vidiun_Prefix.pch; sourceTree = "<group>"; };
 		840E2E99150387DF00107E7E /* Maven_Pro_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Maven_Pro_Bold.ttf; sourceTree = "<group>"; };
 		840E2EA1150387E900107E7E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		840E2EA2150387E900107E7E /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -450,8 +450,8 @@
 		848E879114FC3CDE000D2A13 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		848E879314FC3CE6000D2A13 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		849E6AA1150388D50078895E /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_ipad.png; path = ../icon_ipad.png; sourceTree = "<group>"; };
-		849EDFBA152900C2005A0112 /* KalturaThumbView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KalturaThumbView.h; path = Shared/KalturaThumbView.h; sourceTree = "<group>"; };
-		849EDFBB152900C2005A0112 /* KalturaThumbView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KalturaThumbView.m; path = Shared/KalturaThumbView.m; sourceTree = "<group>"; };
+		849EDFBA152900C2005A0112 /* VidiunThumbView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VidiunThumbView.h; path = Shared/VidiunThumbView.h; sourceTree = "<group>"; };
+		849EDFBB152900C2005A0112 /* VidiunThumbView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VidiunThumbView.m; path = Shared/VidiunThumbView.m; sourceTree = "<group>"; };
 		84AAFB241521DC50007E8B99 /* toolbar_pad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toolbar_pad.png; sourceTree = "<group>"; };
 		84AAFB261521DC50007E8B99 /* button_close_upload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_close_upload.png; sourceTree = "<group>"; };
 		84AAFB271521DC50007E8B99 /* button_pick_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_pick_ipad.png; sourceTree = "<group>"; };
@@ -533,8 +533,8 @@
 		84FFFDCC15042F0600204032 /* bg_field_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg_field_1@2x.png"; sourceTree = "<group>"; };
 		84FFFDCD15042F0600204032 /* button_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_login.png; sourceTree = "<group>"; };
 		84FFFDCE15042F0600204032 /* button_login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_login@2x.png"; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* Kaltura-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Kaltura-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		B325FE0A1A68025D00405870 /* KalturaClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KalturaClient.xcodeproj; path = ../KalturaClient/KalturaClient.xcodeproj; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Vidiun-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Vidiun-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		B325FE0A1A68025D00405870 /* VidiunClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VidiunClient.xcodeproj; path = ../VidiunClient/VidiunClient.xcodeproj; sourceTree = "<group>"; };
 		B3283A241A640E2F00257FBD /* GoogleCast.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleCast.framework; path = "../../player-sdk-native-ios/PlayerSDK/GoogleCast.framework"; sourceTree = "<group>"; };
 		B3283A291A64101000257FBD /* libWViPhoneAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libWViPhoneAPI.a; path = "../../player-sdk-native-ios/PlayerSDK/libWViPhoneAPI.a"; sourceTree = "<group>"; };
 		B3283A2B1A64104000257FBD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -549,15 +549,15 @@
 		B3283A501A641B4A00257FBD /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		B3283A521A641BAA00257FBD /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 		B3283A541A641BF400257FBD /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		B32FD91B1A6964D5001203F4 /* KALTURAPlayerSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KALTURAPlayerSDK.xcodeproj; path = "../player-sdk-native-ios/PlayerSDK/KALTURAPlayerSDK.xcodeproj"; sourceTree = "<group>"; };
+		B32FD91B1A6964D5001203F4 /* VIDIUNPlayerSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VIDIUNPlayerSDK.xcodeproj; path = "../player-sdk-native-ios/PlayerSDK/VIDIUNPlayerSDK.xcodeproj"; sourceTree = "<group>"; };
 		BF17DF7917FACF7000026F62 /* settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = settings.plist; sourceTree = "<group>"; };
 		BF35D073184B68D500D4A391 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		BF7C4E57175DD1D300B48522 /* KWVSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KWVSettings.h; sourceTree = "<group>"; };
-		BF7C4E58175DD1D300B48522 /* KWVSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KWVSettings.m; sourceTree = "<group>"; };
+		BF7C4E57175DD1D300B48522 /* VWVSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VWVSettings.h; sourceTree = "<group>"; };
+		BF7C4E58175DD1D300B48522 /* VWVSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VWVSettings.m; sourceTree = "<group>"; };
 		BF8D9BFC1752025D0096AA03 /* WViPhoneAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WViPhoneAPI.h; sourceTree = "<group>"; };
 		BF8D9BFF17520D350096AA03 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
-		BF9A66B81770A0E300028D7D /* Kaltura widevine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kaltura widevine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF9A66B91770A0E300028D7D /* Kaltura widevine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Kaltura widevine-Info.plist"; path = "/Users/elizasapir/Desktop/IOSReferenceApp/DemoApplication/Kaltura widevine-Info.plist"; sourceTree = "<absolute>"; };
+		BF9A66B81770A0E300028D7D /* Vidiun widevine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Vidiun widevine.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF9A66B91770A0E300028D7D /* Vidiun widevine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Vidiun widevine-Info.plist"; path = "/Users/elizasapir/Desktop/IOSReferenceApp/DemoApplication/Vidiun widevine-Info.plist"; sourceTree = "<absolute>"; };
 		BF9A7CD317CF973000220EFD /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		BF9A7CD517CF973F00220EFD /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		BF9A7CD717CF976700220EFD /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
@@ -568,8 +568,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B32FD9291A6964E3001203F4 /* libKALTURAPlayerSDK.a in Frameworks */,
-				B325FE121A68026B00405870 /* libKalturaClient.a in Frameworks */,
+				B32FD9291A6964E3001203F4 /* libVIDIUNPlayerSDK.a in Frameworks */,
+				B325FE121A68026B00405870 /* libVidiunClient.a in Frameworks */,
 				B3283A551A641BF400257FBD /* libc++.dylib in Frameworks */,
 				B3283A531A641BAA00257FBD /* libstdc++.6.0.9.dylib in Frameworks */,
 				B3283A511A641B4A00257FBD /* libxml2.2.dylib in Frameworks */,
@@ -626,8 +626,8 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Kaltura.app */,
-				BF9A66B81770A0E300028D7D /* Kaltura widevine.app */,
+				1D6058910D05DD3D006BFB54 /* Vidiun.app */,
+				BF9A66B81770A0E300028D7D /* Vidiun widevine.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -691,15 +691,15 @@
 		28EEBF621118D79A00187D67 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				BF7C4E57175DD1D300B48522 /* KWVSettings.h */,
-				BF7C4E58175DD1D300B48522 /* KWVSettings.m */,
-				8D1107310486CEB800E47090 /* Kaltura-Info.plist */,
+				BF7C4E57175DD1D300B48522 /* VWVSettings.h */,
+				BF7C4E58175DD1D300B48522 /* VWVSettings.m */,
+				8D1107310486CEB800E47090 /* Vidiun-Info.plist */,
 				84C8D02414FCF47600C73BAF /* Client.h */,
 				84C8D02514FCF47600C73BAF /* Client.m */,
 				848E60D6151BCBA5003B1080 /* Utils.h */,
 				848E60D7151BCBA5003B1080 /* Utils.m */,
-				849EDFBA152900C2005A0112 /* KalturaThumbView.h */,
-				849EDFBB152900C2005A0112 /* KalturaThumbView.m */,
+				849EDFBA152900C2005A0112 /* VidiunThumbView.h */,
+				849EDFBB152900C2005A0112 /* VidiunThumbView.m */,
 				BF8D9BFC1752025D0096AA03 /* WViPhoneAPI.h */,
 			);
 			name = Shared;
@@ -708,8 +708,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				B32FD91B1A6964D5001203F4 /* KALTURAPlayerSDK.xcodeproj */,
-				B325FE0A1A68025D00405870 /* KalturaClient.xcodeproj */,
+				B32FD91B1A6964D5001203F4 /* VIDIUNPlayerSDK.xcodeproj */,
+				B325FE0A1A68025D00405870 /* VidiunClient.xcodeproj */,
 				BF35D073184B68D500D4A391 /* Default-568h@2x.png */,
 				BF9A7CD717CF976700220EFD /* icon_ipad.png */,
 				BF9A7CD517CF973F00220EFD /* Icon.png */,
@@ -723,7 +723,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				BF17DF7917FACF7000026F62 /* settings.plist */,
-				BF9A66B91770A0E300028D7D /* Kaltura widevine-Info.plist */,
+				BF9A66B91770A0E300028D7D /* Vidiun widevine-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -731,7 +731,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				32CA4F630368D1EE00C91783 /* Kaltura_Prefix.pch */,
+				32CA4F630368D1EE00C91783 /* Vidiun_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -1014,7 +1014,7 @@
 		B325FE0B1A68025D00405870 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B325FE0F1A68025D00405870 /* libKalturaClient.a */,
+				B325FE0F1A68025D00405870 /* libVidiunClient.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1022,7 +1022,7 @@
 		B32FD91C1A6964D5001203F4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B32FD9221A6964D5001203F4 /* libKALTURAPlayerSDK.a */,
+				B32FD9221A6964D5001203F4 /* libVIDIUNPlayerSDK.a */,
 				B32FD9241A6964D5001203F4 /* .octest */,
 				B32FD9261A6964D5001203F4 /* Test.bundle */,
 			);
@@ -1032,9 +1032,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* Kaltura */ = {
+		1D6058900D05DD3D006BFB54 /* Vidiun */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Kaltura" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Vidiun" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -1046,14 +1046,14 @@
 				B32FD9281A6964DD001203F4 /* PBXTargetDependency */,
 				B325FE111A68026400405870 /* PBXTargetDependency */,
 			);
-			name = Kaltura;
-			productName = Kaltura;
-			productReference = 1D6058910D05DD3D006BFB54 /* Kaltura.app */;
+			name = Vidiun;
+			productName = Vidiun;
+			productReference = 1D6058910D05DD3D006BFB54 /* Vidiun.app */;
 			productType = "com.apple.product-type.application";
 		};
-		BF9A661D1770A0E300028D7D /* Kaltura widevine */ = {
+		BF9A661D1770A0E300028D7D /* Vidiun widevine */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BF9A66B51770A0E300028D7D /* Build configuration list for PBXNativeTarget "Kaltura widevine" */;
+			buildConfigurationList = BF9A66B51770A0E300028D7D /* Build configuration list for PBXNativeTarget "Vidiun widevine" */;
 			buildPhases = (
 				BF9A661E1770A0E300028D7D /* Resources */,
 				BF9A66891770A0E300028D7D /* Sources */,
@@ -1063,9 +1063,9 @@
 			);
 			dependencies = (
 			);
-			name = "Kaltura widevine";
-			productName = Kaltura;
-			productReference = BF9A66B81770A0E300028D7D /* Kaltura widevine.app */;
+			name = "Vidiun widevine";
+			productName = Vidiun;
+			productReference = BF9A66B81770A0E300028D7D /* Vidiun widevine.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1084,7 +1084,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Kaltura" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Vidiun" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -1099,33 +1099,33 @@
 			projectReferences = (
 				{
 					ProductGroup = B325FE0B1A68025D00405870 /* Products */;
-					ProjectRef = B325FE0A1A68025D00405870 /* KalturaClient.xcodeproj */;
+					ProjectRef = B325FE0A1A68025D00405870 /* VidiunClient.xcodeproj */;
 				},
 				{
 					ProductGroup = B32FD91C1A6964D5001203F4 /* Products */;
-					ProjectRef = B32FD91B1A6964D5001203F4 /* KALTURAPlayerSDK.xcodeproj */;
+					ProjectRef = B32FD91B1A6964D5001203F4 /* VIDIUNPlayerSDK.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* Kaltura */,
-				BF9A661D1770A0E300028D7D /* Kaltura widevine */,
+				1D6058900D05DD3D006BFB54 /* Vidiun */,
+				BF9A661D1770A0E300028D7D /* Vidiun widevine */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		B325FE0F1A68025D00405870 /* libKalturaClient.a */ = {
+		B325FE0F1A68025D00405870 /* libVidiunClient.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libKalturaClient.a;
+			path = libVidiunClient.a;
 			remoteRef = B325FE0E1A68025D00405870 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B32FD9221A6964D5001203F4 /* libKALTURAPlayerSDK.a */ = {
+		B32FD9221A6964D5001203F4 /* libVIDIUNPlayerSDK.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libKALTURAPlayerSDK.a;
+			path = libVIDIUNPlayerSDK.a;
 			remoteRef = B32FD9211A6964D5001203F4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1407,8 +1407,8 @@
 				848E60BD151BA204003B1080 /* PlayerViewController_iPhone.m in Sources */,
 				848E60D8151BCBA5003B1080 /* Utils.m in Sources */,
 				8417EE60151F60B300431BEB /* PlayerViewController_iPad.m in Sources */,
-				849EDFBC152900C2005A0112 /* KalturaThumbView.m in Sources */,
-				BF7C4E59175DD1D300B48522 /* KWVSettings.m in Sources */,
+				849EDFBC152900C2005A0112 /* VidiunThumbView.m in Sources */,
+				BF7C4E59175DD1D300B48522 /* VWVSettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1440,8 +1440,8 @@
 				BF9A669F1770A0E300028D7D /* PlayerViewController_iPhone.m in Sources */,
 				BF9A66A01770A0E300028D7D /* Utils.m in Sources */,
 				BF9A66A11770A0E300028D7D /* PlayerViewController_iPad.m in Sources */,
-				BF9A66A21770A0E300028D7D /* KalturaThumbView.m in Sources */,
-				BF9A66A31770A0E300028D7D /* KWVSettings.m in Sources */,
+				BF9A66A21770A0E300028D7D /* VidiunThumbView.m in Sources */,
+				BF9A66A31770A0E300028D7D /* VWVSettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1450,12 +1450,12 @@
 /* Begin PBXTargetDependency section */
 		B325FE111A68026400405870 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = KalturaClient;
+			name = VidiunClient;
 			targetProxy = B325FE101A68026400405870 /* PBXContainerItemProxy */;
 		};
 		B32FD9281A6964DD001203F4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = KALTURAPlayerSDK;
+			name = VIDIUNPlayerSDK;
 			targetProxy = B32FD9271A6964DD001203F4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1474,8 +1474,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Kaltura_Prefix.pch;
-				INFOPLIST_FILE = "Kaltura-Info.plist";
+				GCC_PREFIX_HEADER = Vidiun_Prefix.pch;
+				INFOPLIST_FILE = "Vidiun-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1485,7 +1485,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = Kaltura;
+				PRODUCT_NAME = Vidiun;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1498,15 +1498,15 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kaltura, Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Vidiun, Inc.";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/player-sdk-native-ios/PlayerSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Kaltura_Prefix.pch;
-				INFOPLIST_FILE = "Kaltura-Info.plist";
+				GCC_PREFIX_HEADER = Vidiun_Prefix.pch;
+				INFOPLIST_FILE = "Vidiun-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1516,7 +1516,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = Kaltura;
+				PRODUCT_NAME = Vidiun;
 				PROVISIONING_PROFILE = "2D47BA50-92E8-4DBC-AC8B-F9376669329C";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2D47BA50-92E8-4DBC-AC8B-F9376669329C";
 				SDKROOT = iphoneos;
@@ -1536,15 +1536,15 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Kaltura_Prefix.pch;
+				GCC_PREFIX_HEADER = Vidiun_Prefix.pch;
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = widevine;
-				INFOPLIST_FILE = "Kaltura widevine-Info.plist";
+				INFOPLIST_FILE = "Vidiun widevine-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				PRODUCT_NAME = "Kaltura widevine";
+				PRODUCT_NAME = "Vidiun widevine";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8C132BAB-9994-4F61-BA44-E151106CD9D4";
 				SDKROOT = iphoneos;
@@ -1560,15 +1560,15 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Kaltura_Prefix.pch;
+				GCC_PREFIX_HEADER = Vidiun_Prefix.pch;
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = widevine;
-				INFOPLIST_FILE = "Kaltura widevine-Info.plist";
+				INFOPLIST_FILE = "Vidiun widevine-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				PRODUCT_NAME = "Kaltura widevine";
+				PRODUCT_NAME = "Vidiun widevine";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8C132BAB-9994-4F61-BA44-E151106CD9D4";
 				SDKROOT = iphoneos;
@@ -1586,9 +1586,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../KalturaClient/KalturaClient,
-					../KalturaClient/KalturaClient/ASIHTTPRequest,
-					../KalturaClient/KalturaClient/KalturaPlugins,
+					../VidiunClient/VidiunClient,
+					../VidiunClient/VidiunClient/ASIHTTPRequest,
+					../VidiunClient/VidiunClient/VidiunPlugins,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1604,15 +1604,15 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Kaltura, Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Kaltura, Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Vidiun, Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Vidiun, Inc.";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../KalturaClient/KalturaClient,
-					../KalturaClient/KalturaClient/ASIHTTPRequest,
-					../KalturaClient/KalturaClient/KalturaPlugins,
+					../VidiunClient/VidiunClient,
+					../VidiunClient/VidiunClient/ASIHTTPRequest,
+					../VidiunClient/VidiunClient/VidiunPlugins,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
@@ -1628,7 +1628,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Kaltura" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Vidiun" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
@@ -1637,7 +1637,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BF9A66B51770A0E300028D7D /* Build configuration list for PBXNativeTarget "Kaltura widevine" */ = {
+		BF9A66B51770A0E300028D7D /* Build configuration list for PBXNativeTarget "Vidiun widevine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BF9A66B61770A0E300028D7D /* Debug */,
@@ -1646,7 +1646,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Kaltura" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Vidiun" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,

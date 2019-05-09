@@ -1,6 +1,6 @@
 <?php
 /**
- * This is a port of Kaltura's DotNetClientGenerator to Java.
+ * This is a port of Vidiun's DotNetClientGenerator to Java.
  * 8/2009
  * jpotts, Optaros
  * 1/2010
@@ -10,7 +10,7 @@
 class JavaClientGenerator extends ClientGeneratorFromXml 
 {
 	private $_csprojIncludes = array ();
-	protected $_baseClientPath = "src/main/java/com/kaltura/client";
+	protected $_baseClientPath = "src/main/java/com/vidiun/client";
 	protected $_usePrivateAttributes;
 	
 	function __construct($xmlPath, Zend_Config $config, $sourcePath = "java")
@@ -73,10 +73,10 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 			return;
 		
 		$enumType = $enumNode->getAttribute ( "enumType" );
-		$baseInterface = ($enumType == "string") ? "KalturaEnumAsString" : "KalturaEnumAsInt";
+		$baseInterface = ($enumType == "string") ? "VidiunEnumAsString" : "VidiunEnumAsInt";
 		
 		$str = "";
-		$str = "package com.kaltura.client.enums;\n";
+		$str = "package com.vidiun.client.enums;\n";
 		$str .= "\n";
 		$str .= $this->getBanner ();
 		
@@ -243,10 +243,10 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 		
 		// Basic imports
 		$imports = "";
-		$imports .= "package com.kaltura.client.types;\n\n";
+		$imports .= "package com.vidiun.client.types;\n\n";
 		$imports .= "import org.w3c.dom.Element;\n";
-		$imports .= "import com.kaltura.client.KalturaParams;\n";
-		$imports .= "import com.kaltura.client.KalturaApiException;\n";
+		$imports .= "import com.vidiun.client.VidiunParams;\n";
+		$imports .= "import com.vidiun.client.VidiunApiException;\n";
 
 		// Add Banner
 		$this->startNewTextBlock ();
@@ -271,8 +271,8 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 		} 
 		else 
 		{
-			$imports .= "import com.kaltura.client.KalturaObjectBase;\n";
-			$this->appendLine ( "public{$abstract} class $type extends KalturaObjectBase {" );
+			$imports .= "import com.vidiun.client.VidiunObjectBase;\n";
+			$this->appendLine ( "public{$abstract} class $type extends VidiunObjectBase {" );
 		}
 		
 		// Generate parameters declaration
@@ -326,8 +326,8 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 			if ($propType == "map")
 				$needsHashMap = true;
 				
-			if ($propType == "KalturaObjectBase")
-				$imports.= "import com.kaltura.client.KalturaObjectBase;\n";
+			if ($propType == "VidiunObjectBase")
+				$imports.= "import com.vidiun.client.VidiunObjectBase;\n";
 						
 			if($this->_usePrivateAttributes){
 				$propertyLine = "private";
@@ -364,7 +364,7 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 		
 		$arrImportsEnums = array_unique($arrImportsEnums);
 		foreach($arrImportsEnums as $import) 
-			$imports.= "import com.kaltura.client.enums.$import;\n";
+			$imports.= "import com.vidiun.client.enums.$import;\n";
 		
 		if ($needsArrayList)
 			$imports .= "import java.util.ArrayList;\n";
@@ -375,9 +375,9 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 	public function generateToParamsMethod($classNode) 
 	{	
 		$type = $classNode->getAttribute ( "name" );
-		$this->appendLine ( "    public KalturaParams toParams() throws KalturaApiException {" );
-		$this->appendLine ( "        KalturaParams kparams = super.toParams();" );
-		$this->appendLine ( "        kparams.add(\"objectType\", \"$type\");" );
+		$this->appendLine ( "    public VidiunParams toParams() throws VidiunApiException {" );
+		$this->appendLine ( "        VidiunParams vparams = super.toParams();" );
+		$this->appendLine ( "        vparams.add(\"objectType\", \"$type\");" );
 		
 		foreach ( $classNode->childNodes as $propertyNode ) 
 		{
@@ -390,21 +390,21 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 			
 			$propType = $propertyNode->getAttribute ( "type" );
 			$propName = $propertyNode->getAttribute ( "name" );
-			$this->appendLine ( "        kparams.add(\"$propName\", this.$propName);" );
+			$this->appendLine ( "        vparams.add(\"$propName\", this.$propName);" );
 		}
-		$this->appendLine ( "        return kparams;" );
+		$this->appendLine ( "        return vparams;" );
 		$this->appendLine ( "    }" );
 	}
 
 	public function generateFullConstructor(&$imports, $classNode, $needsSuperConstructor) 
 	{	
 		$type = $classNode->getAttribute ( "name" );
-		$this->appendLine ( "    public $type(Element node) throws KalturaApiException {" );
+		$this->appendLine ( "    public $type(Element node) throws VidiunApiException {" );
 		$this->appendLine ( "        super(node);" );
 			
 		if ($classNode->childNodes->length) 
 		{
-			$imports .= "import com.kaltura.client.utils.ParseUtils;\n";
+			$imports .= "import com.vidiun.client.utils.ParseUtils;\n";
 			$imports .= "import org.w3c.dom.Node;\n";
 			$imports .= "import org.w3c.dom.NodeList;\n";
 			
@@ -511,13 +511,13 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 			return;
 
 		$imports = "";
-		$imports .= "package com.kaltura.client.services;\n\n";
-		$imports .= "import com.kaltura.client.KalturaClient;\n";
-		$imports .= "import com.kaltura.client.KalturaServiceBase;\n";
+		$imports .= "package com.vidiun.client.services;\n\n";
+		$imports .= "import com.vidiun.client.VidiunClient;\n";
+		$imports .= "import com.vidiun.client.VidiunServiceBase;\n";
 		$serviceName = $serviceNode->getAttribute ( "name" );
 		
 		$javaServiceName = $this->upperCaseFirstLetter ( $serviceName ) . "Service";
-		$javaServiceType = "Kaltura" . $javaServiceName;
+		$javaServiceType = "Vidiun" . $javaServiceName;
 		
 		$this->startNewTextBlock ();
 		$this->appendLine ();
@@ -527,9 +527,9 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine ( $desc );
 		
 		$this->appendLine ( '@SuppressWarnings("serial")' );
-		$this->appendLine ( "public class $javaServiceType extends KalturaServiceBase {" );
-		$this->appendLine ( "    public $javaServiceType(KalturaClient client) {" );
-		$this->appendLine ( "        this.kalturaClient = client;" );
+		$this->appendLine ( "public class $javaServiceType extends VidiunServiceBase {" );
+		$this->appendLine ( "    public $javaServiceType(VidiunClient client) {" );
+		$this->appendLine ( "        this.vidiunClient = client;" );
 		$this->appendLine ( "    }" );
 		
 		$actionNodes = $serviceNode->childNodes;
@@ -586,35 +586,35 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 		
 		$this->writeActionOverloads($signaturePrefix, $action, $resultType, $paramNodesArr, $serviceImports);
 		
-		$signature = $this->getSignature ( $paramNodesArr , array('' => 'KalturaFile'), $serviceImports);
+		$signature = $this->getSignature ( $paramNodesArr , array('' => 'VidiunFile'), $serviceImports);
 		
 		$this->appendLine ();
 		
 		$desc = $this->addDescription($actionNode, "\t");
 		if($desc)
 			$this->appendLine ( $desc );
-		$this->appendLine ( "    $signaturePrefix$signature throws KalturaApiException {" );
+		$this->appendLine ( "    $signaturePrefix$signature throws VidiunApiException {" );
 		
 		$this->generateActionBodyServiceCall($serviceId, $action, $paramNodesArr, $serviceImports, $fallbackClass);
 				
 		if($resultType == 'file')
 		{
-			$this->appendLine ( "        return this.kalturaClient.serve();");
+			$this->appendLine ( "        return this.vidiunClient.serve();");
 		}
 		else
 		{
 			$serviceImports[] = "org.w3c.dom.Element";
 			
 			// Handle multi request
-			$this->appendLine ( "        if (this.kalturaClient.isMultiRequest())" );
+			$this->appendLine ( "        if (this.vidiunClient.isMultiRequest())" );
 			$defaultValue = $this->getDefaultValue($resultType);
 			$this->appendLine ( "            return $defaultValue;" );
 						
 			// Queue request
 			if ($resultType)
-				$this->appendLine ( "        Element resultXmlElement = this.kalturaClient.doQueue();" );
+				$this->appendLine ( "        Element resultXmlElement = this.vidiunClient.doQueue();" );
 			else 
-				$this->appendLine ( "        this.kalturaClient.doQueue();" );
+				$this->appendLine ( "        this.vidiunClient.doQueue();" );
 			
 			// Handle result type
 			if ($resultType) 
@@ -623,8 +623,8 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 		
 		$this->appendLine ( "    }" );
 		
-		$serviceImports[] = "com.kaltura.client.KalturaParams";
-		$serviceImports[] = "com.kaltura.client.KalturaApiException";
+		$serviceImports[] = "com.vidiun.client.VidiunParams";
+		$serviceImports[] = "com.vidiun.client.VidiunApiException";
 	}
 
 	public function writeActionOverloads($signaturePrefix, $action, $resultType, $paramNodes, &$serviceImports)
@@ -661,7 +661,7 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 			if ($hasFiles)
 			{
 				$fileOverloads = array(    
-					array('' => 'KalturaFile'),
+					array('' => 'VidiunFile'),
 					array('' => 'File'),
 					array('' => 'InputStream', 'Name' => 'String', 'Size' => 'long'),
 					array('' => 'FileInputStream', 'Name' => 'String'),
@@ -670,13 +670,13 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 			else
 			{
 				$fileOverloads = array(
-					array('' => 'KalturaFile'),
+					array('' => 'VidiunFile'),
 				);
 			}
 
 			foreach ($fileOverloads as $fileOverload)
 			{
-				if (reset($fileOverload) == 'KalturaFile' && $overloadNumber == count($optionalParams))
+				if (reset($fileOverload) == 'VidiunFile' && $overloadNumber == count($optionalParams))
 					continue;			// this is the main overload
 				
 				// build the function prototype
@@ -696,7 +696,7 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 						continue;
 					} 
 						
-					if ($paramType != "file" || reset($fileOverload) == 'KalturaFile')
+					if ($paramType != "file" || reset($fileOverload) == 'VidiunFile')
 					{
 						$params[] = $paramName;
 						continue;
@@ -707,13 +707,13 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 					{
 						$fileParams[] = $paramName . $namePostfix;
 					}
-					$params[] = "new KalturaFile(" . implode(', ', $fileParams) . ")";
+					$params[] = "new VidiunFile(" . implode(', ', $fileParams) . ")";
 				}				
 				$paramsStr = implode(', ', $params);
 				
 				// write the result
 				$this->appendLine ();
-				$this->appendLine ( "    $signaturePrefix$signature throws KalturaApiException {" );
+				$this->appendLine ( "    $signaturePrefix$signature throws VidiunApiException {" );
 				$this->appendLine ( "        {$returnStmt}this.$action($paramsStr);" );
 				$this->appendLine ( "    }" );
 			}
@@ -722,7 +722,7 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 	
 	public function generateActionBodyServiceCall($serviceId, $action, $paramNodes, &$serviceImports, $fallbackClass) 
 	{
-		$this->appendLine ( "        KalturaParams kparams = new KalturaParams();" );
+		$this->appendLine ( "        VidiunParams vparams = new VidiunParams();" );
 		$haveFiles = false;
 		foreach ( $paramNodes as $paramNode )
 		{
@@ -732,36 +732,36 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 				
 			if ($haveFiles === false && $paramType === "file")
 			{
-				$serviceImports[] = "com.kaltura.client.KalturaFiles";
-				$serviceImports[] = "com.kaltura.client.KalturaFile";
+				$serviceImports[] = "com.vidiun.client.VidiunFiles";
+				$serviceImports[] = "com.vidiun.client.VidiunFile";
 				$haveFiles = true;
-				$this->appendLine ( "        KalturaFiles kfiles = new KalturaFiles();" );
+				$this->appendLine ( "        VidiunFiles vfiles = new VidiunFiles();" );
 			}
 			
 			if($paramType == "file")
 			{
-				$this->appendLine ( "        kfiles.add(\"$paramName\", $paramName);" );
+				$this->appendLine ( "        vfiles.add(\"$paramName\", $paramName);" );
 			}
 			else 
-				$this->appendLine ( "        kparams.add(\"$paramName\", $paramName);" );
+				$this->appendLine ( "        vparams.add(\"$paramName\", $paramName);" );
 		}
 		
 		// Add files to call
 		if ($haveFiles)
 			if(is_null($fallbackClass))
-				$this->appendLine ( "        this.kalturaClient.queueServiceCall(\"$serviceId\", \"$action\", kparams, kfiles);" );
+				$this->appendLine ( "        this.vidiunClient.queueServiceCall(\"$serviceId\", \"$action\", vparams, vfiles);" );
 			else
-				$this->appendLine ( "        this.kalturaClient.queueServiceCall(\"$serviceId\", \"$action\", kparams, kfiles, $fallbackClass.class);" );
+				$this->appendLine ( "        this.vidiunClient.queueServiceCall(\"$serviceId\", \"$action\", vparams, vfiles, $fallbackClass.class);" );
 		else
 			if(is_null($fallbackClass))
-				$this->appendLine ( "        this.kalturaClient.queueServiceCall(\"$serviceId\", \"$action\", kparams);" );
+				$this->appendLine ( "        this.vidiunClient.queueServiceCall(\"$serviceId\", \"$action\", vparams);" );
 			else
-				$this->appendLine ( "        this.kalturaClient.queueServiceCall(\"$serviceId\", \"$action\", kparams, $fallbackClass.class);" );
+				$this->appendLine ( "        this.vidiunClient.queueServiceCall(\"$serviceId\", \"$action\", vparams, $fallbackClass.class);" );
 	}
 	
 	public function handleResultType($resultType, $arrayType, &$serviceImports) 
 	{
-		$serviceImports[] = "com.kaltura.client.utils.ParseUtils";
+		$serviceImports[] = "com.vidiun.client.utils.ParseUtils";
 		$returnCall = "        ";
 		switch ($resultType)
 		{
@@ -798,14 +798,14 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 		$date = date('y-m-d');
 		
 		$imports = "";
-		$imports .= "package com.kaltura.client;\n";
+		$imports .= "package com.vidiun.client;\n";
 		
 		$this->startNewTextBlock ();
 		$this->appendLine ( $this->getBanner () );
 		$this->appendLine ( '@SuppressWarnings("serial")' );
-		$this->appendLine ( "public class KalturaClient extends KalturaClientBase {" );
+		$this->appendLine ( "public class VidiunClient extends VidiunClientBase {" );
 		$this->appendLine ( "	" );
-		$this->appendLine ( "	public KalturaClient(KalturaConfiguration config) {" );
+		$this->appendLine ( "	public VidiunClient(VidiunConfiguration config) {" );
 		$this->appendLine ( "		super(config);" );
 		$this->appendLine ( "		");
 		$this->appendLine ( "		this.setClientTag(\"java:$date\");");
@@ -821,8 +821,8 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 	
 			$serviceName = $serviceNode->getAttribute ( "name" );
 			$javaServiceName = $serviceName . "Service";
-			$javaServiceType = "Kaltura" . $this->upperCaseFirstLetter ( $javaServiceName );
-			$imports .= "import com.kaltura.client.services.$javaServiceType;\n";
+			$javaServiceType = "Vidiun" . $this->upperCaseFirstLetter ( $javaServiceName );
+			$imports .= "import com.vidiun.client.services.$javaServiceType;\n";
 			
 			$this->appendLine ( "	protected $javaServiceType $javaServiceName;" );
 			$this->appendLine ( "	public $javaServiceType get" . $this->upperCaseFirstLetter ( $javaServiceName ) . "() {" );
@@ -859,7 +859,7 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 				$type = $configurationPropertyNode->getAttribute("type");
 				if(!$this->isSimpleType($type) && !$this->isArrayType($type))
 				{
-					$imports .= "import com.kaltura.client.types.$type;\n";
+					$imports .= "import com.vidiun.client.types.$type;\n";
 				}
 				
 				$type = $this->getJavaType($configurationPropertyNode, true);
@@ -897,7 +897,7 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 		
 		$imports .= "\n";
 		
-		$this->addFile ( $this->_baseClientPath . "/KalturaClient.java", $imports . $this->getTextBlock () );
+		$this->addFile ( $this->_baseClientPath . "/VidiunClient.java", $imports . $this->getTextBlock () );
 	}
 	
 	protected function writeConfigurationProperty($configurationName, $name, $paramName, $type, $description)
@@ -948,15 +948,15 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 			if ($paramType == "array")
 			{
 				$serviceImports[] = "java.util.ArrayList";
-				$serviceImports[] = "com.kaltura.client.types.*";
+				$serviceImports[] = "com.vidiun.client.types.*";
 			}	
 			elseif ($paramType == "map")
 			{
 				$serviceImports[] = "java.util.HashMap";
-				$serviceImports[] = "com.kaltura.client.types.*";
+				$serviceImports[] = "com.vidiun.client.types.*";
 			}	
 			elseif ($isEnum)
-				$serviceImports[] = "com.kaltura.client.enums.*";
+				$serviceImports[] = "com.vidiun.client.enums.*";
 			
 			if ($paramType == "file")
 			{
@@ -971,8 +971,8 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 				continue;
 			}
 			
-			if (strpos($paramType, 'Kaltura') === 0 && !$isEnum)
-				$serviceImports[] = "com.kaltura.client.types.*";
+			if (strpos($paramType, 'Vidiun') === 0 && !$isEnum)
+				$serviceImports[] = "com.vidiun.client.types.*";
 			
 			$javaType = $this->getJavaType($paramNode);
 			
@@ -990,7 +990,7 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 		$banner = "";
 		$banner .= "/**\n";
 		$banner .= " * This class was generated using $currentFile\n";
-		$banner .= " * against an XML schema provided by Kaltura.\n";
+		$banner .= " * against an XML schema provided by Vidiun.\n";
 		$banner .= " * \n";
 		$banner .= " * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.\n";
 		$banner .= " */\n";
@@ -1081,7 +1081,7 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 				return $value;
 				
 		case "file":
-			return '(KalturaFile)null';
+			return '(VidiunFile)null';
 		
 		default:
 			return $defaultValue;
@@ -1097,13 +1097,13 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 			
 		case "array" :
 			$serviceImports[] = "java.util.List";
-			$serviceImports[] = "com.kaltura.client.types.*";
+			$serviceImports[] = "com.vidiun.client.types.*";
 				
 			return ("List<" . $arrayType . ">");
 			
 		case "map" :
 			$serviceImports[] = "java.util.Map";
-			$serviceImports[] = "com.kaltura.client.types.*";
+			$serviceImports[] = "com.vidiun.client.types.*";
 				
 			return ("Map<String, " . $arrayType . ">");
 
@@ -1119,7 +1119,7 @@ class JavaClientGenerator extends ClientGeneratorFromXml
 			return "String";
 			
 		default :
-			$serviceImports[] = "com.kaltura.client.types.*";
+			$serviceImports[] = "com.vidiun.client.types.*";
 			return $resultType;
 		}
 	}

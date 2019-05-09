@@ -8,8 +8,8 @@
     <ProjectGuid>{8D578521-A319-4E27-9A39-CBE92DF3B874}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kaltura</RootNamespace>
-    <AssemblyName>KalturaClient</AssemblyName>
+    <RootNamespace>Vidiun</RootNamespace>
+    <AssemblyName>VidiunClient</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -99,7 +99,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="KalturaClient.nuspecx" />
+    <None Include="VidiunClient.nuspecx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

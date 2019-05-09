@@ -1,6 +1,6 @@
-package com.kaltura.client;
+package com.vidiun.client;
 
-public interface IKalturaLogger {
+public interface IVidiunLogger {
 
 	public boolean isEnabled();
 	

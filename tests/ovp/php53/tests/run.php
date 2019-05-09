@@ -4,35 +4,35 @@
 */
 define('CONFIG_FILE', 'config.ini');
 
-use Kaltura\Client\Configuration as KalturaConfiguration;
-use Kaltura\Client\Client as KalturaClient;
-use Kaltura\Client\Enum\SessionType as KalturaSessionType;
-use Kaltura\Client\ApiException;
-use Kaltura\Client\ClientException;
+use Vidiun\Client\Configuration as VidiunConfiguration;
+use Vidiun\Client\Client as VidiunClient;
+use Vidiun\Client\Enum\SessionType as VidiunSessionType;
+use Vidiun\Client\ApiException;
+use Vidiun\Client\ClientException;
 
 // load zend framework 2
 require_once(dirname(__FILE__).'/ClassLoader/ClassLoader.php');
 $loader = new Symfony\Component\ClassLoader\ClassLoader();
-// register Kaltura namespace
-$loader->addPrefix('Kaltura', dirname(__FILE__).'/../library');
+// register Vidiun namespace
+$loader->addPrefix('Vidiun', dirname(__FILE__).'/../library');
 $loader->addPrefix('Test', dirname(__FILE__));
 $loader->register();
 
 $testerConfig = parse_ini_file(dirname(__FILE__).'/'.CONFIG_FILE);
 
-// init kaltura configuration
-$config = new KalturaConfiguration();
+// init vidiun configuration
+$config = new VidiunConfiguration();
 $config->setServiceUrl($testerConfig['serviceUrl']);
 $config->setCurlTimeout(120);
 $config->setLogger(new \Test\SampleLoggerImplementation());
 
-// init kaltura client
-$client = new KalturaClient($config);
+// init vidiun client
+$client = new VidiunClient($config);
 
 // generate session
-$ks = $client->generateSession($testerConfig['adminSecret'], $testerConfig['userId'], KalturaSessionType::ADMIN, $testerConfig['partnerId']);
-$config->getLogger()->log('Kaltura session (ks) was generated successfully: ' . $ks);
-$client->setKs($ks);
+$vs = $client->generateSession($testerConfig['adminSecret'], $testerConfig['userId'], VidiunSessionType::ADMIN, $testerConfig['partnerId']);
+$config->getLogger()->log('Vidiun session (vs) was generated successfully: ' . $vs);
+$client->setVs($vs);
 
 // check connectivity
 try

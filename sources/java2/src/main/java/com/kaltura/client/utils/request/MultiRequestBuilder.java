@@ -1,11 +1,11 @@
-package com.kaltura.client.utils.request;
+package com.vidiun.client.utils.request;
 
-import com.kaltura.client.Files;
-import com.kaltura.client.Logger;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.utils.GsonParser;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
+import com.vidiun.client.Files;
+import com.vidiun.client.Logger;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.utils.GsonParser;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -89,7 +89,7 @@ public class MultiRequestBuilder extends BaseRequestBuilder<List<Object>, MultiR
     }
 
     /**
-     * Adds the requests from kalturaMultiRequestBuilder parameter to the end of the current requests list
+     * Adds the requests from vidiunMultiRequestBuilder parameter to the end of the current requests list
      * @param multiRequestBuilder another multirequests to copy requests from
      * @return MultiRequestBuilder
      */
@@ -161,7 +161,7 @@ public class MultiRequestBuilder extends BaseRequestBuilder<List<Object>, MultiR
      *
      * @param sourceRequestIdx the index of the request from which response value should be taken from
      * @param destRequestIdx the index of the destination request in the multirequest list
-     * @param sourceKey the properties path in the response to the needed value (exp. user.loginSession.ks)
+     * @param sourceKey the properties path in the response to the needed value (exp. user.loginSession.vs)
      * @param destKey the property that will get the result from the source request
      * @return MultiRequestBuilder
      */

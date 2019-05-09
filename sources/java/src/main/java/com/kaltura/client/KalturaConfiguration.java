@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,22 +25,22 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
 import java.io.Serializable;
 import java.util.Map;
 
 /**
- * This class holds information needed by the Kaltura client to establish a session.
+ * This class holds information needed by the Vidiun client to establish a session.
  * 
  * @author jpotts
  *
  */
 @SuppressWarnings("serial")
-public class KalturaConfiguration implements Serializable {
+public class VidiunConfiguration implements Serializable {
 	protected String endpoint;
 	protected int timeout = 120000;
-    protected EKalturaServiceFormat serviceFormat = EKalturaServiceFormat.RESPONSE_TYPE_XML;
+    protected EVidiunServiceFormat serviceFormat = EVidiunServiceFormat.RESPONSE_TYPE_XML;
 	
 	private Map<String, String> params;
 	
@@ -60,11 +60,11 @@ public class KalturaConfiguration implements Serializable {
 		this.params = params;
 	}
 
-	public EKalturaServiceFormat getServiceFormat() {
+	public EVidiunServiceFormat getServiceFormat() {
 		return serviceFormat;
 	}
 
-	public void setServiceFormat(EKalturaServiceFormat serviceFormat) {
+	public void setServiceFormat(EVidiunServiceFormat serviceFormat) {
 		this.serviceFormat = serviceFormat;
 	}
 

@@ -3,7 +3,7 @@
 class SwiftClientGenerator extends ClientGeneratorFromXml 
 {
 	private $_csprojIncludes = array();
-	protected $_baseClientPath = "KalturaClient";
+	protected $_baseClientPath = "VidiunClient";
 	protected static $reservedWords = array('protocol', 'repeat', 'extension', 'requestId', 'operator');
 	protected $xpath;
 	protected $pluginName = null;
@@ -35,7 +35,7 @@ class SwiftClientGenerator extends ClientGeneratorFromXml
 		foreach($pluginNodes as $pluginNode) {
 			$this->pluginName = $pluginNode->getAttribute("name");
 			$pluginName = ucfirst($this->pluginName);
-			$this->_baseClientPath = "KalturaClient/plugins/{$pluginName}";
+			$this->_baseClientPath = "VidiunClient/plugins/{$pluginName}";
 			$this->generatePlugin();
 		}
 
@@ -81,7 +81,7 @@ class SwiftClientGenerator extends ClientGeneratorFromXml
 	function writeEnum(DOMElement $enumNode) 
 	{
 		$enumName = $enumNode->getAttribute("name");
-		if(!$this->shouldIncludeType($enumName) || $enumName === 'KalturaNullableBoolean') {
+		if(!$this->shouldIncludeType($enumName) || $enumName === 'VidiunNullableBoolean') {
 			return;
 		}
 		
@@ -159,7 +159,7 @@ class SwiftClientGenerator extends ClientGeneratorFromXml
     function writeClass(DOMElement $classNode)
 	{
 		$type = $classNode->getAttribute("name");
-		if(!$this->shouldIncludeType($type) || $type === 'KalturaObject') {
+		if(!$this->shouldIncludeType($type) || $type === 'VidiunObject') {
 			return;
 		}	
 			
@@ -276,7 +276,7 @@ class SwiftClientGenerator extends ClientGeneratorFromXml
     public function writeDefaultSubSpec($name){
         $this->append(" 
 s.subspec '$name' do |sp|
-    sp.source_files = 'KalturaClient/Classes/**/*'
+    sp.source_files = 'VidiunClient/Classes/**/*'
     sp.dependency 'Log', '1.0'
 end
 ");
@@ -296,13 +296,13 @@ end
     		
     	$subSpecName = ucfirst($pluginName);
     	$this->appendLine("s.subspec '$subSpecName' do |ssp|");
-        $this->appendLine(" ssp.source_files = 'KalturaClient/Plugins/" .$pluginName ."/**/*'");
-		$this->appendLine(" ssp.dependency 'KalturaClient/$defaultSubSpecName'");
+        $this->appendLine(" ssp.source_files = 'VidiunClient/Plugins/" .$pluginName ."/**/*'");
+		$this->appendLine(" ssp.dependency 'VidiunClient/$defaultSubSpecName'");
 
         $dependenciesNodes = $pluginNode->getElementsByTagName("dependency");
         foreach ($dependenciesNodes as $dependencyNode){
             $dependencyName = ucfirst($dependencyNode->getAttribute("pluginName"));
-            $this->appendLine(" ssp.dependency 'KalturaClient/" .$dependencyName ."'");
+            $this->appendLine(" ssp.dependency 'VidiunClient/" .$dependencyName ."'");
 
         }
         $this->appendLine("end");
@@ -368,7 +368,7 @@ end
 			if($propType == "map")
 				$needsHashMap = true;
 				
-			if(strpos($propType, 'Kaltura') === 0)
+			if(strpos($propType, 'Vidiun') === 0)
 			{
 				$propType = $this->getSwiftTypeName($propType);
 			}
@@ -434,7 +434,7 @@ end
 			$propName = $this->replaceReservedWords($apiPropName);
 			
 			$this->appendLine("		if($propName != nil) {");
-			if($enumType && $enumType != 'KalturaNullableBoolean') {
+			if($enumType && $enumType != 'VidiunNullableBoolean') {
 				$this->appendLine("			dict[\"$apiPropName\"] = $propName!.rawValue");
 			}
 			elseif($this->isSimpleType($propType)) {
@@ -668,7 +668,7 @@ end
 			}
 			catch(Exception $e) 
 			{
-				KalturaLog::err($e->getMessage());
+				VidiunLog::err($e->getMessage());
 			}
 		}
 		$this->appendLine("}");
@@ -909,7 +909,7 @@ end
 			if($paramType == "file") {
 				$this->appendLine("			.setFile(key: \"$apiParamName\", value: $paramName)");
 			}
-			elseif($isEnum && $paramNode->getAttribute("enumType") != 'KalturaNullableBoolean') {
+			elseif($isEnum && $paramNode->getAttribute("enumType") != 'VidiunNullableBoolean') {
 				$optional = $paramNode->getAttribute("optional");
 				if($optional == "1") {
 					$paramName.= '?';
@@ -1107,7 +1107,7 @@ end
 				continue;
 			}
 			
-			if(strpos($paramType, 'Kaltura') === 0 && !$enumType)
+			if(strpos($paramType, 'Vidiun') === 0 && !$enumType)
 			{
 				$paramType = $this->getSwiftTypeName($paramType);
 			}
@@ -1131,7 +1131,7 @@ end
 		$banner = "";
 		$banner .= "/**\n";
 		$banner .= " * This class was generated using $currentFile\n";
-		$banner .= " * against an XML schema provided by Kaltura.\n";
+		$banner .= " * against an XML schema provided by Vidiun.\n";
 		$banner .= " * \n";
 		$banner .= " * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.\n";
 		$banner .= " */\n";
@@ -1243,17 +1243,17 @@ end
 	
 	public function getSwiftTypeName($type)
 	{
-		if($type === 'KalturaNullableBoolean'){
+		if($type === 'VidiunNullableBoolean'){
 			return 'Bool';
 		}
-		if($type === 'KalturaString'){
-			$type = 'KalturaStringHolder';
+		if($type === 'VidiunString'){
+			$type = 'VidiunStringHolder';
 		}
-		elseif($type === 'KalturaObject'){
-			$type = 'KalturaObjectBase';
+		elseif($type === 'VidiunObject'){
+			$type = 'VidiunObjectBase';
 		}
 		
-		return preg_replace('/^Kaltura/', '', $type);
+		return preg_replace('/^Vidiun/', '', $type);
 	}
 	
 	public function getObjectType($type)

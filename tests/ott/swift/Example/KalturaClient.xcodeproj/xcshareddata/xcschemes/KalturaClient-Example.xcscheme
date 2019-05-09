@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-               BuildableName = "KalturaClient_Example.app"
-               BlueprintName = "KalturaClient_Example"
-               ReferencedContainer = "container:KalturaClient.xcodeproj">
+               BuildableName = "VidiunClient_Example.app"
+               BlueprintName = "VidiunClient_Example"
+               ReferencedContainer = "container:VidiunClient.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "KalturaClient_Tests.xctest"
-               BlueprintName = "KalturaClient_Tests"
-               ReferencedContainer = "container:KalturaClient.xcodeproj">
+               BuildableName = "VidiunClient_Tests.xctest"
+               BlueprintName = "VidiunClient_Tests"
+               ReferencedContainer = "container:VidiunClient.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "KalturaClient_Tests.xctest"
-               BlueprintName = "KalturaClient_Tests"
-               ReferencedContainer = "container:KalturaClient.xcodeproj">
+               BuildableName = "VidiunClient_Tests.xctest"
+               BlueprintName = "VidiunClient_Tests"
+               ReferencedContainer = "container:VidiunClient.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "KalturaClient_Example.app"
-            BlueprintName = "KalturaClient_Example"
-            ReferencedContainer = "container:KalturaClient.xcodeproj">
+            BuildableName = "VidiunClient_Example.app"
+            BlueprintName = "VidiunClient_Example"
+            ReferencedContainer = "container:VidiunClient.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "KalturaClient_Example.app"
-            BlueprintName = "KalturaClient_Example"
-            ReferencedContainer = "container:KalturaClient.xcodeproj">
+            BuildableName = "VidiunClient_Example.app"
+            BlueprintName = "VidiunClient_Example"
+            ReferencedContainer = "container:VidiunClient.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -99,9 +99,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "KalturaClient_Example.app"
-            BlueprintName = "KalturaClient_Example"
-            ReferencedContainer = "container:KalturaClient.xcodeproj">
+            BuildableName = "VidiunClient_Example.app"
+            BlueprintName = "VidiunClient_Example"
+            ReferencedContainer = "container:VidiunClient.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

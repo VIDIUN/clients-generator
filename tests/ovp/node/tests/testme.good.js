@@ -1,7 +1,7 @@
 var Unit = require('deadunit')
-var kc = require('../KalturaClient');
-var ktypes = require('../KalturaTypes');
-var vo = require ('../KalturaVO.js');
+var vc = require('../VidiunClient');
+var vtypes = require('../VidiunTypes');
+var vo = require ('../VidiunVO.js');
 var config = require ('./config.js');
 var cb = function (results)
 {
@@ -13,7 +13,7 @@ var cb = function (results)
 		this.log(results.code);
 		this.ok(false);
 	    }else{
-		this.log('KS is: '+results);
+		this.log('VS is: '+results);
 		this.ok(true);
 	    }
     }else{
@@ -26,33 +26,33 @@ var cb = function (results)
 
 
 function init_minus2_session(){
-    var kaltura_conf = new kc.KalturaConfiguration(config.minus2_partner_id);
-    kaltura_conf.serviceUrl = config.service_url ;
-    var client = new kc.KalturaClient(kaltura_conf);
-    var type = ktypes.KalturaSessionType.ADMIN;
+    var vidiun_conf = new vc.VidiunConfiguration(config.minus2_partner_id);
+    vidiun_conf.serviceUrl = config.service_url ;
+    var client = new vc.VidiunClient(vidiun_conf);
+    var type = vtypes.VidiunSessionType.ADMIN;
 
     var expiry = null;
     var privileges = null;
-    var ks = client.session.start(create_partner(config.minus2_partner_id,config.minus2_admin_secret), config.minus2_admin_secret, config.user_id, type, config.minus2_partner_id, expiry, privileges);
+    var vs = client.session.start(create_partner(config.minus2_partner_id,config.minus2_admin_secret), config.minus2_admin_secret, config.user_id, type, config.minus2_partner_id, expiry, privileges);
     return client;
 }
 
 function init_session(){
-    var kaltura_conf = new kc.KalturaConfiguration(config.partner_id);
-    kaltura_conf.serviceUrl = config.service_url ;
-    var client = new kc.KalturaClient(kaltura_conf);
-    var type = ktypes.KalturaSessionType.ADMIN;
+    var vidiun_conf = new vc.VidiunConfiguration(config.partner_id);
+    vidiun_conf.serviceUrl = config.service_url ;
+    var client = new vc.VidiunClient(vidiun_conf);
+    var type = vtypes.VidiunSessionType.ADMIN;
 
     var expiry = null;
     var privileges = null;
-    var ks = client.session.start(create_partner, config.admin_secret, config.user_id, type, config.partner_id, expiry, privileges);
+    var vs = client.session.start(create_partner, config.admin_secret, config.user_id, type, config.partner_id, expiry, privileges);
 }
 
 function create_partner(results)
 {
     console.log(results);
     process.exit();
-    var partner = new vo.KalturaPartner();
+    var partner = new vo.VidiunPartner();
     partner.name = "MBP";
     partner.appearInSearch = null;
     partner.adminName = "MBP";
@@ -66,7 +66,7 @@ function create_partner(results)
 }
 function create_upload_token(result)
 {
-	var uploadToken = new vo.KalturaUploadToken();
+	var uploadToken = new vo.VidiunUploadToken();
 	uploadToken.fileName = "~/downloads/cat.mp4";
 	var result = client.uploadToken.add(upload_entry, uploadToken);
 	console.log(result);

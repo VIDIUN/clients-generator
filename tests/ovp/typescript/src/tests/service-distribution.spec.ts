@@ -1,26 +1,26 @@
-import { KalturaClient } from "../kaltura-client-service";
+import { VidiunClient } from "../vidiun-client-service";
 import { DistributionProviderListAction } from "../api/types/DistributionProviderListAction";
-import { KalturaDistributionProviderListResponse } from "../api/types/KalturaDistributionProviderListResponse";
-import { KalturaDistributionProvider } from "../api/types/KalturaDistributionProvider";
+import { VidiunDistributionProviderListResponse } from "../api/types/VidiunDistributionProviderListResponse";
+import { VidiunDistributionProvider } from "../api/types/VidiunDistributionProvider";
 import { DistributionProfileListAction } from "../api/types/DistributionProfileListAction";
-import { KalturaDistributionProfileListResponse } from "../api/types/KalturaDistributionProfileListResponse";
-import { KalturaDistributionProfile } from "../api/types/KalturaDistributionProfile";
+import { VidiunDistributionProfileListResponse } from "../api/types/VidiunDistributionProfileListResponse";
+import { VidiunDistributionProfile } from "../api/types/VidiunDistributionProfile";
 import { EntryDistributionListAction } from "../api/types/EntryDistributionListAction";
-import { KalturaEntryDistributionListResponse } from "../api/types/KalturaEntryDistributionListResponse";
-import { KalturaEntryDistribution } from "../api/types/KalturaEntryDistribution";
+import { VidiunEntryDistributionListResponse } from "../api/types/VidiunEntryDistributionListResponse";
+import { VidiunEntryDistribution } from "../api/types/VidiunEntryDistribution";
 import { getClient } from "./utils";
-import { LoggerSettings, LogLevels } from "../api/kaltura-logger";
+import { LoggerSettings, LogLevels } from "../api/vidiun-logger";
 import { asyncAssert } from "./utils";
 
 describe(`service "Distribution" tests`, () => {
-	let kalturaClient: KalturaClient = null;
+	let vidiunClient: VidiunClient = null;
 
 	beforeAll(async () => {
 		LoggerSettings.logLevel = LogLevels.error; // suspend warnings
 
 		return getClient()
 			.then(client => {
-				kalturaClient = client;
+				vidiunClient = client;
 			}).catch(error => {
 				// can do nothing since jasmine will ignore any exceptions thrown from before all
 			});
@@ -28,11 +28,11 @@ describe(`service "Distribution" tests`, () => {
 
 	test("distribution provider list", (done) => {
 		expect.assertions(2);
-		kalturaClient.request(new DistributionProviderListAction())
+		vidiunClient.request(new DistributionProviderListAction())
 			.then(
 				response => {
 					asyncAssert(() => {
-						expect(response instanceof KalturaDistributionProviderListResponse).toBeTruthy();
+						expect(response instanceof VidiunDistributionProviderListResponse).toBeTruthy();
 						expect(Array.isArray(response.objects)).toBeTruthy();
 
 					});
@@ -45,14 +45,14 @@ describe(`service "Distribution" tests`, () => {
 
 	test("distribution profile list", (done) => {
 		expect.assertions(4);
-		kalturaClient.request(new DistributionProfileListAction())
+		vidiunClient.request(new DistributionProfileListAction())
 			.then(
 				response => {
 					asyncAssert(() => {
-						expect(response instanceof KalturaDistributionProfileListResponse).toBeTruthy();
+						expect(response instanceof VidiunDistributionProfileListResponse).toBeTruthy();
 						expect(Array.isArray(response.objects)).toBeTruthy();
 						expect(response.objects.length).toBeGreaterThan(0);
-						expect(response.objects[0] instanceof KalturaDistributionProfile).toBeTruthy();
+						expect(response.objects[0] instanceof VidiunDistributionProfile).toBeTruthy();
 					});
 					done();
 				},
@@ -63,11 +63,11 @@ describe(`service "Distribution" tests`, () => {
 
 	test("entry distribution list", (done) => {
 		expect.assertions(2);
-		kalturaClient.request(new EntryDistributionListAction())
+		vidiunClient.request(new EntryDistributionListAction())
 			.then(
 				response => {
 					asyncAssert(() => {
-						expect(response instanceof KalturaEntryDistributionListResponse).toBeTruthy();
+						expect(response instanceof VidiunEntryDistributionListResponse).toBeTruthy();
 						expect(Array.isArray(response.objects)).toBeTruthy();
 					});
 					done();

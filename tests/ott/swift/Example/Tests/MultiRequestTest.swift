@@ -1,6 +1,6 @@
 //
 //  MultiRequestTest.swift
-//  KalturaClient
+//  VidiunClient
 //
 //  Created by Rivka Peleg on 31/07/2017.
 //  Copyright © 2017 CocoaPods. All rights reserved.
@@ -11,7 +11,7 @@ import Foundation
 
 import Quick
 import Nimble
-import KalturaOttClient
+import VidiunOttClient
 
 class MultiRequestTest: QuickSpec {
     var client: Client?
@@ -54,7 +54,7 @@ class MultiRequestTest: QuickSpec {
         }
         
          let multiRequest: MultiRequestBuilder = requestBuilderLogin.add(request: requestBuilderGetAsset)
-            .link(tokenFromRespose: requestBuilderLogin.responseTokenizer.ks, tokenToRequest: requestBuilderGetAsset.requestTokenizer.ks)
+            .link(tokenFromRespose: requestBuilderLogin.responseTokenizer.vs, tokenToRequest: requestBuilderGetAsset.requestTokenizer.vs)
         
         executor.send(request: multiRequest.build(self.client!))
     }

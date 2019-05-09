@@ -1,4 +1,4 @@
-namespace Kaltura.Types
+namespace Vidiun.Types
 {
     public class VoidResponse
     {

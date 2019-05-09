@@ -1,5 +1,5 @@
-## Kaltura node.js API Client Library.
-Compatible with Kaltura server version @VERSION@ and above.
+## Vidiun node.js API Client Library.
+Compatible with Vidiun server version @VERSION@ and above.
 
 ## Very Basic sanity
 - Edit tests/config.js and set partner_id, secret and service_url to match your ENV
@@ -7,9 +7,9 @@ Compatible with Kaltura server version @VERSION@ and above.
 
 ## Code contributions
 
-We are happy to accept pull requests, please look at https://github.com/kaltura/platform-install-packages/blob/master/doc/Contributing-to-the-Kaltura-Platform.md
+We are happy to accept pull requests, please look at https://github.com/vidiun/platform-install-packages/blob/master/doc/Contributing-to-the-Vidiun-Platform.md
 
-The contents of this package are auto generated from https://github.com/kaltura/server
+The contents of this package are auto generated from https://github.com/vidiun/server
 
 Relevant files are:
 - generator/sources/node
@@ -24,7 +24,7 @@ Relevant files are:
 $ man 7 semver
 ```
 or: https://docs.npmjs.com/files/package.json
-- Run ```npm login``` and supply the kaltura account credentials
+- Run ```npm login``` and supply the vidiun account credentials
 - Run ```npm publish``` to push the new package
-- See new package under https://www.npmjs.com/package/kaltura
+- See new package under https://www.npmjs.com/package/vidiun
 - Install the new package and test it some to ensure it was correctly packaged and is working:)

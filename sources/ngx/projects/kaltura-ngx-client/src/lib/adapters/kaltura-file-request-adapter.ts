@@ -1,14 +1,14 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
-import { KalturaFileRequest } from '../api/kaltura-file-request';
-import { KalturaRequestOptions, KalturaRequestOptionsArgs } from '../api/kaltura-request-options';
+import { VidiunFileRequest } from '../api/vidiun-file-request';
+import { VidiunRequestOptions, VidiunRequestOptionsArgs } from '../api/vidiun-request-options';
 import { buildUrl, createClientTag, createEndpoint, prepareParameters } from './utils';
-import { KalturaClientOptions } from '../kaltura-client-options';
+import { VidiunClientOptions } from '../vidiun-client-options';
 
 
-export class KalturaFileRequestAdapter {
+export class VidiunFileRequestAdapter {
 
-    public transmit(request: KalturaFileRequest, clientOptions: KalturaClientOptions, defaultRequestOptions: KalturaRequestOptions): Observable<{ url: string }> {
+    public transmit(request: VidiunFileRequest, clientOptions: VidiunClientOptions, defaultRequestOptions: VidiunRequestOptions): Observable<{ url: string }> {
         const parameters = prepareParameters(request, clientOptions, defaultRequestOptions);
       const endpointOptions = { ...clientOptions, service: parameters['service'], action:  parameters['action'] }
         const endpointUrl = createEndpoint(request, endpointOptions);

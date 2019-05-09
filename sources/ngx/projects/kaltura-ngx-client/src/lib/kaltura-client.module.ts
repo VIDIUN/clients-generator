@@ -1,8 +1,8 @@
 import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
-import { KalturaClient } from './kaltura-client.service';
+import { VidiunClient } from './vidiun-client.service';
 import { HttpClientModule } from '@angular/common/http';
-import { KALTURA_CLIENT_OPTIONS, KalturaClientOptions } from './kaltura-client-options';
-import { KALTURA_CLIENT_DEFAULT_REQUEST_OPTIONS, KalturaRequestOptionsArgs } from './api/kaltura-request-options';
+import { VIDIUN_CLIENT_OPTIONS, VidiunClientOptions } from './vidiun-client-options';
+import { VIDIUN_CLIENT_DEFAULT_REQUEST_OPTIONS, VidiunRequestOptionsArgs } from './api/vidiun-request-options';
 
 
 @NgModule({
@@ -16,25 +16,25 @@ import { KALTURA_CLIENT_DEFAULT_REQUEST_OPTIONS, KalturaRequestOptionsArgs } fro
     providers: <any[]>[
     ]
 })
-export class KalturaClientModule {
+export class VidiunClientModule {
 
-    constructor(@Optional() @SkipSelf() module: KalturaClientModule) {
+    constructor(@Optional() @SkipSelf() module: VidiunClientModule) {
         if (module) {
-            throw new Error("'KalturaClientModule' module imported twice.");
+            throw new Error("'VidiunClientModule' module imported twice.");
         }
     }
 
-    static forRoot(clientOptionsFactory?: () => KalturaClientOptions, defaultRequestOptionsArgsFactory?: () => KalturaRequestOptionsArgs): ModuleWithProviders {
+    static forRoot(clientOptionsFactory?: () => VidiunClientOptions, defaultRequestOptionsArgsFactory?: () => VidiunRequestOptionsArgs): ModuleWithProviders {
         return {
-            ngModule: KalturaClientModule,
+            ngModule: VidiunClientModule,
             providers: [
-                KalturaClient,
-                KALTURA_CLIENT_OPTIONS ? {
-                    provide: KALTURA_CLIENT_OPTIONS,
+                VidiunClient,
+                VIDIUN_CLIENT_OPTIONS ? {
+                    provide: VIDIUN_CLIENT_OPTIONS,
                     useFactory: clientOptionsFactory
                 } : [],
-                KALTURA_CLIENT_DEFAULT_REQUEST_OPTIONS? {
-                    provide: KALTURA_CLIENT_DEFAULT_REQUEST_OPTIONS,
+                VIDIUN_CLIENT_DEFAULT_REQUEST_OPTIONS? {
+                    provide: VIDIUN_CLIENT_DEFAULT_REQUEST_OPTIONS,
                     useFactory: defaultRequestOptionsArgsFactory
                 } : []
             ]

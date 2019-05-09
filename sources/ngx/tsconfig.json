@@ -17,11 +17,11 @@
       "dom"
     ],
     "paths": {
-      "kaltura-ngx-client": [
-        "dist/kaltura-ngx-client"
+      "vidiun-ngx-client": [
+        "dist/vidiun-ngx-client"
       ],
-      "kaltura-ngx-client/*": [
-        "dist/kaltura-ngx-client/*"
+      "vidiun-ngx-client/*": [
+        "dist/vidiun-ngx-client/*"
       ]
     }
   }

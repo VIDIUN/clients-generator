@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -112,7 +112,7 @@ function getClass(obj, forceConstructor) {
 function addIfNotNull(obj, params, paramName, paramValue)
 {
 	if (paramValue != null) {
-		if(paramValue instanceof KalturaObjectBase) {
+		if(paramValue instanceof VidiunObjectBase) {
 			params[paramName] = toParams(paramValue);
 		} else {
 			params[paramName] = paramValue;
@@ -165,7 +165,7 @@ Function.prototype.inheritsFrom = function( parentClassOrObject ){
  * @param arr 	The array to sort.
  * @return		The sorted array.
  */
-function ksort(arr) {
+function vsort(arr) {
   var sArr = [];
   var tArr = [];
   var n = 0;
@@ -180,13 +180,13 @@ function ksort(arr) {
 }
 
 /**
- * Construct new Kaltura service action call, if params array contain sub-arrays (for objects), it will be flattened.
- * @param string	service		The Kaltura service to use.
+ * Construct new Vidiun service action call, if params array contain sub-arrays (for objects), it will be flattened.
+ * @param string	service		The Vidiun service to use.
  * @param string	action			The service action to execute.
  * @param array		params			The parameters to pass to the service action.
  * @param array 	files			Files to upload or manipulate.
  */
-function KalturaServiceActionCall(service, action, params, files)
+function VidiunServiceActionCall(service, action, params, files)
 {
 	if(!params)
 		params = new Object();
@@ -199,27 +199,27 @@ function KalturaServiceActionCall(service, action, params, files)
 	this.files = files;
 }
 /**
- * @param string	service		The Kaltura service to use.
+ * @param string	service		The Vidiun service to use.
  */
-KalturaServiceActionCall.prototype.service = null;
+VidiunServiceActionCall.prototype.service = null;
 /**
  * @param string	action			The service action to execute.
  */
-KalturaServiceActionCall.prototype.action = null;
+VidiunServiceActionCall.prototype.action = null;
 /**
  * @param array		params			The parameters to pass to the service action.
  */
-KalturaServiceActionCall.prototype.params = null;
+VidiunServiceActionCall.prototype.params = null;
 /**
  * @param array 	files			Files to upload or manipulate.
  */
-KalturaServiceActionCall.prototype.files = null;
+VidiunServiceActionCall.prototype.files = null;
 /**
  * Parse params array and sub arrays (clone objects)
  * @param array params	the object to clone.
  * @return the newly cloned object from the input object.
  */
-KalturaServiceActionCall.prototype.parseParams = function(params)
+VidiunServiceActionCall.prototype.parseParams = function(params)
 {
 	var newParams = new Object();
 	for(var key in params) {
@@ -237,7 +237,7 @@ KalturaServiceActionCall.prototype.parseParams = function(params)
  * Create params object for a multirequest call.
  * @param int multiRequestIndex		the index of the call inside the multirequest.
  */
-KalturaServiceActionCall.prototype.getParamsForMultiRequest = function(multiRequestIndex)
+VidiunServiceActionCall.prototype.getParamsForMultiRequest = function(multiRequestIndex)
 {
 	var multiRequestParams = new Object();
 	multiRequestParams[multiRequestIndex + ":service"] = this.service;
@@ -253,7 +253,7 @@ KalturaServiceActionCall.prototype.getParamsForMultiRequest = function(multiRequ
  * Create files object for a multirequest call.
  * @param int multiRequestIndex		the index of the call inside the multirequest.
  */
-KalturaServiceActionCall.prototype.getFilesForMultiRequest = function(multiRequestIndex)
+VidiunServiceActionCall.prototype.getFilesForMultiRequest = function(multiRequestIndex)
 {
 	var multiRequestFiles = new Object();
 	for(var key in this.files) {
@@ -264,31 +264,31 @@ KalturaServiceActionCall.prototype.getFilesForMultiRequest = function(multiReque
 };
 
 /**
- * Implement to get Kaltura Client logs
+ * Implement to get Vidiun Client logs
  * 
  */
-function IKalturaLogger() 
+function IVidiunLogger() 
 {
 }
-IKalturaLogger.prototype.log = function(msg){
+IVidiunLogger.prototype.log = function(msg){
 	if (console && console.log){
 		console.log(msg);
 	}
 };
 
 /**
- * Kaltura client constructor
+ * Vidiun client constructor
  * 
  */
-function KalturaClientBase()
+function VidiunClientBase()
 {
 }
 
 /**
- * Kaltura client init
- * @param KalturaConfiguration config
+ * Vidiun client init
+ * @param VidiunConfiguration config
  */
-KalturaClientBase.prototype.init = function(config)
+VidiunClientBase.prototype.init = function(config)
 {
     this.config = config;
     var logger = this.config.getLogger();
@@ -297,56 +297,56 @@ KalturaClientBase.prototype.init = function(config)
 	}
 };
 
-KalturaClientBase.prototype.KALTURA_SERVICE_FORMAT_JSON = 1;
-KalturaClientBase.prototype.KALTURA_SERVICE_FORMAT_XML = 2;
-KalturaClientBase.prototype.KALTURA_SERVICE_FORMAT_PHP = 3;
-KalturaClientBase.prototype.KALTURA_SERVICE_FORMAT_JSONP = 9;
+VidiunClientBase.prototype.VIDIUN_SERVICE_FORMAT_JSON = 1;
+VidiunClientBase.prototype.VIDIUN_SERVICE_FORMAT_XML = 2;
+VidiunClientBase.prototype.VIDIUN_SERVICE_FORMAT_PHP = 3;
+VidiunClientBase.prototype.VIDIUN_SERVICE_FORMAT_JSONP = 9;
 /**
  * @param string
  */
-KalturaClientBase.prototype.apiVersion = null;
+VidiunClientBase.prototype.apiVersion = null;
 /**
- * @param KalturaConfiguration The Kaltura Client - this is the facade through which all service actions should be called.
+ * @param VidiunConfiguration The Vidiun Client - this is the facade through which all service actions should be called.
  */
-KalturaClientBase.prototype.config = null;
+VidiunClientBase.prototype.config = null;
 	
 /**
- * @param string	the Kaltura session to use.
+ * @param string	the Vidiun session to use.
  */
-KalturaClientBase.prototype.ks = null;
+VidiunClientBase.prototype.vs = null;
 	
 /**
  * @param boolean	should the client log all actions.
  */
-KalturaClientBase.prototype.shouldLog = false;
+VidiunClientBase.prototype.shouldLog = false;
 	
 /**
  * @param boolean	should the call be multirequest (set to true when creating multirequest calls).
  */
-KalturaClientBase.prototype.useMultiRequest = false;
+VidiunClientBase.prototype.useMultiRequest = false;
 	
 /**
  * @param Array 	queue of service action calls.
  */
-KalturaClientBase.prototype.callsQueue = new Array();
+VidiunClientBase.prototype.callsQueue = new Array();
 
 /**
  * prepare a call for service action (queue the call and wait for doQueue).
  */
-KalturaClientBase.prototype.queueServiceActionCall = function (service, action, params, files)
+VidiunClientBase.prototype.queueServiceActionCall = function (service, action, params, files)
 {
 	// in start session partner id is optional (default -1). if partner id was not set, use the one in the config
 	if (!params.hasOwnProperty("partnerId") || params["partnerId"] == -1)
 		params["partnerId"] = this.config.partnerId;
-	this.addParam(params, "ks", this.ks);
-	var call = new KalturaServiceActionCall(service, action, params, files);
+	this.addParam(params, "vs", this.vs);
+	var call = new VidiunServiceActionCall(service, action, params, files);
 	this.callsQueue.push(call);
 };
 
 /**
  * executes the actions queue.
  */
-KalturaClientBase.prototype.doQueue = function(callback)
+VidiunClientBase.prototype.doQueue = function(callback)
 {
 	if (this.callsQueue.length == 0)
 		return null;
@@ -384,7 +384,7 @@ KalturaClientBase.prototype.doQueue = function(callback)
 	this.callsQueue = new Array();
 	this.useMultiRequest = false; 
 	var signature = this.signature(params);
-	this.addParam(params, "kalsig", signature);
+	this.addParam(params, "vidsig", signature);
 	this.doHttpRequest(callback, url, params, files);
 	return true;
 };
@@ -394,9 +394,9 @@ KalturaClientBase.prototype.doQueue = function(callback)
  * @param array params		service action call parameters that will be sent on the request.
  * @return string			a hashed signed signature that can identify the sent request parameters.
  */
-KalturaClientBase.prototype.signature = function(params)
+VidiunClientBase.prototype.signature = function(params)
 {
-	params = ksort(params);
+	params = vsort(params);
 	var str = "";
 	for(var v in params) {
 		var k = params[v];
@@ -411,46 +411,46 @@ KalturaClientBase.prototype.signature = function(params)
  * @param parameters params					the parameters to pass.
  * @return array 							the results and errors inside an array.
  */
-KalturaClientBase.prototype.doHttpRequest = function (callCompletedCallback, url, params, files)
+VidiunClientBase.prototype.doHttpRequest = function (callCompletedCallback, url, params, files)
 {
 	url += '?' + http_build_query(params);
 	OX.AJAST.call(url, "callback", callCompletedCallback, 20000, false);
 };
 
 /**
- * getter for the Kaltura session.
- * @return string	KS
+ * getter for the Vidiun session.
+ * @return string	VS
  */
-KalturaClientBase.prototype.getKs = function()
+VidiunClientBase.prototype.getVs = function()
 {
-	return this.ks;
+	return this.vs;
 };
 
 /**
- * @param string ks	setter for the Kaltura session.
+ * @param string vs	setter for the Vidiun session.
  */
-KalturaClientBase.prototype.setKs = function(ks)
+VidiunClientBase.prototype.setVs = function(vs)
 {
-	this.ks = ks;
+	this.vs = vs;
 };
 
 /**
  * getter for the referenced configuration object. 
- * @return KalturaConfiguration
+ * @return VidiunConfiguration
  */
-KalturaClientBase.prototype.getConfig = function()
+VidiunClientBase.prototype.getConfig = function()
 {
 	return this.config;
 };
 
 /**
- * @param KalturaConfiguration config	setter for the referenced configuration object.
+ * @param VidiunConfiguration config	setter for the referenced configuration object.
  */
-KalturaClientBase.prototype.setConfig = function(config)
+VidiunClientBase.prototype.setConfig = function(config)
 {
 	this.config = config;
 	logger = this.config.getLogger();
-	if (logger instanceof IKalturaLogger){
+	if (logger instanceof IVidiunLogger){
 		this.shouldLog = true;	
 	}
 };
@@ -461,7 +461,7 @@ KalturaClientBase.prototype.setConfig = function(config)
  * @param string paramName		the name of the new parameter to add.
  * @param string paramValue		the value of the new parameter to add.
  */
-KalturaClientBase.prototype.addParam = function(params, paramName, paramValue)
+VidiunClientBase.prototype.addParam = function(params, paramName, paramValue)
 {
 	if (paramValue == null)
 		return;
@@ -496,7 +496,7 @@ KalturaClientBase.prototype.addParam = function(params, paramName, paramValue)
 /**
  * set to true to indicate a multirequest is being defined.
  */
-KalturaClientBase.prototype.startMultiRequest = function()
+VidiunClientBase.prototype.startMultiRequest = function()
 {
 	this.useMultiRequest = true;
 };
@@ -504,7 +504,7 @@ KalturaClientBase.prototype.startMultiRequest = function()
 /**
  * execute a multirequest.
  */
-KalturaClientBase.prototype.doMultiRequest = function(callback)
+VidiunClientBase.prototype.doMultiRequest = function(callback)
 {
 	return this.doQueue(callback);
 };
@@ -512,7 +512,7 @@ KalturaClientBase.prototype.doMultiRequest = function(callback)
 /**
  * indicate if current mode is constructing a multirequest or single requests.
  */
-KalturaClientBase.prototype.isMultiRequest = function()
+VidiunClientBase.prototype.isMultiRequest = function()
 {
 	return this.useMultiRequest;	
 };
@@ -520,7 +520,7 @@ KalturaClientBase.prototype.isMultiRequest = function()
 /**
  * @param string msg	client logging utility. 
  */
-KalturaClientBase.prototype.log = function(msg)
+VidiunClientBase.prototype.log = function(msg)
 {
 	if (this.shouldLog)
 		this.config.getLogger().log(msg);
@@ -529,32 +529,32 @@ KalturaClientBase.prototype.log = function(msg)
 /**
  * Abstract base class for all client objects
  */
-function KalturaObjectBase()
+function VidiunObjectBase()
 {
 }
 
 /**
  * Abstract base class for all client services
- * Initialize the service keeping reference to the KalturaClient
- * @param KalturaClientm client
+ * Initialize the service keeping reference to the VidiunClient
+ * @param VidiunClientm client
  */
-function KalturaServiceBase()
+function VidiunServiceBase()
 {
 }
-KalturaServiceBase.prototype.init = function(client)
+VidiunServiceBase.prototype.init = function(client)
 {
 	this.client = client;
 };
 /**
- * @param KalturaClient
+ * @param VidiunClient
  */
-KalturaServiceBase.prototype.client = null;
+VidiunServiceBase.prototype.client = null;
 
 /**
- * Constructs new Kaltura configuration object
- * @param partnerId		a valid Kaltura partner id.
+ * Constructs new Vidiun configuration object
+ * @param partnerId		a valid Vidiun partner id.
  */
-function KalturaConfiguration(partnerId)
+function VidiunConfiguration(partnerId)
 {
 	if(!partnerId)
 		partnerId = -1;
@@ -563,27 +563,27 @@ function KalturaConfiguration(partnerId)
     this.partnerId = partnerId;
 }
 
-KalturaConfiguration.prototype.logger		= null;
-KalturaConfiguration.prototype.serviceUrl	= "http://www.kaltura.com";
-KalturaConfiguration.prototype.serviceBase 	= "/api_v3/service";
-KalturaConfiguration.prototype.partnerId	= null;
-KalturaConfiguration.prototype.format		= KalturaClientBase.prototype.KALTURA_SERVICE_FORMAT_JSONP;
-KalturaConfiguration.prototype.clientTag	= "js:@DATE@";
+VidiunConfiguration.prototype.logger		= null;
+VidiunConfiguration.prototype.serviceUrl	= "http://www.vidiun.com";
+VidiunConfiguration.prototype.serviceBase 	= "/api_v3/service";
+VidiunConfiguration.prototype.partnerId	= null;
+VidiunConfiguration.prototype.format		= VidiunClientBase.prototype.VIDIUN_SERVICE_FORMAT_JSONP;
+VidiunConfiguration.prototype.clientTag	= "js:@DATE@";
 
 /**
- * Set logger to get kaltura client debug logs.
- * @param IKalturaLogger log
+ * Set logger to get vidiun client debug logs.
+ * @param IVidiunLogger log
  */
-KalturaConfiguration.prototype.setLogger = function(log)
+VidiunConfiguration.prototype.setLogger = function(log)
 {
 	this.logger = log;
 };
 
 /**
  * Gets the logger (Internal client use)
- * @return IKalturaLogger
+ * @return IVidiunLogger
  */
-KalturaConfiguration.prototype.getLogger = function()
+VidiunConfiguration.prototype.getLogger = function()
 {
 	return this.logger;
 };

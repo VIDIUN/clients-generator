@@ -1,4 +1,4 @@
-package com.kaltura.player;
+package com.vidiun.player;
 
 import java.io.IOException;
 import java.util.Observable;

@@ -1,6 +1,6 @@
-package com.kaltura.client.utils.response.base;
+package com.vidiun.client.utils.response.base;
 
-import com.kaltura.client.types.APIException;
+import com.vidiun.client.types.APIException;
 
 /**
  * Created by tehila.rozin on 7/27/17.

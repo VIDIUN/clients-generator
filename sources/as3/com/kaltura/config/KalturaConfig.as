@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,21 +25,21 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.config 
+package com.vidiun.config 
 {	
 	import flash.events.EventDispatcher;
 
-	public class KalturaConfig extends EventDispatcher implements IKalturaConfig
+	public class VidiunConfig extends EventDispatcher implements IVidiunConfig
 	{
 		protected var _partnerId:String; 
-		protected var _ks:String;
+		protected var _vs:String;
 		protected var _clientTag:String;
 		protected var _protocol:String = "http://";
-		protected var _domain : String = "www.kaltura.com";
+		protected var _domain : String = "www.vidiun.com";
 		protected var _srvUrl:String = "/api_v3"; //will be defined by the genertor
 		protected var _ignoreNull : int = 1;
 		
-		public function KalturaConfig() {
+		public function VidiunConfig() {
 			super();
 		}
 
@@ -52,7 +52,7 @@ package com.kaltura.config
 
 		/**
 		 * the domain for posting calls,
-		 * i.e. <code>www.kaltura.com</code>
+		 * i.e. <code>www.vidiun.com</code>
 		 */		
 		public function set domain(value:String):void { _domain= value; }
 		public function get domain():String { return _domain; }
@@ -71,10 +71,10 @@ package com.kaltura.config
 		public function set partnerId(value:String):void {  _partnerId = value; }
 
 		/**
-		 * Kaltura Session key to use for processing calls
+		 * Vidiun Session key to use for processing calls
 		 */		
-		public function get ks():String { return _ks; }
-		public function set ks(value:String):void { _ks = value; }
+		public function get vs():String { return _vs; }
+		public function set vs(value:String):void { _vs = value; }
 		
 		public function get clientTag():String { return _clientTag; }
 		public function set clientTag(value:String):void { _clientTag = value; }

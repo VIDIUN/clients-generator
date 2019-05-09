@@ -7,7 +7,7 @@ class ZendClientTester
 	const ENTRY_NAME = 'Media entry uploaded from Zend Framework client library';
 	
 	/**
-	 * @var Kaltura_Client_Client
+	 * @var Vidiun_Client_Client
 	 */
 	protected $_client;
 	
@@ -22,7 +22,7 @@ class ZendClientTester
 	 */
 	protected $_responseHeaders;
 	
-	public function __construct(Kaltura_Client_Client $client, $partnerId)
+	public function __construct(Vidiun_Client_Client $client, $partnerId)
 	{
 		$this->_client = $client;
 		$this->_partnerId = $partnerId;
@@ -31,7 +31,7 @@ class ZendClientTester
 	public function run($testerConfig)
 	{
 		$loginResponse = $this->_client->ottUser->login($testerConfig['partnerId'], $testerConfig['username'], $testerConfig['password']);
-		$ks = $loginResponse->loginSession->ks;
+		$vs = $loginResponse->loginSession->vs;
 		
 
 		$methods = get_class_methods($this);
@@ -43,7 +43,7 @@ class ZendClientTester
 				{
 					// use the client logger interface to log
 					$this->_client->getConfig()->getLogger()->log('Running '.$method);
-					$this->_client->setKs($ks);
+					$this->_client->setVs($vs);
 					$this->$method();
 				}
 				catch(Exception $ex)
@@ -59,20 +59,20 @@ class ZendClientTester
 	
 	public function testCreateHousehold() {
 
-		$this->_client->setKs(null);
+		$this->_client->setVs(null);
 		
 		$username = uniqid();
 		$password = 'password';
 		$udid = uniqid();
 		
-		$user = new Kaltura_Client_Type_OTTUser();
+		$user = new Vidiun_Client_Type_OTTUser();
 		$user->username = $username;
 
-		$household = new Kaltura_Client_Type_Household();
+		$household = new Vidiun_Client_Type_Household();
 		$household->name = uniqid();
 		$household->description = uniqid();
 		
-		$device = new Kaltura_Client_Type_HouseholdDevice();
+		$device = new Vidiun_Client_Type_HouseholdDevice();
 		$device->udid = $udid;
 		$device->brandId = 1;
 		
@@ -81,21 +81,21 @@ class ZendClientTester
 		$this->assertTrue(!is_null($createdUser->id));
 		
 		$loginResponse = $this->_client->ottUser->login($this->_partnerId, $username, $password);
-		$this->_client->setKs($loginResponse->loginSession->ks);
+		$this->_client->setVs($loginResponse->loginSession->vs);
 		
 		$createdHousehold = $this->_client->household->add($household);
 		$this->assertTrue(!is_null($createdHousehold));
 		$this->assertTrue(!is_null($createdHousehold->id));
 
 		$loginResponse = $this->_client->ottUser->login($this->_partnerId, $username, $password);
-		$this->_client->setKs($loginResponse->loginSession->ks);
+		$this->_client->setVs($loginResponse->loginSession->vs);
 		
 		$createdDevice = $this->_client->householdDevice->add($device);
 		$this->assertTrue(!is_null($createdDevice));
 		$this->assertTrue(!is_null($createdDevice->deviceFamilyId));
 
 		$loginResponse = $this->_client->ottUser->login($this->_partnerId, $username, $password, null, $udid);
-		$this->_client->setKs($loginResponse->loginSession->ks);
+		$this->_client->setVs($loginResponse->loginSession->vs);
 
 		$devicesList = $this->_client->householdDevice->listAction();
 		$this->assertTrue($devicesList->totalCount == 1);
@@ -115,7 +115,7 @@ class ZendClientTester
 
 		foreach( $response as $subResponse)
 		{
-			if($subResponse instanceof Kaltura_Client_Exception)
+			if($subResponse instanceof Vidiun_Client_Exception)
 			{
 				throw new Exception("Error occurred: " . $subResponse->getMessage());
 			}

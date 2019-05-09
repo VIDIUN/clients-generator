@@ -10,7 +10,7 @@ function delegate (/*Object*/ scope, /*Function*/ method, /* Array */ attributes
 }
 
 
-var kTestMe = {
+var vTestMe = {
 
 	autoIncrementId: 1,
 	
@@ -112,7 +112,7 @@ var kTestMe = {
 		this.jqWindow.resize(delegate(this, this.onResize));
 		jQuery('#request').submit(delegate(this, this.onSubmit));
 		
-		this.call = new kMainCall(id);
+		this.call = new vMainCall(id);
 		this.call.getUnLockedServiceId();
 		this.call.getUnLockedActionId();
 		
@@ -126,7 +126,7 @@ var kTestMe = {
 	
 	initCodeExample: function(generator) {
 		if(!generator)
-			generator = new KCodeExamplePHP(jQuery("#example"));
+			generator = new VCodeExamplePHP(jQuery("#example"));
 		
 		this.codeGenerator = generator;
 		this.call.ready(delegate(generator, generator.codeAction, [this.call]));
@@ -137,7 +137,7 @@ var kTestMe = {
 		this.jqObjectsContainer.append(dialog.jqElement);
 	},
 
-	getKSFromTextByFormat: function(responseText, format){
+	getVSFromTextByFormat: function(responseText, format){
 		const INVALID ="";
 		switch (format)	{
 			case 'xml' :
@@ -166,15 +166,15 @@ var kTestMe = {
 		
 		if ((this.call.getServiceId() == 'session') && (this.call.getActionId() == 'start')) {
 
-			var ksText = this.getKSFromTextByFormat(responseText, format);
-			var field = jQuery('#ks');
+			var vsText = this.getVSFromTextByFormat(responseText, format);
+			var field = jQuery('#vs');
 			if(!field || !field.size()){
-				kTestMe.log.error('KS field not found.');
+				vTestMe.log.error('VS field not found.');
 				return;
 			}
 			
-			if (ksText.length > 0){
-				field.val(ksText);
+			if (vsText.length > 0){
+				field.val(vsText);
 			}
 			// if not empty, empty it
 			else if (field.val()){
@@ -228,7 +228,7 @@ var kTestMe = {
 	
 	registerAction: function(serviceId, actionId, actionName, actionLabel){
 		if(!this.services[serviceId]){
-			this.log.error('[kTestMe::registerAction] Service id [' + serviceId + '] not found.');
+			this.log.error('[vTestMe::registerAction] Service id [' + serviceId + '] not found.');
 			return;
 		}
 		
@@ -245,7 +245,7 @@ var kTestMe = {
 	
 	registerActionParam: function(serviceId, actionId, param){
 		if(!this.serviceActionsLoaded(serviceId, actionId)){
-			this.log.error('[kTestMe::registerActionParam] Action [' + serviceId + '.' + actionId + '] not found');
+			this.log.error('[vTestMe::registerActionParam] Action [' + serviceId + '.' + actionId + '] not found');
 			return;
 		}
 
@@ -264,7 +264,7 @@ var kTestMe = {
 	
 	registerSubClasses: function(type, subTypes){
 		if(!this.classLoaded(type)){
-			this.log.error('[kTestMe::registerSubClasses] Type [' + type + '] not found');
+			this.log.error('[vTestMe::registerSubClasses] Type [' + type + '] not found');
 			return;
 		}
 		
@@ -328,10 +328,10 @@ var kTestMe = {
 	
 	calculateDimensions: function() {
 		this.height = jQuery("body").innerHeight();
-		if (jQuery("#kmcSubMenu").size() == 0) // when displayed in admin console without the menu
+		if (jQuery("#vmcSubMenu").size() == 0) // when displayed in admin console without the menu
 			this.height = this.height - 10;
 		else
-			this.height = this.height - jQuery("#kmcSubMenu").outerHeight() - 44; 
+			this.height = this.height - jQuery("#vmcSubMenu").outerHeight() - 44; 
 		
 		this.testmeHeight = this.height - jQuery('#codeSubMenu').outerHeight(true);
 		if (jQuery('#codeExample').is(':visible'))
@@ -355,5 +355,5 @@ var kTestMe = {
 
 
 jQuery(function(){
-	kTestMe.init("dvService");
+	vTestMe.init("dvService");
 });

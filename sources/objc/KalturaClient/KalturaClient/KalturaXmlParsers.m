@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,11 +25,11 @@
 //
 // @ignore
 // ===================================================================================================
-#import "KalturaXmlParsers.h"
-#import "KalturaClientBase.h"
+#import "VidiunXmlParsers.h"
+#import "VidiunClientBase.h"
 #import <libxml/parser.h>
 
-@interface KalturaLibXmlWrapper()
+@interface VidiunLibXmlWrapper()
 
 - (void)startElement:(const xmlChar *)aName;
 - (void)endElement:(const xmlChar *)aName;
@@ -59,20 +59,20 @@ static void saxCallbackStartElement (void *ctx,
                                      const xmlChar *name,
                                      const xmlChar **atts)
 {
-    [(KalturaLibXmlWrapper*)ctx startElement:name];
+    [(VidiunLibXmlWrapper*)ctx startElement:name];
 }
 
 static void saxCallbackEndElement (void *ctx,
                                    const xmlChar *name)
 {
-    [(KalturaLibXmlWrapper*)ctx endElement:name];
+    [(VidiunLibXmlWrapper*)ctx endElement:name];
 }
 
 static void saxCallbackCharacters (void *ctx,
                                    const xmlChar *ch,
                                    int len)
 {
-    [(KalturaLibXmlWrapper*)ctx characters:ch withLength:len];
+    [(VidiunLibXmlWrapper*)ctx characters:ch withLength:len];
 }
 
 static void XMLCDECL saxCallbackError (void *ctx,
@@ -80,14 +80,14 @@ static void XMLCDECL saxCallbackError (void *ctx,
 {
     va_list vaArgs;
     va_start(vaArgs, msg);
-    [(KalturaLibXmlWrapper*)ctx error:msg withArgs:vaArgs];
+    [(VidiunLibXmlWrapper*)ctx error:msg withArgs:vaArgs];
     va_end(vaArgs);
 }
 
 /*
- Class KalturaLibXmlWrapper
+ Class VidiunLibXmlWrapper
  */
-@implementation KalturaLibXmlWrapper
+@implementation VidiunLibXmlWrapper
 
 @synthesize delegate = _delegate;
 
@@ -200,7 +200,7 @@ static void XMLCDECL saxCallbackError (void *ctx,
     NSString *message = [NSString stringWithUTF8String:xmlError->message];
     NSNumber *libXmlDomain = [NSNumber numberWithInt:xmlError->domain];
     NSNumber *libXmlCode = [NSNumber numberWithInt:xmlError->code];
-    NSError *nsError = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorXmlParsing userInfo:[NSDictionary dictionaryWithObjectsAndKeys:message, NSLocalizedDescriptionKey, libXmlDomain, @"LibXmlDomain", libXmlCode, @"LibXmlCode", nil]]; 
+    NSError *nsError = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorXmlParsing userInfo:[NSDictionary dictionaryWithObjectsAndKeys:message, NSLocalizedDescriptionKey, libXmlDomain, @"LibXmlDomain", libXmlCode, @"LibXmlCode", nil]]; 
     
     [self.delegate parser:self parseErrorOccurred:nsError];
 }
@@ -208,9 +208,9 @@ static void XMLCDECL saxCallbackError (void *ctx,
 @end
 
 /*
- Class KalturaXmlParserBase
+ Class VidiunXmlParserBase
  */
-@implementation KalturaXmlParserBase
+@implementation VidiunXmlParserBase
 
 @synthesize parser = _parser;
 @synthesize delegate = _delegate;
@@ -223,11 +223,11 @@ static void XMLCDECL saxCallbackError (void *ctx,
     [super dealloc];
 }
 
-- (void)attachToParser:(KalturaLibXmlWrapper*)aParser withDelegate:(id <KalturaXmlParserDelegate>)aDelegate
+- (void)attachToParser:(VidiunLibXmlWrapper*)aParser withDelegate:(id <VidiunXmlParserDelegate>)aDelegate
 {
     if (self->_attached)
     {
-        @throw [KalturaClientException exceptionWithName:@"ParserAlreadyAttached" reason:@"KalturaXmlParserBase already attached to LibXmlWrapper" userInfo:nil];
+        @throw [VidiunClientException exceptionWithName:@"ParserAlreadyAttached" reason:@"VidiunXmlParserBase already attached to LibXmlWrapper" userInfo:nil];
     }
     
     self.parser = aParser;
@@ -252,18 +252,18 @@ static void XMLCDECL saxCallbackError (void *ctx,
 
 - (void)callDelegateAndDetach
 {
-    id<KalturaXmlParserDelegate> delegate = self.delegate;
+    id<VidiunXmlParserDelegate> delegate = self.delegate;
     [self detach];
     [delegate parsingFinished:self];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser parseErrorOccurred:(NSError *)aError
+- (void)parser:(VidiunLibXmlWrapper *)aParser parseErrorOccurred:(NSError *)aError
 {
     self.error = aError;
     [self.delegate parsingFailed:self];
 }
 
-- (void)parsingFailed:(KalturaXmlParserBase*)aParser
+- (void)parsingFailed:(VidiunXmlParserBase*)aParser
 {
     self.error = [aParser error];
     [self.delegate parsingFailed:self];
@@ -277,9 +277,9 @@ static void XMLCDECL saxCallbackError (void *ctx,
 @end
 
 /*
- Class KalturaXmlParserSkipTag
+ Class VidiunXmlParserSkipTag
  */
-@implementation KalturaXmlParserSkipTag
+@implementation VidiunXmlParserSkipTag
 
 - (id)init
 {
@@ -292,12 +292,12 @@ static void XMLCDECL saxCallbackError (void *ctx,
     return self;
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
 {
     self->_level++;
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
 {
     self->_level--;
     if (self->_level > 0)
@@ -309,9 +309,9 @@ static void XMLCDECL saxCallbackError (void *ctx,
 @end
 
 /*
- Class KalturaXmlParserSimpleType
+ Class VidiunXmlParserSimpleType
  */
-@implementation KalturaXmlParserSimpleType
+@implementation VidiunXmlParserSimpleType
 
 - (void)dealloc
 {
@@ -319,18 +319,18 @@ static void XMLCDECL saxCallbackError (void *ctx,
     [super dealloc];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
 {
-    self.error = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorStartTagInSimpleType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Got a start tag while parsing a simple type element", NSLocalizedDescriptionKey, aElementName, @"ElementName", nil]];
+    self.error = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorStartTagInSimpleType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Got a start tag while parsing a simple type element", NSLocalizedDescriptionKey, aElementName, @"ElementName", nil]];
     [self.delegate parsingFailed:self];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
 {
     [self callDelegateAndDetach];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser foundCharacters:(NSString *)aString
+- (void)parser:(VidiunLibXmlWrapper *)aParser foundCharacters:(NSString *)aString
 {
     self->_value = [aString copy];
 }
@@ -346,11 +346,11 @@ static void XMLCDECL saxCallbackError (void *ctx,
 @end
 
 /*
- Class KalturaXmlParserException
+ Class VidiunXmlParserException
  */
-@implementation KalturaXmlParserException
+@implementation VidiunXmlParserException
 
-- (id)initWithSubParser:(KalturaXmlParserBase*)aSubParser
+- (id)initWithSubParser:(VidiunXmlParserBase*)aSubParser
 {
     self = [super init];
     if (self == nil)
@@ -371,12 +371,12 @@ static void XMLCDECL saxCallbackError (void *ctx,
     [super dealloc];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
 {
     if ([aElementName compare:@"error"] == NSOrderedSame)
     {
-        self->_targetException = [[KalturaException alloc] init];
-        self->_excObjParser = [[KalturaXmlParserObject alloc] initWithObject:self->_targetException];
+        self->_targetException = [[VidiunException alloc] init];
+        self->_excObjParser = [[VidiunXmlParserObject alloc] initWithObject:self->_targetException];
         [self->_excObjParser attachToParser:self.parser withDelegate:self];
     }
     else
@@ -386,24 +386,24 @@ static void XMLCDECL saxCallbackError (void *ctx,
     }
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
 {
     if (self->_targetException == nil && self->_subParser.result == nil)
     {
-        self.error = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorEmptyObject userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Got an empty object element", NSLocalizedDescriptionKey, nil]];        
+        self.error = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorEmptyObject userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Got an empty object element", NSLocalizedDescriptionKey, nil]];        
         [self.delegate parsingFailed:self];
         return;
     }
     [self callDelegateAndDetach];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser foundCharacters:(NSString *)aString
+- (void)parser:(VidiunLibXmlWrapper *)aParser foundCharacters:(NSString *)aString
 {
     [self->_subParser attachToParser:self.parser withDelegate:self];
     [self->_subParser parser:aParser foundCharacters:aString];
 }
 
-- (void)parsingFinished:(KalturaXmlParserBase*)aParser
+- (void)parsingFinished:(VidiunXmlParserBase*)aParser
 {
     if (self->_targetException != nil)
         return;         // consume the error end tag before calling the delegate
@@ -426,11 +426,11 @@ static void XMLCDECL saxCallbackError (void *ctx,
 @end
 
 /*
- Class KalturaXmlParserObject
+ Class VidiunXmlParserObject
  */
-@implementation KalturaXmlParserObject
+@implementation VidiunXmlParserObject
 
-- (id)initWithObject:(KalturaObjectBase*)aObject
+- (id)initWithObject:(VidiunObjectBase*)aObject
 {
     self = [super init];
     if (self == nil)
@@ -474,16 +474,16 @@ static void XMLCDECL saxCallbackError (void *ctx,
     if (![self->_targetObj respondsToSelector:sel])
     {
         // shouldn't happen since the property was already validated by getTypeOfProperty
-        @throw [KalturaClientException exceptionWithName:@"MissingObjectSetter" reason:@"Object does not respond to setter" userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self->_lastTagCapitalized, @"TagName", nil]];
+        @throw [VidiunClientException exceptionWithName:@"MissingObjectSetter" reason:@"Object does not respond to setter" userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self->_lastTagCapitalized, @"TagName", nil]];
     }
     [self->_targetObj performSelector:sel withObject:aValue];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
 {
     if (self->_lastTagCapitalized != nil || self->_lastIsObjectType)
     {
-        self.error = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorUnexpectedTagInSimpleType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Got a start tag while parsing simple type", NSLocalizedDescriptionKey, aElementName, @"ElementName", nil]];
+        self.error = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorUnexpectedTagInSimpleType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Got a start tag while parsing simple type", NSLocalizedDescriptionKey, aElementName, @"ElementName", nil]];
         [self.delegate parsingFailed:self];
         return;
     }
@@ -496,7 +496,7 @@ static void XMLCDECL saxCallbackError (void *ctx,
     
     if (self->_targetObj == nil)
     {
-        self.error = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorExpectedObjectTypeTag userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Object didn't start with an objectType tag", NSLocalizedDescriptionKey, aElementName, @"ElementName", nil]];
+        self.error = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorExpectedObjectTypeTag userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Object didn't start with an objectType tag", NSLocalizedDescriptionKey, aElementName, @"ElementName", nil]];
         [self.delegate parsingFailed:self];        
         return;
     }
@@ -509,14 +509,14 @@ static void XMLCDECL saxCallbackError (void *ctx,
     SEL getPropTypeSel = NSSelectorFromString(getPropType);
     [getPropType release];
     
-    self->_lastPropType = KFT_Invalid;
+    self->_lastPropType = VFT_Invalid;
     if ([self->_targetObj respondsToSelector:getPropTypeSel])
     {
-        self->_lastPropType = (KalturaFieldType)[self->_targetObj performSelector:getPropTypeSel];
+        self->_lastPropType = (VidiunFieldType)[self->_targetObj performSelector:getPropTypeSel];
     }
     
 	NSString* expectedObjectType = nil;
-	if (self->_lastPropType == KFT_Object || self->_lastPropType == KFT_Array)
+	if (self->_lastPropType == VFT_Object || self->_lastPropType == VFT_Array)
 	{
 		NSString* getObjectType = [[NSMutableString alloc] initWithFormat:@"getObjectTypeOf%@", self->_lastTagCapitalized];
 		SEL getObjectTypeSel = NSSelectorFromString(getObjectType);
@@ -527,17 +527,17 @@ static void XMLCDECL saxCallbackError (void *ctx,
 	
     switch (self->_lastPropType)
     {
-		case KFT_Dictionary:		// TODO: implement support for dictionary parsing
-        case KFT_Invalid:
-            self->_subParser = [[KalturaXmlParserSkipTag alloc] init];
+		case VFT_Dictionary:		// TODO: implement support for dictionary parsing
+        case VFT_Invalid:
+            self->_subParser = [[VidiunXmlParserSkipTag alloc] init];
             break;
             
-        case KFT_Object:
-            self->_subParser = [[KalturaXmlParserObject alloc] initWithExpectedType:expectedObjectType];
+        case VFT_Object:
+            self->_subParser = [[VidiunXmlParserObject alloc] initWithExpectedType:expectedObjectType];
             break;
             
-        case KFT_Array:
-            self->_subParser = [[KalturaXmlParserArray alloc] initWithExpectedType:expectedObjectType];
+        case VFT_Array:
+            self->_subParser = [[VidiunXmlParserArray alloc] initWithExpectedType:expectedObjectType];
             break;
             
         default:        // simple types are handled by foundChars
@@ -547,20 +547,20 @@ static void XMLCDECL saxCallbackError (void *ctx,
     [self->_subParser attachToParser:self.parser withDelegate:self];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
 {
     if (self->_lastTagCapitalized != nil || self->_lastIsObjectType)
     {
         [self->_lastTagCapitalized release];
         self->_lastTagCapitalized = nil;
-        self->_lastPropType = KFT_Invalid;
+        self->_lastPropType = VFT_Invalid;
         self->_lastIsObjectType = NO;
         return;
     }
 
     if (self->_targetObj == nil)
     {
-        self.error = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorMissingObjectTypeTag userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Missing objectType tag", NSLocalizedDescriptionKey, nil]];
+        self.error = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorMissingObjectTypeTag userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Missing objectType tag", NSLocalizedDescriptionKey, nil]];
         [self.delegate parsingFailed:self];
         return;
     }
@@ -568,14 +568,14 @@ static void XMLCDECL saxCallbackError (void *ctx,
     [self callDelegateAndDetach];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser foundCharacters:(NSString *)aString
+- (void)parser:(VidiunLibXmlWrapper *)aParser foundCharacters:(NSString *)aString
 {
     if (self->_lastIsObjectType)
     {
-        self->_targetObj = [KalturaObjectFactory createByName:aString withDefaultType:self->_expectedType];
+        self->_targetObj = [VidiunObjectFactory createByName:aString withDefaultType:self->_expectedType];
         if (self->_targetObj == nil)
         {
-            self.error = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorUnknownObjectType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Unknown object type", NSLocalizedDescriptionKey, aString, @"ObjectType", nil]];
+            self.error = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorUnknownObjectType userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Unknown object type", NSLocalizedDescriptionKey, aString, @"ObjectType", nil]];
             [self.delegate parsingFailed:self];
         }
 
@@ -584,24 +584,24 @@ static void XMLCDECL saxCallbackError (void *ctx,
 
     switch (self->_lastPropType)
     {
-        case KFT_Int:
-        case KFT_Bool:
-        case KFT_Float:
+        case VFT_Int:
+        case VFT_Bool:
+        case VFT_Float:
             [self setObjectPropertyWithValue:aString isSimple:YES];
             break;
             
-        case KFT_String:
+        case VFT_String:
             [self setObjectPropertyWithValue:aString isSimple:NO];
             break;
             
         default:
-            self.error = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorExpectedPropertyTag userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Missing object property tag", NSLocalizedDescriptionKey, nil]];
+            self.error = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorExpectedPropertyTag userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Missing object property tag", NSLocalizedDescriptionKey, nil]];
             [self.delegate parsingFailed:self];
             break;
     }
 }
 
-- (void)parsingFinished:(KalturaXmlParserBase*)aParser
+- (void)parsingFinished:(VidiunXmlParserBase*)aParser
 {
     id parseResult = [self->_subParser result];
     if (parseResult != nil)
@@ -613,7 +613,7 @@ static void XMLCDECL saxCallbackError (void *ctx,
     [self->_lastTagCapitalized release];
     self->_lastTagCapitalized = nil;
     self->_lastIsObjectType = NO;
-    self->_lastPropType = KFT_Invalid;
+    self->_lastPropType = VFT_Invalid;
 }
 
 - (id)result
@@ -624,9 +624,9 @@ static void XMLCDECL saxCallbackError (void *ctx,
 @end
 
 /*
- Class KalturaXmlParserArray
+ Class VidiunXmlParserArray
  */
-@implementation KalturaXmlParserArray
+@implementation VidiunXmlParserArray
 
 - (id)initWithExpectedType:(NSString*)aExpectedType
 {
@@ -654,25 +654,25 @@ static void XMLCDECL saxCallbackError (void *ctx,
     return self->_targetArr;
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
 {
     if ([aElementName compare:@"item"] != NSOrderedSame)
     {
-        self.error = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorUnexpectedArrayTag userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Got unexpected tag while parsing array", NSLocalizedDescriptionKey, aElementName, @"TagName", nil]];
+        self.error = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorUnexpectedArrayTag userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Got unexpected tag while parsing array", NSLocalizedDescriptionKey, aElementName, @"TagName", nil]];
         [self.delegate parsingFailed:self];
         return;
     }
     
-    self->_subParser = [[KalturaXmlParserObject alloc] initWithExpectedType:self->_expectedType];
+    self->_subParser = [[VidiunXmlParserObject alloc] initWithExpectedType:self->_expectedType];
     [self->_subParser attachToParser:self.parser withDelegate:self];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
 {
     [self callDelegateAndDetach];
 }
 
-- (void)parsingFinished:(KalturaXmlParserBase*)aParser
+- (void)parsingFinished:(VidiunXmlParserBase*)aParser
 {
     id parseResult = [self->_subParser result];
     [self->_targetArr addObject:parseResult];
@@ -683,9 +683,9 @@ static void XMLCDECL saxCallbackError (void *ctx,
 @end
 
 /*
- Class KalturaXmlParserMultirequest
+ Class VidiunXmlParserMultirequest
  */
-@implementation KalturaXmlParserMultirequest
+@implementation VidiunXmlParserMultirequest
 
 - (id)init
 {
@@ -704,7 +704,7 @@ static void XMLCDECL saxCallbackError (void *ctx,
     [super dealloc];
 }
 
-- (void)addSubParser:(KalturaXmlParserBase*)aParser
+- (void)addSubParser:(VidiunXmlParserBase*)aParser
 {
     [self->_subParsers addObject:aParser];
 }
@@ -714,27 +714,27 @@ static void XMLCDECL saxCallbackError (void *ctx,
     return (int)self->_subParsers.count;
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
 {
     if ([aElementName compare:@"item"] != NSOrderedSame ||
         self->_reqIndex >= self->_subParsers.count)
     {
-        self.error = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorUnexpectedMultiReqTag userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Got unexpected tag while parsing multirequest", NSLocalizedDescriptionKey, aElementName, @"TagName", nil]];         
+        self.error = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorUnexpectedMultiReqTag userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Got unexpected tag while parsing multirequest", NSLocalizedDescriptionKey, aElementName, @"TagName", nil]];         
         [self.delegate parsingFailed:self];
         return;
     }
     
-    KalturaXmlParserBase* curParser = [self->_subParsers objectAtIndex:self->_reqIndex];
+    VidiunXmlParserBase* curParser = [self->_subParsers objectAtIndex:self->_reqIndex];
     [curParser attachToParser:self.parser withDelegate:self];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
 {
     if (self->_reqIndex < self->_subParsers.count)
     {
         NSNumber* receivedNum = [NSNumber numberWithInt:(int)self->_reqIndex];
         NSNumber* expectedNum = [NSNumber numberWithInt:(int)self->_subParsers.count];
-        self.error = [NSError errorWithDomain:KalturaClientErrorDomain code:KalturaClientErrorMissingMultiReqItems userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Didn't get enough multi request items in the response", NSLocalizedDescriptionKey, receivedNum, @"ReceivedNum", expectedNum, @"ExpectedNum", nil]];         
+        self.error = [NSError errorWithDomain:VidiunClientErrorDomain code:VidiunClientErrorMissingMultiReqItems userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Didn't get enough multi request items in the response", NSLocalizedDescriptionKey, receivedNum, @"ReceivedNum", expectedNum, @"ExpectedNum", nil]];         
         [self.delegate parsingFailed:self];
         return;
     }
@@ -742,7 +742,7 @@ static void XMLCDECL saxCallbackError (void *ctx,
     [self callDelegateAndDetach];
 }
 
-- (void)parsingFinished:(KalturaXmlParserBase*)aParser
+- (void)parsingFinished:(VidiunXmlParserBase*)aParser
 {
     self->_reqIndex++;
 }
@@ -751,7 +751,7 @@ static void XMLCDECL saxCallbackError (void *ctx,
 {
     NSMutableArray* result = [[NSMutableArray alloc] init];
     
-    for (KalturaXmlParserBase* curParser in self->_subParsers)
+    for (VidiunXmlParserBase* curParser in self->_subParsers)
     {
         [result addObject:curParser.result];
     }
@@ -764,11 +764,11 @@ static void XMLCDECL saxCallbackError (void *ctx,
 @end
 
 /*
- Class KalturaXmlParserSkipPath
+ Class VidiunXmlParserSkipPath
  */
-@implementation KalturaXmlParserSkipPath
+@implementation VidiunXmlParserSkipPath
 
-- (id)initWithSubParser:(KalturaXmlParserBase*)aSubParser withPath:(NSArray*)aPath
+- (id)initWithSubParser:(VidiunXmlParserBase*)aSubParser withPath:(NSArray*)aPath
 {
     self = [super init];
     if (self == nil)
@@ -788,7 +788,7 @@ static void XMLCDECL saxCallbackError (void *ctx,
     [super dealloc];
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didStartElement:(NSString *)aElementName
 {
     NSString* expectedElem = (NSString*)[self->_path objectAtIndex:self->_pathPosition];
     if (self->_skipLevel == 0 && [expectedElem compare:aElementName] == NSOrderedSame)
@@ -805,7 +805,7 @@ static void XMLCDECL saxCallbackError (void *ctx,
     }
 }
 
-- (void)parser:(KalturaLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
+- (void)parser:(VidiunLibXmlWrapper *)aParser didEndElement:(NSString *)aElementName
 {
     if (self->_skipLevel > 0)
     {
@@ -820,7 +820,7 @@ static void XMLCDECL saxCallbackError (void *ctx,
     }
 }
 
-- (void)parsingFinished:(KalturaXmlParserBase*)aParser
+- (void)parsingFinished:(VidiunXmlParserBase*)aParser
 {
     self->_pathPosition--;
 }

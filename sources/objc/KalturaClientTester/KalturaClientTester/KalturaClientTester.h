@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -26,15 +26,15 @@
 // @ignore
 // ===================================================================================================
 #import <Foundation/Foundation.h>
-#import "KalturaClient.h"
+#import "VidiunClient.h"
 
 
-@class KalturaTestDetails;
+@class VidiunTestDetails;
 
 /*
- KalturaCallbackDelegate
+ VidiunCallbackDelegate
  */
-@interface KalturaCallbackDelegate : NSObject <KalturaClientDelegate>
+@interface VidiunCallbackDelegate : NSObject <VidiunClientDelegate>
 
 @property (nonatomic, assign) id target;
 @property (nonatomic, assign) SEL failedSel;
@@ -43,32 +43,32 @@
 @end
 
 /*
- KalturaClientTesterDelegate
+ VidiunClientTesterDelegate
  */
-@protocol KalturaClientTesterDelegate <NSObject>
+@protocol VidiunClientTesterDelegate <NSObject>
 
 - (void)updateProgressWithMessage:(NSString*)aMessage;
 
 @end
 
 /*
- KalturaClientTester
+ VidiunClientTester
  */
-@interface KalturaClientTester : NSObject
+@interface VidiunClientTester : NSObject
 {
-    KalturaCallbackDelegate* _clientDelegate;
-    KalturaClient* _client;
+    VidiunCallbackDelegate* _clientDelegate;
+    VidiunClient* _client;
     NSMutableArray* _tests;
     int _curTestIndex;
-    KalturaTestDetails* _curTestDetails;
+    VidiunTestDetails* _curTestDetails;
     
-    KalturaBaseEntry* _imageEntry;
-    KalturaBaseEntry* _videoEntry;
+    VidiunBaseEntry* _imageEntry;
+    VidiunBaseEntry* _videoEntry;
 }
 
-@property (nonatomic, assign) id <KalturaClientTesterDelegate> delegate;
+@property (nonatomic, assign) id <VidiunClientTesterDelegate> delegate;
 
-- (id)initWithDelegate:(id <KalturaClientTesterDelegate>)aDelegate;
+- (id)initWithDelegate:(id <VidiunClientTesterDelegate>)aDelegate;
 - (void)run;
 
 @end

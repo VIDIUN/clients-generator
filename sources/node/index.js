@@ -1,3 +1,3 @@
-exports.kc = require('./KalturaClient');
-exports.vo = require ('./KalturaVO.js');
+exports.vc = require('./VidiunClient');
+exports.vo = require ('./VidiunVO.js');
 

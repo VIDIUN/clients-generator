@@ -2,7 +2,7 @@ const path = require('path');
 const loadJsonFile = require("load-json-file");
 const writeJsonFile = require("write-json-file");
 
-const distPackageJson = path.resolve(__dirname,'../dist/kaltura-ngx-client/package.json');
+const distPackageJson = path.resolve(__dirname,'../dist/vidiun-ngx-client/package.json');
 
 function formatTwoDigitsNumber(value)
 {

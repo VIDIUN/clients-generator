@@ -16,7 +16,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
         '../jquery-3.1.0.min.js',
-        '../Kaltura*.min.js',
+        '../Vidiun*.min.js',
         'config.js',
         '*.test.js'
     ],

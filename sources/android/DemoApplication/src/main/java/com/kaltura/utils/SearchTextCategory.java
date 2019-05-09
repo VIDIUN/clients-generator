@@ -1,4 +1,4 @@
-package com.kaltura.utils;
+package com.vidiun.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.kaltura.client.types.KalturaCategory;
+import com.vidiun.client.types.VidiunCategory;
 
 /**
  * Seeking a string entered in the search for the category
@@ -17,8 +17,8 @@ import com.kaltura.client.types.KalturaCategory;
 public class SearchTextCategory extends Observable implements TextWatcher {
 
     private int textlength;
-    private List<KalturaCategory> copyList;
-    private List<KalturaCategory> listCategory;
+    private List<VidiunCategory> copyList;
+    private List<VidiunCategory> listCategory;
     private List<String> copyListInLowerCase;
     private EditText editText;
     private String TAG;
@@ -26,18 +26,18 @@ public class SearchTextCategory extends Observable implements TextWatcher {
     public SearchTextCategory() {
     }
 
-    public void init(String TAG, EditText editText, List<KalturaCategory> listCategory) {
+    public void init(String TAG, EditText editText, List<VidiunCategory> listCategory) {
         this.TAG = TAG;
         this.editText = editText;
         this.listCategory = listCategory;
         textlength = 0;
-        copyList = new ArrayList<KalturaCategory>();
+        copyList = new ArrayList<VidiunCategory>();
         copyListInLowerCase = new ArrayList<String>();
         try {
             copyList.addAll(listCategory);
 
-            for (KalturaCategory kalturaCategory : listCategory) {
-                copyListInLowerCase.add(kalturaCategory.name.toLowerCase());
+            for (VidiunCategory vidiunCategory : listCategory) {
+                copyListInLowerCase.add(vidiunCategory.name.toLowerCase());
             }
 
         } catch (Exception e) {

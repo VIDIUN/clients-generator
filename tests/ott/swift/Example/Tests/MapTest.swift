@@ -1,6 +1,6 @@
 //
 //  MapTest.swift
-//  KalturaClient
+//  VidiunClient
 //
 //  Created by Jonathan Kanarek on 26/09/2017.
 //  Copyright © 2017 CocoaPods. All rights reserved.
@@ -9,7 +9,7 @@
 import Foundation
 import Quick
 import Nimble
-import KalturaOttClient
+import VidiunOttClient
 
 
 class mapTest: QuickSpec {

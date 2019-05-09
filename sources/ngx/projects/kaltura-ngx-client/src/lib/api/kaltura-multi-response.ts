@@ -1,8 +1,8 @@
-import { KalturaResponse } from "./kaltura-response";
-import { KalturaAPIException } from './kaltura-api-exception';
+import { VidiunResponse } from "./vidiun-response";
+import { VidiunAPIException } from './vidiun-api-exception';
 
-export class KalturaMultiResponse extends Array<KalturaResponse<any>> {
-    constructor(results: KalturaResponse<any>[] = []) {
+export class VidiunMultiResponse extends Array<VidiunResponse<any>> {
+    constructor(results: VidiunResponse<any>[] = []) {
         super();
 
         if (new.target) {
@@ -19,8 +19,8 @@ export class KalturaMultiResponse extends Array<KalturaResponse<any>> {
         return this.filter(result => result.error).length > 0;
     }
 
-    public getFirstError(): KalturaAPIException {
-        let result: KalturaAPIException = null;
+    public getFirstError(): VidiunAPIException {
+        let result: VidiunAPIException = null;
         for (let i = 0; i < this.length; i++) {
             result = this[i].error;
 

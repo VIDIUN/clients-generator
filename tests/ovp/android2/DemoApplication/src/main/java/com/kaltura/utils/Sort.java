@@ -1,10 +1,10 @@
-package com.kaltura.utils;
+package com.vidiun.utils;
 
 import java.util.Comparator;
 
-import com.kaltura.client.types.Category;
-import com.kaltura.client.types.FlavorAsset;
-import com.kaltura.client.types.MediaEntry;
+import com.vidiun.client.types.Category;
+import com.vidiun.client.types.FlavorAsset;
+import com.vidiun.client.types.MediaEntry;
 
 /**
  * The class performs a sort

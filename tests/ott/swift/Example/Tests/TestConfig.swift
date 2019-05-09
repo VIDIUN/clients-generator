@@ -1,13 +1,13 @@
 //
 //  File.swift
-//  KalturaClient
+//  VidiunClient
 //
 //  Created by Rivka Peleg on 04/09/2017.
 //  Copyright © 2017 CocoaPods. All rights reserved.
 //
 
 import Foundation
-import KalturaOttClient
+import VidiunOttClient
 
 
 let TConfig = TestConfig.shared

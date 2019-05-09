@@ -2,26 +2,26 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.services;
+package com.vidiun.services;
 
 import java.util.List;
 
 import android.util.Log;
 
-import com.kaltura.client.Client;
-import com.kaltura.client.services.BaseEntryService;
-import com.kaltura.client.services.FlavorAssetService;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.EntryContextDataParams;
-import com.kaltura.client.types.EntryContextDataResult;
-import com.kaltura.client.types.FilterPager;
-import com.kaltura.client.types.FlavorAsset;
-import com.kaltura.client.types.FlavorAssetFilter;
-import com.kaltura.client.types.ListResponse;
-import com.kaltura.client.utils.request.RequestBuilder;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
-import com.kaltura.utils.ApiHelper;
+import com.vidiun.client.Client;
+import com.vidiun.client.services.BaseEntryService;
+import com.vidiun.client.services.FlavorAssetService;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.EntryContextDataParams;
+import com.vidiun.client.types.EntryContextDataResult;
+import com.vidiun.client.types.FilterPager;
+import com.vidiun.client.types.FlavorAsset;
+import com.vidiun.client.types.FlavorAssetFilter;
+import com.vidiun.client.types.ListResponse;
+import com.vidiun.client.utils.request.RequestBuilder;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
+import com.vidiun.utils.ApiHelper;
 
 /**
  * Retrieve information and invoke actions on Flavor Asset

@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name"
-                android:textColor="@color/blue_kaltura"
+                android:textColor="@color/blue_vidiun"
                 android:layout_marginBottom="5dp"
                 android:textSize="20sp" />
 		    

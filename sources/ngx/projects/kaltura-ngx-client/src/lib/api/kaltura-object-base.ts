@@ -1,40 +1,40 @@
-import { KalturaClientUtils } from "./kaltura-client-utils";
-import { KalturaLogger } from './kaltura-logger';
+import { VidiunClientUtils } from "./vidiun-client-utils";
+import { VidiunLogger } from './vidiun-logger';
 
 export type DependentProperty = { property : string, request : number, targetPath? : string[] };
 
-export interface KalturaObjectMetadata
+export interface VidiunObjectMetadata
 {
-  properties : { [key : string] : KalturaObjectPropertyMetadata};
+  properties : { [key : string] : VidiunObjectPropertyMetadata};
 }
 
-export interface KalturaObjectPropertyMetadata
+export interface VidiunObjectPropertyMetadata
 {
   readOnly? : boolean;
   type : string;
   subType? : string;
   default? : string;
-  subTypeConstructor? : { new() : KalturaObjectBase };
+  subTypeConstructor? : { new() : VidiunObjectBase };
 };
 
-export interface KalturaObjectBaseArgs
+export interface VidiunObjectBaseArgs
 {
-  relatedObjects? : KalturaObjectBase[];
+  relatedObjects? : VidiunObjectBase[];
 }
 
-const logger = new KalturaLogger('KalturaObjectBase');
+const logger = new VidiunLogger('VidiunObjectBase');
 
-export type KalturaObjectClass = { new(...args) : KalturaObjectBase };
-export const typesMappingStorage : { [key : string] : KalturaObjectClass} = {};
+export type VidiunObjectClass = { new(...args) : VidiunObjectBase };
+export const typesMappingStorage : { [key : string] : VidiunObjectClass} = {};
 
-export class KalturaObjectBaseFactory {
-  static createObject(type: KalturaObjectBase) : KalturaObjectBase;
-  static createObject(typeName : string) : KalturaObjectBase;
-  static createObject(type : any) : KalturaObjectBase
+export class VidiunObjectBaseFactory {
+  static createObject(type: VidiunObjectBase) : VidiunObjectBase;
+  static createObject(typeName : string) : VidiunObjectBase;
+  static createObject(type : any) : VidiunObjectBase
   {
     let typeName = '';
 
-    if (type instanceof KalturaObjectBase)
+    if (type instanceof VidiunObjectBase)
     {
       typeName = type.getTypeName();
     }else if(typeof type === 'string')
@@ -42,16 +42,16 @@ export class KalturaObjectBaseFactory {
       typeName = type;
     }
 
-    const factory : KalturaObjectClass = typeName ? typesMappingStorage[typeName] : null;
+    const factory : VidiunObjectClass = typeName ? typesMappingStorage[typeName] : null;
     return factory ? new factory() : null;
   }
 }
 
-export abstract class KalturaObjectBase {
+export abstract class VidiunObjectBase {
 
   private _allowedEmptyArray: string[] = [];
   private _dependentProperties : { [key : string] : DependentProperty} = {};
-  relatedObjects : KalturaObjectBase[]; // see developer notice in method '_getMetadata()'
+  relatedObjects : VidiunObjectBase[]; // see developer notice in method '_getMetadata()'
 
 
   allowEmptyArray(... properties: string[]): this {
@@ -92,13 +92,13 @@ export abstract class KalturaObjectBase {
     return this._getMetadata().properties['objectType'].default;
   }
 
-  protected _getMetadata() : KalturaObjectMetadata
+  protected _getMetadata() : VidiunObjectMetadata
   {
-    // DEVELOPER NOTICE: according to the server schema, property 'relatedObjects' should have be of type 'KalturaListResponse'.
-    // this is not an option as it created circle reference where KalturaListResponse > KalturaObjectBase > KalturaListResponse.
-    // Hence, we cannot set the type explicitly and we need to expose the default type 'KalturaObjectBase'
+    // DEVELOPER NOTICE: according to the server schema, property 'relatedObjects' should have be of type 'VidiunListResponse'.
+    // this is not an option as it created circle reference where VidiunListResponse > VidiunObjectBase > VidiunListResponse.
+    // Hence, we cannot set the type explicitly and we need to expose the default type 'VidiunObjectBase'
     return { properties : {
-      relatedObjects: { type: 'a', readOnly: true, subTypeConstructor : null, subType : 'KalturaListResponse'},
+      relatedObjects: { type: 'a', readOnly: true, subTypeConstructor : null, subType : 'VidiunListResponse'},
     }};
   }
 
@@ -131,7 +131,7 @@ export abstract class KalturaObjectBase {
       });
     }catch(err)
     {
-      // TODO [kaltura] should use logHandler
+      // TODO [vidiun] should use logHandler
       logger.warn(err.message);
       throw err;
     }
@@ -155,7 +155,7 @@ export abstract class KalturaObjectBase {
       });
     }catch(err)
     {
-      // TODO [kaltura] should use logHandler
+      // TODO [vidiun] should use logHandler
       logger.warn(err.message);
       throw err;
     }
@@ -165,7 +165,7 @@ export abstract class KalturaObjectBase {
 
 
 
-  protected _parseResponseProperty(propertyName : string, property : KalturaObjectPropertyMetadata, source : any) : any {
+  protected _parseResponseProperty(propertyName : string, property : VidiunObjectPropertyMetadata, source : any) : any {
 
     let result;
     let sourceValue = propertyName ? source[propertyName] : source;
@@ -199,16 +199,16 @@ export abstract class KalturaObjectBase {
 
             if (propertyObjectType)
             {
-              result = this._createKalturaObject(propertyObjectType, property.subType);
+              result = this._createVidiunObject(propertyObjectType, property.subType);
 
               if (result) {
                 result.fromResponseObject(sourceValue);
               } else {
-                throw new Error(`Failed to create kaltura object of type '${source['objectType']}' (fallback type '${property.subType}')`);
+                throw new Error(`Failed to create vidiun object of type '${source['objectType']}' (fallback type '${property.subType}')`);
               }
             }else
             {
-              throw new Error(`Failed to create kaltura object for property '${propertyName}' (type '${property.subType}'). provided response object is missing property 'objectType'.`);
+              throw new Error(`Failed to create vidiun object for property '${propertyName}' (type '${property.subType}'). provided response object is missing property 'objectType'.`);
             }
 
             break;
@@ -218,13 +218,13 @@ export abstract class KalturaObjectBase {
               Object.keys(sourceValue).forEach(itemKey =>
               {
                 const itemValue = sourceValue[itemKey];
-                const newItem =  this._createKalturaObject(itemValue['objectType'], property.subType);
+                const newItem =  this._createVidiunObject(itemValue['objectType'], property.subType);
 
                 if (itemValue && newItem) {
                   newItem.fromResponseObject(itemValue);
                   parsedMap[itemKey] = newItem;
                 } else {
-                  throw new Error(`Failed to create kaltura object for type '${property.subType}'`);
+                  throw new Error(`Failed to create vidiun object for type '${property.subType}'`);
                 }
 
               });
@@ -238,13 +238,13 @@ export abstract class KalturaObjectBase {
             if (sourceValue instanceof Array) {
               const parsedArray = [];
               sourceValue.forEach(responseItem => {
-                const newItem = this._createKalturaObject(responseItem['objectType'], property.subType);
+                const newItem = this._createVidiunObject(responseItem['objectType'], property.subType);
 
                 if (newItem) {
                   newItem.fromResponseObject(responseItem);
                   parsedArray.push(newItem);
                 } else {
-                  throw new Error(`Failed to create kaltura object for type '${responseItem['objectType']}' and for fallback type '${property.subType}'`);
+                  throw new Error(`Failed to create vidiun object for type '${responseItem['objectType']}' and for fallback type '${property.subType}'`);
                 }
               });
 
@@ -255,7 +255,7 @@ export abstract class KalturaObjectBase {
             break;
           case 'd': // date
             if (this._isNumeric(sourceValue)) {
-              result = KalturaClientUtils.fromServerDate(sourceValue*1)
+              result = VidiunClientUtils.fromServerDate(sourceValue*1)
             }else {
               throw new Error(`failed to parse property '${propertyName}. Expected type date, got type '${typeof sourceValue}`);
             }
@@ -274,33 +274,33 @@ export abstract class KalturaObjectBase {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
 
-  private _createKalturaObject(objectType : string, fallbackObjectType? : string) : KalturaObjectBase
+  private _createVidiunObject(objectType : string, fallbackObjectType? : string) : VidiunObjectBase
   {
     let result = null;
     let usedFallbackType = false;
     if (objectType)
     {
-      result = KalturaObjectBaseFactory.createObject(objectType);
+      result = VidiunObjectBaseFactory.createObject(objectType);
     }
 
     if (!result && fallbackObjectType)
     {
       usedFallbackType = true;
-      result = KalturaObjectBaseFactory.createObject(fallbackObjectType);
+      result = VidiunObjectBaseFactory.createObject(fallbackObjectType);
     }
 
     if (usedFallbackType && result)
     {
-      logger.warn(`[kaltura-client]: Could not find object type '${objectType}', Falling back to '${fallbackObjectType}' object type. (Did you remember to set your accepted object types in the request “config.acceptedTypes” attribute?)`);
+      logger.warn(`[vidiun-client]: Could not find object type '${objectType}', Falling back to '${fallbackObjectType}' object type. (Did you remember to set your accepted object types in the request “config.acceptedTypes” attribute?)`);
     }else if (!result)
     {
-      logger.warn(`[kaltura-client]: Could not find object type '${objectType}'. (Did you remember to set your accepted object types in the request “config.acceptedTypes” attribute?)`);
+      logger.warn(`[vidiun-client]: Could not find object type '${objectType}'. (Did you remember to set your accepted object types in the request “config.acceptedTypes” attribute?)`);
     }
 
     return result;
   }
 
-  private _createRequestPropertyValue(propertyName : string, property : KalturaObjectPropertyMetadata) : { status : 'missing' | 'removed' | 'exists', value? : any } {
+  private _createRequestPropertyValue(propertyName : string, property : VidiunObjectPropertyMetadata) : { status : 'missing' | 'removed' | 'exists', value? : any } {
 
     let result : { status : 'missing' | 'removed' | 'exists', value? : any } = { status : 'missing'};
 
@@ -336,11 +336,11 @@ export abstract class KalturaObjectBase {
               result = { status : 'exists', value : value * 1};
               break;
             case 'o': // object
-              if (value instanceof KalturaObjectBase) {
+              if (value instanceof VidiunObjectBase) {
                 result = { status : 'exists', value : value.toRequestObject()};
               }else
               {
-                throw new Error(`failed to parse property. Expected '${propertyName} to be kaltura object`);
+                throw new Error(`failed to parse property. Expected '${propertyName} to be vidiun object`);
               }
               break;
             case 'a': // array
@@ -348,7 +348,7 @@ export abstract class KalturaObjectBase {
                 const parsedArray = [];
                 value.forEach(item =>
                 {
-                  if (item instanceof KalturaObjectBase)
+                  if (item instanceof VidiunObjectBase)
                   {
                     parsedArray.push(item.toRequestObject());
                   }
@@ -359,7 +359,7 @@ export abstract class KalturaObjectBase {
                   if (parsedArray.length === value.length) {
                     result = {status: 'exists', value: parsedArray};
                   } else {
-                    throw new Error(`failed to parse array. Expected all '${propertyName} items to be kaltura object`);
+                    throw new Error(`failed to parse array. Expected all '${propertyName} items to be vidiun object`);
                   }
                 }
               }else
@@ -375,7 +375,7 @@ export abstract class KalturaObjectBase {
                   const parsedObject = {};
                   valueKeys.forEach(itemKey => {
                     var itemValue = value[itemKey];
-                    if (itemValue instanceof KalturaObjectBase) {
+                    if (itemValue instanceof VidiunObjectBase) {
                       parsedObject[itemKey] = itemValue.toRequestObject();
                     }
 
@@ -384,17 +384,17 @@ export abstract class KalturaObjectBase {
                   if (valueKeys.length === Object.keys(parsedObject).length) {
                     result = {status: 'exists', value: parsedObject};
                   } else {
-                    throw new Error(`failed to parse map. Expected all '${propertyName} items to be kaltura object`);
+                    throw new Error(`failed to parse map. Expected all '${propertyName} items to be vidiun object`);
                   }
                 }
               }else
               {
-                throw new Error(`failed to parse property. Expected '${propertyName} to be kaltura object`);
+                throw new Error(`failed to parse property. Expected '${propertyName} to be vidiun object`);
               }
               break;
             case 'd': // date
               if (value instanceof Date) {
-                result = { status : 'exists', value : KalturaClientUtils.toServerDate(value)};
+                result = { status : 'exists', value : VidiunClientUtils.toServerDate(value)};
               }else {
                 throw new Error(`failed to parse property. Expected '${propertyName} to be date`);
               }

@@ -1,17 +1,17 @@
-import { KalturaMultiRequest } from '../api/kaltura-multi-request';
-import { KalturaMultiResponse } from '../api/kaltura-multi-response';
+import { VidiunMultiRequest } from '../api/vidiun-multi-request';
+import { VidiunMultiResponse } from '../api/vidiun-multi-response';
 import { createCancelableAction, createEndpoint, getHeaders, prepareParameters } from './utils';
-import { KalturaAPIException } from '../api/kaltura-api-exception';
-import { KalturaClientException } from '../api/kaltura-client-exception';
-import { KalturaRequestOptions } from '../api/kaltura-request-options';
-import { KalturaClientOptions } from '../kaltura-client-options';
+import { VidiunAPIException } from '../api/vidiun-api-exception';
+import { VidiunClientException } from '../api/vidiun-client-exception';
+import { VidiunRequestOptions } from '../api/vidiun-request-options';
+import { VidiunClientOptions } from '../vidiun-client-options';
 import { CancelableAction } from '../cancelable-action';
 
-export class KalturaMultiRequestAdapter {
+export class VidiunMultiRequestAdapter {
     constructor() {
     }
 
-    transmit(request: KalturaMultiRequest, clientOptions: KalturaClientOptions, defaultRequestOptions: KalturaRequestOptions): CancelableAction<KalturaMultiResponse> {
+    transmit(request: VidiunMultiRequest, clientOptions: VidiunClientOptions, defaultRequestOptions: VidiunRequestOptions): CancelableAction<VidiunMultiResponse> {
 
         const body = prepareParameters(request, clientOptions, defaultRequestOptions);
 
@@ -19,22 +19,22 @@ export class KalturaMultiRequestAdapter {
         delete body['service'];
         delete body['action'];
 
-        return <any>(createCancelableAction<KalturaMultiResponse>({endpoint, headers: getHeaders(), body})
+        return <any>(createCancelableAction<VidiunMultiResponse>({endpoint, headers: getHeaders(), body})
             .then(result => {
                     try {
                         return request.handleResponse(result);
                     } catch (error) {
-                        if (error instanceof KalturaClientException || error instanceof KalturaAPIException) {
+                        if (error instanceof VidiunClientException || error instanceof VidiunAPIException) {
                             throw error;
                         } else {
                             const errorMessage = error instanceof Error ? error.message : typeof error === 'string' ? error : null;
-                            throw new KalturaClientException('client::multi-response-unknown-error', errorMessage || 'Failed to parse response');
+                            throw new VidiunClientException('client::multi-response-unknown-error', errorMessage || 'Failed to parse response');
                         }
                     }
                 },
                 error => {
                     const errorMessage = error instanceof Error ? error.message : typeof error === 'string' ? error : null;
-                    throw new KalturaClientException("client::multi-request-network-error", errorMessage || 'Error connecting to server');
+                    throw new VidiunClientException("client::multi-request-network-error", errorMessage || 'Error connecting to server');
                 }));
     }
 }

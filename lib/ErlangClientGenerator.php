@@ -22,37 +22,37 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
     	$this->writeTypes();
     	
     	$this->startNewTextBlock();
-		$this->appendLine('-include_lib("kaltura_client_types.hrl").');
+		$this->appendLine('-include_lib("vidiun_client_types.hrl").');
 		$this->appendLine();
 		
 		$this->appendLine('-type void() :: void.');
 		$this->appendLine();
 		
-		$this->appendLine('-record(kaltura_error, {');
+		$this->appendLine('-record(vidiun_error, {');
 		$this->appendLine('	code = null :: string(),');
 		$this->appendLine('	message = null :: string(),');
 		$this->appendLine('	args = [] :: list()');
 		$this->appendLine('}).');
 		$this->appendLine();
 		
-		$this->appendLine('-record(kaltura_configuration, {');
-		$this->appendLine('	url = "http://www.kaltura.com/api_v3" :: string(),');
+		$this->appendLine('-record(vidiun_configuration, {');
+		$this->appendLine('	url = "http://www.vidiun.com/api_v3" :: string(),');
 		$this->appendLine('	client_options = [{verbose, false}] :: httpc:options(),');
 		$this->appendLine('	request_options = [{timeout, 90000}] :: httpc:http_options()');
 		$this->appendLine('}).');
 		$this->appendLine();
 		
-		$this->appendLine('-record(kaltura_request, {');
+		$this->appendLine('-record(vidiun_request, {');
 		$configurationNodes = $xpath->query("/xml/configurations/*");
 	    $this->writeRequestProperties($configurationNodes);
 		$this->appendLine('}).');
 		$this->appendLine();
 				
-		$this->appendLine('kaltura_request_to_proplist(#kaltura_request{} = Rec) ->');
-		$this->appendLine('	lists:zip(record_info(fields, kaltura_request), tl(tuple_to_list(Rec))).');
+		$this->appendLine('vidiun_request_to_proplist(#vidiun_request{} = Rec) ->');
+		$this->appendLine('	lists:zip(record_info(fields, vidiun_request), tl(tuple_to_list(Rec))).');
 		$this->appendLine();
 		
-    	$this->addFile("src/kaltura_client.hrl", $this->getTextBlock());
+    	$this->addFile("src/vidiun_client.hrl", $this->getTextBlock());
 		
 		$serviceNodes = $xpath->query("/xml/services/service");
 		foreach($serviceNodes as $serviceNode)
@@ -75,7 +75,7 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
 		}
 		$this->appendLine();
     	
-		$this->appendLine("-record(kaltura_object_base, {");
+		$this->appendLine("-record(vidiun_object_base, {");
 		$this->appendLine("}).");
 		$this->appendLine();
 		
@@ -91,7 +91,7 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
 			$isFirst = false;
 		}
 		$this->appendLine('.');
-    	$this->addFile("src/kaltura_client_types.hrl", $this->getTextBlock());
+    	$this->addFile("src/vidiun_client_types.hrl", $this->getTextBlock());
 	}
 	
 	function writeEnum(DOMElement $enumNode)
@@ -157,7 +157,7 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
 				
 			default:
 				$returnType = $this->camelCaseToUnderscoreAndLower($type);
-				if(!$enumType && preg_match('/^Kaltura/', $type))
+				if(!$enumType && preg_match('/^Vidiun/', $type))
 					return "#{$returnType}{}";
 				
 				return "{$returnType}()";
@@ -260,11 +260,11 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
 		{
 			$this->appendLine("% Type $type");
 		}
-		$this->appendLine("kaltura_object_to_proplist(#$erlangName{} = Rec) ->");
+		$this->appendLine("vidiun_object_to_proplist(#$erlangName{} = Rec) ->");
 		$this->append("	lists:zip(record_info(fields, $erlangName), tl(tuple_to_list(Rec)))");
 	}
 	
-	function writeService(DOMElement $serviceNode, $serviceName = null, $serviceId = null, $actionPrefix = "", $extends = "KalturaServiceBase")
+	function writeService(DOMElement $serviceNode, $serviceName = null, $serviceId = null, $actionPrefix = "", $extends = "VidiunServiceBase")
 	{
 		$serviceId = $serviceId ? $serviceId : $serviceNode->getAttribute("id");
 		if(!$this->shouldIncludeService($serviceId))
@@ -274,7 +274,7 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
     	
 		$serviceName = $serviceName ? $serviceName : $serviceNode->getAttribute("name");
 		
-		$serviceClassName = "kaltura_" . $this->camelCaseToUnderscoreAndLower($serviceName) . "_service";
+		$serviceClassName = "vidiun_" . $this->camelCaseToUnderscoreAndLower($serviceName) . "_service";
 		$this->appendLine();
 		
 		if($this->generateDocs)
@@ -294,7 +294,7 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
             $this->writeActionExport($actionNode);
 		}
 		
-		$this->appendLine('-include_lib("src/kaltura_client.hrl").');
+		$this->appendLine('-include_lib("src/vidiun_client.hrl").');
 		$this->appendLine();
 		
 		$actionNodes = $serviceNode->getElementsByTagName("action");
@@ -404,11 +404,11 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
 			if(count($params))
 			{
 				$arguments = $this->getSpecSignature($params);
-				$this->append("-spec $actionName(ClientConfiguration::#kaltura_configuration{}, ClientRequest::#kaltura_request{}, $arguments)");
+				$this->append("-spec $actionName(ClientConfiguration::#vidiun_configuration{}, ClientRequest::#vidiun_request{}, $arguments)");
 			}
 			else
 			{
-				$this->append("-spec $actionName(ClientConfiguration::#kaltura_configuration{}, ClientRequest::#kaltura_request{})");
+				$this->append("-spec $actionName(ClientConfiguration::#vidiun_configuration{}, ClientRequest::#vidiun_request{})");
 			}
 			if($resultType)
 			{
@@ -431,11 +431,11 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
 		if(count($params))
 		{
 			$arguments = $this->getSpecSignature($params);
-			$this->append("-spec $actionName(ClientConfiguration::#kaltura_configuration{}, ClientRequest::#kaltura_request{}, $arguments)");
+			$this->append("-spec $actionName(ClientConfiguration::#vidiun_configuration{}, ClientRequest::#vidiun_request{}, $arguments)");
 		}
 		else
 		{
-			$this->append("-spec $actionName(ClientConfiguration::#kaltura_configuration{}, ClientRequest::#kaltura_request{})");
+			$this->append("-spec $actionName(ClientConfiguration::#vidiun_configuration{}, ClientRequest::#vidiun_request{})");
 		}
 		if($resultType)
 		{
@@ -472,11 +472,11 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
 			{
 				$arguments = $this->getSignature($params);
 				$callArguments .= $this->getCallSignature($params) . ', ';
-				$this->append("$actionName(#kaltura_configuration{}=ClientConfiguration, #kaltura_request{}=ClientRequest, $arguments)");
+				$this->append("$actionName(#vidiun_configuration{}=ClientConfiguration, #vidiun_request{}=ClientRequest, $arguments)");
 			}
 			else
 			{
-				$this->append("$actionName(#kaltura_configuration{}=ClientConfiguration, #kaltura_request{}=ClientRequest)");
+				$this->append("$actionName(#vidiun_configuration{}=ClientConfiguration, #vidiun_request{}=ClientRequest)");
 			}
 			$this->appendLine(" -> ");
 			
@@ -492,11 +492,11 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
 		if(count($params))
 		{
 			$arguments = $this->getSignature($params);
-			$this->appendLine("$actionName(#kaltura_configuration{}=ClientConfiguration, #kaltura_request{}=ClientRequest, $arguments) ->");
+			$this->appendLine("$actionName(#vidiun_configuration{}=ClientConfiguration, #vidiun_request{}=ClientRequest, $arguments) ->");
 		}
 		else
 		{
-			$this->appendLine("$actionName(#kaltura_configuration{}=ClientConfiguration, #kaltura_request{}=ClientRequest) ->");
+			$this->appendLine("$actionName(#vidiun_configuration{}=ClientConfiguration, #vidiun_request{}=ClientRequest) ->");
 		}
 		$paramsCounter = 1;
 		$this->appendLine("	Params{$paramsCounter} = [");
@@ -509,14 +509,14 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
 			$nextParamsCounter = $paramsCounter + 1;
 			$restName = $paramNode->getAttribute("name");
 			$paramName = ucfirst($this->getErlangPropetryName($restName));
-			$this->appendLine("	Params{$nextParamsCounter} = kaltura_client:add_params(Params{$paramsCounter}, $restName, $paramName),");
+			$this->appendLine("	Params{$nextParamsCounter} = vidiun_client:add_params(Params{$paramsCounter}, $restName, $paramName),");
 			$paramsCounter = $nextParamsCounter;
 		}
 		$this->appendLine();
 		
 		if($resultType)
 		{
-			$this->appendLine("	Results = kaltura_client:request(ClientConfiguration, ClientRequest, Params{$paramsCounter}),");
+			$this->appendLine("	Results = vidiun_client:request(ClientConfiguration, ClientRequest, Params{$paramsCounter}),");
 			if($resultType[0] == '#')
 			{
 				$recordName = preg_replace(array('/^#/', '/\{\}$/'), array('', ''), $resultType);
@@ -529,7 +529,7 @@ class ErlangClientGenerator extends ClientGeneratorFromXml
 		}
 		else
 		{
-			$this->appendLine("	kaltura_client:request(ClientConfiguration, ClientRequest, Params{$paramsCounter}),");
+			$this->appendLine("	vidiun_client:request(ClientConfiguration, ClientRequest, Params{$paramsCounter}),");
 			$this->appendLine("	void.");
 		}
 	}
