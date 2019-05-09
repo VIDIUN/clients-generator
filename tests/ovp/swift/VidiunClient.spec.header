@@ -1,0 +1,10 @@
+Pod::Spec.new do |s|
+s.name             = 'VidiunClient'
+s.version          = '@VERSION@'
+s.summary          = 'VidiunClient.'
+s.homepage         = 'https://github.com/vidiun/clients-generator/tree/master/sources/swift'
+s.license          = { :type => 'AGPLv3', :text => 'AGPLv3' }
+s.author           = { 'Vidiun' => 'community@vidiun.com' }
+s.source           = { :git => 'https://github.com/vidiun/VidiunGeneratedAPIClientsSwift.git', :tag => s.version.to_s }
+s.ios.deployment_target = '8.0'
+s.source_files = 'VidiunClient/Classes/**/*'
