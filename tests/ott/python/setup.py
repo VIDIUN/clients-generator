@@ -25,8 +25,8 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
-    keywords='Kaltura OTT API client',
-    description='A Python module for accessing the Kaltura OTT API.',
+    keywords='Vidiun OTT API client',
+    description='A Python module for accessing the Vidiun OTT API.',
     long_description=long_description,
     long_description_content_type="text/plain"
 )

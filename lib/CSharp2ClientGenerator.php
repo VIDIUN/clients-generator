@@ -888,13 +888,13 @@ class CSharp2ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine();
 		$this->appendLine("		public override Files getFiles()");
 		$this->appendLine("		{");
-        $this->appendLine("			Files kfiles = base.getFiles();");
+        $this->appendLine("			Files vfiles = base.getFiles();");
 		foreach($params as $param => $isFile)
 		{
 			if($isFile)
 			{
 				$paramName = ucfirst($param);
-				$this->appendLine("			kfiles.Add(\"$param\", new FileData($paramName, {$paramName}_FileName));");
+				$this->appendLine("			vfiles.Add(\"$param\", new FileData($paramName, {$paramName}_FileName));");
 			}
 		}
 		$this->appendLine("			return vfiles;");

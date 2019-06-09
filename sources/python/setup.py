@@ -25,8 +25,8 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
-    keywords='Kaltura API client',
-    description='A Python module for accessing the Kaltura API.',
+    keywords='Vidiun API client',
+    description='A Python module for accessing the Vidiun API.',
     long_description=long_description,
     long_description_content_type="text/plain"
 )

@@ -139,7 +139,7 @@ class Configuration {
  * Vidiun client constructor
  * 
  */
-class ClientBase extends kaltura.RequestData {
+class ClientBase extends vidiun.RequestData {
 
 	/**
 	 * @param Configuration config
@@ -314,7 +314,7 @@ class RequestBuilder extends vidiun.VolatileRequestData {
 					if (header === 'x-me') {
 						serverId = response.headers[header];
 					}
-					else if (header === 'x-kaltura-session') {
+					else if (header === 'x-vidiun-session') {
 						sessionId = response.headers[header];
 					}
 				}
