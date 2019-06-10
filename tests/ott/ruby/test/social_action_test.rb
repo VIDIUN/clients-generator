@@ -1,12 +1,12 @@
 require 'test_helper'
-require 'Kaltura'
+require 'Vidiun'
 
 class SocialActionTest < Test::Unit::TestCase
   
   # this test validates the session id 
   should "add social action" do
     
-    social_action = Kaltura::KalturaSocialAction.new
+    social_action = Vidiun::VidiunSocialAction.new
     social_action.action_type = 'LIKE'
     social_action.time = Time.now.to_i
     social_action.asset_id = @media_asset_id
@@ -21,7 +21,7 @@ class SocialActionTest < Test::Unit::TestCase
 
   should "delete social action" do
   
-    social_action_filter = Kaltura::KalturaSocialActionFilter.new
+    social_action_filter = Vidiun::VidiunSocialActionFilter.new
     social_action_filter.asset_id_in = @media_asset_id
     social_action_filter.asset_type_equal = 'media'
     social_action_filter.action_type_in = 'LIKE'
@@ -39,7 +39,7 @@ class SocialActionTest < Test::Unit::TestCase
     begin
 		@client.social_action_service.delete("kishkush")
 		raise "Expected error"
-	rescue Kaltura::KalturaAPIError => e
+	rescue Vidiun::VidiunAPIError => e
 		assert_equal "7016", e.code # SocialActionIdDoseNotExists
 	end
 

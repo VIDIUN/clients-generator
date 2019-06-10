@@ -1,23 +1,23 @@
 
-var config = new KalturaConfiguration();
+var config = new VidiunConfiguration();
 config.serviceUrl = serviceUrl;
-config.setLogger(new IKalturaLogger());
+config.setLogger(new IVidiunLogger());
 
-var client = new KalturaClient(config);
+var client = new VidiunClient(config);
 
 describe("Start session", function() {
-    describe("User KS", function() {
+    describe("User VS", function() {
     	var userId = null;
-    	var type = 0; // KalturaSessionType.USER
+    	var type = 0; // VidiunSessionType.USER
     	var expiry = null;
     	var privileges = null;
 
     	it('not null', function(done) {
-    		KalturaSessionService.start(secret, userId, type, partnerId, expiry, privileges)
-        	.completion(function(success, ks) {
+    		VidiunSessionService.start(secret, userId, type, partnerId, expiry, privileges)
+        	.completion(function(success, vs) {
         		expect(success).toBe(true);
-        		expect(ks).not.toBe(null);
-        		client.setKs(ks);
+        		expect(vs).not.toBe(null);
+        		client.setVs(vs);
         		done();
         	})
         	.execute(client);
@@ -30,7 +30,7 @@ describe("media", function() {
     describe("upload", function() {
 
     	var entry = {
-    		mediaType: 1, // KalturaMediaType.VIDEO
+    		mediaType: 1, // VidiunMediaType.VIDEO
     		name: 'test'
     	};
 
@@ -40,12 +40,12 @@ describe("media", function() {
     	var createdUploadToken;
     	
     	it('create entry', function(done) {
-    		KalturaMediaService.add(entry)
+    		VidiunMediaService.add(entry)
     		.completion(function(success, entry) {
         		expect(success).toBe(true);
         		expect(entry).not.toBe(null);
         		expect(entry.id).not.toBe(null);
-        		expect(entry.status.toString()).toBe('7'); // KalturaEntryStatus.NO_CONTENT
+        		expect(entry.status.toString()).toBe('7'); // VidiunEntryStatus.NO_CONTENT
 
         		createdEntry = entry;
         		done();
@@ -54,12 +54,12 @@ describe("media", function() {
         });
         
     	it('create upload-token', function(done) {
-    		KalturaUploadTokenService.add(uploadToken)
+    		VidiunUploadTokenService.add(uploadToken)
     		.completion(function(success, uploadToken) {
         		expect(success).toBe(true);
         		expect(uploadToken).not.toBe(null);
         		expect(uploadToken.id).not.toBe(null);
-        		expect(uploadToken.status).toBe(0); // KalturaUploadTokenStatus.PENDING
+        		expect(uploadToken.status).toBe(0); // VidiunUploadTokenStatus.PENDING
 
         		createdUploadToken = uploadToken;
         		done();
@@ -69,14 +69,14 @@ describe("media", function() {
         
     	it('add content', function(done) {
     		var mediaResource = {
-    			objectType: 'KalturaUploadedFileTokenResource',
+    			objectType: 'VidiunUploadedFileTokenResource',
     			token: createdUploadToken.id
         	};
     		
-    		KalturaMediaService.addContent(createdEntry.id, mediaResource)
+    		VidiunMediaService.addContent(createdEntry.id, mediaResource)
     		.completion(function(success, entry) {
         		expect(success).toBe(true);
-        		expect(entry.status.toString()).toBe('0'); // KalturaEntryStatus.IMPORT
+        		expect(entry.status.toString()).toBe('0'); // VidiunEntryStatus.IMPORT
 
         		done();
     		})
@@ -86,13 +86,13 @@ describe("media", function() {
 //    	Karma doesn't support creating <input type=file> 
 //    	it('upload file', function(done) {
 //    		var filename = './DemoVideo.mp4';
-//    		KalturaUploadTokenService.upload(createdUploadToken.id, filename)
+//    		VidiunUploadTokenService.upload(createdUploadToken.id, filename)
 //    		.completion(function(success, uploadToken) {
 //        		expect(success).toBe(true);
 //        		expect(uploadToken).not.toBe(null);
 //        		expect(uploadToken.id).not.toBe(null);
 //        		expect(uploadToken.fileSize).toBeGreaterThan(0);
-//        		expect(uploadToken.status).toBe(3); // KalturaUploadTokenStatus.CLOSED
+//        		expect(uploadToken.status).toBe(3); // VidiunUploadTokenStatus.CLOSED
 //
 //        		createdUploadToken = uploadToken;
 //        		done();

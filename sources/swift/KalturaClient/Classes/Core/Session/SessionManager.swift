@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2017  Kaltura Inc.
+// Copyright (C) 2006-2017  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -28,7 +28,7 @@
 
 /**
  * This class was generated using exec.php
- * against an XML schema provided by Kaltura.
+ * against an XML schema provided by Vidiun.
  *
  * MANUAL CHANGES TO THIS CLASS WILL BE OVERWRITTEN.
  */
@@ -36,21 +36,21 @@
 @objc public class SessionManager: NSObject {
     
     public enum SessionManagerError: Error{
-        case failedToGetKS
+        case failedToGetVS
         case failedToGetLoginResponse
-        case failedToRefreshKS
+        case failedToRefreshVS
         case failedToBuildRefreshRequest
         case invalidRefreshCallResponse
         case noRefreshTokenOrTokenToRefresh
         case failedToParseResponse
-        case ksExpired
+        case vsExpired
     }
     
     @objc public var partnerId: Int
     
     private var executor: RequestExecutor
     
-    private var ks: String? = nil
+    private var vs: String? = nil
     private var tokenExpiration: Date?
 
     private var username: String?
@@ -80,37 +80,37 @@
         self.init(client: client, partnerId: partnerId, executor: executor)
     }
     
-    public func loadKS(completion: @escaping (String?, Error?) -> Void){
-        if let ks = self.ks, self.tokenExpiration?.compare(Date()) == ComparisonResult.orderedDescending {
-                completion(ks, nil)
+    public func loadVS(completion: @escaping (String?, Error?) -> Void){
+        if let vs = self.vs, self.tokenExpiration?.compare(Date()) == ComparisonResult.orderedDescending {
+                completion(vs, nil)
         } else {
             
-            self.ks = nil
+            self.vs = nil
             if let username = self.username,
                 let password = self.password {
                 
                 self.startSession(username: username,
                                   password: password, completion: { (e:Error?) in
-                                    self.ensureKSAfterRefresh(e: e, completion: completion)
+                                    self.ensureVSAfterRefresh(e: e, completion: completion)
                 })
             }
             else {
                 
                 self.startAnonymousSession(completion: { (e:Error?) in
-                    self.ensureKSAfterRefresh(e: e, completion: completion)
+                    self.ensureVSAfterRefresh(e: e, completion: completion)
                 })
             }
         }
     }
     
     
-    func ensureKSAfterRefresh(e:Error?,completion: @escaping (String?, Error?) -> Void) -> Void {
-        if let ks = self.ks {
-            completion(ks, nil)
+    func ensureVSAfterRefresh(e:Error?,completion: @escaping (String?, Error?) -> Void) -> Void {
+        if let vs = self.vs {
+            completion(vs, nil)
         } else if let error = e {
             completion(nil, error)
         } else {
-            completion(nil, SessionManagerError.ksExpired)
+            completion(nil, SessionManagerError.vsExpired)
         }
     }
     
@@ -124,12 +124,12 @@
 //                    do {
 //                        result = try OVPResponseParser.parse(data:data)
 //                        if let widgetSession = result as? OVPStartWidgetSessionResponse {
-//                            self.ks = widgetSession.ks
+//                            self.vs = widgetSession.vs
 //                            self.tokenExpiration = Date(timeIntervalSinceNow:self.defaultSessionExpiry )
 //                            completion(nil)
 //                            
 //                        }else{
-//                            completion(SessionManagerError.failedToGetKS)
+//                            completion(SessionManagerError.failedToGetVS)
 //                        }
 //                        
 //                    }catch{
@@ -171,8 +171,8 @@
 //                            return
 //                        }
 //                        
-//                        let sessionInfo = OVPKalturaSessionInfo(json: arrayResult[1])
-//                        self.ks = arrayResult[0] as? String
+//                        let sessionInfo = OVPVidiunSessionInfo(json: arrayResult[1])
+//                        self.vs = arrayResult[0] as? String
 //                        self.tokenExpiration = sessionInfo?.expiry
 //                        completion(nil)
 //                    

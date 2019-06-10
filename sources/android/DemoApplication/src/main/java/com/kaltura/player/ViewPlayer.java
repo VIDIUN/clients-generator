@@ -1,7 +1,7 @@
-package com.kaltura.player;
+package com.vidiun.player;
 
 import java.util.ArrayList;
-import com.kaltura.client.types.KalturaWidevineFlavorAsset;
+import com.vidiun.client.types.VidiunWidevineFlavorAsset;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -28,12 +28,12 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.kaltura.activity.R;
-import com.kaltura.boxAdapter.BoxAdapterRate;
-import com.kaltura.client.types.KalturaFlavorAsset;
-import com.kaltura.services.AdminUser;
-import com.kaltura.utils.Utils;
-import com.kaltura.widevine.WidevineHandler;
+import com.vidiun.activity.R;
+import com.vidiun.boxAdapter.BoxAdapterRate;
+import com.vidiun.client.types.VidiunFlavorAsset;
+import com.vidiun.services.AdminUser;
+import com.vidiun.utils.Utils;
+import com.vidiun.widevine.WidevineHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -311,11 +311,11 @@ public class ViewPlayer implements Observer, OnClickListener, SeekBar.OnSeekBarC
     /**
      * Passed a list to display the bitrates
      */
-    public void addListRates(List<KalturaFlavorAsset> listRates) {
+    public void addListRates(List<VidiunFlavorAsset> listRates) {
         if (listRates != null) {
             boxAdapterRate = new BoxAdapterRate(activity, listRates, R.drawable.background_selected_rate);
         } else {
-            listRates = new ArrayList<KalturaFlavorAsset>();
+            listRates = new ArrayList<VidiunFlavorAsset>();
             boxAdapterRate = new BoxAdapterRate(activity, listRates, R.drawable.background_selected_rate);
         }
         boxAdapterRate.setVisiblityHighlight(true);
@@ -441,7 +441,7 @@ public class ViewPlayer implements Observer, OnClickListener, SeekBar.OnSeekBarC
     }
 
     public void selectBitrate(int position, int state) {
-    	KalturaFlavorAsset flavor = boxAdapterRate.getFlavor(position);
+    	VidiunFlavorAsset flavor = boxAdapterRate.getFlavor(position);
         flavorId = flavor.id;
         Log.w(TAG, flavorId);
         tv_rate.setText(boxAdapterRate.getFlavorBitrate(position));
@@ -454,7 +454,7 @@ public class ViewPlayer implements Observer, OnClickListener, SeekBar.OnSeekBarC
         String host = (AdminUser.cdnHost != null ) ? AdminUser.cdnHost : AdminUser.host;
         String appName64 = new String(Base64.encodeBase64(activity.getString(R.string.app_name).getBytes()));
         Log.w(TAG, "versionName: " + VERSION.SDK_INT);
-        if (flavor instanceof KalturaWidevineFlavorAsset) {
+        if (flavor instanceof VidiunWidevineFlavorAsset) {
         	WidevineHandler wvHandler = new WidevineHandler(activity, partnerId, entryId, flavorId);
         	url = wvHandler.url;
         }
@@ -464,7 +464,7 @@ public class ViewPlayer implements Observer, OnClickListener, SeekBar.OnSeekBarC
             } else {
                 url = createLinkForM3u8(partnerId , entryId, boxAdapterRate.getListFlavors());
             }
-            url = host + url + "?ks=" + AdminUser.ks + "&referrer=" + appName64;
+            url = host + url + "?vs=" + AdminUser.vs + "&referrer=" + appName64;
         }
            
         player.setUrl(url);

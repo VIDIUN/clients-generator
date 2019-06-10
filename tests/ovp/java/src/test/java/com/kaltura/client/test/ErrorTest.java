@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,30 +25,30 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.w3c.dom.Element;
 
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.KalturaClient;
-import com.kaltura.client.KalturaConfiguration;
-import com.kaltura.client.KalturaObjectFactory;
-import com.kaltura.client.KalturaParams;
-import com.kaltura.client.types.KalturaMediaEntry;
-import com.kaltura.client.types.KalturaMediaListResponse;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.VidiunClient;
+import com.vidiun.client.VidiunConfiguration;
+import com.vidiun.client.VidiunObjectFactory;
+import com.vidiun.client.VidiunParams;
+import com.vidiun.client.types.VidiunMediaEntry;
+import com.vidiun.client.types.VidiunMediaListResponse;
 
 
 
 public class ErrorTest extends BaseTest {
 
 	public void testInvalidServiceId() {
-		this.kalturaConfig.setEndpoint("http://2.2.2.2");
-		this.kalturaConfig.setTimeout(2000);
+		this.vidiunConfig.setEndpoint("http://2.2.2.2");
+		this.vidiunConfig.setTimeout(2000);
 		
 		try {
-			this.client = new KalturaClient(this.kalturaConfig);
+			this.client = new VidiunClient(this.vidiunConfig);
 			client.getSystemService().ping();
 			fail("Ping to invalid end-point should fail");
 		} catch (Exception e) {
@@ -57,11 +57,11 @@ public class ErrorTest extends BaseTest {
 	}
 	
 	public void testInvalidServerDnsName() {
-		this.kalturaConfig.setEndpoint("http://www.nonexistingkaltura.com");
-		this.kalturaConfig.setTimeout(2000);
+		this.vidiunConfig.setEndpoint("http://www.nonexistingvidiun.com");
+		this.vidiunConfig.setTimeout(2000);
 		
 		try {
-			this.client = new KalturaClient(this.kalturaConfig);
+			this.client = new VidiunClient(this.vidiunConfig);
 			client.getSystemService().ping();
 			fail("Ping to invalid end-point should fail");
 		} catch (Exception e) {
@@ -70,11 +70,11 @@ public class ErrorTest extends BaseTest {
 	}
 	
 	@SuppressWarnings("serial")
-	private class KalturaClientMock extends KalturaClient {
+	private class VidiunClientMock extends VidiunClient {
 		
 		String resultToReturn;
 
-		public KalturaClientMock(KalturaConfiguration config, String res) {
+		public VidiunClientMock(VidiunConfiguration config, String res) {
 			super(config);
 			resultToReturn = res;
 		}
@@ -98,13 +98,13 @@ public class ErrorTest extends BaseTest {
 	/**
 	 * Tests case in which XML format is completely ruined
 	 */
-	public void testXmlParsingError() throws KalturaApiException {
-		KalturaClientMock mockClient = new KalturaClientMock(this.kalturaConfig, "<xml>");
-		mockClient.queueServiceCall("system", "ping", new KalturaParams());
+	public void testXmlParsingError() throws VidiunApiException {
+		VidiunClientMock mockClient = new VidiunClientMock(this.vidiunConfig, "<xml>");
+		mockClient.queueServiceCall("system", "ping", new VidiunParams());
 		try {
 			mockClient.doQueue();
 			fail("Invalid XML response should fail");
-		} catch (KalturaApiException e) {
+		} catch (VidiunApiException e) {
 			assertEquals("Failed while parsing response.", e.getMessage());
 		}
 	}
@@ -112,12 +112,12 @@ public class ErrorTest extends BaseTest {
 	/**
 	 * Tests case in which the response has xml format, but no object type as expected
 	 */
-	public void testTagInSimpleType() throws KalturaApiException {
-		KalturaClientMock mockClient = new KalturaClientMock(this.kalturaConfig, "<xml><result><sometag></sometag></result></xml>");
-		mockClient.queueServiceCall("system", "ping", new KalturaParams());
+	public void testTagInSimpleType() throws VidiunApiException {
+		VidiunClientMock mockClient = new VidiunClientMock(this.vidiunConfig, "<xml><result><sometag></sometag></result></xml>");
+		mockClient.queueServiceCall("system", "ping", new VidiunParams());
 		Element resultXmlElement = mockClient.doQueue();
 		try {
-			KalturaObjectFactory.create(resultXmlElement, null);
+			VidiunObjectFactory.create(resultXmlElement, null);
 			fail("Invalid XML response should fail");
 		} catch (Exception e) {
 			// Expected behavior
@@ -127,80 +127,80 @@ public class ErrorTest extends BaseTest {
 	/**
 	 * Tests case in which the response has xml format, but no object
 	 */
-	public void testEmptyObjectOrException() throws KalturaApiException {
-		KalturaClientMock mockClient = new KalturaClientMock(this.kalturaConfig, "<xml><result></result></xml>");
-		mockClient.queueServiceCall("system", "ping", new KalturaParams());
+	public void testEmptyObjectOrException() throws VidiunApiException {
+		VidiunClientMock mockClient = new VidiunClientMock(this.vidiunConfig, "<xml><result></result></xml>");
+		mockClient.queueServiceCall("system", "ping", new VidiunParams());
 		Element resultXmlElement = mockClient.doQueue();
 		try {
-			KalturaObjectFactory.create(resultXmlElement, null);
+			VidiunObjectFactory.create(resultXmlElement, null);
 			fail("Invalid XML response should fail");
 		} catch (Exception e) {
 			// Expected behavior
 		}
 	}
 	
-	public void testTagInObjectDoesntStartWithType() throws KalturaApiException {
-		KalturaClientMock mockClient = new KalturaClientMock(this.kalturaConfig, "<xml><result><id>1234</id></result></xml>");
-		mockClient.queueServiceCall("system", "ping", new KalturaParams());
+	public void testTagInObjectDoesntStartWithType() throws VidiunApiException {
+		VidiunClientMock mockClient = new VidiunClientMock(this.vidiunConfig, "<xml><result><id>1234</id></result></xml>");
+		mockClient.queueServiceCall("system", "ping", new VidiunParams());
 		Element resultXmlElement = mockClient.doQueue();
 		try {
-			KalturaObjectFactory.create(resultXmlElement, null);
+			VidiunObjectFactory.create(resultXmlElement, null);
 			fail("Invalid XML response should fail");
 		} catch (Exception e) {
 			// Expected behavior
 		}
 	}
 	
-	public void testCharsInsteadOfObject() throws KalturaApiException {
-		KalturaClientMock mockClient = new KalturaClientMock(this.kalturaConfig, "<xml><result>1234</result></xml>");
-		mockClient.queueServiceCall("system", "ping", new KalturaParams());
+	public void testCharsInsteadOfObject() throws VidiunApiException {
+		VidiunClientMock mockClient = new VidiunClientMock(this.vidiunConfig, "<xml><result>1234</result></xml>");
+		mockClient.queueServiceCall("system", "ping", new VidiunParams());
 		Element resultXmlElement = mockClient.doQueue();
 		try {
-			KalturaObjectFactory.create(resultXmlElement, null);
+			VidiunObjectFactory.create(resultXmlElement, null);
 			fail("Invalid XML response should fail");
 		} catch (Exception e) {
 			// Expected behavior
 		}
 	}
 	
-	public void testUnknownObjectType() throws KalturaApiException {
-		KalturaClientMock mockClient = new KalturaClientMock(this.kalturaConfig, "<xml><result><objectType>UnknownObjectType</objectType></result></xml>");
-		mockClient.queueServiceCall("system", "ping", new KalturaParams());
+	public void testUnknownObjectType() throws VidiunApiException {
+		VidiunClientMock mockClient = new VidiunClientMock(this.vidiunConfig, "<xml><result><objectType>UnknownObjectType</objectType></result></xml>");
+		mockClient.queueServiceCall("system", "ping", new VidiunParams());
 		Element resultXmlElement = mockClient.doQueue();
 		try {
-			KalturaObjectFactory.create(resultXmlElement, null);
+			VidiunObjectFactory.create(resultXmlElement, null);
 			fail("Invalid XML response should fail");
 		} catch (Exception e) {
 			assertEquals("Invalid object type", e.getMessage());
 		}
 	}
 	
-	public void testNonKalturaObjectType() throws KalturaApiException {
-		KalturaClientMock mockClient = new KalturaClientMock(this.kalturaConfig, "<xml><result><objectType>NSString</objectType></result></xml>");
-		mockClient.queueServiceCall("system", "ping", new KalturaParams());
+	public void testNonVidiunObjectType() throws VidiunApiException {
+		VidiunClientMock mockClient = new VidiunClientMock(this.vidiunConfig, "<xml><result><objectType>NSString</objectType></result></xml>");
+		mockClient.queueServiceCall("system", "ping", new VidiunParams());
 		Element resultXmlElement = mockClient.doQueue();
 		try {
-			KalturaObjectFactory.create(resultXmlElement, null);
+			VidiunObjectFactory.create(resultXmlElement, null);
 			fail("Invalid XML response should fail");
 		} catch (Exception e) {
 			assertEquals("Invalid object type", e.getMessage());
 		}
 	}
 	
-	public void testArrayOfUknownEntry() throws KalturaApiException {
-		String testXml = "<xml><result><objectType>KalturaMediaListResponse</objectType><objects>" +
+	public void testArrayOfUknownEntry() throws VidiunApiException {
+		String testXml = "<xml><result><objectType>VidiunMediaListResponse</objectType><objects>" +
 				"<item><objectType>NonExistingclass</objectType><id>test1</id><name>test1</name></item>" +
 				"<item><objectType>NonExistingclass</objectType><id>test2</id><name>test2</name></item>" +
 				"</objects><totalCount>2</totalCount></result></xml>";
 		
-		KalturaClientMock mockClient = new KalturaClientMock(this.kalturaConfig, testXml);
-		mockClient.queueServiceCall("system", "ping", new KalturaParams()); // Just since we need something in the queue
+		VidiunClientMock mockClient = new VidiunClientMock(this.vidiunConfig, testXml);
+		mockClient.queueServiceCall("system", "ping", new VidiunParams()); // Just since we need something in the queue
 		Element resultXmlElement = mockClient.doQueue();
 		try {
-			KalturaMediaListResponse res = (KalturaMediaListResponse) KalturaObjectFactory.create(resultXmlElement, null);
+			VidiunMediaListResponse res = (VidiunMediaListResponse) VidiunObjectFactory.create(resultXmlElement, null);
 			assertEquals(2, res.totalCount);
-			KalturaMediaEntry entry1 = res.objects.get(0);
-			KalturaMediaEntry entry2 = res.objects.get(1);
+			VidiunMediaEntry entry1 = res.objects.get(0);
+			VidiunMediaEntry entry2 = res.objects.get(1);
 			assertTrue(entry1.id.equals("test1"));
 			assertTrue(entry1.name.equals("test1"));
 			assertTrue(entry2.id.equals("test2"));

@@ -1,7 +1,7 @@
-package com.kaltura.player;
+package com.vidiun.player;
 
 import java.util.ArrayList;
-import com.kaltura.client.types.WidevineFlavorAsset;
+import com.vidiun.client.types.WidevineFlavorAsset;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -29,13 +29,13 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.kaltura.activity.R;
-import com.kaltura.boxAdapter.BoxAdapterRate;
-import com.kaltura.client.types.FlavorAsset;
-import com.kaltura.services.AdminUser;
-import com.kaltura.utils.ApiHelper;
-import com.kaltura.utils.Utils;
-import com.kaltura.widevine.WidevineHandler;
+import com.vidiun.activity.R;
+import com.vidiun.boxAdapter.BoxAdapterRate;
+import com.vidiun.client.types.FlavorAsset;
+import com.vidiun.services.AdminUser;
+import com.vidiun.utils.ApiHelper;
+import com.vidiun.utils.Utils;
+import com.vidiun.widevine.WidevineHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -470,7 +470,7 @@ public class ViewPlayer implements Observer, OnClickListener, SeekBar.OnSeekBarC
             } else {
                 url = createLinkForM3u8(partnerId , entryId, boxAdapterRate.getListFlavors());
             }
-            url = host + url + "?ks=" + ApiHelper.getClient().getSessionId() + "&referrer=" + appName64;
+            url = host + url + "?vs=" + ApiHelper.getClient().getSessionId() + "&referrer=" + appName64;
         }
            
         player.setUrl(url);

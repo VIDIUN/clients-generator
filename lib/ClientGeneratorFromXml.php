@@ -16,7 +16,7 @@ abstract class ClientGeneratorFromXml
 	protected $generateDocs = false;
 	protected $version = '1.0.0';
 	protected $package = 'External';
-	protected $subpackage = 'Kaltura';
+	protected $subpackage = 'Vidiun';
 	protected $excludeSourcePaths = array();
 	protected $outputPath = null;
 	protected $copyPath = null;
@@ -231,7 +231,7 @@ abstract class ClientGeneratorFromXml
 			$serviceNode = $serviceNodes->item(0);
 			if(!$serviceNode)
 			{
-				KalturaLog::warning("Service [$serviceId] not found");
+				VidiunLog::warning("Service [$serviceId] not found");
 				continue;
 			}
 
@@ -252,11 +252,11 @@ abstract class ClientGeneratorFromXml
 		}
 
 		$alwaysAdd = array(
-				'KalturaApiExceptionArg',
-				'KalturaClientConfiguration',
-        	    'KalturaRequestConfiguration',
-        	    'KalturaListResponse',
-        	    'KalturaResponseType',
+				'VidiunApiExceptionArg',
+				'VidiunClientConfiguration',
+        	    'VidiunRequestConfiguration',
+        	    'VidiunListResponse',
+        	    'VidiunResponseType',
 		);
 
 		foreach($alwaysAdd as $additional)
@@ -265,7 +265,7 @@ abstract class ClientGeneratorFromXml
 
 	protected function loadTypesRecursive($type, $strict = true)
 	{
-		if($type == 'KalturaObjectBase')
+		if($type == 'VidiunObjectBase')
 			return;
 
 		if(in_array($type, $this->_ignoreTypes))
@@ -294,7 +294,7 @@ abstract class ClientGeneratorFromXml
 			if($strict)
 				throw new Exception("Missing type [$type]");
 
-			KalturaLog::warning("Missing type [$type]");
+			VidiunLog::warning("Missing type [$type]");
 			return;
 		}
 
@@ -368,19 +368,19 @@ abstract class ClientGeneratorFromXml
 	{
 		if (is_dir($this->_sourcePath))
 		{
-			KalturaLog::info("Copy sources from [$this->_sourcePath]");
+			VidiunLog::info("Copy sources from [$this->_sourcePath]");
 			$this->addSourceFiles($this->_sourcePath, $this->_sourcePath . DIRECTORY_SEPARATOR, "");
 		}
 
 		if (is_dir($this->_additionalSourcesPath))
 		{
-			KalturaLog::info("Copy additional sources from [$this->_additionalSourcesPath]");
+			VidiunLog::info("Copy additional sources from [$this->_additionalSourcesPath]");
 			$this->addSourceFiles($this->_additionalSourcesPath, $this->_additionalSourcesPath . DIRECTORY_SEPARATOR, "");
 		}
 
 		if ($this->testsPath && is_dir($this->testsPath))
 		{
-			KalturaLog::info("Copy tests from [$this->testsPath]");
+			VidiunLog::info("Copy tests from [$this->testsPath]");
 			$this->addSourceFiles($this->testsPath, $this->testsPath . DIRECTORY_SEPARATOR, "");
 		}
 
@@ -410,7 +410,7 @@ abstract class ClientGeneratorFromXml
 		if ($path !== "")
 		{
 			$this->_additionalSourcesPath = realpath("sources/$path");
-			KalturaLog::info("set addition sources path $path");
+			VidiunLog::info("set addition sources path $path");
 		}
 	}
 
@@ -420,7 +420,7 @@ abstract class ClientGeneratorFromXml
 		if(file_exists("$testsPath/{$this->_sourceName}"))
 		{
 			$this->testsPath = realpath("$testsPath/{$this->_sourceName}");
-			KalturaLog::info("set tests path $testsPath");
+			VidiunLog::info("set tests path $testsPath");
 		}
 	}
 
@@ -514,7 +514,7 @@ abstract class ClientGeneratorFromXml
 
 		if(!$dir)
 		{
-			KalturaLog::err("Fail to open directory: $directory");
+			VidiunLog::err("Fail to open directory: $directory");
 			return;
 		}
 

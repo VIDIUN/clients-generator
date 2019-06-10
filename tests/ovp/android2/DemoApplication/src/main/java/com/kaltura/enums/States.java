@@ -1,4 +1,4 @@
-package com.kaltura.enums;
+package com.vidiun.enums;
 
 public enum States {
 

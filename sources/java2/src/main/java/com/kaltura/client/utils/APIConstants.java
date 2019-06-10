@@ -1,4 +1,4 @@
-package com.kaltura.client.utils;
+package com.vidiun.client.utils;
 
 /**
  * Created by tehilarozin on 28/07/2016.
@@ -11,7 +11,7 @@ public class APIConstants {
 
     //generated Request config properties:
     public static final String ConfigRequestPartnerId = "partnerId";
-    public static final String ConfigRequestKs = "ks";
+    public static final String ConfigRequestVs = "vs";
 
 
     public static final String HeaderAccept = "Accept";

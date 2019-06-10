@@ -1,4 +1,4 @@
-package com.kaltura.boxAdapter;
+package com.vidiun.boxAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,19 +14,19 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.KalturaMediaEntry;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.VidiunMediaEntry;
 
 public class BoxAdapterAllEntries extends BaseAdapter {
 
-    private List<KalturaMediaEntry> list;
-    private HashMap<KalturaMediaEntry, Bitmap> listThumbanil;
+    private List<VidiunMediaEntry> list;
+    private HashMap<VidiunMediaEntry, Bitmap> listThumbanil;
     private LayoutInflater lInflater;
     private Typeface typeFont;
     private int width;
     private int height;
 
-    public BoxAdapterAllEntries(Context context, int width, int height, List<KalturaMediaEntry> list, HashMap<KalturaMediaEntry, Bitmap> listThumbanil) {
+    public BoxAdapterAllEntries(Context context, int width, int height, List<VidiunMediaEntry> list, HashMap<VidiunMediaEntry, Bitmap> listThumbanil) {
         this.width = width;
         this.height = height;
         /**
@@ -37,8 +37,8 @@ public class BoxAdapterAllEntries extends BaseAdapter {
             this.list = list;
             this.listThumbanil = listThumbanil;
         } else {
-            this.list = new ArrayList<KalturaMediaEntry>();
-            this.listThumbanil = new HashMap<KalturaMediaEntry, Bitmap>();
+            this.list = new ArrayList<VidiunMediaEntry>();
+            this.listThumbanil = new HashMap<VidiunMediaEntry, Bitmap>();
         }
         lInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

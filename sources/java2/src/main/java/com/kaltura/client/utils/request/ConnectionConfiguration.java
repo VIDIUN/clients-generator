@@ -1,4 +1,4 @@
-package com.kaltura.client.utils.request;
+package com.vidiun.client.utils.request;
 
 /**
  * Created by tehilarozin on 30/10/2016.

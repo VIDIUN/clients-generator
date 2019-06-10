@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Web;
 
-namespace Kaltura.Request
+namespace Vidiun.Request
 {
     public class Files : SortedList<string, FileData>
     {

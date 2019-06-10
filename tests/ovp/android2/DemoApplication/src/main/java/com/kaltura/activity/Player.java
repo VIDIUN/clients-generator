@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,20 +17,20 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.EntryContextDataResult;
-import com.kaltura.client.types.FlavorAsset;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
-import com.kaltura.enums.States;
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.FlavorAssets;
-import com.kaltura.utils.Sort;
-import com.kaltura.utils.Utils;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.EntryContextDataResult;
+import com.vidiun.client.types.FlavorAsset;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
+import com.vidiun.enums.States;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.FlavorAssets;
+import com.vidiun.utils.Sort;
+import com.vidiun.utils.Utils;
 
 public class Player extends TemplateActivity implements SurfaceHolder.Callback {
 
-	private com.kaltura.player.ViewPlayer viewPlayer;
+	private com.vidiun.player.ViewPlayer viewPlayer;
 	private String dataUrl;
 	private String entryId;
 	private SurfaceView surface;
@@ -73,7 +73,7 @@ public class Player extends TemplateActivity implements SurfaceHolder.Callback {
 	// try {
 	// holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 	// holder.setFixedSize(400, 300);
-	// viewPlayer = new com.kaltura.player.ViewPlayer(TAG, activity, holder,
+	// viewPlayer = new com.vidiun.player.ViewPlayer(TAG, activity, holder,
 	// duration, entryId);
 	// viewPlayer.setThumb(url);
 	// new DownloadTask().execute();
@@ -100,7 +100,7 @@ public class Player extends TemplateActivity implements SurfaceHolder.Callback {
 		try {
 			holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 			holder.setFixedSize(400, 300);
-			viewPlayer = new com.kaltura.player.ViewPlayer(TAG, activity,
+			viewPlayer = new com.vidiun.player.ViewPlayer(TAG, activity,
 					holder, duration, entryId, partnerId);
 			viewPlayer.setThumb(url);
 			new DownloadTask().execute();

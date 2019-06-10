@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Authors>Arthur Vaverko</Authors>
-    <Company>Kaltura</Company>
-    <Product>KalturaClient</Product>
-	<AssemblyName>KalturaClient.Net.Core</AssemblyName>
-    <PackageId>KalturaClient.Net.Core</PackageId>
+    <Company>Vidiun</Company>
+    <Product>VidiunClient</Product>
+	<AssemblyName>VidiunClient.Net.Core</AssemblyName>
+    <PackageId>VidiunClient.Net.Core</PackageId>
     <Version>@VERSION@</Version>
     <AssemblyVersion>@VERSION@</AssemblyVersion>
     <FileVersion>@VERSION@</FileVersion>

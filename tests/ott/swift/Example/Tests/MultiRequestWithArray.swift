@@ -1,6 +1,6 @@
 //
 //  MultiRequestWithArray.swift
-//  KalturaClient
+//  VidiunClient
 //
 //  Created by Rivka Peleg on 07/08/2017.
 //  Copyright © 2017 CocoaPods. All rights reserved.
@@ -12,7 +12,7 @@
 import Foundation
 import Quick
 import Nimble
-import KalturaOttClient
+import VidiunOttClient
 
 
 class MultiRequestWithArray: QuickSpec {
@@ -59,7 +59,7 @@ class MultiRequestWithArray: QuickSpec {
                                                     username: TConfig.username,
                                                     password: TConfig.password)
             .set { (response:LoginResponse?, error: ApiException?) in
-                self.client?.ks = response?.loginSession?.ks
+                self.client?.vs = response?.loginSession?.vs
             done(error)
         }
         executor.send(request: requestBuilder.build(client!))

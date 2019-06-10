@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.services;
+package com.vidiun.services;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,11 +16,11 @@ import java.util.logging.Logger;
 import android.os.Environment;
 import android.util.Log;
 
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.KalturaClient;
-import com.kaltura.client.types.KalturaMediaEntry;
-import com.kaltura.client.types.KalturaUploadToken;
-import com.kaltura.client.types.KalturaUploadedFileTokenResource;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.VidiunClient;
+import com.vidiun.client.types.VidiunMediaEntry;
+import com.vidiun.client.types.VidiunUploadToken;
+import com.vidiun.client.types.VidiunUploadedFileTokenResource;
 
 /**
  * Upload files to the server
@@ -29,10 +29,10 @@ public class UploadToken extends Observable {
     
     private String TAG;
     private File fileData;
-    private KalturaUploadToken kalturaUploadToken;
-    private KalturaClient client;
+    private VidiunUploadToken vidiunUploadToken;
+    private VidiunClient client;
     private int setAttemptUpload;
-    private KalturaMediaEntry newEntry;
+    private VidiunMediaEntry newEntry;
     private double remainingUploadFileSize;
     private boolean startUpload;
     private int readSum = 0;
@@ -47,8 +47,8 @@ public class UploadToken extends Observable {
         this.TAG = TAG;
         fileData = new File(TAG);
         this.setAttemptUpload = setAttemptUpload;
-        kalturaUploadToken = new KalturaUploadToken();
-        remainingUploadFileSize = kalturaUploadToken.uploadedFileSize;
+        vidiunUploadToken = new VidiunUploadToken();
+        remainingUploadFileSize = vidiunUploadToken.uploadedFileSize;
         client = AdminUser.getClient();
         
     }
@@ -61,7 +61,7 @@ public class UploadToken extends Observable {
     public int getUploadedFileSize() {
         int res = 0;
         try {
-            res = (int) (kalturaUploadToken.uploadedFileSize / fileData.length() * 100.0);
+            res = (int) (vidiunUploadToken.uploadedFileSize / fileData.length() * 100.0);
         } catch (ArithmeticException e) {
             e.printStackTrace();
             Log.w(TAG, e);
@@ -75,7 +75,7 @@ public class UploadToken extends Observable {
     }
     
     /**
-     * uploads a video file to Kaltura and assigns it to a given Media Entry
+     * uploads a video file to Vidiun and assigns it to a given Media Entry
      * object
      *
      * @param TAG constant in your class
@@ -85,15 +85,15 @@ public class UploadToken extends Observable {
      * @return true - file uploaded; false - file not uploaded
      *
      */
-    public boolean uploadMediaFileAndAttachToEmptyEntry(String TAG, KalturaMediaEntry entry, String pathfromURI) {
+    public boolean uploadMediaFileAndAttachToEmptyEntry(String TAG, VidiunMediaEntry entry, String pathfromURI) {
         Log.w(TAG, "\nUploading a video file...");
         readSum = 0;
         fileData = new File(pathfromURI);
         
-        KalturaUploadToken upToken = null;
+        VidiunUploadToken upToken = null;
         try {
             upToken = client.getUploadTokenService().add();
-        } catch (KalturaApiException ex) {
+        } catch (VidiunApiException ex) {
             Logger.getLogger(UploadToken.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -146,7 +146,7 @@ public class UploadToken extends Observable {
             if (fileData.length() > sizeBuf) {
                 if (remainingUploadFileSize > sizeBuf) {
                     if (addChunk(client, upToken.id, outFile, readSum != 0, false, readSum)) {
-                        Log.w(TAG, "1 chunk[" + ++i + "] - uploaddFileSize: " + kalturaUploadToken.uploadedFileSize);
+                        Log.w(TAG, "1 chunk[" + ++i + "] - uploaddFileSize: " + vidiunUploadToken.uploadedFileSize);
                         wasFirst = true;
                         readSum += numRead;
                     } else {
@@ -155,7 +155,7 @@ public class UploadToken extends Observable {
                     }
                 } else {
                     if (addChunk(client, upToken.id, outFile, true, true, readSum)) {
-                        Log.w(TAG, "n chunk[" + ++i + "] - uploaddFileSize: " + kalturaUploadToken.uploadedFileSize);
+                        Log.w(TAG, "n chunk[" + ++i + "] - uploaddFileSize: " + vidiunUploadToken.uploadedFileSize);
                         readSum += numRead;
                         uploaded = true;
                     } else {
@@ -167,7 +167,7 @@ public class UploadToken extends Observable {
                 Log.w(TAG, "was:" + wasFirst);
                 if (wasFirst) {
                     if (addChunk(client, upToken.id, outFile, true, true, -1)) {
-                        Log.w(TAG, "l chunk[" + ++i + "] - uploaddFileSize: " + kalturaUploadToken.uploadedFileSize);
+                        Log.w(TAG, "l chunk[" + ++i + "] - uploaddFileSize: " + vidiunUploadToken.uploadedFileSize);
                         uploaded = true;
                         wasFirst = false;
                     } else {
@@ -176,7 +176,7 @@ public class UploadToken extends Observable {
                     }
                 } else {
                     if (addChunk(client, upToken.id, outFile, false, true, -1)) {
-                        Log.w(TAG, "n chunk[" + ++i + "] - uploaddFileSize: " + kalturaUploadToken.uploadedFileSize);
+                        Log.w(TAG, "n chunk[" + ++i + "] - uploaddFileSize: " + vidiunUploadToken.uploadedFileSize);
                         uploaded = true;
                         wasFirst = false;
                     } else {
@@ -189,16 +189,16 @@ public class UploadToken extends Observable {
             notifyObservers(getUploadedFileSize());
         } while (!uploaded && !(attemptUpload >= setAttemptUpload) && startUpload);
         
-        Log.w(TAG, "HASH:" + Double.valueOf(kalturaUploadToken.uploadedFileSize).hashCode());
+        Log.w(TAG, "HASH:" + Double.valueOf(vidiunUploadToken.uploadedFileSize).hashCode());
         if (uploaded) {
             startUpload = false;
             try {
-                KalturaUploadedFileTokenResource fileTokenResource = new KalturaUploadedFileTokenResource();
+                VidiunUploadedFileTokenResource fileTokenResource = new VidiunUploadedFileTokenResource();
                 fileTokenResource.token = upToken.id;
                 newEntry = client.getMediaService().addContent(entry.id, fileTokenResource);
                 
                 Log.w(TAG, "\nUploaded a new Video file to entry: " + newEntry.id);
-            } catch (KalturaApiException e) {
+            } catch (VidiunApiException e) {
                 e.printStackTrace();
                 Log.w(TAG, "err: " + e.getMessage());
             }
@@ -215,20 +215,20 @@ public class UploadToken extends Observable {
     }
     
     /**
-     * @param KalturaClient client
+     * @param VidiunClient client
      * @param String uploadTokenId
      * @param File outFile
      * @param int i
      *
      * @return
      */
-    private boolean addChunk(KalturaClient client, String uploadTokenId, File outFile, boolean resume, boolean finalChunk, int resumeAt) {
+    private boolean addChunk(VidiunClient client, String uploadTokenId, File outFile, boolean resume, boolean finalChunk, int resumeAt) {
         boolean isUploaded = false;
         try {
-            kalturaUploadToken = client.getUploadTokenService().upload(uploadTokenId, outFile, resume, finalChunk, resumeAt);
+            vidiunUploadToken = client.getUploadTokenService().upload(uploadTokenId, outFile, resume, finalChunk, resumeAt);
             outFile.delete();
             isUploaded = true;
-        } catch (KalturaApiException e) {
+        } catch (VidiunApiException e) {
             e.printStackTrace();
             isUploaded = false;
             Log.w(TAG, "err: " + e.getMessage());

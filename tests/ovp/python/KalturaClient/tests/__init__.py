@@ -1,2 +1,2 @@
-#Kaltura Python API Unittest Framework
+#Vidiun Python API Unittest Framework
 # Michael McFadden (flipmcf@gmail.com)

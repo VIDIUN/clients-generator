@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.components;
+package com.vidiun.components;
 
 import java.util.HashMap;
 import java.util.Observable;
@@ -18,8 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.MediaEntry;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.MediaEntry;
 
 /**
  *

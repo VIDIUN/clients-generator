@@ -1,9 +1,9 @@
 //
 //  HomeViewController_iPad.m
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 01.03.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import "HomeViewController_iPad.h"
@@ -155,7 +155,7 @@
     
     if ([array count] > 0) {
         
-        KalturaCategory *category = [array objectAtIndex:0];
+        VidiunCategory *category = [array objectAtIndex:0];
         
         labelCategoryName.text = category.fullName;
         
@@ -260,7 +260,7 @@
         
         UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
         imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-        imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeMovie, nil]; 
+        imagePicker.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) vUTTypeMovie, nil]; 
         imagePicker.allowsEditing = NO;
         imagePicker.videoQuality = UIImagePickerControllerQualityTypeHigh;
         imagePicker.delegate = self;
@@ -416,7 +416,7 @@
     
     NSArray *array = [[Client instance] getCategories];
     
-    KalturaCategory *category = [array objectAtIndex:row];
+    VidiunCategory *category = [array objectAtIndex:row];
     
     return category.fullName;
 }
@@ -425,7 +425,7 @@
     
     NSArray *array = [[Client instance] getCategories];
     
-    KalturaCategory *category = [array objectAtIndex:row];
+    VidiunCategory *category = [array objectAtIndex:row];
     
     labelCategoryName.text = category.fullName;
 }

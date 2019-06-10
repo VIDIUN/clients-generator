@@ -1,9 +1,9 @@
 //
 //  PlayerViewController_iPad.m
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 22.03.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import "PlayerViewController_iPad.h"

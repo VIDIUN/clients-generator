@@ -4,7 +4,7 @@ using System.Text;
 using System.Xml;
 using Newtonsoft.Json.Linq;
 
-namespace Kaltura.Request
+namespace Vidiun.Request
 {
     public interface IBaseRequestBuilder
     {

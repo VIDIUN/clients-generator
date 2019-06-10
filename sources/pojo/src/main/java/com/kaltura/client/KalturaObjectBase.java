@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -34,42 +34,42 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.kaltura.client.types.KalturaListResponse;
-import com.kaltura.client.utils.ParseUtils;
+import com.vidiun.client.types.VidiunListResponse;
+import com.vidiun.client.utils.ParseUtils;
 
 /**
- * Ancestor class for all of the generated classes in the com.kaltura.client.types package.
+ * Ancestor class for all of the generated classes in the com.vidiun.client.types package.
  * 
  * @author jpotts
  *
  */
 @SuppressWarnings("serial")
-public class KalturaObjectBase implements Serializable {
-	private HashMap<String, KalturaListResponse> relatedObjects;
+public class VidiunObjectBase implements Serializable {
+	private HashMap<String, VidiunListResponse> relatedObjects;
 
-    public KalturaObjectBase() {
+    public VidiunObjectBase() {
     }
     
-    public KalturaObjectBase(Element node) throws KalturaApiException {
+    public VidiunObjectBase(Element node) throws VidiunApiException {
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node aNode = childNodes.item(i);
             String nodeName = aNode.getNodeName();
             if (nodeName.equals("relatedObjects")) {
-                this.relatedObjects = ParseUtils.parseMap(KalturaListResponse.class, aNode);
+                this.relatedObjects = ParseUtils.parseMap(VidiunListResponse.class, aNode);
             } 
         }
     }
     
-	public KalturaParams toParams() throws KalturaApiException {
-		return new KalturaParams();
+	public VidiunParams toParams() throws VidiunApiException {
+		return new VidiunParams();
 	}
 
-    public HashMap<String, KalturaListResponse> getRelatedObjects(){
+    public HashMap<String, VidiunListResponse> getRelatedObjects(){
         return this.relatedObjects;
     }
     
-    public void setRelatedObjects(HashMap<String, KalturaListResponse> relatedObjects){
+    public void setRelatedObjects(HashMap<String, VidiunListResponse> relatedObjects){
         this.relatedObjects = relatedObjects;
     }
 }

@@ -25,7 +25,7 @@ class TypescriptGeneratorBase
         }
 
             switch ($type) {
-                case KalturaServerTypes::Simple:
+                case VidiunServerTypes::Simple:
                     if ($typeClassName == "string") {
                         $result = $defaultValue ? "\"{$defaultValue}\"" : "";
                     } else if ($defaultValue) {
@@ -35,10 +35,10 @@ class TypescriptGeneratorBase
                         $result = "";
                     }
                     break;
-                case KalturaServerTypes::ArrayOfObjects:
+                case VidiunServerTypes::ArrayOfObjects:
                     $result = "[]";
                     break;
-                case KalturaServerTypes::ArrayOfObjects:
+                case VidiunServerTypes::ArrayOfObjects:
                     $result = "{}";
                     break;
                 default:
@@ -54,10 +54,10 @@ class TypescriptGeneratorBase
     {
         $result = null;
         switch ($type) {
-            case KalturaServerTypes::File:
-                trigger_error('Kaltura server type "File" must be handled manually');
+            case VidiunServerTypes::File:
+                trigger_error('Vidiun server type "File" must be handled manually');
                 break;
-            case KalturaServerTypes::Simple:
+            case VidiunServerTypes::Simple:
                 switch ($typeClassName) {
                     case "bool":
                         $result = "boolean";
@@ -74,21 +74,21 @@ class TypescriptGeneratorBase
                         throw new Exception("Unknown simple type {$typeClassName}");
                 }
                 break;
-            case KalturaServerTypes::ArrayOfObjects:
+            case VidiunServerTypes::ArrayOfObjects:
                 $result = "{$typeClassName}[]";
                 break;
-            case KalturaServerTypes::MapOfObjects:
+            case VidiunServerTypes::MapOfObjects:
                 $result = "{ [key : string] : $typeClassName}";
                 break;
-            case KalturaServerTypes::EnumOfInt:
-            case KalturaServerTypes::EnumOfString:
-            case KalturaServerTypes::Object:
+            case VidiunServerTypes::EnumOfInt:
+            case VidiunServerTypes::EnumOfString:
+            case VidiunServerTypes::Object:
                 $result = $typeClassName;
                 break;
-            case KalturaServerTypes::Date:
+            case VidiunServerTypes::Date:
                 $result = "Date";
                 break;
-            case KalturaServerTypes::Void:
+            case VidiunServerTypes::Void:
                 $result = "void";
                 break;
             default:

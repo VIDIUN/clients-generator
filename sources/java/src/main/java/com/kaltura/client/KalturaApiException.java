@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,28 +25,28 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
-public class KalturaApiException extends Exception {
+public class VidiunApiException extends Exception {
 	
 	private static final long serialVersionUID = 6710104690443289367L;
 	
 	public String code = null;
 
-	public KalturaApiException() {
+	public VidiunApiException() {
 		super();
 	}
 	
-	public KalturaApiException(String message) {
+	public VidiunApiException(String message) {
 		super(message);
 	}
 
-	public KalturaApiException(String message, String excCode) {
+	public VidiunApiException(String message, String excCode) {
 		super(message);
 		code = excCode;
 	}
 	
-	public KalturaApiException(Throwable exp) {
+	public VidiunApiException(Throwable exp) {
 		super(exp);
 	}
 }

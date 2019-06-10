@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,11 +25,11 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
-import com.kaltura.client.enums.KalturaEnumAsInt;
+import com.vidiun.client.enums.VidiunEnumAsInt;
 
-public enum EKalturaServiceFormat implements KalturaEnumAsInt{
+public enum EVidiunServiceFormat implements VidiunEnumAsInt{
 
 	RESPONSE_TYPE_JSON(1),
 	RESPONSE_TYPE_XML(2),
@@ -41,7 +41,7 @@ public enum EKalturaServiceFormat implements KalturaEnumAsInt{
 	
 	private int hashCode;
 	
-	EKalturaServiceFormat(int hashCode) {
+	EVidiunServiceFormat(int hashCode) {
 		this.hashCode = hashCode;
 	}
     

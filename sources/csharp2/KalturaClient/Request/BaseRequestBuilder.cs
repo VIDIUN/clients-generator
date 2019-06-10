@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
 
-namespace Kaltura.Request
+namespace Vidiun.Request
 {
     public delegate void OnCompletedHandler<T>(T response, Exception error);
     public delegate void OnErrorHandler(Exception error);
@@ -65,17 +65,17 @@ namespace Kaltura.Request
 
         public virtual Params getParameters(bool includeServiceAndAction)
         {
-            Params kparams = new Params();
+            Params vparams = new Params();
 
             if (client != null)
-                kparams.Add(client.RequestConfiguration.ToParams(false));
+                vparams.Add(client.RequestConfiguration.ToParams(false));
 
-            kparams.Add(base.ToParams(false));
+            vparams.Add(base.ToParams(false));
 
             if (includeServiceAndAction)
-                kparams.Add("service", service);
+                vparams.Add("service", service);
 
-            return kparams;
+            return vparams;
         }
 
         public virtual Files getFiles()
@@ -275,7 +275,7 @@ namespace Kaltura.Request
             var parameters = getParameters(false);
             parameters.Add(client.ClientConfiguration.ToParams(false));
             parameters.Add("format", EServiceFormat.RESPONSE_TYPE_JSON.GetHashCode());
-            parameters.Add("kalsig", Signature(parameters));
+            parameters.Add("vidsig", Signature(parameters));
 
             var json = parameters.ToJson();
             this.Log(string.Format("full reqeust data: [{0}]", json));
@@ -331,10 +331,10 @@ namespace Kaltura.Request
             return proxyToSet;
         }
 
-        private string Signature(Params kparams)
+        private string Signature(Params vparams)
         {
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            byte[] data = Encoding.ASCII.GetBytes(kparams.ToJson());
+            byte[] data = Encoding.ASCII.GetBytes(vparams.ToJson());
             data = md5.ComputeHash(data);
             StringBuilder sBuilder = new StringBuilder();
             for (int i = 0; i < data.Length; i++)

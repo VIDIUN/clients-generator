@@ -1,20 +1,20 @@
-package com.kaltura.services;
+package com.vidiun.services;
 
 import java.util.List;
 
 import android.util.Log;
 
-import com.kaltura.client.Client;
-import com.kaltura.client.services.CategoryService;
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.types.Category;
-import com.kaltura.client.types.CategoryFilter;
-import com.kaltura.client.types.ListResponse;
-import com.kaltura.client.types.FilterPager;
-import com.kaltura.client.utils.request.RequestBuilder;
-import com.kaltura.client.utils.response.OnCompletion;
-import com.kaltura.client.utils.response.base.Response;
-import com.kaltura.utils.ApiHelper;
+import com.vidiun.client.Client;
+import com.vidiun.client.services.CategoryService;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.types.Category;
+import com.vidiun.client.types.CategoryFilter;
+import com.vidiun.client.types.ListResponse;
+import com.vidiun.client.types.FilterPager;
+import com.vidiun.client.utils.request.RequestBuilder;
+import com.vidiun.client.utils.response.OnCompletion;
+import com.vidiun.client.utils.response.base.Response;
+import com.vidiun.utils.ApiHelper;
 
 /**
  * Add & Manage Categories *
@@ -22,7 +22,7 @@ import com.kaltura.utils.ApiHelper;
 public class Categories {
 
     /**
-     * Get a list of all categories on the kaltura server
+     * Get a list of all categories on the vidiun server
      *
      * @param TAG constant in your class
      * @param pageindex The page number for which {pageSize} of objects should

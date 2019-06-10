@@ -33,7 +33,7 @@ function getPaths(file) {
 				return;
 			}
 
-			let repo = 'KalturaOttGeneratedAPIClients' + file.substr(0, 1).toUpperCase() + file.substr(1);
+			let repo = 'VidiunOttGeneratedAPIClients' + file.substr(0, 1).toUpperCase() + file.substr(1);
 			let gitPath = path.join(__dirname, branch, repo);
 			
 			fs.exists(gitPath, (exists) => {
@@ -80,7 +80,7 @@ function execWithPomise(command, cwd, resolveData) {
 
 function gitClone(repo) {
 	console.log(`Cloning git repo ${repo}, branch ${branch}`);
-	return execWithPomise(`${git} clone -b ${branch} https://${token}@github.com/kaltura/${repo}`, branchPath);
+	return execWithPomise(`${git} clone -b ${branch} https://${token}@github.com/vidiun/${repo}`, branchPath);
 }
 
 function gitCheckout(generatedPath, gitPath, isNew) {

@@ -4,11 +4,11 @@
 #                          | ' </ _` | |  _| || | '_/ _` |
 #                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 #
-# This file is part of the Kaltura Collaborative Media Suite which allows users
+# This file is part of the Vidiun Collaborative Media Suite which allows users
 # to do with audio, video, and animation what Wiki platfroms allow them to do with
 # text.
 #
-# Copyright (C) 2006-2011  Kaltura Inc.
+# Copyright (C) 2006-2011  Vidiun Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -29,26 +29,26 @@ require 'test_helper'
 
 class MetadataProfileServiceTest < Test::Unit::TestCase
 
-	# this test adds a metadata_profile and retrieves the list of metadata_profiles to demonstrate the use of kaltura plugins.
+	# this test adds a metadata_profile and retrieves the list of metadata_profiles to demonstrate the use of vidiun plugins.
 	should "creates a metadata_profile and get the metadata_profile list" do
 
 		unique_id = (0...8).map { (97 + rand(26)).chr }.join
 		
 		# creates a metadata_profile
-		metadata_profile = Kaltura::KalturaMetadataProfile.new
+		metadata_profile = Vidiun::VidiunMetadataProfile.new
 		metadata_profile.name = "test profile" + Time.now.getutc.strftime("%d/%m/%Y %H:%M:%S:%L")
 		metadata_profile.system_name = unique_id
-		metadata_profile.metadata_object_type = Kaltura::KalturaMetadataObjectType::ENTRY
-		metadata_profile.create_mode = Kaltura::KalturaMetadataProfileCreateMode::API
+		metadata_profile.metadata_object_type = Vidiun::VidiunMetadataObjectType::ENTRY
+		metadata_profile.create_mode = Vidiun::VidiunMetadataProfileCreateMode::API
 
 		created_metadata_profile = @client.metadata_profile_service.add(metadata_profile, "<xsd:schema></xsd:schema>", "viewsData")
 
 		assert_not_nil created_metadata_profile.id
 
 		# list the metadata_profiles
-		metadata_profile_filter = Kaltura::KalturaMetadataProfileFilter.new
+		metadata_profile_filter = Vidiun::VidiunMetadataProfileFilter.new
 		metadata_profile_filter.system_name_equal = unique_id
-		filter_pager = Kaltura::KalturaFilterPager.new
+		filter_pager = Vidiun::VidiunFilterPager.new
 		filter_pager.page_size = 1
 
 		metadata_profile_list = @client.metadata_profile_service.list(metadata_profile_filter, filter_pager)

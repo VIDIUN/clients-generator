@@ -1,7 +1,7 @@
 var testCase  = require('nodeunit').testCase;
-var kc = require('../KalturaClient');
-var ktypes = require('../KalturaTypes');
-var vo = require ('../KalturaVO.js');
+var vc = require('../VidiunClient');
+var vtypes = require('../VidiunTypes');
+var vo = require ('../VidiunVO.js');
 var config = require ('./config.js');
 /* 
  This is an example test suite to demonstrate the nested test reporter.
@@ -44,7 +44,7 @@ var create_session = function (results)
 		process.exit(1);
 	    }else{
 		console.log('I made it HERE');
-		//test.ok(true,'KS is: '+results);
+		//test.ok(true,'VS is: '+results);
 	    }
     }else{
 	console.log('Something went wrong here :(');
@@ -53,16 +53,16 @@ var create_session = function (results)
 
 module.exports = testCase({
     "Create session": function(test) {
-    var kaltura_conf = new kc.KalturaConfiguration(config.minus2_partner_id);
-    kaltura_conf.serviceUrl = config.service_url ;
-    var client = new kc.KalturaClient(kaltura_conf);
-    var type = ktypes.KalturaSessionType.ADMIN;
+    var vidiun_conf = new vc.VidiunConfiguration(config.minus2_partner_id);
+    vidiun_conf.serviceUrl = config.service_url ;
+    var client = new vc.VidiunClient(vidiun_conf);
+    var type = vtypes.VidiunSessionType.ADMIN;
 
     var expiry = null;
     var privileges = null;
-    var ks = client.session.start(create_session, config.minus2_admin_secret, config.user_id, type, config.minus2_partner_id, expiry, privileges);
+    var vs = client.session.start(create_session, config.minus2_admin_secret, config.user_id, type, config.minus2_partner_id, expiry, privileges);
     console.log('I GOT HERE');
-    //test.ok(true,'KS is: '+ks);
+    //test.ok(true,'VS is: '+vs);
 
     //test.done();
     },

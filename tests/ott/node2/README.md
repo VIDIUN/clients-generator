@@ -1,12 +1,12 @@
-## Kaltura node.js API Client Library.
-Compatible with Kaltura OTT server version @VERSION@ and above.
+## Vidiun node.js API Client Library.
+Compatible with Vidiun OTT server version @VERSION@ and above.
 
-[![NPM](https://nodei.co/npm/kaltura-ott-client.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/kaltura-ott-client/)
+[![NPM](https://nodei.co/npm/vidiun-ott-client.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/vidiun-ott-client/)
 
 
 You can install this client library using npm with:
 ```
-npm install kaltura-ott-client@@VERSION@
+npm install vidiun-ott-client@@VERSION@
 ```
 
 ## Sanity Check
@@ -15,9 +15,9 @@ npm install kaltura-ott-client@@VERSION@
 
 ## Code contributions
 
-We are happy to accept pull requests, please see [contribution guidelines](https://github.com/kaltura/platform-install-packages/blob/master/doc/Contributing-to-the-Kaltura-Platform.md)
+We are happy to accept pull requests, please see [contribution guidelines](https://github.com/vidiun/platform-install-packages/blob/master/doc/Contributing-to-the-Vidiun-Platform.md)
 
-The contents of this client are auto generated from https://github.com/kaltura/clients-generator and pull requests should be made there, rather than to the https://github.com/kaltura/KalturaOttGeneratedAPIClientsNode repo.
+The contents of this client are auto generated from https://github.com/vidiun/clients-generator and pull requests should be made there, rather than to the https://github.com/vidiun/VidiunOttGeneratedAPIClientsNode repo.
 
 Relevant files are:
 - sources/node2

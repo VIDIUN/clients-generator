@@ -1,2 +1,2 @@
-Kaltura C# API Client Library.
-Compatible with Kaltura server version @VERSION@ and above.
+Vidiun C# API Client Library.
+Compatible with Vidiun server version @VERSION@ and above.

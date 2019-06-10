@@ -1,4 +1,4 @@
-package com.kaltura.utils;
+package com.vidiun.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

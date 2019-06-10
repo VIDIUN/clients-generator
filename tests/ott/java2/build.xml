@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Kaltura Java Client Library Build" default="jar">
+<project name="Vidiun Java Client Library Build" default="jar">
 
-	<property name="jar.filename" value="${basedir}/KalturaClientLib.jar" />
+	<property name="jar.filename" value="${basedir}/VidiunClientLib.jar" />
 	
 	<target name="jar">
 		<tempfile property="temp.classes" prefix="classes_" />

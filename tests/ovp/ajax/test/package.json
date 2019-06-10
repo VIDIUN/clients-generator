@@ -1,7 +1,7 @@
 {
-  "name": "kaltura-ajax-client-library",
+  "name": "vidiun-ajax-client-library",
   "version": "@VERSION@",
-  "description": "Kaltura JavaScript API Client Library.",
+  "description": "Vidiun JavaScript API Client Library.",
   "main": "index.js",
   "directories": {
     "test": "tests"

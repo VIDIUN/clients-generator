@@ -1,9 +1,9 @@
-# KalturaOttClient
+# VidiunOttClient
 
-[![CI Status](http://img.shields.io/travis/kaltura/KalturaOttGeneratedAPIClientsSwift.svg?style=flat)](https://travis-ci.org/kaltura/KalturaOttGeneratedAPIClientsSwift)
-[![Version](https://img.shields.io/cocoapods/v/KalturaOttClient.svg?style=flat)](http://cocoapods.org/pods/KalturaOttClient)
-[![License](https://img.shields.io/cocoapods/l/KalturaOttClient.svg?style=flat)](http://cocoapods.org/pods/KalturaOttClient)
-[![Platform](https://img.shields.io/cocoapods/p/KalturaOttClient.svg?style=flat)](http://cocoapods.org/pods/KalturaOttClient)
+[![CI Status](http://img.shields.io/travis/vidiun/VidiunOttGeneratedAPIClientsSwift.svg?style=flat)](https://travis-ci.org/vidiun/VidiunOttGeneratedAPIClientsSwift)
+[![Version](https://img.shields.io/cocoapods/v/VidiunOttClient.svg?style=flat)](http://cocoapods.org/pods/VidiunOttClient)
+[![License](https://img.shields.io/cocoapods/l/VidiunOttClient.svg?style=flat)](http://cocoapods.org/pods/VidiunOttClient)
+[![Platform](https://img.shields.io/cocoapods/p/VidiunOttClient.svg?style=flat)](http://cocoapods.org/pods/VidiunOttClient)
 
 ## Example
 
@@ -13,26 +13,26 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
-KalturaOttClient is available through [CocoaPods](http://cocoapods.org). To install
+VidiunOttClient is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "KalturaOttClient"
+pod "VidiunOttClient"
 ```
 
 ## Author
 
-community@kaltura.com
+community@vidiun.com
 
 ## License and Copyright Information
 All code in this project is released under the [AGPLv3 license](http://www.gnu.org/licenses/agpl-3.0.html) unless a different license for a particular library is specified in the applicable library path.   
 
-Copyright © Kaltura Inc. All rights reserved.   
-Authors and contributors: See [GitHub contributors list](https://github.com/kaltura/KalturaOttGeneratedAPIClientsSwift/graphs/contributors).  
+Copyright © Vidiun Inc. All rights reserved.   
+Authors and contributors: See [GitHub contributors list](https://github.com/vidiun/VidiunOttGeneratedAPIClientsSwift/graphs/contributors).  
 
 ## Publishing
 
 ```ruby
 pod lib lint --fail-fast --allow-warnings
-pod trunk push KalturaOttClient.podspec --allow-warnings 
+pod trunk push VidiunOttClient.podspec --allow-warnings 
 ```

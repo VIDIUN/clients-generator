@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
-namespace Kaltura.Request
+namespace Vidiun.Request
 {
     abstract public class RequestBuilder<T> : BaseRequestBuilder<T>, IRequestBuilder
     {
@@ -37,12 +37,12 @@ namespace Kaltura.Request
 
         public override Params getParameters(bool includeServiceAndAction)
         {
-            Params kparams = base.getParameters(includeServiceAndAction);
+            Params vparams = base.getParameters(includeServiceAndAction);
 
             if (includeServiceAndAction)
-                kparams.Add("action", action);
+                vparams.Add("action", action);
 
-            return kparams;
+            return vparams;
         }
 
         public new RequestBuilder<T> Map(string key, MultiRequestToken token)

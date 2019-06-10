@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -31,9 +31,9 @@ using System.Text;
 using System.IO;
 using System.Threading;
 
-namespace Kaltura
+namespace Vidiun
 {
-    class KalturaClientTester : IKalturaLogger
+    class VidiunClientTester : IVidiunLogger
     {
         private const int PARTNER_ID = @YOUR_PARTNER_ID@; //enter your partner id
         private const string ADMIN_SECRET = "@YOUR_ADMIN_SECRET@"; //enter your admin secret
@@ -50,7 +50,7 @@ namespace Kaltura
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting C# Kaltura API Client Library");
+            Console.WriteLine("Starting C# Vidiun API Client Library");
             int code = 0;
             uniqueTag = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
             try
@@ -60,7 +60,7 @@ namespace Kaltura
                     SampleThreadedChunkUpload();
                 }
             }
-            catch (KalturaAPIException e0)
+            catch (VidiunAPIException e0)
             {
                 Console.WriteLine("failed chunk upload: " + e0.Message);
             }
@@ -69,7 +69,7 @@ namespace Kaltura
             {
                 ResponseProfileExample();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed ResponseProfileExample: " + e.Message);
                 code = -1;
@@ -79,7 +79,7 @@ namespace Kaltura
             {
                 SampleReplaceVideoFlavorAndAddCaption();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed SampleReplaceVideoFlavorAndAddCaption: " + e.Message);
                 code = -1;
@@ -89,7 +89,7 @@ namespace Kaltura
             {
                 SampleMetadataOperations();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed SampleMetadataOperations: " + e.Message);
                 code = -1;
@@ -99,7 +99,7 @@ namespace Kaltura
             {
                 AdvancedMultiRequestExample();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed AdvancedMultiRequestExample: " + e.Message);
                 code = -1;
@@ -109,7 +109,7 @@ namespace Kaltura
             {
                 PlaylistExecuteMultiRequestExample();
             }
-            catch (KalturaAPIException e1)
+            catch (VidiunAPIException e1)
             {
                 Console.WriteLine("Failed PlaylistExecuteMultiRequestExample: " + e1.Message);
                 code = -1;
@@ -133,27 +133,27 @@ namespace Kaltura
         const int CHUNK_SIZE = 10240;
         static void SampleThreadedChunkUpload()
         {
-            KalturaClient client = new KalturaClient(GetConfig());
-            client.KS = client.GenerateSession(ADMIN_SECRET, USER_ID, KalturaSessionType.ADMIN, PARTNER_ID, 86400, "");
+            VidiunClient client = new VidiunClient(GetConfig());
+            client.VS = client.GenerateSession(ADMIN_SECRET, USER_ID, VidiunSessionType.ADMIN, PARTNER_ID, 86400, "");
 
             string fname = "DemoVideo.flv";
             FileStream fileStream = new FileStream(fname, FileMode.Open, FileAccess.Read, FileShare.Read);
-            KalturaUploadToken myToken = new KalturaUploadToken();
+            VidiunUploadToken myToken = new VidiunUploadToken();
             myToken.FileName = fname;
             FileInfo f = new FileInfo(fname);
             myToken.FileSize = f.Length;
 
             string mediaName = "C# Media Entry Uploaded in chunks using threads";
 
-            KalturaUploadToken uploadToken = client.UploadTokenService.Add(myToken);
+            VidiunUploadToken uploadToken = client.UploadTokenService.Add(myToken);
 
-            chunkThreaded(client.KS, fileStream, uploadToken.Id);
+            chunkThreaded(client.VS, fileStream, uploadToken.Id);
             
-            KalturaUploadedFileTokenResource mediaResource = new KalturaUploadedFileTokenResource();
+            VidiunUploadedFileTokenResource mediaResource = new VidiunUploadedFileTokenResource();
             mediaResource.Token = uploadToken.Id;
-            KalturaMediaEntry mediaEntry = new KalturaMediaEntry();
+            VidiunMediaEntry mediaEntry = new VidiunMediaEntry();
             mediaEntry.Name = mediaName;
-            mediaEntry.MediaType = KalturaMediaType.VIDEO;
+            mediaEntry.MediaType = VidiunMediaType.VIDEO;
             mediaEntry = client.MediaService.Add(mediaEntry);
             mediaEntry = client.MediaService.AddContent(mediaEntry.Id, mediaResource);
         }
@@ -161,10 +161,10 @@ namespace Kaltura
         static int maxUploadThreads = 4;
         static public int workingThreads = 0;
 
-        static void chunkThreaded(string ks, FileStream fileStream, string uploadTokenId)
+        static void chunkThreaded(string vs, FileStream fileStream, string uploadTokenId)
         {
-            KalturaClient client = new KalturaClient(GetConfig());
-            client.KS = ks;
+            VidiunClient client = new VidiunClient(GetConfig());
+            client.VS = vs;
 
             LinkedList<int> ranges = new LinkedList<int>();
             int chunkSize = CHUNK_SIZE;
@@ -176,7 +176,7 @@ namespace Kaltura
                 LinkedListNode<int> pos = new LinkedListNode<int>(i);
                 ranges.AddFirst(pos);
             }
-            KalturaUploadThread uploader = new KalturaUploadThread(ks, fileStream, chunkSize, ranges, uploadTokenId);
+            VidiunUploadThread uploader = new VidiunUploadThread(vs, fileStream, chunkSize, ranges, uploadTokenId);
 
             try
             {
@@ -187,7 +187,7 @@ namespace Kaltura
                 client.UploadTokenService.Upload(uploadTokenId, chunkFile, false, false);
                 chunkFile.Close();
             }
-            catch (KalturaAPIException ex)
+            catch (VidiunAPIException ex)
             {
                 Console.WriteLine("failed uploading first chunk " + ex.Message);
                 throw ex;
@@ -238,27 +238,27 @@ namespace Kaltura
             lastChunkFile.Close();
         }
 
-        public static KalturaConfiguration GetConfig()
+        public static VidiunConfiguration GetConfig()
         {
-            KalturaConfiguration config = new KalturaConfiguration();
+            VidiunConfiguration config = new VidiunConfiguration();
             config.ServiceUrl = SERVICE_URL;
-            config.Logger = new KalturaClientTester();
+            config.Logger = new VidiunClientTester();
             return config;
         }
 
         //this function checks if a given flavor system name exist in the account.
         static int? CheckIfFlavorExist(String name)
         {
-            KalturaClient client = new KalturaClient(GetConfig());
-            client.KS = client.GenerateSession(ADMIN_SECRET, USER_ID, KalturaSessionType.ADMIN, PARTNER_ID);
+            VidiunClient client = new VidiunClient(GetConfig());
+            client.VS = client.GenerateSession(ADMIN_SECRET, USER_ID, VidiunSessionType.ADMIN, PARTNER_ID);
 			
             //verify that the account we're testing has the new iPad flavor enabled on the default conversion profile
-            KalturaConversionProfile defaultProfile = client.ConversionProfileService.GetDefault();
-            KalturaConversionProfileAssetParamsFilter  flavorsListFilter = new KalturaConversionProfileAssetParamsFilter();
+            VidiunConversionProfile defaultProfile = client.ConversionProfileService.GetDefault();
+            VidiunConversionProfileAssetParamsFilter  flavorsListFilter = new VidiunConversionProfileAssetParamsFilter();
             flavorsListFilter.SystemNameEqual = name;
 			flavorsListFilter.ConversionProfileIdEqual = defaultProfile.Id;
 			
-            KalturaConversionProfileAssetParamsListResponse list = client.ConversionProfileAssetParamsService.List(flavorsListFilter);
+            VidiunConversionProfileAssetParamsListResponse list = client.ConversionProfileAssetParamsService.List(flavorsListFilter);
             if (list.TotalCount > 0)
                 return list.Objects[0].AssetParamsId;
             else
@@ -267,32 +267,32 @@ namespace Kaltura
         
         static void PlaylistExecuteMultiRequestExample()
         {
-            KalturaClient client = new KalturaClient(GetConfig());
+            VidiunClient client = new VidiunClient(GetConfig());
 
             client.StartMultiRequest();
 
             // Request 1
-            client.SessionService.Start(ADMIN_SECRET, "", KalturaSessionType.ADMIN, PARTNER_ID, 86400, "");
-            client.KS = "{1:result}"; // for the current multi request, the result of the first call will be used as the ks for next calls
+            client.SessionService.Start(ADMIN_SECRET, "", VidiunSessionType.ADMIN, PARTNER_ID, 86400, "");
+            client.VS = "{1:result}"; // for the current multi request, the result of the first call will be used as the vs for next calls
 
             // Request 2
             client.MediaService.List();
 
-            KalturaMultiResponse response = client.DoMultiRequest();
+            VidiunMultiResponse response = client.DoMultiRequest();
 
             foreach (object obj in response)
             {
-                if (obj.GetType() == typeof(KalturaAPIException))
+                if (obj.GetType() == typeof(VidiunAPIException))
                 {
-                    Console.WriteLine("Error occurred: " + ((KalturaAPIException)obj).Message);
+                    Console.WriteLine("Error occurred: " + ((VidiunAPIException)obj).Message);
                 }
             }
 
             String twoEntries = "";
 
-            if (response[1].GetType() == typeof(KalturaMediaListResponse))
+            if (response[1].GetType() == typeof(VidiunMediaListResponse))
             {
-                KalturaMediaListResponse mediaListResponse = (KalturaMediaListResponse)response[1];
+                VidiunMediaListResponse mediaListResponse = (VidiunMediaListResponse)response[1];
                 twoEntries = mediaListResponse.Objects[0].Id + ", " + mediaListResponse.Objects[1].Id;
                 Console.WriteLine("We will use the first 2 entries we got as a reponse: " + twoEntries);
             }
@@ -302,35 +302,35 @@ namespace Kaltura
                 return;
             }
 
-            string ks = client.GenerateSession(ADMIN_SECRET, USER_ID, KalturaSessionType.ADMIN, PARTNER_ID, 86400, "");
-            client.KS = ks;
+            string vs = client.GenerateSession(ADMIN_SECRET, USER_ID, VidiunSessionType.ADMIN, PARTNER_ID, 86400, "");
+            client.VS = vs;
 
-            KalturaPlaylist newPlaylist = new KalturaPlaylist();
+            VidiunPlaylist newPlaylist = new VidiunPlaylist();
             newPlaylist.Name = "Test Playlist";
             newPlaylist.PlaylistContent = twoEntries;
-            newPlaylist.PlaylistType = KalturaPlaylistType.STATIC_LIST;
+            newPlaylist.PlaylistType = VidiunPlaylistType.STATIC_LIST;
 
-            KalturaPlaylist kPlaylist = client.PlaylistService.Add(newPlaylist);
+            VidiunPlaylist vPlaylist = client.PlaylistService.Add(newPlaylist);
 
             // new multirequest
             client.StartMultiRequest();
 
-            client.PlaylistService.Execute(kPlaylist.Id);
-            client.PlaylistService.Execute(kPlaylist.Id);
+            client.PlaylistService.Execute(vPlaylist.Id);
+            client.PlaylistService.Execute(vPlaylist.Id);
 
             response = client.DoMultiRequest();
 
             foreach (object obj in response)
             {
-                if (obj.GetType() == typeof(KalturaAPIException))
+                if (obj.GetType() == typeof(VidiunAPIException))
                 {
-                    Console.WriteLine("Error occurred: " + ((KalturaAPIException)obj).Message);
+                    Console.WriteLine("Error occurred: " + ((VidiunAPIException)obj).Message);
                 }
             }
 
             foreach (var currentResponse in response)
             {
-                if(currentResponse.GetType() != typeof(KalturaMultiResponse))
+                if(currentResponse.GetType() != typeof(VidiunMultiResponse))
                 {
                     throw new Exception("Unexpected multirequest response");
                 }
@@ -343,15 +343,15 @@ namespace Kaltura
             // Upload a file
             Console.WriteLine("1. Upload a video file");
             FileStream fileStream = new FileStream("DemoVideo.flv", FileMode.Open, FileAccess.Read);
-            KalturaClient client = new KalturaClient(GetConfig());
-            client.KS = client.GenerateSession(ADMIN_SECRET, USER_ID, KalturaSessionType.ADMIN, PARTNER_ID, 86400, "");
-            KalturaUploadToken uploadToken = client.UploadTokenService.Add();
+            VidiunClient client = new VidiunClient(GetConfig());
+            client.VS = client.GenerateSession(ADMIN_SECRET, USER_ID, VidiunSessionType.ADMIN, PARTNER_ID, 86400, "");
+            VidiunUploadToken uploadToken = client.UploadTokenService.Add();
             client.UploadTokenService.Upload(uploadToken.Id, fileStream);
-            KalturaUploadedFileTokenResource mediaResource = new KalturaUploadedFileTokenResource();
+            VidiunUploadedFileTokenResource mediaResource = new VidiunUploadedFileTokenResource();
             mediaResource.Token = uploadToken.Id;
-            KalturaMediaEntry mediaEntry = new KalturaMediaEntry();
+            VidiunMediaEntry mediaEntry = new VidiunMediaEntry();
             mediaEntry.Name = "Media Entry Using C#.Net Client To Test Flavor Replace";
-            mediaEntry.MediaType = KalturaMediaType.VIDEO;
+            mediaEntry.MediaType = VidiunMediaType.VIDEO;
             mediaEntry = client.MediaService.Add(mediaEntry);
             mediaEntry = client.MediaService.AddContent(mediaEntry.Id, mediaResource);
 
@@ -369,23 +369,23 @@ namespace Kaltura
                 
                 //Detect the conversion readiness status of the iPad flavor and download the file when ready -
                 Boolean statusB = false;
-                KalturaFlavorAsset iPadFlavor = null;
+                VidiunFlavorAsset iPadFlavor = null;
                 while (statusB == false)
                 {
                     Console.WriteLine("2. Waiting for the iPad flavor to be available...");
                     System.Threading.Thread.Sleep(5000);
-                    KalturaFlavorAssetFilter flavorAssetsFilter = new KalturaFlavorAssetFilter();
+                    VidiunFlavorAssetFilter flavorAssetsFilter = new VidiunFlavorAssetFilter();
                     flavorAssetsFilter.EntryIdEqual = mediaEntry.Id;
-                    KalturaFlavorAssetListResponse flavorAssets = client.FlavorAssetService.List(flavorAssetsFilter);
-                    foreach (KalturaFlavorAsset flavor in flavorAssets.Objects)
+                    VidiunFlavorAssetListResponse flavorAssets = client.FlavorAssetService.List(flavorAssetsFilter);
+                    foreach (VidiunFlavorAsset flavor in flavorAssets.Objects)
                     {
                         if (flavor.FlavorParamsId == iPadFlavorId)
                         {
                             iPadFlavor = flavor;
-                            statusB = flavor.Status == KalturaFlavorAssetStatus.READY;
-                            if (flavor.Status == KalturaFlavorAssetStatus.NOT_APPLICABLE)
+                            statusB = flavor.Status == VidiunFlavorAssetStatus.READY;
+                            if (flavor.Status == VidiunFlavorAssetStatus.NOT_APPLICABLE)
                             {
-                                //in case the Kaltura Transcoding Decision Layer decided not to convert to this flavor, let's force it.
+                                //in case the Vidiun Transcoding Decision Layer decided not to convert to this flavor, let's force it.
                                 client.FlavorAssetService.Convert(mediaEntry.Id, iPadFlavor.FlavorParamsId);
                             }
                             Console.WriteLine("3. iPad flavor (" + iPadFlavor.FlavorParamsId + "). It's " + (statusB ? "Ready to ROCK!" : "being converted. Waiting..."));
@@ -398,21 +398,21 @@ namespace Kaltura
                 Console.WriteLine("4. iPad Flavor URL is: " + iPadFlavorUrl);
 
                 //Alternatively, download URL for a given flavor id can also be retrived by creating the playManifest URL -
-                string playManifestURL = "http://www.kaltura.com/p/{partnerId}/sp/0/playManifest/entryId/{entryId}/format/url/flavorParamId/{flavorParamId}/ks/{ks}/{fileName}.mp4";
+                string playManifestURL = "http://www.vidiun.com/p/{partnerId}/sp/0/playManifest/entryId/{entryId}/format/url/flavorParamId/{flavorParamId}/vs/{vs}/{fileName}.mp4";
                 playManifestURL = playManifestURL.Replace("{partnerId}", PARTNER_ID.ToString());
                 playManifestURL = playManifestURL.Replace("{entryId}", mediaEntry.Id);
                 playManifestURL = playManifestURL.Replace("{flavorParamId}", iPadFlavor.FlavorParamsId.ToString());
-                playManifestURL = playManifestURL.Replace("{ks}", client.KS);
+                playManifestURL = playManifestURL.Replace("{vs}", client.VS);
                 playManifestURL = playManifestURL.Replace("{fileName}", mediaEntry.Name);
                 Console.WriteLine("4. iPad Flavor playManifest URL is: " + playManifestURL);
                 
-                //now let's replace the flavor with our video file (e.g. after processing the file outside of Kaltura)
+                //now let's replace the flavor with our video file (e.g. after processing the file outside of Vidiun)
                 FileStream fileStreamiPad = new FileStream("DemoVideoiPad.mp4", FileMode.Open, FileAccess.Read);
                 uploadToken = client.UploadTokenService.Add();
                 client.UploadTokenService.Upload(uploadToken.Id, fileStreamiPad);
-                mediaResource = new KalturaUploadedFileTokenResource();
+                mediaResource = new VidiunUploadedFileTokenResource();
                 mediaResource.Token = uploadToken.Id;
-                KalturaFlavorAsset newiPadFlavor = client.FlavorAssetService.SetContent(iPadFlavor.Id, mediaResource);
+                VidiunFlavorAsset newiPadFlavor = client.FlavorAssetService.SetContent(iPadFlavor.Id, mediaResource);
                 Console.WriteLine("5. iPad Flavor was replaced! id: " + newiPadFlavor.Id);
             }
 
@@ -420,14 +420,14 @@ namespace Kaltura
             FileStream fileStreamCaption = new FileStream("DemoCaptions.srt", FileMode.Open, FileAccess.Read);
             uploadToken = client.UploadTokenService.Add();
             client.UploadTokenService.Upload(uploadToken.Id, fileStreamCaption);
-            KalturaCaptionAsset captionAsset = new KalturaCaptionAsset();
+            VidiunCaptionAsset captionAsset = new VidiunCaptionAsset();
             captionAsset.Label = "Test C# Uploaded Caption";
-            captionAsset.Language = KalturaLanguage.EN;
-            captionAsset.Format = KalturaCaptionType.SRT;
+            captionAsset.Language = VidiunLanguage.EN;
+            captionAsset.Format = VidiunCaptionType.SRT;
             captionAsset.FileExt = "srt";
             captionAsset = client.CaptionAssetService.Add(mediaEntry.Id, captionAsset);
             Console.WriteLine("6. Added a new caption asset. Id: " + captionAsset.Id);
-            KalturaUploadedFileTokenResource captionResource = new KalturaUploadedFileTokenResource();
+            VidiunUploadedFileTokenResource captionResource = new VidiunUploadedFileTokenResource();
             captionResource.Token = uploadToken.Id;
             captionAsset = client.CaptionAssetService.SetContent(captionAsset.Id, captionResource);
             Console.WriteLine("7. Uploaded a new caption file and attached to caption asset id: " + captionAsset.Id);
@@ -447,38 +447,38 @@ namespace Kaltura
             string fieldValue = "VobSub";
             string xmlData = "<metadata><SubtitleFormat>" + fieldValue + "</SubtitleFormat></metadata>";
 
-            KalturaClient client = new KalturaClient(GetConfig());
+            VidiunClient client = new VidiunClient(GetConfig());
 
             // start new session (client session is enough when we do operations in a users scope)
-            client.KS = client.GenerateSession(ADMIN_SECRET, USER_ID, KalturaSessionType.ADMIN, PARTNER_ID);
+            client.VS = client.GenerateSession(ADMIN_SECRET, USER_ID, VidiunSessionType.ADMIN, PARTNER_ID);
 
             // Setup a pager and search to use
-            KalturaMediaEntryFilter mediaEntryFilter = new KalturaMediaEntryFilter();
-            mediaEntryFilter.OrderBy = KalturaMediaEntryOrderBy.CREATED_AT_ASC;
-            mediaEntryFilter.MediaTypeEqual = KalturaMediaType.VIDEO;
+            VidiunMediaEntryFilter mediaEntryFilter = new VidiunMediaEntryFilter();
+            mediaEntryFilter.OrderBy = VidiunMediaEntryOrderBy.CREATED_AT_ASC;
+            mediaEntryFilter.MediaTypeEqual = VidiunMediaType.VIDEO;
 
-            KalturaFilterPager pager = new KalturaFilterPager();
+            VidiunFilterPager pager = new VidiunFilterPager();
             pager.PageSize = 1;
             pager.PageIndex = 1;
 
-            KalturaMetadataProfile newMetadataProfile = new KalturaMetadataProfile();
-            newMetadataProfile.MetadataObjectType = KalturaMetadataObjectType.ENTRY;
+            VidiunMetadataProfile newMetadataProfile = new VidiunMetadataProfile();
+            newMetadataProfile.MetadataObjectType = VidiunMetadataObjectType.ENTRY;
             newMetadataProfile.Name = "Test";
 
             Console.WriteLine("List videos, get the first one...");
-            IList<KalturaMediaEntry> entries = client.MediaService.List(mediaEntryFilter, pager).Objects;
-            KalturaMediaEntry entry = entries[0];
+            IList<VidiunMediaEntry> entries = client.MediaService.List(mediaEntryFilter, pager).Objects;
+            VidiunMediaEntry entry = entries[0];
             
-            KalturaMetadataProfile metadataProfile = client.MetadataProfileService.Add(newMetadataProfile, xsd);
+            VidiunMetadataProfile metadataProfile = client.MetadataProfileService.Add(newMetadataProfile, xsd);
             Console.WriteLine("1. Successfully created the custom metadata profile " + metadataProfile.Name + ".");
 
-            KalturaMetadata metadata = client.MetadataService.Add(metadataProfile.Id, metadataProfile.MetadataObjectType, entry.Id, xmlData);
+            VidiunMetadata metadata = client.MetadataService.Add(metadataProfile.Id, metadataProfile.MetadataObjectType, entry.Id, xmlData);
             Console.WriteLine("2. Successfully added the custom data field for entryid: " + entry.Id);
 
-            KalturaMetadataFilter metadataFilter = new KalturaMetadataFilter();
+            VidiunMetadataFilter metadataFilter = new VidiunMetadataFilter();
             metadataFilter.ObjectIdEqual = entry.Id;
             metadataFilter.MetadataProfileIdEqual = metadataProfile.Id;
-            IList<KalturaMetadata> metadataList = client.MetadataService.List(metadataFilter).Objects;
+            IList<VidiunMetadata> metadataList = client.MetadataService.List(metadataFilter).Objects;
             if (metadataList.Count == 0) {
                 throw new Exception("Failed to find metadata for entryid: " + entry.Id);
             }
@@ -487,18 +487,18 @@ namespace Kaltura
         // this method is deprecated and should be avoided. 
         // see above SampleReplaceVideoFlavorAndAddCaption for the current method of uploading media.
         // new method should use the Add method along with specific appropriate Resource object and Upload Token.
-        static KalturaMediaEntry StartSessionAndUploadMedia(FileStream fileStream)
+        static VidiunMediaEntry StartSessionAndUploadMedia(FileStream fileStream)
         {
-            KalturaClient client = new KalturaClient(GetConfig());
+            VidiunClient client = new VidiunClient(GetConfig());
 
             // start new session (client session is enough when we do operations in a users scope)
-            client.KS = client.GenerateSession(ADMIN_SECRET, USER_ID, KalturaSessionType.USER, PARTNER_ID, 86400, "");
+            client.VS = client.GenerateSession(ADMIN_SECRET, USER_ID, VidiunSessionType.USER, PARTNER_ID, 86400, "");
 
             // upload the media
             string uploadTokenId = client.MediaService.Upload(fileStream); // synchronous proccess
-            KalturaMediaEntry mediaEntry = new KalturaMediaEntry();
+            VidiunMediaEntry mediaEntry = new VidiunMediaEntry();
             mediaEntry.Name = "Media Entry Using .Net Client";
-            mediaEntry.MediaType = KalturaMediaType.VIDEO;
+            mediaEntry.MediaType = VidiunMediaType.VIDEO;
 
             // add the media using the upload token
             mediaEntry = client.MediaService.AddFromUploadedFile(mediaEntry, uploadTokenId);
@@ -513,14 +513,14 @@ namespace Kaltura
         // new method should use the Add method along with specific appropriate Resource object.
         static void StartSessionAndUploadMedia(Uri url)
         {
-            KalturaClient client = new KalturaClient(GetConfig());
+            VidiunClient client = new VidiunClient(GetConfig());
 
             // start new session (client session is enough when we do operations in a users scope)
-            client.KS = client.GenerateSession(ADMIN_SECRET, USER_ID, KalturaSessionType.USER, PARTNER_ID, 86400, "");
+            client.VS = client.GenerateSession(ADMIN_SECRET, USER_ID, VidiunSessionType.USER, PARTNER_ID, 86400, "");
 
-            KalturaMediaEntry mediaEntry = new KalturaMediaEntry();
+            VidiunMediaEntry mediaEntry = new VidiunMediaEntry();
             mediaEntry.Name = "Media Entry Using .Net Client";
-            mediaEntry.MediaType = KalturaMediaType.VIDEO;
+            mediaEntry.MediaType = VidiunMediaType.VIDEO;
 
             // add the media using the upload token
             mediaEntry = client.MediaService.AddFromUrl(mediaEntry, url.ToString());
@@ -535,82 +535,82 @@ namespace Kaltura
         {
             FileStream fileStream = new FileStream("DemoVideo.flv", FileMode.Open, FileAccess.Read);
 
-            KalturaMediaEntry mediaEntry = new KalturaMediaEntry();
+            VidiunMediaEntry mediaEntry = new VidiunMediaEntry();
             mediaEntry.Name = "Media Entry Using C#.Net Client To Test Flavor Replace";
-            mediaEntry.MediaType = KalturaMediaType.VIDEO;
+            mediaEntry.MediaType = VidiunMediaType.VIDEO;
 
-            KalturaUploadedFileTokenResource mediaResource = new KalturaUploadedFileTokenResource();
+            VidiunUploadedFileTokenResource mediaResource = new VidiunUploadedFileTokenResource();
             mediaResource.Token = "{1:result:id}";
 
-            KalturaClient client = new KalturaClient(GetConfig());
+            VidiunClient client = new VidiunClient(GetConfig());
 
-            client.KS = client.GenerateSession(ADMIN_SECRET, "", KalturaSessionType.ADMIN, PARTNER_ID);
+            client.VS = client.GenerateSession(ADMIN_SECRET, "", VidiunSessionType.ADMIN, PARTNER_ID);
             client.StartMultiRequest();
             client.UploadTokenService.Add();
             client.MediaService.Add(mediaEntry);
             client.UploadTokenService.Upload("{1:result:id}", fileStream);
             client.MediaService.AddContent("{2:result:id}", mediaResource);
             
-            KalturaMultiResponse response = client.DoMultiRequest();
+            VidiunMultiResponse response = client.DoMultiRequest();
 
             foreach (object obj in response)
             {
-                if (obj is KalturaAPIException)
+                if (obj is VidiunAPIException)
                 {
-                    Console.WriteLine("Error occurred: " + ((KalturaAPIException)obj).Message);
+                    Console.WriteLine("Error occurred: " + ((VidiunAPIException)obj).Message);
                 }
             }
 
             // when accessing the response object we will use an index and not the response number (response number - 1)
-            if (response[3] is KalturaMediaEntry)
+            if (response[3] is VidiunMediaEntry)
             {
-                KalturaMediaEntry newMediaEntry = (KalturaMediaEntry)response[3];
+                VidiunMediaEntry newMediaEntry = (VidiunMediaEntry)response[3];
                 Console.WriteLine("Multirequest newly added entry id: " + newMediaEntry.Id + ", status: " + newMediaEntry.Status);
             }
         }
         
-	    private static KalturaMediaEntry createEntry()
+	    private static VidiunMediaEntry createEntry()
 	    {
-            KalturaClient client = new KalturaClient(GetConfig());
-            client.KS = client.GenerateSession(ADMIN_SECRET, USER_ID, KalturaSessionType.USER, PARTNER_ID, 86400, "");
+            VidiunClient client = new VidiunClient(GetConfig());
+            client.VS = client.GenerateSession(ADMIN_SECRET, USER_ID, VidiunSessionType.USER, PARTNER_ID, 86400, "");
 
-		    KalturaMediaEntry entry = new KalturaMediaEntry();
-		    entry.MediaType = KalturaMediaType.VIDEO;
+		    VidiunMediaEntry entry = new VidiunMediaEntry();
+		    entry.MediaType = VidiunMediaType.VIDEO;
             entry.Name = "test_" + Guid.NewGuid().ToString();
             entry.Tags = uniqueTag;
     		
 		    return client.MediaService.Add(entry);
 	    }
 
-	    private static KalturaMetadata createMetadata(int metadataProfileId, KalturaMetadataObjectType objectType, string objectId, string xmlData)
+	    private static VidiunMetadata createMetadata(int metadataProfileId, VidiunMetadataObjectType objectType, string objectId, string xmlData)
 	    {
-            KalturaClient client = new KalturaClient(GetConfig());
-            client.KS = client.GenerateSession(ADMIN_SECRET, USER_ID, KalturaSessionType.USER, PARTNER_ID, 86400, "");
+            VidiunClient client = new VidiunClient(GetConfig());
+            client.VS = client.GenerateSession(ADMIN_SECRET, USER_ID, VidiunSessionType.USER, PARTNER_ID, 86400, "");
 
 		    return client.MetadataService.Add(metadataProfileId, objectType, objectId, xmlData);
 	    }
         
-	    private static KalturaMetadataProfile createMetadataProfile(KalturaMetadataObjectType objectType, string xsdData)
+	    private static VidiunMetadataProfile createMetadataProfile(VidiunMetadataObjectType objectType, string xsdData)
 	    {
-            KalturaClient client = new KalturaClient(GetConfig());
-            client.KS = client.GenerateSession(ADMIN_SECRET, USER_ID, KalturaSessionType.ADMIN, PARTNER_ID, 86400, "");
+            VidiunClient client = new VidiunClient(GetConfig());
+            client.VS = client.GenerateSession(ADMIN_SECRET, USER_ID, VidiunSessionType.ADMIN, PARTNER_ID, 86400, "");
 
-		    KalturaMetadataProfile metadataProfile = new KalturaMetadataProfile();
+		    VidiunMetadataProfile metadataProfile = new VidiunMetadataProfile();
             metadataProfile.MetadataObjectType = objectType;
             metadataProfile.Name = "test_" + Guid.NewGuid().ToString();
     		
 		    return client.MetadataProfileService.Add(metadataProfile, xsdData);
 	    }
 
-        private static IList<KalturaMediaEntry> createEntriesWithMetadataObjects(int entriesCount)
+        private static IList<VidiunMediaEntry> createEntriesWithMetadataObjects(int entriesCount)
 	    {
             return createEntriesWithMetadataObjects(entriesCount, 2);
         }
 
-        private static IList<KalturaMediaEntry> createEntriesWithMetadataObjects(int entriesCount, int metadataProfileCount)
+        private static IList<VidiunMediaEntry> createEntriesWithMetadataObjects(int entriesCount, int metadataProfileCount)
 	    {
-		    IList<KalturaMediaEntry> entries = new List<KalturaMediaEntry>(2);
-            IDictionary<string, KalturaMetadataProfile> metadataProfiles = new Dictionary<string, KalturaMetadataProfile>(3);
+		    IList<VidiunMediaEntry> entries = new List<VidiunMediaEntry>(2);
+            IDictionary<string, VidiunMetadataProfile> metadataProfiles = new Dictionary<string, VidiunMetadataProfile>(3);
 
             string xsd;
             for(int i = 1; i <= metadataProfileCount; i++)
@@ -665,13 +665,13 @@ namespace Kaltura
         </xsd:simpleType>
     </xsd:schema>";
     				
-                metadataProfiles.Add(i.ToString(), createMetadataProfile(KalturaMetadataObjectType.ENTRY, xsd));
+                metadataProfiles.Add(i.ToString(), createMetadataProfile(VidiunMetadataObjectType.ENTRY, xsd));
             }
     		
             string xml;
             for(int i = 0; i < entriesCount; i++)
             {
-                KalturaMediaEntry entry = createEntry();
+                VidiunMediaEntry entry = createEntry();
                 entries.Add(entry);
 
                 foreach (string index in metadataProfiles.Keys)
@@ -681,7 +681,7 @@ namespace Kaltura
         <FreeText" + index + ">example text " + index + "</FreeText" + index + @">
     </metadata>";
 
-                    createMetadata(metadataProfiles[index].Id, KalturaMetadataObjectType.ENTRY, entry.Id, xml);
+                    createMetadata(metadataProfiles[index].Id, VidiunMetadataObjectType.ENTRY, entry.Id, xml);
                 }
             }
     		
@@ -690,67 +690,67 @@ namespace Kaltura
         // Show how to use response-profile
         private static void ResponseProfileExample()
         {
-            KalturaClient client = new KalturaClient(GetConfig());
-            client.KS = client.GenerateSession(ADMIN_SECRET, USER_ID, KalturaSessionType.ADMIN, PARTNER_ID, 86400, "");
+            VidiunClient client = new VidiunClient(GetConfig());
+            client.VS = client.GenerateSession(ADMIN_SECRET, USER_ID, VidiunSessionType.ADMIN, PARTNER_ID, 86400, "");
 
 		    int entriesTotalCount = 4;
 		    int metadataProfileTotalCount = 2;
             int metadataPageSize = 2;
 
-            IList<KalturaMediaEntry> entries = createEntriesWithMetadataObjects(entriesTotalCount, metadataProfileTotalCount);
+            IList<VidiunMediaEntry> entries = createEntriesWithMetadataObjects(entriesTotalCount, metadataProfileTotalCount);
     		
-            KalturaMediaEntryFilter entriesFilter = new KalturaMediaEntryFilter();
-            entriesFilter.StatusIn = KalturaEntryStatus.PENDING.ToString() + "," + KalturaEntryStatus.NO_CONTENT.ToString();
+            VidiunMediaEntryFilter entriesFilter = new VidiunMediaEntryFilter();
+            entriesFilter.StatusIn = VidiunEntryStatus.PENDING.ToString() + "," + VidiunEntryStatus.NO_CONTENT.ToString();
             entriesFilter.TagsLike = uniqueTag;
     		
-            KalturaFilterPager entriesPager = new KalturaFilterPager();
+            VidiunFilterPager entriesPager = new VidiunFilterPager();
             entriesPager.PageSize = entriesTotalCount;
     		
-            KalturaMetadataFilter metadataFilter = new KalturaMetadataFilter();
-            metadataFilter.MetadataObjectTypeEqual = KalturaMetadataObjectType.ENTRY;
+            VidiunMetadataFilter metadataFilter = new VidiunMetadataFilter();
+            metadataFilter.MetadataObjectTypeEqual = VidiunMetadataObjectType.ENTRY;
     		
-            KalturaResponseProfileMapping metadataMapping = new KalturaResponseProfileMapping();
+            VidiunResponseProfileMapping metadataMapping = new VidiunResponseProfileMapping();
             metadataMapping.FilterProperty = "objectIdEqual";
             metadataMapping.ParentProperty = "id";
 
-            IList<KalturaResponseProfileMapping> metadataMappings = new List<KalturaResponseProfileMapping>();
+            IList<VidiunResponseProfileMapping> metadataMappings = new List<VidiunResponseProfileMapping>();
             metadataMappings.Add(metadataMapping);
     		
-            KalturaFilterPager metadataPager = new KalturaFilterPager();
+            VidiunFilterPager metadataPager = new VidiunFilterPager();
             metadataPager.PageSize = metadataPageSize;
     		
-            KalturaDetachedResponseProfile metadataResponseProfile = new KalturaDetachedResponseProfile();
+            VidiunDetachedResponseProfile metadataResponseProfile = new VidiunDetachedResponseProfile();
             metadataResponseProfile.Name = "metadata_" + uniqueTag;
-            metadataResponseProfile.Type = KalturaResponseProfileType.INCLUDE_FIELDS;
+            metadataResponseProfile.Type = VidiunResponseProfileType.INCLUDE_FIELDS;
             metadataResponseProfile.Fields = "id,objectId,createdAt, xml";
             metadataResponseProfile.Filter = metadataFilter;
             metadataResponseProfile.Pager = metadataPager;
             metadataResponseProfile.Mappings = metadataMappings;
     		
-            IList<KalturaDetachedResponseProfile> metadataResponseProfiles = new List<KalturaDetachedResponseProfile>();
+            IList<VidiunDetachedResponseProfile> metadataResponseProfiles = new List<VidiunDetachedResponseProfile>();
             metadataResponseProfiles.Add(metadataResponseProfile);
 
-            KalturaResponseProfile responseProfile = new KalturaResponseProfile();
+            VidiunResponseProfile responseProfile = new VidiunResponseProfile();
             responseProfile.Name = "test_" + uniqueTag;
             responseProfile.SystemName = "test_" + uniqueTag;
-            responseProfile.Type = KalturaResponseProfileType.INCLUDE_FIELDS;
+            responseProfile.Type = VidiunResponseProfileType.INCLUDE_FIELDS;
             responseProfile.Fields = "id,name,createdAt";
             responseProfile.RelatedProfiles = metadataResponseProfiles;
 
             responseProfile = client.ResponseProfileService.Add(responseProfile);
     		    		
-            KalturaResponseProfileHolder nestedResponseProfile = new KalturaResponseProfileHolder();
+            VidiunResponseProfileHolder nestedResponseProfile = new VidiunResponseProfileHolder();
             nestedResponseProfile.Id = responseProfile.Id;
     		
             client.ResponseProfile = nestedResponseProfile;
-            IList<KalturaBaseEntry> list = client.BaseEntryService.List(entriesFilter, entriesPager).Objects;
+            IList<VidiunBaseEntry> list = client.BaseEntryService.List(entriesFilter, entriesPager).Objects;
     		
             if(entriesTotalCount != list.Count)
             {
                 throw new Exception("entriesTotalCount[" + entriesTotalCount + "] != list.Count[" + list.Count + "]");
             }
     		
-            foreach(KalturaBaseEntry entry in list)
+            foreach(VidiunBaseEntry entry in list)
             {	
                 if(entry.RelatedObjects == null)
                 {
@@ -762,18 +762,18 @@ namespace Kaltura
                     throw new Exception("Related object [" + metadataResponseProfile.Name + "] is missing");
                 }
 
-                if (!(entry.RelatedObjects[metadataResponseProfile.Name] is KalturaMetadataListResponse))
+                if (!(entry.RelatedObjects[metadataResponseProfile.Name] is VidiunMetadataListResponse))
                 {
                     throw new Exception("Related object [" + metadataResponseProfile.Name + "] has wrong type [" + entry.RelatedObjects[metadataResponseProfile.Name].GetType() + "]");
                 }
-                KalturaMetadataListResponse metadataListResponse = (KalturaMetadataListResponse)entry.RelatedObjects[metadataResponseProfile.Name];
+                VidiunMetadataListResponse metadataListResponse = (VidiunMetadataListResponse)entry.RelatedObjects[metadataResponseProfile.Name];
 
                 if(metadataListResponse.Objects.Count != metadataProfileTotalCount)
                 {
                     throw new Exception("Related object [" + metadataResponseProfile.Name + "] has wrong number of objects");
                 }
 
-                foreach(KalturaMetadata metadata in metadataListResponse.Objects)
+                foreach(VidiunMetadata metadata in metadataListResponse.Objects)
                 {
                     if (metadata.ObjectId != entry.Id)
                     {

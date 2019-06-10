@@ -1,4 +1,4 @@
-package com.kaltura.client.utils;
+package com.vidiun.client.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -31,16 +31,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.KalturaClient;
-import com.kaltura.client.enums.KalturaMetadataObjectType;
-import com.kaltura.client.types.KalturaFilterPager;
-import com.kaltura.client.types.KalturaMetadata;
-import com.kaltura.client.types.KalturaMetadataFilter;
-import com.kaltura.client.types.KalturaMetadataListResponse;
-import com.kaltura.client.types.KalturaMetadataProfile;
-import com.kaltura.client.types.KalturaMetadataProfileFilter;
-import com.kaltura.client.types.KalturaMetadataProfileListResponse;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.VidiunClient;
+import com.vidiun.client.enums.VidiunMetadataObjectType;
+import com.vidiun.client.types.VidiunFilterPager;
+import com.vidiun.client.types.VidiunMetadata;
+import com.vidiun.client.types.VidiunMetadataFilter;
+import com.vidiun.client.types.VidiunMetadataListResponse;
+import com.vidiun.client.types.VidiunMetadataProfile;
+import com.vidiun.client.types.VidiunMetadataProfileFilter;
+import com.vidiun.client.types.VidiunMetadataProfileListResponse;
 
 public class MetadataUtils {
 
@@ -57,29 +57,29 @@ public class MetadataUtils {
 		}
 	}
 	
-	public static void deleteMetadata(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, String profileSystemName) throws KalturaApiException{
-		KalturaMetadataProfile profile = getProfile(client, objectType, profileSystemName);
+	public static void deleteMetadata(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, String profileSystemName) throws VidiunApiException{
+		VidiunMetadataProfile profile = getProfile(client, objectType, profileSystemName);
 		deleteMetadata(client, objectId, objectType, profile.getId());
 	}
 	
-	public static void deleteMetadata(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, int profileId) throws KalturaApiException {
-		KalturaMetadata metadata = get(client, objectId, objectType, profileId);
+	public static void deleteMetadata(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, int profileId) throws VidiunApiException {
+		VidiunMetadata metadata = get(client, objectId, objectType, profileId);
 		if(metadata != null) {
 			deleteMetadata(client, metadata.getId());
 		}
 	}
 	
-	public static void deleteMetadata(KalturaClient client, int metadataId) throws KalturaApiException {
+	public static void deleteMetadata(VidiunClient client, int metadataId) throws VidiunApiException {
 		client.getMetadataService().delete(metadataId);
 	}
 	
-	public static String getValue(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, String profileSystemName, String xPath) throws KalturaApiException, XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-		KalturaMetadataProfile profile = getProfile(client, objectType, profileSystemName);
+	public static String getValue(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, String profileSystemName, String xPath) throws VidiunApiException, XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+		VidiunMetadataProfile profile = getProfile(client, objectType, profileSystemName);
 		return getValue(client, objectId, objectType, profile.getId(), xPath);
 	}
 		
-	public static String getValue(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, int profileId, String xPath) throws KalturaApiException, XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-		KalturaMetadata metadata = get(client, objectId, objectType, profileId);
+	public static String getValue(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, int profileId, String xPath) throws VidiunApiException, XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+		VidiunMetadata metadata = get(client, objectId, objectType, profileId);
 		if(metadata != null) {
 			return getValue(metadata.getXml(), xPath);
 		}
@@ -171,13 +171,13 @@ public class MetadataUtils {
 		return valuesFromXsd;
 	}
 
-	public static void setValue(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, String profileSystemName, String xPath, String value) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException, TransformerException, KalturaApiException, MetadataUtilsFieldNotSetException {
-		KalturaMetadataProfile profile = getProfile(client, objectType, profileSystemName);
+	public static void setValue(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, String profileSystemName, String xPath, String value) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException, TransformerException, VidiunApiException, MetadataUtilsFieldNotSetException {
+		VidiunMetadataProfile profile = getProfile(client, objectType, profileSystemName);
 		setValue(client, objectId, objectType, profile.getId(), xPath, value);
 	}
 
-	public static void setValue(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, int profileId, String xPath, String value) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException, TransformerException, KalturaApiException, MetadataUtilsFieldNotSetException {
-		KalturaMetadata metadata = get(client, objectId, objectType, profileId);
+	public static void setValue(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, int profileId, String xPath, String value) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException, TransformerException, VidiunApiException, MetadataUtilsFieldNotSetException {
+		VidiunMetadata metadata = get(client, objectId, objectType, profileId);
 		if(metadata == null) {
 			addMetadata(client, objectId, objectType, profileId, xPath, value);
 		}
@@ -189,7 +189,7 @@ public class MetadataUtils {
 		}
 	}
 
-	public static void setValue(KalturaClient client, KalturaMetadata metadata, String xPath, String value) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException, TransformerException, KalturaApiException {
+	public static void setValue(VidiunClient client, VidiunMetadata metadata, String xPath, String value) throws XPathExpressionException, ParserConfigurationException, SAXException, IOException, TransformerException, VidiunApiException {
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		docBuilderFactory.setIgnoringElementContentWhitespace(true);
 
@@ -235,12 +235,12 @@ public class MetadataUtils {
 		return xml;
 	}
 
-	public static KalturaMetadata addMetadata(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, String profileSystemName, String xPath, String value) throws ParserConfigurationException, TransformerException, KalturaApiException {
-		KalturaMetadataProfile profile = getProfile(client, objectType, profileSystemName);
+	public static VidiunMetadata addMetadata(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, String profileSystemName, String xPath, String value) throws ParserConfigurationException, TransformerException, VidiunApiException {
+		VidiunMetadataProfile profile = getProfile(client, objectType, profileSystemName);
 		return addMetadata(client, objectId, objectType, profile.getId(), xPath, value);
 	}
 	
-	public static KalturaMetadata addMetadata(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, int profileId, String xPath, String value) throws ParserConfigurationException, TransformerException, KalturaApiException {
+	public static VidiunMetadata addMetadata(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, int profileId, String xPath, String value) throws ParserConfigurationException, TransformerException, VidiunApiException {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
@@ -263,26 +263,26 @@ public class MetadataUtils {
 		return addMetadata(client, objectId, objectType, profileId, xml);
 	}
 
-	public static KalturaMetadata addMetadata(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, String profileSystemName, String xml) throws ParserConfigurationException, TransformerException, KalturaApiException {
-		KalturaMetadataProfile profile = getProfile(client, objectType, profileSystemName);
+	public static VidiunMetadata addMetadata(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, String profileSystemName, String xml) throws ParserConfigurationException, TransformerException, VidiunApiException {
+		VidiunMetadataProfile profile = getProfile(client, objectType, profileSystemName);
 		return client.getMetadataService().add(profile.getId(), objectType, objectId, xml);
 	}
 
-	public static KalturaMetadata addMetadata(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, int profileId, String xml) throws ParserConfigurationException, TransformerException, KalturaApiException {
+	public static VidiunMetadata addMetadata(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, int profileId, String xml) throws ParserConfigurationException, TransformerException, VidiunApiException {
 		return client.getMetadataService().add(profileId, objectType, objectId, xml);
 	}
 
-	public static boolean hasValue(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, String profileSystemName, String xPath) throws KalturaApiException, XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-		KalturaMetadataProfile profile = getProfile(client, objectType, profileSystemName);
+	public static boolean hasValue(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, String profileSystemName, String xPath) throws VidiunApiException, XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+		VidiunMetadataProfile profile = getProfile(client, objectType, profileSystemName);
 		return hasValue(client, objectId, objectType, profile.getId(), xPath);
 	}
 		
-	public static boolean hasValue(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, int profileId, String xPath) throws KalturaApiException, XPathExpressionException, ParserConfigurationException, SAXException, IOException {
-		KalturaMetadata metadata = get(client, objectId, objectType, profileId);
+	public static boolean hasValue(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, int profileId, String xPath) throws VidiunApiException, XPathExpressionException, ParserConfigurationException, SAXException, IOException {
+		VidiunMetadata metadata = get(client, objectId, objectType, profileId);
 		return hasValue(metadata, xPath);
 	}
 	
-	public static boolean hasValue(KalturaMetadata metadata, String xPath) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+	public static boolean hasValue(VidiunMetadata metadata, String xPath) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
 		return hasValue(metadata.getXml(), xPath);
 	}
 	
@@ -300,15 +300,15 @@ public class MetadataUtils {
 		return (Boolean) compiledExpression.evaluate(doc, XPathConstants.BOOLEAN);
 	}
 	
-	public static KalturaMetadataProfile getProfile(KalturaClient client, KalturaMetadataObjectType objectType, String profileSystemName) throws KalturaApiException {
-		KalturaMetadataProfileFilter filter = new KalturaMetadataProfileFilter();
+	public static VidiunMetadataProfile getProfile(VidiunClient client, VidiunMetadataObjectType objectType, String profileSystemName) throws VidiunApiException {
+		VidiunMetadataProfileFilter filter = new VidiunMetadataProfileFilter();
 		filter.setMetadataObjectTypeEqual(objectType);
 		filter.setSystemNameEqual(profileSystemName);
 		
-		KalturaFilterPager pager = new KalturaFilterPager();
+		VidiunFilterPager pager = new VidiunFilterPager();
 		pager.setPageSize(1);
 		
-		KalturaMetadataProfileListResponse metadataProfileList = client.getMetadataProfileService().list(filter, pager);
+		VidiunMetadataProfileListResponse metadataProfileList = client.getMetadataProfileService().list(filter, pager);
 		if(metadataProfileList.getObjects().size() > 0){
 			return metadataProfileList.getObjects().get(0);
 		}
@@ -316,16 +316,16 @@ public class MetadataUtils {
 		return null;
 	}
 	
-	public static KalturaMetadata get(KalturaClient client, String objectId, KalturaMetadataObjectType objectType, int profileId) throws KalturaApiException {
-		KalturaMetadataFilter filter = new KalturaMetadataFilter();
+	public static VidiunMetadata get(VidiunClient client, String objectId, VidiunMetadataObjectType objectType, int profileId) throws VidiunApiException {
+		VidiunMetadataFilter filter = new VidiunMetadataFilter();
 		filter.setObjectIdEqual(objectId);
 		filter.setMetadataObjectTypeEqual(objectType);
 		filter.setMetadataProfileIdEqual(profileId);
 		
-		KalturaFilterPager pager = new KalturaFilterPager();
+		VidiunFilterPager pager = new VidiunFilterPager();
 		pager.setPageSize(1);
 		
-		KalturaMetadataListResponse metadataList = client.getMetadataService().list(filter, pager);
+		VidiunMetadataListResponse metadataList = client.getMetadataService().list(filter, pager);
 		if(metadataList.getObjects().size() > 0){
 			return metadataList.getObjects().get(0);
 		}

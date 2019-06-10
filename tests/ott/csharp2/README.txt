@@ -1,2 +1,2 @@
-Kaltura C# OTT API Client Library.
-Compatible with Kaltura OTT server version @VERSION@ and above.
+Vidiun C# OTT API Client Library.
+Compatible with Vidiun OTT server version @VERSION@ and above.

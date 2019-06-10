@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.sharing;
+package com.vidiun.sharing;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.KalturaMediaEntry;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.VidiunMediaEntry;
 import com.nostra13.socialsharing.common.AuthListener;
 import com.nostra13.socialsharing.common.LogoutListener;
 import com.nostra13.socialsharing.common.PostListener;
@@ -54,7 +54,7 @@ public class Sharing {
         TwitterEvents.removeLogoutListener(logoutListener);
     }
 
-    public void sendToFacebook(final KalturaMediaEntry entry) {
+    public void sendToFacebook(final VidiunMediaEntry entry) {
         if (facebook.isAuthorized()) {
             facebook.publishMessage(entry.name, "", entry.dataUrl, entry.description, entry.dataUrl);
 
@@ -76,7 +76,7 @@ public class Sharing {
         }
     }
 
-    public void sendToTwitter(final KalturaMediaEntry entry) {
+    public void sendToTwitter(final VidiunMediaEntry entry) {
         if (twitter.isAuthorized()) {
             twitter.publishMessage(entry.name + " " + entry.dataUrl);
         } else {
@@ -160,7 +160,7 @@ public class Sharing {
         });
     }
 
-    public void sendToMail(KalturaMediaEntry entry) {
+    public void sendToMail(VidiunMediaEntry entry) {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("text/plain");
         i.putExtra(Intent.EXTRA_SUBJECT, entry.name);

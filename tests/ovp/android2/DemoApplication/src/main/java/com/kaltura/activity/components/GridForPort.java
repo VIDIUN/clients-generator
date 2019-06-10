@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.kaltura.activity.components;
+package com.vidiun.activity.components;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +14,8 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import com.kaltura.activity.R;
-import com.kaltura.client.types.MediaEntry;
+import com.vidiun.activity.R;
+import com.vidiun.client.types.MediaEntry;
 
 /**
  *

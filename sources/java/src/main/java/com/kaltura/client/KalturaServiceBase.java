@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,30 +25,30 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client;
+package com.vidiun.client;
 
 import java.io.Serializable;
 
 /**
- * Common ancestor for all generated classes in the com.kaltura.client.services package.
+ * Common ancestor for all generated classes in the com.vidiun.client.services package.
  * 
  * @author jpotts
  *
  */
 @SuppressWarnings("serial")
-public class KalturaServiceBase implements Serializable {
+public class VidiunServiceBase implements Serializable {
 
-	protected KalturaClient kalturaClient;
+	protected VidiunClient vidiunClient;
 	
-	public KalturaServiceBase() {		
+	public VidiunServiceBase() {		
 	}
 	
-	public KalturaServiceBase(KalturaClient kalturaClient) {
-		this.kalturaClient = kalturaClient;
+	public VidiunServiceBase(VidiunClient vidiunClient) {
+		this.vidiunClient = vidiunClient;
 	}
 	
-	public void setKalturaClient(KalturaClient kalturaClient) {
-		this.kalturaClient = kalturaClient;
+	public void setVidiunClient(VidiunClient vidiunClient) {
+		this.vidiunClient = vidiunClient;
 	}
 	
 }

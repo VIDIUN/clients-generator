@@ -1,4 +1,4 @@
-package com.kaltura.bar;
+package com.vidiun.bar;
 
 import android.app.Activity;
 import android.view.View;
@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.kaltura.activity.R;
+import com.vidiun.activity.R;
 
 public class ActionBar {
 

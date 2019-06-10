@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -25,41 +25,41 @@
 //
 // @ignore
 // ===================================================================================================
-package com.kaltura.client.test;
+package com.vidiun.client.test;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.enums.KalturaUiConfCreationMode;
-import com.kaltura.client.services.KalturaUiConfService;
-import com.kaltura.client.types.KalturaUiConf;
-import com.kaltura.client.types.KalturaUiConfListResponse;
-import com.kaltura.client.IKalturaLogger;
-import com.kaltura.client.KalturaLogger;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.enums.VidiunUiConfCreationMode;
+import com.vidiun.client.services.VidiunUiConfService;
+import com.vidiun.client.types.VidiunUiConf;
+import com.vidiun.client.types.VidiunUiConfListResponse;
+import com.vidiun.client.IVidiunLogger;
+import com.vidiun.client.VidiunLogger;
 
 public class UiConfServiceTest extends BaseTest {
-	private IKalturaLogger logger = KalturaLogger.getLogger(UiConfServiceTest.class);
+	private IVidiunLogger logger = VidiunLogger.getLogger(UiConfServiceTest.class);
 
 	// keeps track of test vids we upload so they can be cleaned up at the end
 	protected List<Integer> testUiConfIds = new ArrayList<Integer>();
 	
-	protected KalturaUiConf addUiConf(String name) throws KalturaApiException {
+	protected VidiunUiConf addUiConf(String name) throws VidiunApiException {
 
-		KalturaUiConfService uiConfService = client.getUiConfService();
+		VidiunUiConfService uiConfService = client.getUiConfService();
 
-		KalturaUiConf uiConf = new KalturaUiConf();
+		VidiunUiConf uiConf = new VidiunUiConf();
 		uiConf.setName(name);
 		uiConf.setDescription("Ui conf unit test");
 		uiConf.setHeight(373);
 		uiConf.setWidth(750);
-		uiConf.setCreationMode(KalturaUiConfCreationMode.ADVANCED);
+		uiConf.setCreationMode(VidiunUiConfCreationMode.ADVANCED);
 		uiConf.setConfFile("NON_EXISTING_CONF_FILE");
 		
-		// this uiConf won't be editable in the KMC until it gets a config added to it, I think
+		// this uiConf won't be editable in the VMC until it gets a config added to it, I think
 		
-		KalturaUiConf addedConf = uiConfService.add(uiConf);
+		VidiunUiConf addedConf = uiConfService.add(uiConf);
 				
 		this.testUiConfIds.add(addedConf.getId());
 		
@@ -74,10 +74,10 @@ public class UiConfServiceTest extends BaseTest {
 		try {			
 			startAdminSession();
 			String name = "Test UI Conf (" + new Date() + ")";
-			KalturaUiConf addedConf = addUiConf(name);
+			VidiunUiConf addedConf = addUiConf(name);
 			assertNotNull(addedConf);
 			
-		} catch (KalturaApiException e) {
+		} catch (VidiunApiException e) {
 			if (logger.isEnabled())
 				logger.error(e);
 			fail(e.getMessage());
@@ -92,14 +92,14 @@ public class UiConfServiceTest extends BaseTest {
 		try {			
 			startAdminSession();
 			String name = "Test UI Conf (" + new Date() + ")";
-			KalturaUiConf addedConf = addUiConf(name);
+			VidiunUiConf addedConf = addUiConf(name);
 			
 			int addedConfId = addedConf.getId();
-			KalturaUiConfService confService = this.client.getUiConfService();
-			KalturaUiConf retrievedConf = confService.get(addedConfId);
+			VidiunUiConfService confService = this.client.getUiConfService();
+			VidiunUiConf retrievedConf = confService.get(addedConfId);
 			assertEquals(retrievedConf.getId(), addedConfId);
 			
-		} catch (KalturaApiException e) {
+		} catch (VidiunApiException e) {
 			if (logger.isEnabled())
 				logger.error(e);
 			fail(e.getMessage());
@@ -114,25 +114,25 @@ public class UiConfServiceTest extends BaseTest {
 		try {			
 			startAdminSession();
 			String name = "Test UI Conf (" + new Date() + ")";
-			KalturaUiConf addedConf = addUiConf(name);
+			VidiunUiConf addedConf = addUiConf(name);
 			
 			int addedConfId = addedConf.getId();
 			
-			KalturaUiConfService confService = this.client.getUiConfService();
+			VidiunUiConfService confService = this.client.getUiConfService();
 			
 			confService.delete(addedConfId);
 			
 			try {
 				confService.get(addedConfId);
 				fail("Getting deleted ui-conf should fail");
-			} catch (KalturaApiException kae) {
+			} catch (VidiunApiException vae) {
 				// Wanted behavior
 			} finally {
 				// we whacked this one, so let's not keep track of it		
 				this.testUiConfIds.remove(testUiConfIds.size() - 1);
 			}
 						
-		} catch (KalturaApiException e) {
+		} catch (VidiunApiException e) {
 			if (logger.isEnabled())
 				logger.error(e);
 			fail(e.getMessage());
@@ -145,18 +145,18 @@ public class UiConfServiceTest extends BaseTest {
 		
 		try {
 			startAdminSession();
-			KalturaUiConfService uiConfService = client.getUiConfService();
+			VidiunUiConfService uiConfService = client.getUiConfService();
 			assertNotNull(uiConfService);
 			
-			KalturaUiConfListResponse listResponse = uiConfService.list();
+			VidiunUiConfListResponse listResponse = uiConfService.list();
 			assertNotNull(listResponse);
 			
-			for (KalturaUiConf uiConf : listResponse.getObjects()) {
+			for (VidiunUiConf uiConf : listResponse.getObjects()) {
 				if (logger.isEnabled())
 					logger.debug("uiConf id:" + uiConf.getId() + " name:" + uiConf.getName());
 			}
 			
-		} catch (KalturaApiException e) {
+		} catch (VidiunApiException e) {
 			if (logger.isEnabled())
 				logger.error(e);
 			fail(e.getMessage());
@@ -173,7 +173,7 @@ public class UiConfServiceTest extends BaseTest {
 		if (logger.isEnabled())
 			logger.info("Cleaning up test UI Conf entries after test");
 		
-		KalturaUiConfService uiConfService = this.client.getUiConfService();
+		VidiunUiConfService uiConfService = this.client.getUiConfService();
 		for (Integer id : this.testUiConfIds) {
 			if (logger.isEnabled())
 				logger.debug("Deleting UI conf " + id);

@@ -1,9 +1,9 @@
-package com.kaltura.client.utils.request;
+package com.vidiun.client.utils.request;
 
 import java.util.List;
 
-import com.kaltura.client.types.APIException;
-import com.kaltura.client.utils.GsonParser;
+import com.vidiun.client.types.APIException;
+import com.vidiun.client.utils.GsonParser;
 
 public abstract class ArrayRequestBuilder<RS, TK, S> extends RequestBuilder<List<RS>, RequestBuilder.ListTokenizer<TK>, S> {
 

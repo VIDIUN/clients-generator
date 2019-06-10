@@ -1,11 +1,11 @@
-This is the Readme for the Kaltura Java POJO API Client Library.
+This is the Readme for the Vidiun Java POJO API Client Library.
 You should read this before setting up the client in eclipse.
 
 == CONTENTS OF THIS PACKAGE ==
 
- - Kaltura Java POJO Client Library API (/src/com)
- - Compilation and Run test script (/src/Kaltura.java)
- - JUnit tests (/src/com/kaltura/client/test)
+ - Vidiun Java POJO Client Library API (/src/com)
+ - Compilation and Run test script (/src/Vidiun.java)
+ - JUnit tests (/src/com/vidiun/client/test)
  - lib (JARs required to build the client library)
 
 
@@ -28,21 +28,21 @@ To build the API:
 
 == TESTING THE API CLIENT LIBRARY ==
 
-To run the main class (Kaltura.java):
- - Edit the /src/KalturaTestConfig.java file, enter valid data to PARTNER_ID, SECRET and ADMIN_SECRET variables.
+To run the main class (Vidiun.java):
+ - Edit the /src/VidiunTestConfig.java file, enter valid data to PARTNER_ID, SECRET and ADMIN_SECRET variables.
  - Compile the client library.
- - Right click the Kaltura.java file and choose Debug As > Java Application.
+ - Right click the Vidiun.java file and choose Debug As > Java Application.
 
 To run the JUnit test suite that accompanies this source:
- - Edit the /src/KalturaTestConfig.java file, enter valid data to PARTNER_ID, SECRET and ADMIN_SECRET variables.
+ - Edit the /src/VidiunTestConfig.java file, enter valid data to PARTNER_ID, SECRET and ADMIN_SECRET variables.
  - Compile the client library.
- - Right click the KalturaTestSuite.java file and choose Debug As > JUnit Test.
+ - Right click the VidiunTestSuite.java file and choose Debug As > JUnit Test.
   
 == SETUP log4j LOGGING IN ECLIPSE ==
 
 The launch settings are saved in the following files:
-- 1. KalturaTestSuite.launch (the JUnit tests)
-- 2. KalturaMainTest.launch (A main test class for quickly testing the build)
+- 1. VidiunTestSuite.launch (the JUnit tests)
+- 2. VidiunMainTest.launch (A main test class for quickly testing the build)
 
 There is a log4j.properties file in /src/log4j. 
  - Edit it to set the log level as desired.

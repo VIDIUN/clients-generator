@@ -18,7 +18,7 @@ class Php4ClientGenerator extends ClientGeneratorFromXml
 		$xpath = new DOMXPath($this->_doc);
 		
 		$this->appendLine('<?php');
-		$this->appendLine('require_once(dirname(__FILE__) . "/KalturaClientBase.php");');
+		$this->appendLine('require_once(dirname(__FILE__) . "/VidiunClientBase.php");');
 		$this->appendLine('');
 	    
 		// enumes
@@ -45,7 +45,7 @@ class Php4ClientGenerator extends ClientGeneratorFromXml
 	    $this->writeMainClient($serviceNodes);
 	    $this->appendLine();
 	    
-    	$this->addFile("KalturaClient.php", $this->getTextBlock());
+    	$this->addFile("VidiunClient.php", $this->getTextBlock());
 	}
 	
 	function writeEnum(DOMElement $enumNode)
@@ -79,7 +79,7 @@ class Php4ClientGenerator extends ClientGeneratorFromXml
 		if ($classNode->hasAttribute("base"))
 			$this->appendLine("class $type extends " . $classNode->getAttribute("base"));
 		else
-			$this->appendLine("class $type extends KalturaObjectBase");
+			$this->appendLine("class $type extends VidiunObjectBase");
 		$this->appendLine("{");
 		// class properties
 		foreach($classNode->childNodes as $propertyNode)
@@ -139,13 +139,13 @@ class Php4ClientGenerator extends ClientGeneratorFromXml
 			
 		$serviceName = $serviceNode->getAttribute("name");
 		
-		$serviceClassName = "Kaltura".$this->upperCaseFirstLetter($serviceName)."Service";
+		$serviceClassName = "Vidiun".$this->upperCaseFirstLetter($serviceName)."Service";
 		$this->appendLine();		
-		$this->appendLine("class $serviceClassName extends KalturaServiceBase");
+		$this->appendLine("class $serviceClassName extends VidiunServiceBase");
 		$this->appendLine("{");
 		$this->appendLine("	function $serviceClassName(&\$client)");
 		$this->appendLine("	{");
-		$this->appendLine("		parent::KalturaServiceBase(\$client);");
+		$this->appendLine("		parent::VidiunServiceBase(\$client);");
 		$this->appendLine("	}");
 		
 		$actionNodes = $serviceNode->childNodes;
@@ -185,7 +185,7 @@ class Php4ClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("	$signature");
 		$this->appendLine("	{");
 		
-		$this->appendLine("		\$kparams = array();");
+		$this->appendLine("		\$vparams = array();");
 		foreach($paramNodes as $paramNode)
 		{
 			$paramType = $paramNode->getAttribute("type");
@@ -197,7 +197,7 @@ class Php4ClientGenerator extends ClientGeneratorFromXml
 			{
 				if ($isEnum)
 				{
-					$this->appendLine("		\$this->client->addParam(\$kparams, \"$paramName\", \$$paramName);");
+					$this->appendLine("		\$this->client->addParam(\$vparams, \"$paramName\", \$$paramName);");
 				}
 				else if ($paramType == "array")
 				{
@@ -209,7 +209,7 @@ class Php4ClientGenerator extends ClientGeneratorFromXml
 					}
 					$this->appendLine("$extraTab		foreach($paramName as \$obj)");
 					$this->appendLine("$extraTab		{");
-					$this->appendLine("$extraTab			\$this->client->addParam(\$kparams, \"$paramName\", \$obj->toParams());");
+					$this->appendLine("$extraTab			\$this->client->addParam(\$vparams, \"$paramName\", \$obj->toParams());");
 					$this->appendLine("$extraTab		}");
 				}
 				else
@@ -220,15 +220,15 @@ class Php4ClientGenerator extends ClientGeneratorFromXml
 						$this->appendLine("		if (\$$paramName !== null)");
 						$extraTab = "	";
 					}
-					$this->appendLine("$extraTab		\$this->client->addParam(\$kparams, \"$paramName\", \$$paramName"."->toParams());");
+					$this->appendLine("$extraTab		\$this->client->addParam(\$vparams, \"$paramName\", \$$paramName"."->toParams());");
 				}
 			}
 			else
 			{
-				$this->appendLine("		\$this->client->addParam(\$kparams, \"$paramName\", \$$paramName);");
+				$this->appendLine("		\$this->client->addParam(\$vparams, \"$paramName\", \$$paramName);");
 			}
 		}
-		$this->appendLine("		\$resultObject = \$this->client->callService(\"".strtolower($serviceName)."\", \"$action\", \$kparams);");
+		$this->appendLine("		\$resultObject = \$this->client->callService(\"".strtolower($serviceName)."\", \"$action\", \$vparams);");
 		$this->appendLine("		\$this->client->checkForError(\$resultObject);");
 		
 		if (!$resultType)
@@ -293,7 +293,7 @@ class Php4ClientGenerator extends ClientGeneratorFromXml
 	{
 		$apiVersion = $this->_doc->documentElement->getAttribute('apiVersion');
 	
-		$this->appendLine("class KalturaClient extends KalturaClientBase");
+		$this->appendLine("class VidiunClient extends VidiunClientBase");
 		$this->appendLine("{");
 		$this->appendLine("	/**");
 		$this->appendLine("	 * @var string");
@@ -308,7 +308,7 @@ class Php4ClientGenerator extends ClientGeneratorFromXml
 				
 			$serviceName = $serviceNode->getAttribute("name");
 			$description = $serviceNode->getAttribute("description");
-			$serviceClassName = "Kaltura".$this->upperCaseFirstLetter($serviceName)."Service";
+			$serviceClassName = "Vidiun".$this->upperCaseFirstLetter($serviceName)."Service";
 			$this->appendLine("	/**");
 			$description = str_replace("\n", "\n	 * ", $description); // to format multiline descriptions
 			$this->appendLine("	 * " . $description);
@@ -320,13 +320,13 @@ class Php4ClientGenerator extends ClientGeneratorFromXml
 		}
 		
 		$this->appendLine("");
-		$this->appendLine("	function KalturaClient(\$config)");
+		$this->appendLine("	function VidiunClient(\$config)");
 		$this->appendLine("	{");
-		$this->appendLine("		parent::KalturaClientBase(/*KalturaConfiguration*/ \$config);");
+		$this->appendLine("		parent::VidiunClientBase(/*VidiunConfiguration*/ \$config);");
 		foreach($serviceNodes as $serviceNode)
 		{
 			$serviceName = $serviceNode->getAttribute("name");
-			$serviceClassName = "Kaltura".$this->upperCaseFirstLetter($serviceName)."Service";
+			$serviceClassName = "Vidiun".$this->upperCaseFirstLetter($serviceName)."Service";
 			$this->appendLine("		\$this->$serviceName = new $serviceClassName(\$this);");
 		}
 		$this->appendLine("	}");

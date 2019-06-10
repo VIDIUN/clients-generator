@@ -1,17 +1,17 @@
 
-function kActionRequest(){
+function vActionRequest(){
 	this.inputs = {};
 }
 
-kActionRequest.prototype = {
-	className: 'kActionRequest',
+vActionRequest.prototype = {
+	className: 'vActionRequest',
 	service: null,
 	action: null,
 	inputs: null
 };
 
 
-var kHttpSpy = {
+var vHttpSpy = {
 	fileReader: null,
 	
 	init: function(){
@@ -23,8 +23,8 @@ var kHttpSpy = {
 		jqMenuItem = jQuery('<li class="code-menu"><a class="code-menu-toggle" href="#" id="httpSpyToggle">Show HTTP Spy</a></li>');
 		jQuery('#codeSubMenu').append(jqMenuItem);
 		
-		jqMenuItem.click(kHttpSpy.toggleView);
-		jQuery('#parseHttpSpy').click(kHttpSpy.parse);
+		jqMenuItem.click(vHttpSpy.toggleView);
+		jQuery('#parseHttpSpy').click(vHttpSpy.parse);
 	},
 	
 	toggleView: function(){
@@ -36,8 +36,8 @@ var kHttpSpy = {
 		else{
 			$('#httpSpyToggle').html('Hide Code Example');
 		}
-		kTestMe.calculateDimensions(1);
-		kTestMe.jqWindow.resize();
+		vTestMe.calculateDimensions(1);
+		vTestMe.jqWindow.resize();
 	},
 
 	parse: function(){
@@ -54,15 +54,15 @@ var kHttpSpy = {
         }
 
         var file = input.files[0];
-        kHttpSpy.fileReader = new FileReader();
-        kHttpSpy.fileReader.onload = kHttpSpy.parseText;
-        kHttpSpy.fileReader.readAsText(file);
+        vHttpSpy.fileReader = new FileReader();
+        vHttpSpy.fileReader.onload = vHttpSpy.parseText;
+        vHttpSpy.fileReader.readAsText(file);
 	},
 
 	parseText: function(){
 		var har;
 		try{
-			eval('har = ' + kHttpSpy.fileReader.result);
+			eval('har = ' + vHttpSpy.fileReader.result);
 		}
 		catch(e){
 			alert(e.message);
@@ -83,25 +83,25 @@ var kHttpSpy = {
 			return;
 		}
 		
-		var actionRequest = kHttpSpy.parseRequest(har.log.entries[0].request);
-		kTestMe.call.loadRequest(actionRequest);
+		var actionRequest = vHttpSpy.parseRequest(har.log.entries[0].request);
+		vTestMe.call.loadRequest(actionRequest);
 	},
 	
 	/**
 	 * @param Object request json as parsed from the har file
-	 * @return kActionRequest
+	 * @return vActionRequest
 	 */
 	parseRequest: function(request){
-		var actionRequest = new kActionRequest();
+		var actionRequest = new vActionRequest();
 
-		kHttpSpy.parseData(actionRequest, request.queryString);
-		kHttpSpy.parseData(actionRequest, request.postData);
+		vHttpSpy.parseData(actionRequest, request.queryString);
+		vHttpSpy.parseData(actionRequest, request.postData);
 		
 		return actionRequest;
 	},
 	
 	/**
-	 * @param kActionRequest
+	 * @param vActionRequest
 	 * @param Object request json as parsed from the har file
 	 */
 	parseData: function(actionRequest, array){
@@ -127,9 +127,9 @@ var kHttpSpy = {
 };
 
 /**
- * @param kActionRequest actionRequest
+ * @param vActionRequest actionRequest
  */
-kMainCall.prototype.loadRequest = function(actionRequest){
+vMainCall.prototype.loadRequest = function(actionRequest){
 	this.setAction(actionRequest.service, actionRequest.action, true);
 	this.loadValues(actionRequest.inputs); // TODO it's not working - check why
 	
@@ -137,6 +137,6 @@ kMainCall.prototype.loadRequest = function(actionRequest){
 };
 
 jQuery(function(){
-	kHttpSpy.init();
+	vHttpSpy.init();
 });
 

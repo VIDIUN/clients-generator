@@ -1,16 +1,16 @@
 //
 //  Client.m
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 28.02.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import "Client.h"
 
 #ifdef widevine
 #import "WViPhoneAPI.h"
-#import "KWVSettings.h"
+#import "VWVSettings.h"
 
 static NSArray *sBitRates;
 #endif
@@ -44,29 +44,29 @@ static NSArray *sBitRates;
 
 - (id)initClient {
     
-    KalturaConfiguration* config = [[KalturaConfiguration alloc] init];
-    KalturaNSLogger* logger = [[KalturaNSLogger alloc] init];
+    VidiunConfiguration* config = [[VidiunConfiguration alloc] init];
+    VidiunNSLogger* logger = [[VidiunNSLogger alloc] init];
     config.logger = logger;
     config.serviceUrl = DEFAULT_SERVICE_URL;
     [logger release];           // retained on config
     
-    self.client = [[KalturaClient alloc] initWithConfig:config];
+    self.client = [[VidiunClient alloc] initWithConfig:config];
     [config release];           // retained on the client
     
-    KalturaUserService *service = [[KalturaUserService alloc] init];
+    VidiunUserService *service = [[VidiunUserService alloc] init];
     service.client = self.client;
     
     NSString *userEmail = [[NSUserDefaults standardUserDefaults] objectForKey:@"userEmail"];
     NSString *userPassword = [[NSUserDefaults standardUserDefaults] objectForKey:@"userPassword"];
     
     
-    self.client.ks = [service loginByLoginIdWithLoginId:userEmail withPassword:userPassword];
+    self.client.vs = [service loginByLoginIdWithLoginId:userEmail withPassword:userPassword];
     
     [service release];
     
-    KalturaUserListResponse *response = [self.client.user list];
+    VidiunUserListResponse *response = [self.client.user list];
     
-    for (KalturaUser *user in [response objects]) {
+    for (VidiunUser *user in [response objects]) {
         self.partnerId = user.partnerId;
     }
     
@@ -74,7 +74,7 @@ static NSArray *sBitRates;
     self.media = [[NSMutableArray alloc] init];
     
 #ifdef widevine
-    wvSettings = [[KWVSettings alloc] init];
+    wvSettings = [[VWVSettings alloc] init];
 #endif
     return self;
 }
@@ -83,36 +83,36 @@ static NSArray *sBitRates;
     
     [self.client release];
     
-    KalturaConfiguration* config = [[KalturaConfiguration alloc] init];
-    KalturaNSLogger* logger = [[KalturaNSLogger alloc] init];
+    VidiunConfiguration* config = [[VidiunConfiguration alloc] init];
+    VidiunNSLogger* logger = [[VidiunNSLogger alloc] init];
     config.logger = logger;
     config.serviceUrl = DEFAULT_SERVICE_URL;
     [logger release];           // retained on config
     
-    self.client = [[KalturaClient alloc] initWithConfig:config];
+    self.client = [[VidiunClient alloc] initWithConfig:config];
     [config release];           // retained on the client
     
-    KalturaUserService *service = [[KalturaUserService alloc] init];
+    VidiunUserService *service = [[VidiunUserService alloc] init];
     service.client = self.client;
     
     
     NSString *userEmail = [[NSUserDefaults standardUserDefaults] objectForKey:@"userEmail"];
     NSString *userPassword = [[NSUserDefaults standardUserDefaults] objectForKey:@"userPassword"];
     
-    self.client.ks = [service loginByLoginIdWithLoginId:userEmail withPassword:userPassword];
+    self.client.vs = [service loginByLoginIdWithLoginId:userEmail withPassword:userPassword];
     
     [service release];
     
-    KalturaUserListResponse *response = [self.client.user list];
+    VidiunUserListResponse *response = [self.client.user list];
     
-    for (KalturaUser *user in [response objects]) {
+    for (VidiunUser *user in [response objects]) {
         self.partnerId = user.partnerId;
     }
     
     [self.categories removeAllObjects];
     [self.media removeAllObjects];
     
-    return ([self.client.ks length] > 0);
+    return ([self.client.vs length] > 0);
     
 }
 
@@ -120,9 +120,9 @@ static NSArray *sBitRates;
     
     if ([self.categories count] == 0) {
         
-        KalturaCategoryListResponse *response = [self.client.category list];
+        VidiunCategoryListResponse *response = [self.client.category list];
         
-        for (KalturaCategory *category in response.objects) {
+        for (VidiunCategory *category in response.objects) {
             
             [self.categories addObject:category];
             
@@ -134,18 +134,18 @@ static NSArray *sBitRates;
     
 }
 
-- (NSArray *)getMedia:(KalturaCategory *)category {
+- (NSArray *)getMedia:(VidiunCategory *)category {
     
     if ([self.media count] == 0) {
         
-        KalturaMediaEntryFilter *filter = [[KalturaMediaEntryFilter alloc] init];
+        VidiunMediaEntryFilter *filter = [[VidiunMediaEntryFilter alloc] init];
         
-        KalturaFilterPager *pager = [[KalturaFilterPager alloc] init];
+        VidiunFilterPager *pager = [[VidiunFilterPager alloc] init];
         pager.pageSize = 0;
         
-        KalturaMediaListResponse *response  = [self.client.media listWithFilter:filter withPager:pager];
+        VidiunMediaListResponse *response  = [self.client.media listWithFilter:filter withPager:pager];
         
-        for (KalturaMediaEntry *mediaEntry in response.objects) {
+        for (VidiunMediaEntry *mediaEntry in response.objects) {
             
             [self.media addObject:mediaEntry];
             
@@ -175,7 +175,7 @@ static NSArray *sBitRates;
 	return [docsDir stringByAppendingPathComponent:fileName];
 }
 
-- (BOOL)isThumbExist:(KalturaMediaEntry *)mediaEntry {
+- (BOOL)isThumbExist:(VidiunMediaEntry *)mediaEntry {
     
     NSString *thumbPath = [self getThumbPath:mediaEntry.id];
     if ([[NSFileManager defaultManager] fileExistsAtPath:thumbPath]) {
@@ -199,7 +199,7 @@ static NSArray *sBitRates;
     
 }
 
-- (BOOL)isThumbExist:(KalturaMediaEntry *)mediaEntry width:(int)width height:(int)height {
+- (BOOL)isThumbExist:(VidiunMediaEntry *)mediaEntry width:(int)width height:(int)height {
     
     NSString *thumbPath = [NSString stringWithFormat:@"%@_%d_%d", mediaEntry.id, width, height];
     thumbPath = [self getThumbPath:thumbPath];
@@ -213,7 +213,7 @@ static NSArray *sBitRates;
     
 }
 
-- (NSData *)getThumb:(KalturaMediaEntry *)mediaEntry {
+- (NSData *)getThumb:(VidiunMediaEntry *)mediaEntry {
     
     NSString *thumbPath = [self getThumbPath:mediaEntry.id];
     if (![[NSFileManager defaultManager] fileExistsAtPath:thumbPath]) {
@@ -230,24 +230,24 @@ static NSArray *sBitRates;
 
 - (NSString *)getThumbURL:(NSString *)fileName width:(int)width height:(int)height {
     
-    return [NSString stringWithFormat:@"http://cdn.kaltura.com/p/%d/thumbnail/entry_id/%@/width/%d/height/%d", self.partnerId, fileName, width, height];
+    return [NSString stringWithFormat:@"http://cdn.vidiun.com/p/%d/thumbnail/entry_id/%@/width/%d/height/%d", self.partnerId, fileName, width, height];
     
 }
 
-- (NSString *)getShareURL:(KalturaMediaEntry *)mediaEntry {
+- (NSString *)getShareURL:(VidiunMediaEntry *)mediaEntry {
     
-    return [NSString stringWithFormat:@"http://prod.kaltura.co.cc/index.php/kmc/preview/partner_id/%d/uiconf_id/4630031/entry_id/%@/delivery/http", self.partnerId, mediaEntry.id];
+    return [NSString stringWithFormat:@"http://prod.vidiun.co.cc/index.php/vmc/preview/partner_id/%d/uiconf_id/4630031/entry_id/%@/delivery/http", self.partnerId, mediaEntry.id];
     
 }
 
-- (void)shareFacebook:(KalturaMediaEntry *)mediaEntry {
+- (void)shareFacebook:(VidiunMediaEntry *)mediaEntry {
     
     NSString *strURL = [NSString stringWithFormat:@"https://www.facebook.com/sharer/sharer.php?u=%@", [self getShareURL:mediaEntry]];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:strURL]];
     
 }
 
-- (void)shareTwitter:(KalturaMediaEntry *)mediaEntry {
+- (void)shareTwitter:(VidiunMediaEntry *)mediaEntry {
     
     NSString *strURL = [NSString stringWithFormat:@"http://twitter.com/intent/tweet?url=%@", [self getShareURL:mediaEntry]];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:strURL]];
@@ -299,7 +299,7 @@ static NSArray *sBitRates;
     
 }
 
-- (void)requestFinished:(KalturaClientBase*)aClient withResult:(id)result {
+- (void)requestFinished:(VidiunClientBase*)aClient withResult:(id)result {
     
     currentChunk++;
     
@@ -320,7 +320,7 @@ static NSArray *sBitRates;
     [uploadDelegateController performSelector:@selector(uploadFinished)];
 }
 
-- (void)requestFailed:(KalturaClientBase*)aClient
+- (void)requestFailed:(VidiunClientBase*)aClient
 {
     if (uploadTryCount < 4) {
         
@@ -347,20 +347,20 @@ static NSArray *sBitRates;
     
     client.delegate = nil;
     
-    token = [[KalturaUploadToken alloc] init];
+    token = [[VidiunUploadToken alloc] init];
     token.fileName = @"video.m4v";
     token = [client.uploadToken addWithUploadToken:token];
     
-    KalturaMediaEntry* entry = [[[KalturaMediaEntry alloc] init] autorelease];
+    VidiunMediaEntry* entry = [[[VidiunMediaEntry alloc] init] autorelease];
     entry.name = [data objectForKey:@"title"];
-    entry.mediaType = [KalturaMediaType VIDEO];
+    entry.mediaType = [VidiunMediaType VIDEO];
     entry.categories = [data objectForKey:@"category"];
     entry.description = [data objectForKey:@"description"];
     entry.tags = [data objectForKey:@"tags"];
     
     entry = [client.media addWithEntry:entry];
     
-    KalturaUploadedFileTokenResource* resource = [[[KalturaUploadedFileTokenResource alloc] init] autorelease];
+    VidiunUploadedFileTokenResource* resource = [[[VidiunUploadedFileTokenResource alloc] init] autorelease];
     resource.token = token.id;
     entry = [client.media addContentWithEntryId:entry.id withResource:resource];
     
@@ -402,17 +402,17 @@ NSInteger bitratesSort(id media1, id media2, void *reverse)
 	}
 }
 
-- (NSArray *)getBitratesList:(KalturaMediaEntry *)mediaEntry withFilter:(NSString *)filter {
+- (NSArray *)getBitratesList:(VidiunMediaEntry *)mediaEntry withFilter:(NSString *)filter {
     
     NSMutableArray *bitrates = [[[NSMutableArray alloc] init] autorelease];
     
-    KalturaAssetFilter *_filter = [[KalturaAssetFilter alloc] init];
+    VidiunAssetFilter *_filter = [[VidiunAssetFilter alloc] init];
     _filter.entryIdEqual = mediaEntry.id;
-    KalturaFlavorAssetListResponse* _response = [client.flavorAsset listWithFilter:_filter];
+    VidiunFlavorAssetListResponse* _response = [client.flavorAsset listWithFilter:_filter];
     [_filter release];
     
     
-    for (KalturaFlavorAsset *asset in _response.objects) {
+    for (VidiunFlavorAsset *asset in _response.objects) {
         
         if ([asset.tags rangeOfString:filter].length > 0) {
             
@@ -452,14 +452,14 @@ NSInteger bitratesSort(id media1, id media2, void *reverse)
     return [NSString stringWithFormat:@"%@://%@",[self getConfig: @"playbackProtocol"], [self getConfig: @"playbackHost"]];
 }
 
-- (NSString *)getVideoURL:(KalturaMediaEntry *)mediaEntry forMediaEntryDuration:(int)EntryDuration forFlavor:(NSString *)flavorId forFlavorType: (NSString*)flavorType;
+- (NSString *)getVideoURL:(VidiunMediaEntry *)mediaEntry forMediaEntryDuration:(int)EntryDuration forFlavor:(NSString *)flavorId forFlavorType: (NSString*)flavorType;
 {
     NSString *urlString;
     int minimumEntryDuration = 10;
     [self getBaseURL];
     
     if([flavorType isEqual: @"wv"]){
-//        TO:DO - add "?ks=" + AdminUser.ks;" at the end for access control
+//        TO:DO - add "?vs=" + AdminUser.vs;" at the end for access control
         urlString = [NSString stringWithFormat:@"%@/p/%d/sp/%d00/playManifest/entryId/%@/flavorId/%@/format/url/protocol/http/a.wvm", [self getBaseURL], partnerId, partnerId, mediaEntry.id, flavorId];
     }
     else if(EntryDuration > minimumEntryDuration){
@@ -472,8 +472,8 @@ NSInteger bitratesSort(id media1, id media2, void *reverse)
     return urlString;
 }
 
-- (NSString *)getIframeURL:(KalturaMediaEntry *)mediaEntry{
-    return [NSString stringWithFormat:@"http://kgit.html5video.org/tags/v2.0.0.rc12/mwEmbedFrame.php?wid=_%d&uiconf_id=%@&entry_id=%@", partnerId, [self getConfig: @"uiconfID"], mediaEntry.id];
+- (NSString *)getIframeURL:(VidiunMediaEntry *)mediaEntry{
+    return [NSString stringWithFormat:@"http://vgit.html5video.org/tags/v2.0.0.rc12/mwEmbedFrame.php?wid=_%d&uiconf_id=%@&entry_id=%@", partnerId, [self getConfig: @"uiconfID"], mediaEntry.id];
 }
 
 #pragma widevine support methods
@@ -518,7 +518,7 @@ NSInteger bitratesSort(id media1, id media2, void *reverse)
 
 - (void) initializeWVDictionary:(NSString *)flavorId{
     [self terminateWV];
-    WViOsApiStatus *wvInitStatus = WV_Initialize(WVCallback, [wvSettings initializeDictionary:flavorId andKS:self.client.ks]);
+    WViOsApiStatus *wvInitStatus = WV_Initialize(WVCallback, [wvSettings initializeDictionary:flavorId andVS:self.client.vs]);
     
     if (wvInitStatus == WViOsApiStatus_OK) {
         NSLog(@"widevine was inited");

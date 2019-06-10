@@ -1,8 +1,8 @@
-export class KalturaAPIException extends Error {
+export class VidiunAPIException extends Error {
     constructor(public message: string, public code: string, public args: any) {
         super(message);
 
         // Set the prototype explicitly.
-        Object.setPrototypeOf(this, KalturaAPIException.prototype);
+        Object.setPrototypeOf(this, VidiunAPIException.prototype);
     }
 }

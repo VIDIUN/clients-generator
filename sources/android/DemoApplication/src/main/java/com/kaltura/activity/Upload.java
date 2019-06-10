@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -9,8 +9,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 
-import com.kaltura.bar.ActionBar;
-import com.kaltura.mediatorActivity.TemplateActivity;
+import com.vidiun.bar.ActionBar;
+import com.vidiun.mediatorActivity.TemplateActivity;
 
 public class Upload extends TemplateActivity {
 

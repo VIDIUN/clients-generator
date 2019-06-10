@@ -4,17 +4,17 @@
  */
 namespace Test;
 
-use Kaltura\Client\Type\MediaEntryFilterForPlaylist;
-use Kaltura\Client\Type\MediaEntryFilter;
-use Kaltura\Client\Type\UploadedFileTokenResource;
-use Kaltura\Client\Enum\EntryStatus;
-use Kaltura\Client\Enum\MediaType;
-use Kaltura\Client\Type\MediaEntry;
-use Kaltura\Client\Enum\UploadTokenStatus;
-use Kaltura\Client\Type\UploadToken;
-use Kaltura\Client\Type\MixEntry;
-use Kaltura\Client\Enum\EditorType;
-use Kaltura\Client\ApiException;
+use Vidiun\Client\Type\MediaEntryFilterForPlaylist;
+use Vidiun\Client\Type\MediaEntryFilter;
+use Vidiun\Client\Type\UploadedFileTokenResource;
+use Vidiun\Client\Enum\EntryStatus;
+use Vidiun\Client\Enum\MediaType;
+use Vidiun\Client\Type\MediaEntry;
+use Vidiun\Client\Enum\UploadTokenStatus;
+use Vidiun\Client\Type\UploadToken;
+use Vidiun\Client\Type\MixEntry;
+use Vidiun\Client\Enum\EditorType;
+use Vidiun\Client\ApiException;
 use Exception;
 
 class Zend2ClientTester
@@ -24,7 +24,7 @@ class Zend2ClientTester
 	const ENTRY_NAME = 'Media entry uploaded from Zend Framework 2 client library';
 	
 	/**
-	 * @var \Kaltura\Client\Client
+	 * @var \Vidiun\Client\Client
 	 */
 	protected $_client;
 	
@@ -33,7 +33,7 @@ class Zend2ClientTester
 	 */
 	protected $_partnerId;
 	
-	public function __construct(\Kaltura\Client\Client $client, $partnerId)
+	public function __construct(\Vidiun\Client\Client $client, $partnerId)
 	{
 		$this->_client = $client;
 		$this->_partnerId = $partnerId;

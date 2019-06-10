@@ -1,8 +1,8 @@
 import { ThumbAssetServeAction } from "../api/types/ThumbAssetServeAction";
-import { KalturaClient } from "../kaltura-client-service";
+import { VidiunClient } from "../vidiun-client-service";
 import { asyncAssert } from "./utils";
 
-xdescribe("Kaltura File request", () => {
+xdescribe("Vidiun File request", () => {
     test("thumbasset service > serve action", (done) => {
 
         const thumbRequest = new ThumbAssetServeAction({
@@ -11,14 +11,14 @@ xdescribe("Kaltura File request", () => {
 
 	    const config =
 		    {
-			    endpointUrl: 'https://www.kaltura.com',
+			    endpointUrl: 'https://www.vidiun.com',
 			    clientTag: 'ts'
 		    };
 
-        const predefinedClient = new KalturaClient(config);
+        const predefinedClient = new VidiunClient(config);
         predefinedClient.setDefaultRequestOptions(
             {
-                ks: 'YWIyZDAxYWRhZmQ1NzhjMzQ5ZmI3Nzc4MzVhYTJkMGI1NDdhYzA5YnwxNzYzMzIxOzE3NjMzMjE7MTUxMjA1MzA1MzsyOzE1MTE5NjY2NTMuNTk7YWRtaW47ZGlzYWJsZWVudGl0bGVtZW50Ozs'
+                vs: 'YWIyZDAxYWRhZmQ1NzhjMzQ5ZmI3Nzc4MzVhYTJkMGI1NDdhYzA5YnwxNzYzMzIxOzE3NjMzMjE7MTUxMjA1MzA1MzsyOzE1MTE5NjY2NTMuNTk7YWRtaW47ZGlzYWJsZWVudGl0bGVtZW50Ozs'
             }
         );
 
@@ -29,7 +29,7 @@ xdescribe("Kaltura File request", () => {
 	                asyncAssert(() => {
 		                expect(result).toBeDefined();
 		                expect(result.url).toBeDefined();
-		                expect(result.url).toBe('https://www.kaltura.com/api_v3/service/thumbasset/action/serve?format=1&apiVersion=@VERSION@&thumbAssetId=1_ep9epsxy&ks=YWIyZDAxYWRhZmQ1NzhjMzQ5ZmI3Nzc4MzVhYTJkMGI1NDdhYzA5YnwxNzYzMzIxOzE3NjMzMjE7MTUxMjA1MzA1MzsyOzE1MTE5NjY2NTMuNTk7YWRtaW47ZGlzYWJsZWVudGl0bGVtZW50Ozs&clientTag=ts');
+		                expect(result.url).toBe('https://www.vidiun.com/api_v3/service/thumbasset/action/serve?format=1&apiVersion=@VERSION@&thumbAssetId=1_ep9epsxy&vs=YWIyZDAxYWRhZmQ1NzhjMzQ5ZmI3Nzc4MzVhYTJkMGI1NDdhYzA5YnwxNzYzMzIxOzE3NjMzMjE7MTUxMjA1MzA1MzsyOzE1MTE5NjY2NTMuNTk7YWRtaW47ZGlzYWJsZWVudGl0bGVtZW50Ozs&clientTag=ts');
 
 	                });
                     done();
@@ -40,7 +40,7 @@ xdescribe("Kaltura File request", () => {
 
     });
 
-    test("error when sending 'KalturaFileRequest' as part of multi-request", (done) => {
+    test("error when sending 'VidiunFileRequest' as part of multi-request", (done) => {
 
         const thumbRequest: any = new ThumbAssetServeAction({
             thumbAssetId: 'thumbAssetId'
@@ -49,13 +49,13 @@ xdescribe("Kaltura File request", () => {
 
         const config =
             {
-                endpointUrl: 'https://www.kaltura.com',
+                endpointUrl: 'https://www.vidiun.com',
                 clientTag: 'ts'
             };
 
-        const predefinedClient = new KalturaClient();
+        const predefinedClient = new VidiunClient();
         predefinedClient.setDefaultRequestOptions({
-            ks: 'YWIyZDAxYWRhZmQ1NzhjMzQ5ZmI3Nzc4MzVhYTJkMGI1NDdhYzA5YnwxNzYzMzIxOzE3NjMzMjE7MTUxMjA1MzA1MzsyOzE1MTE5NjY2NTMuNTk7YWRtaW47ZGlzYWJsZWVudGl0bGVtZW50Ozs'
+            vs: 'YWIyZDAxYWRhZmQ1NzhjMzQ5ZmI3Nzc4MzVhYTJkMGI1NDdhYzA5YnwxNzYzMzIxOzE3NjMzMjE7MTUxMjA1MzA1MzsyOzE1MTE5NjY2NTMuNTk7YWRtaW47ZGlzYWJsZWVudGl0bGVtZW50Ozs'
         });
 
 	    expect.assertions(3);
@@ -68,7 +68,7 @@ xdescribe("Kaltura File request", () => {
 	                asyncAssert(() => {
 		                expect(error).toBeDefined();
 		                expect(error).toBeInstanceOf(Error);
-		                expect(error.message).toBe("multi-request not support requests of type 'KalturaFileRequest'");
+		                expect(error.message).toBe("multi-request not support requests of type 'VidiunFileRequest'");
 	                });
                     done();
                 });

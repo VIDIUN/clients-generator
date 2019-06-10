@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
 import { TestsConfig } from "./tests-config";
-import { KalturaClient } from "../kaltura-client-service";
+import { VidiunClient } from "../vidiun-client-service";
 import { SessionStartAction } from "../api/types/SessionStartAction";
-import { KalturaSessionType } from "../api/types/KalturaSessionType";
+import { VidiunSessionType } from "../api/types/VidiunSessionType";
 
 export function getTestFile(): string | Buffer {
   return fs.readFileSync(path.join(__dirname, "DemoVideo.flv"));
@@ -21,23 +21,23 @@ export function escapeRegExp(s) {
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\$&");
 }
 
-export function getClient(): Promise<KalturaClient> {
+export function getClient(): Promise<VidiunClient> {
     const httpConfiguration = {
         endpointUrl: TestsConfig.endpointUrl,
         clientTag: TestsConfig.clientTag
     };
 
-    let client = new KalturaClient(httpConfiguration);
+    let client = new VidiunClient(httpConfiguration);
 
 
     return client.request(new SessionStartAction({
         secret: TestsConfig.adminSecret,
         userId: TestsConfig.userName,
-        type: KalturaSessionType.admin,
+        type: VidiunSessionType.admin,
         partnerId: <any>TestsConfig.partnerId * 1
-    })).then(ks => {
+    })).then(vs => {
         client.setDefaultRequestOptions({
-            ks
+            vs
         });
         return client;
     },

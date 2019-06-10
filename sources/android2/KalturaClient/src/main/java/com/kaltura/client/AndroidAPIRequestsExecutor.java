@@ -1,12 +1,12 @@
-package com.kaltura.client;
+package com.vidiun.client;
 
 
 import android.os.Handler;
 import android.os.Looper;
 
-import com.kaltura.client.utils.request.ConnectionConfiguration;
-import com.kaltura.client.utils.request.RequestElement;
-import com.kaltura.client.utils.response.base.ResponseElement;
+import com.vidiun.client.utils.request.ConnectionConfiguration;
+import com.vidiun.client.utils.request.RequestElement;
+import com.vidiun.client.utils.response.base.ResponseElement;
 
 /**
  * @hide
@@ -49,7 +49,7 @@ public class AndroidAPIRequestsExecutor extends APIOkRequestsExecutor {
 
     @Override
     protected void postCompletion(final RequestElement action, ResponseElement responseElement) {
-        final com.kaltura.client.utils.response.base.Response<?> apiResponse = action.parseResponse(responseElement);
+        final com.vidiun.client.utils.response.base.Response<?> apiResponse = action.parseResponse(responseElement);
 
         if (handler != null) {
             handler.post(new Runnable() {

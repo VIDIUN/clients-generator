@@ -1,9 +1,9 @@
 //
 //  MoviesViewController_iPad.m
-//  Kaltura
+//  Vidiun
 //
 //  Created by Pavel on 14.03.12.
-//  Copyright (c) 2012 Kaltura. All rights reserved.
+//  Copyright (c) 2012 Vidiun. All rights reserved.
 //
 
 #import "MoviesViewController_iPad.h"
@@ -127,7 +127,7 @@ const CGRect PlayeriPadCGRect = { { 50.0f, 90.0f }, { 320.0f, 180.0f } };
     [self openMediaInfoByIndex: currentMovieInd];
 //    if ([self.media count] > 0) {
 //        
-//        KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:0];
+//        VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:0];
 //        NSLog(@"@", mediaEntry);
 //        PlayerViewController_iPad *controller = [[PlayerViewController_iPad alloc] initWithNibName:@"PlayerViewController_iPad" bundle:nil];
 //        controller.mediaEntry = mediaEntry;
@@ -140,8 +140,8 @@ const CGRect PlayeriPadCGRect = { { 50.0f, 90.0f }, { 320.0f, 180.0f } };
 
 NSInteger playsPadSort(id media1, id media2, void *reverse)
 {
-	KalturaMediaEntry *mediaEntry1 = (KalturaMediaEntry *)media1;
-    KalturaMediaEntry *mediaEntry2 = (KalturaMediaEntry *)media2;
+	VidiunMediaEntry *mediaEntry1 = (VidiunMediaEntry *)media1;
+    VidiunMediaEntry *mediaEntry2 = (VidiunMediaEntry *)media2;
     
 	if (mediaEntry1.plays > mediaEntry2.plays) {
 		return NSOrderedAscending;
@@ -160,7 +160,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
     
     NSArray *array = [[Client instance] getMedia:self.category];
     
-    for (KalturaMediaEntry *mediaEntry in array) {
+    for (VidiunMediaEntry *mediaEntry in array) {
         
         BOOL canAdd = YES;
         
@@ -210,7 +210,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
     
     for (int i = 0; i < [self.media count]; i++) {
         
-        KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:i];
+        VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:i];
         
         if (mediaEntry.plays > maxPlaysCount) {
             
@@ -253,7 +253,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
 
 - (IBAction)shareButtonPressed:(UIButton *)button {
 
-    KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:currentMovieInd];
+    VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:currentMovieInd];
     
     if (button.tag == 0) {
         
@@ -270,9 +270,9 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
             MFMailComposeViewController *_controller = [[MFMailComposeViewController alloc] init];    
             _controller.mailComposeDelegate = self;
             
-            [_controller setSubject:@"Kaltura"];
+            [_controller setSubject:@"Vidiun"];
             
-            NSString *str = [NSString stringWithFormat:@"I just saw this great video on Kaltura mobile app, check it out:\n%@", [[Client instance] getShareURL:mediaEntry]];
+            NSString *str = [NSString stringWithFormat:@"I just saw this great video on Vidiun mobile app, check it out:\n%@", [[Client instance] getShareURL:mediaEntry]];
             [_controller setMessageBody:str isHTML:NO];
             
             [self presentViewController:_controller animated:YES completion:nil];
@@ -296,7 +296,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
 
 - (IBAction)playInfoButtonPressed:(UIButton *)button {
     
-    KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:currentMovieInd];
+    VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:currentMovieInd];
     
     PlayerViewController_iPad *controller = [[PlayerViewController_iPad alloc] initWithNibName:@"PlayerViewController_iPad" bundle:nil];
     controller.mediaEntry = mediaEntry;
@@ -309,7 +309,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
     
     currentMovieInd = [num intValue];
     
-    KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:currentMovieInd];
+    VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:currentMovieInd];
     
     labelInfoTitle.text = mediaEntry.name;
     labelInfoDuration.text = [NSString stringWithFormat:@"%d:%.2d", mediaEntry.duration / 60, mediaEntry.duration % 60];
@@ -407,7 +407,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
             
             if (index < [self.media count]) {
                 
-                KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+                VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
                 
                 [cell updateCell1:mediaEntry];
                 
@@ -415,7 +415,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
             
             if (index < [self.media count]) {
                 
-                KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+                VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
                 
                 [cell updateCell2:mediaEntry];
                 
@@ -423,7 +423,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
             
             if (index < [self.media count]) {
                 
-                KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+                VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
                 
                 [cell updateCell3:mediaEntry];
                 
@@ -468,7 +468,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
             
             if (index < [self.media count]) {
                 
-                KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+                VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
                 
                 [cell updateCell1:mediaEntry];
                 
@@ -476,7 +476,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
             
             if (index < [self.media count]) {
                 
-                KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+                VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
                 
                 [cell updateCell2:mediaEntry];
                 
@@ -484,7 +484,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
             
             if (index < [self.media count]) {
                 
-                KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+                VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
                 
                 [cell updateCell3:mediaEntry];
                 
@@ -492,7 +492,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
             
             if (index < [self.media count]) {
                 
-                KalturaMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
+                VidiunMediaEntry *mediaEntry = [self.media objectAtIndex:index++];
                 
                 [cell updateCell4:mediaEntry];
                 
@@ -528,7 +528,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
         
             NSArray *array = [[Client instance] getCategories];
             
-            KalturaCategory *_category = [array objectAtIndex:indexPath.row - (mostPopular ? 1 : 0 )];
+            VidiunCategory *_category = [array objectAtIndex:indexPath.row - (mostPopular ? 1 : 0 )];
             
             cell.labelCategory.text = _category.fullName;
             
@@ -678,7 +678,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
     NSLog(@"stopAndRemovePlayer Exit");
 }
 
-- (void)drawPlayer: (KalturaMediaEntry *)mediaEntry{
+- (void)drawPlayer: (VidiunMediaEntry *)mediaEntry{
     
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     
@@ -695,7 +695,7 @@ NSInteger playsPadSort(id media1, id media2, void *reverse)
     [self.navigationController setDelegate:self];
     
     if ( !playerViewController ) {
-        playerViewController = [[ KPViewController alloc] init];
+        playerViewController = [[ VPViewController alloc] init];
         
         playerViewController.view.frame = PlayeriPadCGRect;
     }

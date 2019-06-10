@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -31,16 +31,16 @@ using System.Text;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-namespace Kaltura
+namespace Vidiun
 {
-    public class KalturaObjectBase : INotifyPropertyChanged
+    public class VidiunObjectBase : INotifyPropertyChanged
     {
         #region Private Fields
-        private IDictionary<string, KalturaListResponse> _RelatedObjects;
+        private IDictionary<string, VidiunListResponse> _RelatedObjects;
         #endregion
 
         #region Properties
-        public IDictionary<string, KalturaListResponse> RelatedObjects
+        public IDictionary<string, VidiunListResponse> RelatedObjects
         {
             get { return _RelatedObjects; }
             set
@@ -52,11 +52,11 @@ namespace Kaltura
         #endregion
 
         #region CTor
-		public KalturaObjectBase()
+		public VidiunObjectBase()
 		{
 		}
 
-        public KalturaObjectBase(XmlElement node)
+        public VidiunObjectBase(XmlElement node)
         {
             foreach (XmlElement propertyNode in node.ChildNodes)
             {
@@ -66,11 +66,11 @@ namespace Kaltura
                     case "relatedObjects":
                         {
                             string key;
-                            this.RelatedObjects = new Dictionary<string, KalturaListResponse>();
+                            this.RelatedObjects = new Dictionary<string, VidiunListResponse>();
                             foreach (XmlElement arrayNode in propertyNode.ChildNodes)
                             {
                                 key = arrayNode["itemKey"].InnerText;
-                                this.RelatedObjects[key] = (KalturaListResponse)KalturaObjectFactory.Create(arrayNode, "KalturaListResponse");
+                                this.RelatedObjects[key] = (VidiunListResponse)VidiunObjectFactory.Create(arrayNode, "VidiunListResponse");
                             }
                         }
                         continue;
@@ -80,9 +80,9 @@ namespace Kaltura
         #endregion
 
         #region Methods
-        public virtual KalturaParams ToParams()
+        public virtual VidiunParams ToParams()
         {
-            return new KalturaParams();
+            return new VidiunParams();
         }
 
         protected int ParseInt(string s)

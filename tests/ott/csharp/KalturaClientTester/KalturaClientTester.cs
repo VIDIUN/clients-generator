@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -31,9 +31,9 @@ using System.Text;
 using System.IO;
 using System.Threading;
 
-namespace Kaltura
+namespace Vidiun
 {
-    class KalturaClientTester : IKalturaLogger
+    class VidiunClientTester : IVidiunLogger
     {
         private const int PARTNER_ID = @PARTNER_ID@; //enter your partner id
         private const string SERVICE_URL = "@SERVICE_URL@";
@@ -47,7 +47,7 @@ namespace Kaltura
 
         private static string uniqueTag;
         private static string currentUserId;
-        private static KalturaClient client;
+        private static VidiunClient client;
 
         public void Log(string msg)
         {
@@ -56,19 +56,19 @@ namespace Kaltura
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting C# Kaltura API Client Library");
+            Console.WriteLine("Starting C# Vidiun API Client Library");
             int code = 0;
             uniqueTag = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
 
-            KalturaConfiguration config = new KalturaConfiguration();
+            VidiunConfiguration config = new VidiunConfiguration();
             config.ServiceUrl = SERVICE_URL;
-            client = new KalturaClient(config);
+            client = new VidiunClient(config);
 
             try
             {
                 Login(OPERATOR_USERNAME, OPERATOR_PASSWORD);
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed Login as operator: " + e.Message);
                 code = -1;
@@ -78,7 +78,7 @@ namespace Kaltura
             {
                 Login(MASTER_USERNAME, MASTER_PASSWORD, MASTER_DEVICE);
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed Login as master: " + e.Message);
                 code = -1;
@@ -88,7 +88,7 @@ namespace Kaltura
             {
                 ListUserRoles();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed ListUserRoles: " + e.Message);
                 code = -1;
@@ -98,7 +98,7 @@ namespace Kaltura
             {
                 ListAssets();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed ListAssets: " + e.Message);
                 code = -1;
@@ -108,7 +108,7 @@ namespace Kaltura
             {
                 ListOttUsers();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed ListOttUsers: " + e.Message);
                 code = -1;
@@ -118,7 +118,7 @@ namespace Kaltura
             {
                 ListHouseholdUsers();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed ListHouseholdUsers: " + e.Message);
                 code = -1;
@@ -128,7 +128,7 @@ namespace Kaltura
             {
                 GetHousehold();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed GetHousehold: " + e.Message);
                 code = -1;
@@ -138,7 +138,7 @@ namespace Kaltura
             {
                 SearchCatalog();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed SearchCatalog: " + e.Message);
                 code = -1;
@@ -148,7 +148,7 @@ namespace Kaltura
             {
                 GetHouseholdDevice();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed GetHouseholdDevice: " + e.Message);
                 code = -1;
@@ -158,7 +158,7 @@ namespace Kaltura
             {
                 AddHouseholdDevice();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed AddHouseholdDevice: " + e.Message);
                 code = -1;
@@ -168,7 +168,7 @@ namespace Kaltura
             {
                 AdvancedMultiRequestExample();
             }
-            catch (KalturaAPIException e)
+            catch (VidiunAPIException e)
             {
                 Console.WriteLine("Failed AdvancedMultiRequestExample: " + e.Message);
                 code = -1;
@@ -187,37 +187,37 @@ namespace Kaltura
         /// </summary>
         private static void Login(string username, string password, string udid = null)
         {
-            KalturaLoginResponse loginResponse = client.OttUserService.Login(PARTNER_ID, username, password, null, udid);
-            client.KS = loginResponse.LoginSession.Ks;
+            VidiunLoginResponse loginResponse = client.OttUserService.Login(PARTNER_ID, username, password, null, udid);
+            client.VS = loginResponse.LoginSession.Vs;
 
             currentUserId = loginResponse.User.Id;
         }
 
         private static void ListUserRoles()
         {
-            KalturaUserRoleListResponse userRolesList = client.UserRoleService.List();
+            VidiunUserRoleListResponse userRolesList = client.UserRoleService.List();
         }
 
         private static void ListAssets()
         {
-            KalturaAssetListResponse assetsList = client.AssetService.List();
-            foreach(KalturaAsset asset in assetsList.Objects)
+            VidiunAssetListResponse assetsList = client.AssetService.List();
+            foreach(VidiunAsset asset in assetsList.Objects)
             {
-                KalturaAsset getAsset;
+                VidiunAsset getAsset;
 
-                if(asset is KalturaMediaAsset)
-                    getAsset = client.AssetService.Get(asset.Id.ToString(), KalturaAssetReferenceType.MEDIA);
+                if(asset is VidiunMediaAsset)
+                    getAsset = client.AssetService.Get(asset.Id.ToString(), VidiunAssetReferenceType.MEDIA);
 
-                if (asset is KalturaProgramAsset)
-                    getAsset = client.AssetService.Get(asset.Id.ToString(), KalturaAssetReferenceType.EPG_EXTERNAL);
+                if (asset is VidiunProgramAsset)
+                    getAsset = client.AssetService.Get(asset.Id.ToString(), VidiunAssetReferenceType.EPG_EXTERNAL);
             }
         }
 
         private static void ListOttUsers()
         {
-            KalturaOTTUserFilter filter = new KalturaOTTUserFilter();
-            KalturaOTTUserListResponse usersList = client.OttUserService.List(filter);
-            foreach(KalturaOTTUser user in usersList.Objects)
+            VidiunOTTUserFilter filter = new VidiunOTTUserFilter();
+            VidiunOTTUserListResponse usersList = client.OttUserService.List(filter);
+            foreach(VidiunOTTUser user in usersList.Objects)
             {
                 if (user.Id.Equals(currentUserId) && !(user.IsHouseholdMaster.HasValue && user.IsHouseholdMaster.Value))
                     throw new Exception("Current user is not listed as master");
@@ -226,43 +226,43 @@ namespace Kaltura
 
         private static void ListHouseholdUsers()
         {
-            KalturaHouseholdUserFilter filter = new KalturaHouseholdUserFilter();
-            KalturaHouseholdUserListResponse usersList = client.HouseholdUserService.List(filter);
+            VidiunHouseholdUserFilter filter = new VidiunHouseholdUserFilter();
+            VidiunHouseholdUserListResponse usersList = client.HouseholdUserService.List(filter);
         }
 
         private static void GetHousehold()
         {
-            KalturaHousehold household = client.HouseholdService.Get();
+            VidiunHousehold household = client.HouseholdService.Get();
         }
         
         private static void SearchCatalog()
         {
             // pager not working
-            KalturaFilterPager pager = new KalturaFilterPager();
+            VidiunFilterPager pager = new VidiunFilterPager();
             pager.PageSize = 50;
             pager.PageIndex = 1;
 
-            KalturaSearchAssetFilter filter = new KalturaSearchAssetFilter();
-            filter.OrderBy = KalturaAssetOrderBy.NAME_DESC;
+            VidiunSearchAssetFilter filter = new VidiunSearchAssetFilter();
+            filter.OrderBy = VidiunAssetOrderBy.NAME_DESC;
 
-            KalturaAssetListResponse list = client.AssetService.List(filter, pager);
+            VidiunAssetListResponse list = client.AssetService.List(filter, pager);
         }
 
         private static void GetHouseholdDevice()
         {
-            KalturaHouseholdDevice householdDevice = client.HouseholdDeviceService.Get();
+            VidiunHouseholdDevice householdDevice = client.HouseholdDeviceService.Get();
         }
 
         private static void AddHouseholdDevice()
         {
             client.HouseholdDeviceService.Delete(MASTER_DEVICE);
 
-            KalturaHouseholdDevice newDevice = new KalturaHouseholdDevice();
+            VidiunHouseholdDevice newDevice = new VidiunHouseholdDevice();
             newDevice.Name = MASTER_DEVICE;
             newDevice.Udid = MASTER_DEVICE;
             newDevice.BrandId = MASTER_DEVICE_BRAND;
 
-            KalturaHouseholdDevice householdDevice = client.HouseholdDeviceService.Add(newDevice);
+            VidiunHouseholdDevice householdDevice = client.HouseholdDeviceService.Add(newDevice);
         }
 
 

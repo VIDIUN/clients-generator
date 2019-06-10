@@ -1,4 +1,4 @@
-package com.kaltura.mediatorActivity;
+package com.vidiun.mediatorActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -11,7 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.kaltura.bar.ActionBar;
+import com.vidiun.bar.ActionBar;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**

@@ -9,7 +9,7 @@ using System.Threading;
 using System.Web;
 using System.Xml;
 
-namespace Kaltura.Request
+namespace Vidiun.Request
 {
     public class ClientException : Exception
     {

@@ -1,28 +1,28 @@
 
 Overview
 =========
-The Kaltura CLI client is a bundle of command line utilities that can be used to interface with the 
-Kaltura API. The client is intended mostly for experimentation / small tasks, not for full-fledged
+The Vidiun CLI client is a bundle of command line utilities that can be used to interface with the 
+Vidiun API. The client is intended mostly for experimentation / small tasks, not for full-fledged
 applications.
 
 The following utilities are included in the package:
-1. kalcli - responsible for issuing Kaltura API calls, it builds the request URL and parses the 
+1. vidcli - responsible for issuing Vidiun API calls, it builds the request URL and parses the 
 	response to a format that can be easily processed by command line utilities such as grep / awk.
-	The client library contains an additional script (kalcliAutoComplete) that provides bash-autocompletion 
-	functionality to the kalcli utility, for example:
+	The client library contains an additional script (vidcliAutoComplete) that provides bash-autocompletion 
+	functionality to the vidcli utility, for example:
 ```
-	kalcli med[TAB]
-	kalcli media l[TAB]
-	kalcli media list f[TAB]
-	kalcli media list filter:objectType=KalturaM[TAB]
-	kalcli media list filter:objectType=KalturaMediaEntryFilter
+	vidcli med[TAB]
+	vidcli media l[TAB]
+	vidcli media list f[TAB]
+	vidcli media list filter:objectType=VidiunM[TAB]
+	vidcli media list filter:objectType=VidiunMediaEntryFilter
 	...
 ```
-2. extractKs - parses a Kaltura session (KS) to its different fields.
-3. generateKs - generates a KS.
-4. renewKs - useful to renew expired Kaltura sessions, generates a KS identical to the input KS with a 1 day expiry.
-5. logToCli - Parse an API log entry array of params into a kalcli command
-6. genIpHeader - generates a signed HTTP header that can be used to simulate access to the Kaltura API from a different source IP.
+2. extractVs - parses a Vidiun session (VS) to its different fields.
+3. generateVs - generates a VS.
+4. renewVs - useful to renew expired Vidiun sessions, generates a VS identical to the input VS with a 1 day expiry.
+5. logToCli - Parse an API log entry array of params into a vidcli command
+6. genIpHeader - generates a signed HTTP header that can be used to simulate access to the Vidiun API from a different source IP.
 
 *NOTE: when executing without arguments, all utilities display usage information including all available flags.*
 
@@ -41,13 +41,13 @@ Where:
 ```
 $BASEDIR is the prefix in which you wish to install the clientlibs
 
-$SERVICE_URL is the Kaltura API edge point, for instance www.kaltura.com if working against Kaltura's SaaS
+$SERVICE_URL is the Vidiun API edge point, for instance www.vidiun.com if working against Vidiun's SaaS
 
-$PARTNER_ID is your Kaltura partner ID
+$PARTNER_ID is your Vidiun partner ID
 
 $ADMIN_SECRET is your partner ID's admin_secret which can be found by going to:
 
-KMC->Settings->Integration Settings
+VMC->Settings->Integration Settings
 
 or by making the following DB query:
 
@@ -59,49 +59,49 @@ $ ./tests/sanity.sh $BASE_DIR $PARTNER_ID
 ```
 Alternatively, you can follow these manual steps:
 
-* Replace the @BASEDIR@ token with the path to kalcliAutoComplete.php in:
+* Replace the @BASEDIR@ token with the path to vidcliAutoComplete.php in:
 ```	
-	kalcliAliases.sh
-	kalcliAutoComplete
+	vidcliAliases.sh
+	vidcliAutoComplete
 	logToCli
 ```
-e.g. if kalcliAutoComplete was copied to /a/b/kalcliAutoComplete @BASEDIR@ should be set to /a/b
+e.g. if vidcliAutoComplete was copied to /a/b/vidcliAutoComplete @BASEDIR@ should be set to /a/b
 
 If you have root privileges on the machine in question, you can also do the following to enjoy BASH's auto completion features:
-* Create a link to kalcliAutoComplete in /etc/bash_completion.d/
-	ln -s @BASEDIR@/kalcliAutoComplete /etc/bash_completion.d/kalcliAutoComplete
+* Create a link to vidcliAutoComplete in /etc/bash_completion.d/
+	ln -s @BASEDIR@/vidcliAutoComplete /etc/bash_completion.d/vidcliAutoComplete
 * Register the auto completion: 
-	source /etc/bash_completion.d/kalcliAutoComplete
-* Create a link to kalcliAliases.sh in /etc/profile.d/
-	ln -s @BASEDIR@/kalcliAliases.sh /etc/profile.d/kalcliAliases.sh
+	source /etc/bash_completion.d/vidcliAutoComplete
+* Create a link to vidcliAliases.sh in /etc/profile.d/
+	ln -s @BASEDIR@/vidcliAliases.sh /etc/profile.d/vidcliAliases.sh
 * Enable the aliases
-	source /etc/profile.d/kalcliAliases.sh
+	source /etc/profile.d/vidcliAliases.sh
 
-*NOTE: If you do not have root privileges, you can still source kalcliAliases.sh in your user's ~/bashrc*
+*NOTE: If you do not have root privileges, you can still source vidcliAliases.sh in your user's ~/bashrc*
 
 * Copy config/config.template.ini to config/config.ini and fill out the parameters:
-	- Secret repositories - required for the extractKs / generateKs / renewKs utilities.
+	- Secret repositories - required for the extractVs / generateVs / renewVs utilities.
 		Two types of repositories can be configured:
 		- Preset repositories - contain a fixed list of (partner id, admin secret) pairs
-		- Database repositories - contain the connection details for a Kaltura server database, that can be used to pull the secrets of partner accounts.
+		- Database repositories - contain the connection details for a Vidiun server database, that can be used to pull the secrets of partner accounts.
 
-		*NOTE: The second option is only possible if you are hosting your own Kaltura ENV. For SaaS, only the first one is viable.*
+		*NOTE: The second option is only possible if you are hosting your own Vidiun ENV. For SaaS, only the first one is viable.*
 	- IP address salt - required for the genIpHeader utility.
-		The salt has to match the parameter 'remote_addr_header_salt' that is configured in configuration/local.ini on the Kaltura server.
+		The salt has to match the parameter 'remote_addr_header_salt' that is configured in configuration/local.ini on the Vidiun server.
 		
-		*NOTE: this is only relevant when hosting your own Kaltura ENV, otherwise, leave empty.*
-	- API Host - The default is www.kaltura.com if not defined
+		*NOTE: this is only relevant when hosting your own Vidiun ENV, otherwise, leave empty.*
+	- API Host - The default is www.vidiun.com if not defined
 		May be uncommented and modified in order to globally point to a different api host
 		The -u parameter may be used to override the api host via command line
-	- Log Dir - The log directory that contains kaltura_api_v3.log (typically /var/log or /opt/kaltura/log)
+	- Log Dir - The log directory that contains vidiun_api_v3.log (typically /var/log or /opt/vidiun/log)
 		
-		This is relevant to the --log flag, that makes kalcli print the API log instead of the API output. 
+		This is relevant to the --log flag, that makes vidcli print the API log instead of the API output. 
 		
-		*Note: this works only when kalcli is executed against a Kaltura server running on the same machine*
+		*Note: this works only when vidcli is executed against a Vidiun server running on the same machine*
 
 Windows
 --------
-To use kalcli on Windows you'll need to install:
+To use vidcli on Windows you'll need to install:
 
 - [Cygwin] (https://cygwin.com/install.html)- make sure to include the bash-completion package (not included by default)
 - [Xampp] (https://www.apachefriends.org/index.html) or any other platform that provides PHP CLI 5.3 and above with the CURL extension.
@@ -113,14 +113,14 @@ Installation is the same as for Linux, but note the following:
 - The meaning of BASEDIR in step 2 is different than steps 3 & 5 - in step 2 you need to use a
 	path relative to the drive root while in steps 3 & 5 you need to use a path relative to Cygwin root. 
 	For example:
-	- If you install kalcli in C:\Cygwin\cli, you'll need to use /cygwin/cli in step 2, and use /cli in 3 & 5.
-	- If you install kalcli in C:\cli, you'll need to use /cli in step 2, and use /cygdrive/c/cli in 3 & 5.
+	- If you install vidcli in C:\Cygwin\cli, you'll need to use /cygwin/cli in step 2, and use /cli in 3 & 5.
+	- If you install vidcli in C:\cli, you'll need to use /cli in step 2, and use /cygdrive/c/cli in 3 & 5.
 
 Examples
 =========
 1. Getting the ids of 30 entries:
 ``` 
-$ genks $PARTNER_ID | kalcli media list | awk '$1 == "id"'
+$ genvs $PARTNER_ID | vidcli media list | awk '$1 == "id"'
 ```
 Sample output:
 ```
@@ -133,12 +133,12 @@ Sample output:
 
 2. Diffing access control profiles:
 ```
-$ (genks $PARTNER_ID | kalcli accesscontrol get id=7003 > /tmp/a1) ; (genks $PARTNER_ID | kalcli accesscontrol get id=8005 > /tmp/a2) ; diff /tmp/a1 /tmp/a2
+$ (genvs $PARTNER_ID | vidcli accesscontrol get id=7003 > /tmp/a1) ; (genvs $PARTNER_ID | vidcli accesscontrol get id=8005 > /tmp/a2) ; diff /tmp/a1 /tmp/a2
 ```
 
 3. Getting the number of distinct entries in a playlist:
 ```
-$ genks $PARTNER_ID | kalcli playlist execute id=1_1a2b3c | grep -P 'id\t' | sort | uniq | wc -l
+$ genvs $PARTNER_ID | vidcli playlist execute id=1_1a2b3c | grep -P 'id\t' | sort | uniq | wc -l
 ```
 Sample output:
 ```
@@ -147,13 +147,13 @@ Sample output:
 
 4. Using a precreated session:
 ```
-$ kalcli -x media list ks=MDQ2ZThjOTI0MTJmZGIxYTVlMWVhNDJlZDZhNDAyMDkyMWJhNzE0OXw0Mzc0ODE7NDM3NDgxOzEzNjI0OTI3Njc7MDsxMzYyNDA2MzY3Ljc3NzM7MDt3aWRnZXQ6MSx2aWV3Oio7Ow==
+$ vidcli -x media list vs=MDQ2ZThjOTI0MTJmZGIxYTVlMWVhNDJlZDZhNDAyMDkyMWJhNzE0OXw0Mzc0ODE7NDM3NDgxOzEzNjI0OTI3Njc7MDsxMzYyNDA2MzY3Ljc3NzM7MDt3aWRnZXQ6MSx2aWV3Oio7Ow==
 ```
 Sample output:
 ```
-KalturaMediaListResponse
+VidiunMediaListResponse
         objects array
-                0       KalturaMediaEntry
+                0       VidiunMediaEntry
                         mediaType       1
                         conversionQuality       6
                         sourceType      1
@@ -194,7 +194,7 @@ KalturaMediaListResponse
                         operationAttributes     array
                         entitledUsersEdit
                         entitledUsersPublish
-                1       KalturaMediaEntry
+                1       VidiunMediaEntry
                         mediaType       1
                         conversionQuality       6
                         sourceType      1
@@ -248,12 +248,12 @@ Paste the log portion here
     [action] => cleanExclusiveJobs
     [format] => 3
     [ignoreNull] => 1
-    [clientTag] => batch: ip-10-154-241-19 KAsyncDbCleanup index: 0 sessionId: 1978407734
+    [clientTag] => batch: ip-10-154-241-19 VAsyncDbCleanup index: 0 sessionId: 1978407734
     [apiVersion] => @VERSION@
     [partnerId] => -1
-    [ks] => MzZjYjRlOWM5ODcxNGZhMzY3MTNmODU2NDYyMWE1MmE0ZjViNGM5Y3wtMTs7MTQzNjgwNzg5MDsyOzE0MzQyMTU4OTAuMjQzO2JhdGNoVXNlcjtkaXNhYmxlZW5
+    [vs] => MzZjYjRlOWM5ODcxNGZhMzY3MTNmODU2NDYyMWE1MmE0ZjViNGM5Y3wtMTs7MTQzNjgwNzg5MDsyOzE0MzQyMTU4OTAuMjQzO2JhdGNoVXNlcjtkaXNhYmxlZW5
 0aXRsZW1lbnQ7LTE7
-    [kalsig] => 2ec6af9816b5172dbe0c36c6c30a5ac8
+    [vidsig] => 2ec6af9816b5172dbe0c36c6c30a5ac8
 )
 ]
 
@@ -262,17 +262,17 @@ Paste the log portion here
 Sample output:
 ```
 Command lines:
-kalcli -x batch cleanExclusiveJobs apiVersion=@VERSION@ 'clientTag=batch: ip-10-154-241-19 KAsyncDbCleanup index: 0 sessionId: 1978407734' format=3 ignoreNull=1 kalsig=2ec6af9816b5172dbe0c36c6c30a5ac8 'ks=MzZjYjRlOWM5ODcxNGZhMzY3MTNmODU2NDYyMWE1MmE0ZjViNGM5Y3wtMTs7MTQzNjgwNzg5MDsyOzE0MzQyMTU4OTAuMjQzO2JhdGNoVXNlcjtkaXNhYmxlZW5
+vidcli -x batch cleanExclusiveJobs apiVersion=@VERSION@ 'clientTag=batch: ip-10-154-241-19 VAsyncDbCleanup index: 0 sessionId: 1978407734' format=3 ignoreNull=1 vidsig=2ec6af9816b5172dbe0c36c6c30a5ac8 'vs=MzZjYjRlOWM5ODcxNGZhMzY3MTNmODU2NDYyMWE1MmE0ZjViNGM5Y3wtMTs7MTQzNjgwNzg5MDsyOzE0MzQyMTU4OTAuMjQzO2JhdGNoVXNlcjtkaXNhYmxlZW5
 0aXRsZW1lbnQ7LTE7' partnerId=-1
 ```
 
-Parsing a KS:
+Parsing a VS:
 ```
-$ extks MDQ2ZThjOTI0MTJmZGIxYTVlMWVhNDJlZDZhNDAyMDkyMWJhNzE0OXw0Mzc0ODE7NDM3NDgxOzEzNjI0OTI3Njc7MDsxMzYyNDA2MzY3Ljc3NzM7MDt3aWRnZXQ6MSx2aWV3Oio7Ow==
+$ extvs MDQ2ZThjOTI0MTJmZGIxYTVlMWVhNDJlZDZhNDAyMDkyMWJhNzE0OXw0Mzc0ODE7NDM3NDgxOzEzNjI0OTI3Njc7MDsxMzYyNDA2MzY3Ljc3NzM7MDt3aWRnZXQ6MSx2aWV3Oio7Ow==
 ```
 Sample output:
 ```
-extks ZTc4ZmUxN2I5N2I5OWVjOGUwYWEyNzVlMzRhNjVkZWJiM2I1MDgxM3wxMDE7MTAxOzE0MzQzMDUxMDk7MjsxNDM0MjE4NzA5LjQzODc7YWRtaW47ZGlzYWJsZWVudGl0bGVtZW50Ozs=
+extvs ZTc4ZmUxN2I5N2I5OWVjOGUwYWEyNzVlMzRhNjVkZWJiM2I1MDgxM3wxMDE7MTAxOzE0MzQzMDUxMDk7MjsxNDM0MjE4NzA5LjQzODc7YWRtaW47ZGlzYWJsZWVudGl0bGVtZW50Ozs=
 Sig                 e78fe17b97b99ec8e0aa275e34a65debb3b50813
 Fields              101;101;1434305109;2;1434218709.4387;admin;disableentitlement;;
 ---
@@ -290,31 +290,31 @@ additional_data
 
 7. Using a serve action:
 ```
-$ genks $PARTNER_ID | kalcli -R document_documents serve entryId=0_abcdef > /path/to/output/doc
+$ genvs $PARTNER_ID | vidcli -R document_documents serve entryId=0_abcdef > /path/to/output/doc
 ```
 
 8. Nesting requests:
 ```
-$ kalcli -x session start partnerId=$PARTNER_ID secret=abcdef type=2 | awk '{print "ks "$1}' | kalcli media list
+$ vidcli -x session start partnerId=$PARTNER_ID secret=abcdef type=2 | awk '{print "vs "$1}' | vidcli media list
 ```
 
 9. Uploading files:
 ```
-$ KS=`genks -b $PARTNER_ID`
+$ VS=`genvs -b $PARTNER_ID`
 
 # gen token
-$ TOKEN=`kalcli -x uploadtoken add uploadToken:objectType=KalturaUploadToken uploadToken:fileName=$TEST_FLV  ks=$KS|awk '$1 == "id" {print $2}'`
+$ TOKEN=`vidcli -x uploadtoken add uploadToken:objectType=VidiunUploadToken uploadToken:fileName=$TEST_FLV  vs=$VS|awk '$1 == "id" {print $2}'`
 
 # upload token
-$ kalcli -x uploadtoken upload fileData=@$TEST_FLV uploadTokenId=$TOKEN ks=$KS
+$ vidcli -x uploadtoken upload fileData=@$TEST_FLV uploadTokenId=$TOKEN vs=$VS
 
 # upload entry using $TOKEN
-$ ENTRY_ID=`kalcli -x baseentry addFromUploadedFile uploadTokenId=$TOKEN partnerId=$PARTNER_ID ks=$KS entry:objectType=KalturaBaseEntry |awk '$1 == "id" {print $2}'`
+$ ENTRY_ID=`vidcli -x baseentry addFromUploadedFile uploadTokenId=$TOKEN partnerId=$PARTNER_ID vs=$VS entry:objectType=VidiunBaseEntry |awk '$1 == "id" {print $2}'`
 
 ```
 Sample output:
 ```
-KalturaUploadToken
+VidiunUploadToken
         id      0_55909e3ed8b7c32d4bfd622884c5ae49
         partnerId       101
         userId  admin
@@ -327,10 +327,10 @@ KalturaUploadToken
 
 10. Sending the contents of a file on a string parameter:
 ```
-$ genks $PARTNER_ID | kalcli caption_captionasset setContent id=0_abcd56 contentResource:objectType=KalturaStringResource contentResource:content=@@/tmp/caption.srt
+$ genvs $PARTNER_ID | vidcli caption_captionasset setContent id=0_abcd56 contentResource:objectType=VidiunStringResource contentResource:content=@@/tmp/caption.srt
 ```
 
 11. Executing an API with a different source IP address:
 ```
-$ ip=`genipheader 9.8.7.6` ; genks $PARTNER_ID | kalcli -H$ip baseentry getContextData entryId=0_abcd56
+$ ip=`genipheader 9.8.7.6` ; genvs $PARTNER_ID | vidcli -H$ip baseentry getContextData entryId=0_abcd56
 ```

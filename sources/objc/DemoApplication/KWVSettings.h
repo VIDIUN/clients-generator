@@ -1,6 +1,6 @@
 //
 //  WVSettings.h
-//  Kaltura
+//  Vidiun
 //
 //  Created by Eliza Sapir on 6/3/13.
 //
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface KWVSettings : NSObject {
+@interface VWVSettings : NSObject {
     
     NSString* drmServer;
 	NSString* portalId;
@@ -21,6 +21,6 @@
 @property (nonatomic, retain) NSString* portalId;
 
 - (BOOL) isNativeAdapting;
--(NSDictionary*) initializeDictionary:(NSString *)flavorId andKS: (NSString*) ks;
+-(NSDictionary*) initializeDictionary:(NSString *)flavorId andVS: (NSString*) vs;
 
 @end

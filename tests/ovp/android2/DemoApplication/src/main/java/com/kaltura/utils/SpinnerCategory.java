@@ -1,4 +1,4 @@
-package com.kaltura.utils;
+package com.vidiun.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.kaltura.activity.R;
+import com.vidiun.activity.R;
 
 public class SpinnerCategory implements OnItemSelectedListener {
 

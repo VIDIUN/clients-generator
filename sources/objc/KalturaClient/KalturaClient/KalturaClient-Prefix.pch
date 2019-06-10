@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'KalturaClient' target in the 'KalturaClient' project
+// Prefix header for all source files of the 'VidiunClient' target in the 'VidiunClient' project
 //
 
 #ifdef __OBJC__

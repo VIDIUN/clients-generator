@@ -1,4 +1,4 @@
-package com.kaltura.activity;
+package com.vidiun.activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +31,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kaltura.client.KalturaApiException;
-import com.kaltura.client.types.KalturaCategory;
-import com.kaltura.client.types.KalturaMediaEntry;
-import com.kaltura.enums.States;
-import com.kaltura.mediatorActivity.TemplateActivity;
-import com.kaltura.services.AdminUser;
-import com.kaltura.services.Category;
-import com.kaltura.services.Media;
-import com.kaltura.services.UploadToken;
-import com.kaltura.utils.Utils;
+import com.vidiun.client.VidiunApiException;
+import com.vidiun.client.types.VidiunCategory;
+import com.vidiun.client.types.VidiunMediaEntry;
+import com.vidiun.enums.States;
+import com.vidiun.mediatorActivity.TemplateActivity;
+import com.vidiun.services.AdminUser;
+import com.vidiun.services.Category;
+import com.vidiun.services.Media;
+import com.vidiun.services.UploadToken;
+import com.vidiun.utils.Utils;
 
 public class Main extends TemplateActivity {
 
@@ -471,7 +471,7 @@ public class Main extends TemplateActivity {
 
                     if (pathfromURI != null && category != null && title != null && description != null && tags != null) {
                         message = "Create new entry";
-                        KalturaMediaEntry newEntry = Media.addEmptyEntry(TAG, category, title, description, tags);
+                        VidiunMediaEntry newEntry = Media.addEmptyEntry(TAG, category, title, description, tags);
                         message = "Uploading data";
                         isUploaded = uploadToken.uploadMediaFileAndAttachToEmptyEntry(TAG, newEntry, pathfromURI);
                     } else {
@@ -535,7 +535,7 @@ public class Main extends TemplateActivity {
     private class DownloadListCatigoriesTask extends AsyncTask<Void, States, Void> {
 
         private String message;
-        private List<KalturaCategory> listCategory;
+        private List<VidiunCategory> listCategory;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -548,7 +548,7 @@ public class Main extends TemplateActivity {
                     publishProgress(States.LOADING_DATA);
                     listCategory = Category.listAllCategories(TAG, 1, 500);
                 }
-            } catch (KalturaApiException e) {
+            } catch (VidiunApiException e) {
                 e.printStackTrace();
                 message = e.getMessage();
                 Log.w(TAG, message);
@@ -568,7 +568,7 @@ public class Main extends TemplateActivity {
 
             if (listCategory != null) {
                 ls = new ArrayList<String>();
-                for (KalturaCategory list : listCategory) {
+                for (VidiunCategory list : listCategory) {
                     ls.add(list.name);
                 }
                 spinner = (Spinner) dialogVideoInfo.findViewById(R.id.sp_category);

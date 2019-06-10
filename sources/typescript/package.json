@@ -1,13 +1,13 @@
 {
-  "name": "kaltura-typescript-client",
+  "name": "vidiun-typescript-client",
   "private": true,
   "version": "7.0.0",
-  "description": "Kaltura Typescript client",
+  "description": "Vidiun Typescript client",
   "keywords": [
-    "Kaltura"
+    "Vidiun"
   ],
   "license": "AGPL-3.0",
-  "author": "https://github.com/kaltura-ng/graphs/contributors",
+  "author": "https://github.com/vidiun-ng/graphs/contributors",
   "contributors": [
     {
       "name": "Eran Sakal",
@@ -28,10 +28,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaltura/KalturaGeneratedAPIClientsTypescript.git"
+    "url": "https://github.com/vidiun/VidiunGeneratedAPIClientsTypescript.git"
   },
   "bugs": {
-    "url": "https://github.com/kaltura/KalturaGeneratedAPIClientsTypescript/issues"
+    "url": "https://github.com/vidiun/VidiunGeneratedAPIClientsTypescript/issues"
   },
   "main": "./index.js",
   "dependencies": {

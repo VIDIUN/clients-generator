@@ -1,9 +1,9 @@
-# KalturaClient
+# VidiunClient
 
-[![CI Status](http://img.shields.io/travis/kaltura/KalturaGeneratedAPIClientsSwift.svg?style=flat)](https://travis-ci.org/kaltura/KalturaGeneratedAPIClientsSwift)
-[![Version](https://img.shields.io/cocoapods/v/KalturaClient.svg?style=flat)](http://cocoapods.org/pods/KalturaClient)
-[![License](https://img.shields.io/cocoapods/l/KalturaClient.svg?style=flat)](http://cocoapods.org/pods/KalturaClient)
-[![Platform](https://img.shields.io/cocoapods/p/KalturaClient.svg?style=flat)](http://cocoapods.org/pods/KalturaClient)
+[![CI Status](http://img.shields.io/travis/vidiun/VidiunGeneratedAPIClientsSwift.svg?style=flat)](https://travis-ci.org/vidiun/VidiunGeneratedAPIClientsSwift)
+[![Version](https://img.shields.io/cocoapods/v/VidiunClient.svg?style=flat)](http://cocoapods.org/pods/VidiunClient)
+[![License](https://img.shields.io/cocoapods/l/VidiunClient.svg?style=flat)](http://cocoapods.org/pods/VidiunClient)
+[![Platform](https://img.shields.io/cocoapods/p/VidiunClient.svg?style=flat)](http://cocoapods.org/pods/VidiunClient)
 
 ## Example
 
@@ -13,26 +13,26 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
-KalturaClient is available through [CocoaPods](http://cocoapods.org). To install
+VidiunClient is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "KalturaClient"
+pod "VidiunClient"
 ```
 
 ## Author
 
-community@kaltura.com
+community@vidiun.com
 
 ## License and Copyright Information
 All code in this project is released under the [AGPLv3 license](http://www.gnu.org/licenses/agpl-3.0.html) unless a different license for a particular library is specified in the applicable library path.   
 
-Copyright © Kaltura Inc. All rights reserved.   
-Authors and contributors: See [GitHub contributors list](https://github.com/kaltura/playkit-ios-samples/graphs/contributors).  
+Copyright © Vidiun Inc. All rights reserved.   
+Authors and contributors: See [GitHub contributors list](https://github.com/vidiun/pakhshkit-ios-samples/graphs/contributors).  
 
 ## Publishing
 
 ```ruby
 pod lib lint --fail-fast --allow-warnings
-pod trunk push KalturaClient.podspec --allow-warnings 
+pod trunk push VidiunClient.podspec --allow-warnings 
 ```

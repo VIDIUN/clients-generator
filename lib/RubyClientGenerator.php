@@ -21,7 +21,7 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 		
 		// enumes
 		$this->startNewTextBlock();
-		$this->appendLine("module Kaltura");
+		$this->appendLine("module Vidiun");
 		$this->appendLine();
 		$enumNodes = $xpath->query("/xml/enums/enum[not(@plugin)]");
 		foreach($enumNodes as $enumNode)
@@ -30,15 +30,15 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 		}
 		$this->appendLine();
 	  	$this->appendLine("end");
-		$this->addFile("lib/kaltura_enums.rb", $this->getTextBlock());
+		$this->addFile("lib/vidiun_enums.rb", $this->getTextBlock());
 		
 		
 	
 		// classes
 		$this->startNewTextBlock();
-		$this->appendLine("require 'kaltura_enums.rb'");
+		$this->appendLine("require 'vidiun_enums.rb'");
 		$this->appendLine();
-		$this->appendLine("module Kaltura");
+		$this->appendLine("module Vidiun");
 		$this->appendLine();
 		$classNodes = $xpath->query("/xml/classes/class[not(@plugin)]");
 		foreach($classNodes as $classNode)
@@ -47,16 +47,16 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 		}
 		$this->appendLine();
 	  	$this->appendLine("end");
-		$this->addFile("lib/kaltura_types.rb", $this->getTextBlock());
+		$this->addFile("lib/vidiun_types.rb", $this->getTextBlock());
 		
 		
 		
 		$this->startNewTextBlock();
-		$this->appendLine("require 'kaltura_client_base.rb'");
-		$this->appendLine("require 'kaltura_enums.rb'");
-		$this->appendLine("require 'kaltura_types.rb'");
+		$this->appendLine("require 'vidiun_client_base.rb'");
+		$this->appendLine("require 'vidiun_enums.rb'");
+		$this->appendLine("require 'vidiun_types.rb'");
 		$this->appendLine();
-		$this->appendLine("module Kaltura");
+		$this->appendLine("module Vidiun");
 		$this->appendLine();
 		
 		$serviceNodes = $xpath->query("/xml/services/service[not(@plugin)]");
@@ -70,7 +70,7 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 		$this->writeMainClient($serviceNodes, $configurationNodes);
 		$this->appendLine();
 	  	$this->appendLine("end");
-		$this->addFile("lib/kaltura_client.rb", $this->getTextBlock());
+		$this->addFile("lib/vidiun_client.rb", $this->getTextBlock());
 
 		// writing plugins
 		$pluginNodes = $xpath->query("/xml/plugins/plugin");
@@ -79,16 +79,16 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 			$pluginName = $pluginNode->getAttribute("name");
 			
 			$this->startNewTextBlock();
-			$this->appendLine("require 'kaltura_client.rb'");
+			$this->appendLine("require 'vidiun_client.rb'");
 
 			$dependencies = $pluginNode->getElementsByTagName("dependency");		
 			foreach($dependencies as $dependency)
 			{
-				$this->appendLine("require File.dirname(__FILE__) + '/". $this->camelCaseToUnderscoreAndLower("Kaltura".$this->upperCaseFirstLetter($dependency->getAttribute("pluginName"))."ClientPlugin.rb")."'");	
+				$this->appendLine("require File.dirname(__FILE__) + '/". $this->camelCaseToUnderscoreAndLower("Vidiun".$this->upperCaseFirstLetter($dependency->getAttribute("pluginName"))."ClientPlugin.rb")."'");	
 			}
 			
 			$this->appendLine();			
-			$this->appendLine("module Kaltura");
+			$this->appendLine("module Vidiun");
 			$this->appendLine();
 							
 			$enumNodes = $xpath->query("/xml/enums/enum[@plugin='$pluginName']");
@@ -116,7 +116,7 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 			
 			$this->appendLine();
 		  	$this->appendLine("end");
-			$this->addFile($this->camelCaseToUnderscoreAndLower("lib/kaltura_plugins/Kaltura".$this->upperCaseFirstLetter($pluginName)."ClientPlugin.rb"), $this->getTextBlock());	
+			$this->addFile($this->camelCaseToUnderscoreAndLower("lib/vidiun_plugins/Vidiun".$this->upperCaseFirstLetter($pluginName)."ClientPlugin.rb"), $this->getTextBlock());	
 		}
 	}
 	
@@ -158,7 +158,7 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 		if ($classNode->hasAttribute("base"))
 			$this->appendLine("	class $type < ".$classNode->getAttribute("base"));
 		else
-			$this->appendLine("	class $type < KalturaObjectBase");
+			$this->appendLine("	class $type < VidiunObjectBase");
 		
 		foreach($classNode->childNodes as $propertyNode)
 		{
@@ -220,11 +220,11 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 			elseif($propType == 'array' || $propType == 'map')
 			{
 				$propArrayType = $propertyNode->getAttribute("arrayType");
-				$this->appendLine("				self.".$this->camelCaseToUnderscoreAndLower($propName)." = KalturaClientBase.object_from_xml(xml_element.elements['$propName'], '$propArrayType')");	
+				$this->appendLine("				self.".$this->camelCaseToUnderscoreAndLower($propName)." = VidiunClientBase.object_from_xml(xml_element.elements['$propName'], '$propArrayType')");	
 			}
 			else
 			{
-				$this->appendLine("				self.".$this->camelCaseToUnderscoreAndLower($propName)." = KalturaClientBase.object_from_xml(xml_element.elements['$propName'], '$propType')");	
+				$this->appendLine("				self.".$this->camelCaseToUnderscoreAndLower($propName)." = VidiunClientBase.object_from_xml(xml_element.elements['$propName'], '$propType')");	
 			}
 			$this->appendLine("			end");
 		}	
@@ -242,13 +242,13 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 			return;
 			
 		$serviceName = $serviceNode->getAttribute("name");
-		$serviceClassName = "Kaltura".$this->upperCaseFirstLetter($serviceName)."Service";
+		$serviceClassName = "Vidiun".$this->upperCaseFirstLetter($serviceName)."Service";
 		
 		$this->appendLine();
 		// comments
 		$this->writeComments("	# ", $serviceNode);
 
-		$this->appendLine("	class $serviceClassName < KalturaServiceBase");
+		$this->appendLine("	class $serviceClassName < VidiunServiceBase");
 		$this->appendLine("		def initialize(client)");
 		$this->appendLine("			super(client)");
 		$this->appendLine("		end");	   
@@ -297,7 +297,7 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("		# @return [$resultType]");
 	
 		$this->appendLine("		$signaturePrefix$signature");
-		$this->appendLine("			kparams = {}");
+		$this->appendLine("			vparams = {}");
 		
 		$haveFiles = false;
 		foreach($paramNodes as $paramNode)
@@ -306,7 +306,7 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 		    if ($haveFiles === false && $paramType == "file")
 	    	{
 		        $haveFiles = true;
-				$this->appendLine("			kfiles = {}");
+				$this->appendLine("			vfiles = {}");
 	    	}
 		}
 		
@@ -320,21 +320,21 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 			switch ($paramType)
 			{
 				case "file":
-					$this->appendLine("			client.add_param(kfiles, '$paramName', $rubyParamName)");
+					$this->appendLine("			client.add_param(vfiles, '$paramName', $rubyParamName)");
 					break;
 				default: 
-					$this->appendLine("			client.add_param(kparams, '$paramName', $rubyParamName)");
+					$this->appendLine("			client.add_param(vparams, '$paramName', $rubyParamName)");
 					break;
 			}
 		}
 		
 		if ($haveFiles)
 		{
-			$this->appendLine("			client.queue_service_action_call('$serviceId', '$action', '$expectedType', kparams, kfiles)");
+			$this->appendLine("			client.queue_service_action_call('$serviceId', '$action', '$expectedType', vparams, vfiles)");
 		}
 		else
 		{
-			$this->appendLine("			client.queue_service_action_call('$serviceId', '$action', '$expectedType', kparams)");
+			$this->appendLine("			client.queue_service_action_call('$serviceId', '$action', '$expectedType', vparams)");
 		}
 		
 		if($resultType == 'file'){
@@ -376,7 +376,7 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 			{
 				$default = $paramNode->getAttribute("default");
 				if ($default === "null")
-					$default = "KalturaNotImplemented";
+					$default = "VidiunNotImplemented";
 				else if ($default === "")
 					$default = "''";
 				else if ($paramNode->getAttribute("type") == "string")
@@ -394,7 +394,7 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 	
 	function writeMainClient(DOMNodeList  $serviceNodes, $configurationNodes = null)
 	{
-		$this->appendLine("	class KalturaClient < KalturaClientBase");
+		$this->appendLine("	class VidiunClient < VidiunClientBase");
 		foreach($serviceNodes as $serviceNode)
 		{
 			if(!$this->shouldIncludeService($serviceNode->getAttribute("id")))
@@ -402,7 +402,7 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 				
 			$serviceName = $serviceNode->getAttribute("name");
 			$rubyServiceName = $this->camelCaseToUnderscoreAndLower($serviceName."Service");
-			$serviceClass = "Kaltura".$this->upperCaseFirstLetter($serviceName)."Service";
+			$serviceClass = "Vidiun".$this->upperCaseFirstLetter($serviceName)."Service";
 			$this->appendLine("		attr_reader :$rubyServiceName");
 			$this->appendLine("		def $rubyServiceName");
 			$this->appendLine("			if (@$rubyServiceName == nil)");
@@ -488,7 +488,7 @@ class RubyClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("				return @{$configurationName}['$paramName']");
 		$this->appendLine("			end");
 		$this->appendLine("			");
-		$this->appendLine("			return KalturaNotImplemented");
+		$this->appendLine("			return VidiunNotImplemented");
 		$this->appendLine("		end");
 		$this->appendLine("		");
 		$this->appendLine("		def get_{$name}()");

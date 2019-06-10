@@ -1,11 +1,11 @@
-package com.kaltura.client;
+package com.vidiun.client;
 
 
-import com.kaltura.client.utils.ErrorElement;
-import com.kaltura.client.utils.request.ConnectionConfiguration;
-import com.kaltura.client.utils.request.ExecutedRequest;
-import com.kaltura.client.utils.request.RequestElement;
-import com.kaltura.client.utils.response.base.ResponseElement;
+import com.vidiun.client.utils.ErrorElement;
+import com.vidiun.client.utils.request.ConnectionConfiguration;
+import com.vidiun.client.utils.request.ExecutedRequest;
+import com.vidiun.client.utils.request.RequestElement;
+import com.vidiun.client.utils.response.base.ResponseElement;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -125,7 +125,7 @@ public class APIOkRequestsExecutor implements RequestQueue {
 
 		@Override
 		public String getEndpoint() {
-			return "https://www.kaltura.com";
+			return "https://www.vidiun.com";
 		}
 
 		@Override
@@ -331,7 +331,7 @@ public class APIOkRequestsExecutor implements RequestQueue {
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void postCompletion(final RequestElement action, ResponseElement responseElement) {
 
-        final com.kaltura.client.utils.response.base.Response<?> apiResponse = action.parseResponse(responseElement);
+        final com.vidiun.client.utils.response.base.Response<?> apiResponse = action.parseResponse(responseElement);
         action.onComplete(apiResponse);
     }
 
@@ -342,7 +342,7 @@ public class APIOkRequestsExecutor implements RequestQueue {
 
     @SuppressWarnings("rawtypes")
 	@Override
-    public com.kaltura.client.utils.response.base.Response<?> execute(RequestElement request) {
+    public com.vidiun.client.utils.response.base.Response<?> execute(RequestElement request) {
         try {
             Response response = getOkClient(request.config()).newCall(buildRestRequest(request)).execute();
             return request.parseResponse(onGotResponse(response, request));

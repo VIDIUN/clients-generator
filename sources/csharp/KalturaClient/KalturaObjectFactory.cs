@@ -4,11 +4,11 @@
 //                          | ' </ _` | |  _| || | '_/ _` |
 //                          |_|\_\__,_|_|\__|\_,_|_| \__,_|
 //
-// This file is part of the Kaltura Collaborative Media Suite which allows users
+// This file is part of the Vidiun Collaborative Media Suite which allows users
 // to do with audio, video, and animation what Wiki platfroms allow them to do with
 // text.
 //
-// Copyright (C) 2006-2011  Kaltura Inc.
+// Copyright (C) 2006-2011  Vidiun Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -30,9 +30,9 @@ using System.Text;
 using System.Xml;
 using System.Runtime.Serialization;
 
-namespace Kaltura
+namespace Vidiun
 {
-	public static class KalturaObjectFactory
+	public static class VidiunObjectFactory
 	{
 		public static object Create(XmlElement xmlElement, string fallbackClass)
 		{
@@ -41,11 +41,11 @@ namespace Kaltura
 				return null;
 			}
 			string className = xmlElement["objectType"].InnerText;
-			Type type = Type.GetType("Kaltura." + className);
+			Type type = Type.GetType("Vidiun." + className);
 			if (type == null)
 			{
 				if (fallbackClass != null)
-                    type = Type.GetType("Kaltura." + fallbackClass);
+                    type = Type.GetType("Vidiun." + fallbackClass);
 			}
 			
 			if(type == null)
