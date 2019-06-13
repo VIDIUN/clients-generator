@@ -437,16 +437,16 @@ class VidiunClientBase
 	 * @param int $flags
 	 * @return boolean
 	 */
-	protected function vsortRecursive(&$array, $flags = null) 
+	protected function vsortRecursive(&$array, $flags = null)
 	{
-		vsort($array, $flags);
+		ksort($array, $flags);
 		foreach($array as &$arr) {
 			if(is_array($arr))
 				$this->vsortRecursive($arr, $flags);
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Sign array of parameters
 	 *
@@ -488,7 +488,7 @@ class VidiunClientBase
 	private function doCurl($url, $params = array(), $files = array())
 	{
 		$requestHeaders = $this->config->requestHeaders;
-		
+
 		$params = $this->jsonEncode($params);
 		$this->log("curl: $url");
 		$this->log("post: $params");
@@ -496,7 +496,7 @@ class VidiunClientBase
 		{
 			$requestHeaders[] = 'Accept: application/json';
 		}
-		
+
 		$this->responseHeaders = array();
 		$cookies = array();
 		$ch = curl_init();
@@ -761,7 +761,7 @@ class VidiunClientBase
 			$params[$paramName] = array(
 				'objectType' => get_class($paramValue)
 			);
-			
+
 		    foreach($paramValue as $prop => $val)
 				$this->addParam($params[$paramName], $prop, $val);
 
@@ -805,7 +805,7 @@ class VidiunClientBase
 				$item = $this->jsObjectToClientObject($item);
 			}
 		}
-		
+
 		if(is_object($value))
 		{
 			if(isset($value->message) && isset($value->code))
@@ -820,12 +820,12 @@ class VidiunClientBase
 				}
 				throw new VidiunException($value->message, $value->code, $value->args);
 			}
-			
+
 			if(!isset($value->objectType))
 			{
 				throw new VidiunClientException("Response format not supported - objectType is required for all objects", VidiunClientException::ERROR_FORMAT_NOT_SUPPORTED);
 			}
-			
+
 			$objectType = $value->objectType;
 			$object = new $objectType();
 			$attributes = get_object_vars($value);
@@ -835,13 +835,13 @@ class VidiunClientBase
 				{
 					continue;
 				}
-				
+
 				$object->$attribute = $this->jsObjectToClientObject($attributeValue);
 			}
-			
+
 			$value = $object;
 		}
-		
+
 		return $value;
 	}
 
@@ -859,10 +859,10 @@ class VidiunClientBase
 	{
 		if(!is_array($object) && !is_object($object))
 			return $object;
-		
+
 		if(is_object($object) && $object instanceof MultiRequestSubResult)
 			return "$object";
-		
+
 		$array = (array) $object;
 		foreach($array as $key => $value)
 		{
@@ -878,7 +878,7 @@ class VidiunClientBase
 
 		if(is_object($object))
 			$array['objectType'] = get_class($object);
-			
+
 		return $array;
 	}
 
@@ -1447,5 +1447,3 @@ interface IVidiunLogger
 {
 	function log($msg);
 }
-
-

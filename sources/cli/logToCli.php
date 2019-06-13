@@ -88,18 +88,18 @@ function parseMultirequest($parsedParams)
 			$requestIndex = 'common';
 		}
 		else
-		{		
+		{
 			$requestIndex = (int)$explodedName[0];
 			$paramName = implode(':', array_slice($explodedName, 1));
 		}
-		
+
 		if (!array_key_exists($requestIndex, $paramsByRequest))
 		{
 			$paramsByRequest[$requestIndex] = array();
 		}
 		$paramsByRequest[$requestIndex][$paramName] = $paramValue;
 	}
-	
+
 	if (isset($paramsByRequest['common']))
 	{
 		foreach ($paramsByRequest as $requestIndex => &$curParams)
@@ -110,7 +110,7 @@ function parseMultirequest($parsedParams)
 		}
 		unset($paramsByRequest['common']);
 	}
-	vsort($paramsByRequest);
+	ksort($paramsByRequest);
 	return $paramsByRequest;
 }
 
@@ -125,10 +125,10 @@ function genVidcliCommand($parsedParams)
 		return 'Error: action not defined';
 	$action = $parsedParams['action'];
 	unset($parsedParams['action']);
-	
+
 	$res = "vidcli -x {$service} {$action}";
 
-	vsort($parsedParams);
+	ksort($parsedParams);
 	foreach ($parsedParams as $param => $value)
 	{
 		$curParam = "{$param}={$value}";
@@ -180,7 +180,7 @@ function generateOutput($parsedParams, $multireqMode)
 		}
 		$parsedParams['action'] = 'null';
 	}
-	
+
 	$curCmd = genVidcliCommand($parsedParams);
 	echo $curCmd . "\n";
 }
@@ -196,7 +196,7 @@ if (isset($options['help']))
 {
 	$usage = "Usage: logToCli [switches]\nOptions:\n";
 	$usage .= VidiunCommandLineParser::getArgumentsUsage($commandLineSwitches);
-	echo $usage; 
+	echo $usage;
 	exit(1);
 }
 
@@ -212,7 +212,7 @@ for (;;)
 {
 	$line = fgets($f);
 	$trimmedLine = trim($line);
-	if ((!$trimmedLine && $lastTrimmedLine != ')') || 
+	if ((!$trimmedLine && $lastTrimmedLine != ')') ||
 		$trimmedLine == ']')
 		break;
 	$lastTrimmedLine = $trimmedLine;
@@ -250,7 +250,7 @@ else if ($curlPos !== false)
 	$url = explode("\n", substr($logSection, $curlPos + 6));
 	$url = reset($url);
 	$parsedUrl = parse_url(trim($url));
-	
+
 	// query string
 	if (isset($parsedUrl['query']))
 	{
@@ -269,7 +269,7 @@ else if ($curlPos !== false)
 		{
 			$curParams = substr($curParams, 10);
 		}
-		
+
 		$pathParts = explode('/', $curParams);
 		reset($pathParts);
 		while(current($pathParts))
@@ -280,7 +280,7 @@ else if ($curlPos !== false)
 		}
 	}
 }
-else 
+else
 {
 	echo 'Error: failed to parse log section (missing "Array")';
 	exit(1);

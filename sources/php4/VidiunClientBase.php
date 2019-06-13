@@ -30,47 +30,47 @@
 define("VIDIUN_SERVICE_FORMAT_JSON", 1);
 define("VIDIUN_SERVICE_FORMAT_XML",  2);
 define("VIDIUN_SERVICE_FORMAT_PHP",  3);
-	
-class VidiunClientBase 
+
+class VidiunClientBase
 {
 	/**
 	 * @var string
 	 */
 	var $apiVersion = null;
-	
+
 	/**
 	 * @var VidiunConfiguration
 	 */
 	var $config;
-	
+
 	/**
 	 * @var string
 	 */
 	var $vs;
-	
+
 	/**
 	 * @var boolean
 	 */
 	var $shouldLog = false;
-	
+
 	/**
 	 * @var string
 	 */
 	var $error;
-	
+
 	/**
-	 * Vidiun client constuctor, expecting configuration object 
+	 * Vidiun client constuctor, expecting configuration object
 	 *
 	 * @param VidiunConfiguration $config
 	 */
 	function VidiunClientBase(/*VidiunConfiguration*/ $config)
 	{
 		$this->config = $config;
-		
+
 		$logger = $this->config->getLogger();
 		if (isset($logger))
 		{
-			$this->shouldLog = true;	
+			$this->shouldLog = true;
 		}
 	}
 
@@ -78,27 +78,27 @@ class VidiunClientBase
 	{
 		$startTime = microtime(true);
 		$this->error = null;
-		
+
 		$this->log("service url: [" . $this->config->serviceUrl . "]");
 		$this->log("trying to call service: [".$service.".".$action."] using session: [" .$this->vs . "]");
-		
+
 		// append the basic params
 		$this->addParam($params, "apiVersion", $this->apiVersion);
-		
+
 		// in start session partner id is optional (default -1). if partner id was not set, use the one in the config
 		if (!isset($params["partnerId"]) || $params["partnerId"] === -1)
 	        $this->addParam($params, "partnerId", $this->config->partnerId);
-    
+
 		$this->addParam($params, "format", $this->config->format);
 		$this->addParam($params, "clientTag", $this->config->clientTag);
 		$this->addParam($params, "vs", $this->vs);
-		
+
 		$url = $this->config->serviceUrl."/api_v3/service/$service/action/$action";
 		$this->log("full reqeust url: [" . $url . "]");
-		
+
 		// flatten sub arrays (the objects)
 		$newParams = array();
-		foreach($params as $key => $val) 
+		foreach($params as $key => $val)
 		{
 			if (is_array($val))
 			{
@@ -122,24 +122,24 @@ class VidiunClientBase
 
 		$signature = $this->signature($newParams);
 		$this->addParam($params, "vidsig", $signature);
-		
+
 	    $this->log(print_r($newParams, true));
-	    
+
 		list($postResult, $error) = $this->doHttpRequest($url, $newParams);
 
 		if ($error)
 		{
 			$this->setError(array("code" => 0, "message" => $error));
 		}
-		else 
+		else
 		{
 			$this->log("result (serialized): " . $postResult);
-			
+
 			if ($this->config->format == VIDIUN_SERVICE_FORMAT_PHP)
 			{
 				$result = @unserialize($postResult);
 
-				if ($result === false && serialize(false) !== $postResult) 
+				if ($result === false && serialize(false) !== $postResult)
 				{
 					$this->setError(array("code" => 0, "message" => "failed to serialize server result"));
 				}
@@ -151,17 +151,17 @@ class VidiunClientBase
 				$this->setError(array("code" => 0, "message" => "unsupported format"));
 			}
 		}
-		
+
 		$endTime = microtime (true);
-		
+
 		$this->log("execution time for service [".$service.".".$action."]: [" . ($endTime - $startTime) . "]");
-		
+
 		return $result;
 	}
 
 	function signature($params)
 	{
-		vsort($params);
+		ksort($params);
 		$str = "";
 		foreach ($params as $k => $v)
 		{
@@ -169,7 +169,7 @@ class VidiunClientBase
 		}
 		return md5($str);
 	}
-	
+
 	function doHttpRequest($url, $params, $optionalHeaders = null)
 	{
 		if (function_exists('curl_init'))
@@ -198,7 +198,7 @@ class VidiunClientBase
 	function doPostRequest($url, $data, $optionalHeaders = null)
 	{
 		$formattedData = $this->httpParseQuery($data);
-		
+
 		if (!function_exists('fsockopen'))
 		{
 			$this->setError(array("code" => 0, "message" => "fsockopen is missing"));
@@ -218,7 +218,7 @@ class VidiunClientBase
 		fputs ($fp,"Content-type: application/x-www-form-urlencoded\n");
 		fputs ($fp,"Content-length: ".strlen($formattedData)."\n\n");
 		fputs ($fp,"$formattedData\n\n");
-		
+
 		$response = "";
 		while(!feof($fp)) {
 			$response .= fread($fp, 32768);
@@ -229,47 +229,47 @@ class VidiunClientBase
 			$response = substr($response, $pos + 4);
 		else
 			$response = "";
-			
+
 		fclose ($fp);
 		return array($response, '');
 	}
-	
+
 	function httpParseQuery($array = null, $convention = "%s")
 	{
 		if (!$array || count($array) == 0)
-	        return ''; 
-	        
-		$query = ''; 
-     
+	        return '';
+
+		$query = '';
+
 		foreach($array as $key => $value)
 		{
 		    if(is_array($value))
-		    { 
-				$new_convention = sprintf($convention, $key) . '[%s]'; 
-			    $query .= $this->httpParseQuery($value, $new_convention); 
-			} 
-			else 
-			{ 
-			    $key = urlencode($key); 
-			    $value = urlencode($value); 
-         
-			    $query .= sprintf($convention, $key) . "=$value&"; 
-            } 
-		} 
- 
-		return $query; 
+		    {
+				$new_convention = sprintf($convention, $key) . '[%s]';
+			    $query .= $this->httpParseQuery($value, $new_convention);
+			}
+			else
+			{
+			    $key = urlencode($key);
+			    $value = urlencode($value);
+
+			    $query .= sprintf($convention, $key) . "=$value&";
+            }
+		}
+
+		return $query;
 	}
-		
+
 	function getVs()
 	{
 		return $this->vs;
 	}
-	
+
 	function setVs($vs)
 	{
 		$this->vs = $vs;
 	}
-	
+
 	function addParam(&$params, $paramName, $paramValue)
 	{
 		if ($paramValue !== null)
@@ -277,7 +277,7 @@ class VidiunClientBase
 			$params[$paramName] = $paramValue;
 		}
 	}
-	
+
 	function checkForError($resultObject)
 	{
 		if (is_array($resultObject) && isset($resultObject["message"]) && isset($resultObject["code"]))
@@ -307,7 +307,7 @@ class VidiunClientBase
 		}
 	}
 
-	
+
 	function log($msg)
 	{
 		if ($this->shouldLog)
@@ -316,7 +316,7 @@ class VidiunClientBase
 			$logger->log($msg);
 		}
 	}
-	
+
 	function setError($error)
 	{
 	    if ($this->error == null) // this is needed so only the first error will be set, and not the last
@@ -328,13 +328,13 @@ class VidiunClientBase
 
 
 /**
- * Abstract base class for all client services 
+ * Abstract base class for all client services
  *
  */
 class VidiunServiceBase
 {
 	var $client;
-	
+
 	/**
 	 * Initialize the service keeping reference to the VidiunClient
 	 *
@@ -347,7 +347,7 @@ class VidiunServiceBase
 }
 
 /**
- * Abstract base class for all client objects 
+ * Abstract base class for all client objects
  *
  */
 class VidiunObjectBase
@@ -359,7 +359,7 @@ class VidiunObjectBase
 			$params[$paramName] = $paramValue;
 		}
 	}
-		
+
 	function toParams()
 	{
 		$params = array();
@@ -380,7 +380,7 @@ class VidiunConfiguration
 	var $partnerId     = null;
 	var $format        = 3;
 	var $clientTag 	   = "php4:@DATE@";
-	
+
 	/**
 	 * Constructs new Vidiun configuration object
 	 *
@@ -389,7 +389,7 @@ class VidiunConfiguration
 	{
 	    $this->partnerId = $partnerId;
 	}
-	
+
 	/**
 	 * Set logger to get vidiun client debug logs
 	 *
@@ -399,7 +399,7 @@ class VidiunConfiguration
 	{
 		$this->logger = $log;
 	}
-	
+
 	/**
 	 * Gets the logger (Internal client use)
 	 *

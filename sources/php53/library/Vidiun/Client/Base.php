@@ -267,7 +267,7 @@ class Base
 	 */
 	protected function vsortRecursive(&$array, $flags = null)
 	{
-		vsort($array, $flags);
+		ksort($array, $flags);
 		foreach($array as &$arr) {
 			if(is_array($arr))
 				$this->vsortRecursive($arr, $flags);

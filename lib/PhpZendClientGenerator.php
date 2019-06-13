@@ -2,22 +2,22 @@
 class PhpZendClientGenerator extends ClientGeneratorFromXml
 {
 	private $cacheTypes = array();
-	
+
 	function __construct($xmlPath, Zend_Config $config, $sourcePath = "zend")
 	{
 		parent::__construct($xmlPath, $sourcePath, $config);
 	}
-	
+
 	function getSingleLineCommentMarker()
 	{
 		return '//';
 	}
-	
+
 	private function cacheEnum(DOMElement $enumNode)
 	{
 		$enumName = $enumNode->getAttribute('name');
-		$enumCacheName = preg_replace('/^Vidiun(.+)$/', '$1', $enumName); 
-		
+		$enumCacheName = preg_replace('/^Vidiun(.+)$/', '$1', $enumName);
+
 		if($enumNode->hasAttribute('plugin'))
 		{
 			$pluginName = ucfirst($enumNode->getAttribute('plugin'));
@@ -25,15 +25,15 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		}
 		else
 		{
-			$this->cacheTypes[$enumName] = "Vidiun_Client_Enum_{$enumCacheName}";	
+			$this->cacheTypes[$enumName] = "Vidiun_Client_Enum_{$enumCacheName}";
 		}
-	} 
-	
+	}
+
 	private function cacheType(DOMElement $classNode)
 	{
 		$className = $classNode->getAttribute('name');
-		$classCacheName = preg_replace('/^Vidiun(.+)$/', '$1', $className); 
-		
+		$classCacheName = preg_replace('/^Vidiun(.+)$/', '$1', $className);
+
 		if($classNode->hasAttribute('plugin'))
 		{
 			$pluginName = ucfirst($classNode->getAttribute('plugin'));
@@ -41,27 +41,27 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		}
 		else
 		{
-			$this->cacheTypes[$className] = "Vidiun_Client_Type_{$classCacheName}";	
+			$this->cacheTypes[$className] = "Vidiun_Client_Type_{$classCacheName}";
 		}
-	} 
-	
-	function generate() 
+	}
+
+	function generate()
 	{
 		parent::generate();
-	
+
 		$xpath = new DOMXPath($this->_doc);
-		
+
 		$enumNodes = $xpath->query("/xml/enums/enum");
 		foreach($enumNodes as $enumNode)
 			$this->cacheEnum($enumNode);
-			
+
 		$classNodes = $xpath->query("/xml/classes/class");
 		foreach($classNodes as $classNode)
 			$this->cacheType($classNode);
-		
+
     	$this->startNewTextBlock();
 		$this->appendLine('<?php');
-		
+
 		if($this->generateDocs)
 		{
 			$this->appendLine('/**');
@@ -69,10 +69,10 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine(" * @subpackage $this->subpackage");
 			$this->appendLine(' */');
 		}
-			
+
 		$this->appendLine('class Vidiun_Client_TypeMap');
 		$this->appendLine('{');
-		
+
 		$classNodes = $xpath->query("/xml/classes/class");
 		$this->appendLine('	private static $map = array(');
 		$typeMap = array();
@@ -82,13 +82,13 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			$zendType = $this->getTypeClass($vidiunType);
 			$typeMap[$vidiunType] = $zendType;
 		}
-		vsort($typeMap);
+		ksort($typeMap);
 		foreach ($typeMap as $vidiunType => $zendType)
 			$this->appendLine("		'$vidiunType' => '$zendType',");
-		
+
 		$this->appendLine('	);');
 		$this->appendLine('	');
-		
+
 		$this->appendLine('	public static function getZendType($vidiunType)');
 		$this->appendLine('	{');
 		$this->appendLine('		if(isset(self::$map[$vidiunType]))');
@@ -96,55 +96,55 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine('		return null;');
 		$this->appendLine('	}');
 		$this->appendLine('}');
-		
+
     	$this->addFile($this->getMapPath(), $this->getTextBlock());
-			
+
 		// enumes
 		$enumNodes = $xpath->query("/xml/enums/enum");
 		foreach($enumNodes as $enumNode)
 		{
 			if(!$this->shouldIncludeType($enumNode->getAttribute('name')))
 				continue;
-			
+
     		$this->startNewTextBlock();
 			$this->appendLine('<?php');
 			$this->writeEnum($enumNode);
     		$this->addFile($this->getEnumPath($enumNode), $this->getTextBlock());
 		}
-    	
+
 		// classes
 		$classNodes = $xpath->query("/xml/classes/class");
 		foreach($classNodes as $classNode)
 		{
 			if(!$this->shouldIncludeType($classNode->getAttribute('name')))
 				continue;
-			
+
 	    	$this->startNewTextBlock();
 			$this->appendLine('<?php');
 			$this->writeClass($classNode);
     		$this->addFile($this->getTypePath($classNode), $this->getTextBlock());
 		}
-		
+
 		// services
 		$serviceNodes = $xpath->query("/xml/services/service");
 		foreach($serviceNodes as $serviceNode)
 		{
 			if(!$this->shouldIncludeService($serviceNode->getAttribute("id")))
 				continue;
-				
+
 	    	$this->startNewTextBlock();
 			$this->appendLine('<?php');
 		    $this->writeService($serviceNode);
     		$this->addFile($this->getServicePath($serviceNode), $this->getTextBlock());
 		}
-		
+
     	$this->startNewTextBlock();
 		$this->appendLine('<?php');
 		$configurationNodes = $xpath->query("/xml/configurations/*");
 	    $this->writeMainClient($serviceNodes, $configurationNodes);
     	$this->addFile($this->getMainPath(), $this->getTextBlock());
-    	
-    	
+
+
 		// plugins
 		$pluginNodes = $xpath->query("/xml/plugins/plugin");
 		foreach($pluginNodes as $pluginNode)
@@ -155,101 +155,101 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		    $this->writePlugin($pluginNode);
 		}
 	}
-	
+
 	protected function getEnumPath(DOMElement $enumNode)
 	{
 		$enumName = $enumNode->getAttribute('name');
-		$enumName = preg_replace('/^Vidiun(.+)$/', '$1', $enumName); 
-			
+		$enumName = preg_replace('/^Vidiun(.+)$/', '$1', $enumName);
+
 		if(!$enumNode->hasAttribute('plugin'))
 			return "Vidiun/Client/Enum/{$enumName}.php";
 
 		$pluginName = ucfirst($enumNode->getAttribute('plugin'));
 		return "Vidiun/Client/{$pluginName}/Enum/{$enumName}.php";
 	}
-	
+
 	protected function getTypePath(DOMElement $classNode)
 	{
 		$className = $classNode->getAttribute('name');
-		$className = preg_replace('/^Vidiun(.+)$/', '$1', $className); 
-			
+		$className = preg_replace('/^Vidiun(.+)$/', '$1', $className);
+
 		if(!$classNode->hasAttribute('plugin'))
 			return "Vidiun/Client/Type/{$className}.php";
 
 		$pluginName = ucfirst($classNode->getAttribute('plugin'));
 		return "Vidiun/Client/{$pluginName}/Type/{$className}.php";
 	}
-	
+
 	protected function getServicePath($serviceNode)
 	{
 		$serviceName = ucfirst($serviceNode->getAttribute('name'));
-			
+
 		if(!$serviceNode->hasAttribute('plugin'))
 			return "Vidiun/Client/{$serviceName}Service.php";
 
 		$pluginName = ucfirst($serviceNode->getAttribute('plugin'));
 		return "Vidiun/Client/{$pluginName}/{$serviceName}Service.php";
 	}
-	
+
 	protected function getPluginPath($pluginName)
 	{
 		$pluginName = ucfirst($pluginName);
 		return "Vidiun/Client/{$pluginName}/Plugin.php";
 	}
-	
+
 	protected function getMainPath()
 	{
 		return 'Vidiun/Client/Client.php';
 	}
-	
+
 	protected function getMapPath()
 	{
 		return 'Vidiun/Client/TypeMap.php';
 	}
-	
+
 	protected function getEnumClass($enumName)
 	{
 		if(!isset($this->cacheTypes[$enumName]))
-			return $enumName; 
-		
+			return $enumName;
+
 		return $this->cacheTypes[$enumName];
 	}
-	
+
 	protected function getTypeClass($className)
 	{
 		if(!isset($this->cacheTypes[$className]))
-			return $className; 
-		
+			return $className;
+
 		return $this->cacheTypes[$className];
 	}
-	
+
 	protected function getServiceClass(DOMElement $serviceNode)
 	{
 		$serviceName = ucfirst($serviceNode->getAttribute('name'));
-		
+
 		if(!$serviceNode->hasAttribute('plugin'))
 			return "Vidiun_Client_{$serviceName}Service";
-		
+
 		$pluginName = ucfirst($serviceNode->getAttribute('plugin'));
 		return "Vidiun_Client_{$pluginName}_{$serviceName}Service";
 	}
-	
+
 	protected function getPluginClass($pluginName)
 	{
 		$pluginName = ucfirst($pluginName);
 		return "Vidiun_Client_{$pluginName}_Plugin";
 	}
-	
+
 	function writePlugin(DOMElement $pluginNode)
 	{
 		$xpath = new DOMXPath($this->_doc);
-		
+
 		$pluginName = $pluginNode->getAttribute("name");
 		$pluginClassName = $this->getPluginClass($pluginName);
-		
+
     	$this->startNewTextBlock();
 		$this->appendLine('<?php');
-		
+
 		if($this->generateDocs)
 		{
 			$this->appendLine('/**');
@@ -257,10 +257,10 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine(" * @subpackage $this->subpackage");
 			$this->appendLine(' */');
 		}
-		
+
 		$this->appendLine("class $pluginClassName extends Vidiun_Client_Plugin");
 		$this->appendLine('{');
-	
+
 		$serviceNodes = $xpath->query("/xml/services/service[@plugin = '$pluginName']");
 //		$serviceNodes = $xpath->query("/xml/plugins/plugin[@name = '$pluginName']/pluginService");
 		foreach($serviceNodes as $serviceNode)
@@ -273,7 +273,7 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine("	public \${$serviceAttribute} = null;");
 			$this->appendLine('');
 		}
-		
+
 		$this->appendLine('	protected function __construct(Vidiun_Client_Client $client)');
 		$this->appendLine('	{');
 		$this->appendLine('		parent::__construct($client);');
@@ -317,15 +317,15 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine('	}');
 		$this->appendLine('}');
 		$this->appendLine('');
-		
+
     	$this->addFile($this->getPluginPath($pluginName), $this->getTextBlock());
 	}
 
-	
+
 	function writeEnum(DOMElement $enumNode)
 	{
 		$enumName = $this->getEnumClass($enumNode->getAttribute('name'));
-		
+
 		if($this->generateDocs)
 		{
 			$this->appendLine('/**');
@@ -333,14 +333,14 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine(" * @subpackage $this->subpackage");
 			$this->appendLine(' */');
 		}
-		
-	 	$this->appendLine("class $enumName extends Vidiun_Client_EnumBase");		
+
+	 	$this->appendLine("class $enumName extends Vidiun_Client_EnumBase");
 		$this->appendLine("{");
 		foreach($enumNode->childNodes as $constNode)
 		{
 			if ($constNode->nodeType != XML_ELEMENT_NODE)
 				continue;
-				
+
 			$propertyName = $constNode->getAttribute("name");
 			$propertyValue = $constNode->getAttribute("value");
 			if ($enumNode->getAttribute("enumType") == "string")
@@ -351,16 +351,16 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("}");
 		$this->appendLine();
 	}
-	
+
 	function writeClass(DOMElement $classNode)
 	{
 		$vidiunType = $classNode->getAttribute('name');
 		$type = $this->getTypeClass($vidiunType);
-		
+
 		$abstract = '';
 		if ($classNode->hasAttribute("abstract"))
 			$abstract = 'abstract ';
-			
+
 		if($this->generateDocs)
 		{
 			$this->appendLine('/**');
@@ -368,12 +368,12 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine(" * @subpackage $this->subpackage");
 			$this->appendLine(' */');
 		}
-		
+
 		// class definition
 		$baseClass = 'Vidiun_Client_ObjectBase';
 		if ($classNode->hasAttribute('base'))
 			$baseClass = $this->getTypeClass($classNode->getAttribute('base'));
-			
+
 		$this->appendLine($abstract . "class $type extends $baseClass");
 		$this->appendLine("{");
 		$this->appendLine("	public function getVidiunObjectType()");
@@ -381,7 +381,7 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("		return '$vidiunType';");
 		$this->appendLine("	}");
 		$this->appendLine("	");
-	
+
 		$this->appendLine('	public function __construct(SimpleXMLElement $xml = null)');
 		$this->appendLine('	{');
 		$this->appendLine('		parent::__construct($xml);');
@@ -389,29 +389,29 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine('		if(is_null($xml))');
 		$this->appendLine('			return;');
 		$this->appendLine('		');
-		
+
 		foreach($classNode->childNodes as $propertyNode)
 		{
 			if ($propertyNode->nodeType != XML_ELEMENT_NODE)
 				continue;
-			
+
 			$propName = $propertyNode->getAttribute("name");
 			$isEnum = $propertyNode->hasAttribute("enumType");
 			$propType = $this->getTypeClass($propertyNode->getAttribute("type"));
-		
-			switch ($propType) 
+
+			switch ($propType)
 			{
 				case "int" :
 				case "float" :
 					$this->appendLine("		if(count(\$xml->{$propName}))");
 					$this->appendLine("			\$this->$propName = ($propType)\$xml->$propName;");
 					break;
-					
+
 				case "bigint" :
 					$this->appendLine("		if(count(\$xml->{$propName}))");
 					$this->appendLine("			\$this->$propName = (string)\$xml->$propName;");
 					break;
-					
+
 				case "bool" :
 					$this->appendLine("		if(count(\$xml->{$propName}))");
 					$this->appendLine("		{");
@@ -421,12 +421,12 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 					$this->appendLine("				\$this->$propName = false;");
 					$this->appendLine("		}");
 					break;
-					
+
 				case "string" :
 					$this->appendLine("		if(count(\$xml->{$propName}))");
 					$this->appendLine("			\$this->$propName = ($propType)\$xml->$propName;");
 					break;
-					
+
 				case "array" :
 					$arrayType = $propertyNode->getAttribute ( "arrayType" );
 					$this->appendLine("		if(count(\$xml->{$propName}))");
@@ -437,7 +437,7 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 					$this->appendLine("				\$this->$propName = Vidiun_Client_ParseUtils::unmarshalArray(\$xml->$propName, \"$arrayType\");");
 					$this->appendLine("		}");
 					break;
-					
+
 				case "map" :
 					$arrayType = $propertyNode->getAttribute ( "arrayType" );
 					$this->appendLine("		if(count(\$xml->{$propName}))");
@@ -448,25 +448,25 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 					$this->appendLine("				\$this->$propName = Vidiun_Client_ParseUtils::unmarshalMap(\$xml->$propName, \"$arrayType\");");
 					$this->appendLine("		}");
 					break;
-					
+
 				default : // sub object
 					$fallback = $propertyNode->getAttribute("type");
 					$this->appendLine("		if(count(\$xml->{$propName}) && !empty(\$xml->{$propName}))");
 					$this->appendLine("			\$this->$propName = Vidiun_Client_ParseUtils::unmarshalObject(\$xml->$propName, \"$fallback\");");
 					break;
 			}
-			
-			
+
+
 		}
-		
+
 		$this->appendLine('	}');
-		
+
 		// class properties
 		foreach($classNode->childNodes as $propertyNode)
 		{
 			if ($propertyNode->nodeType != XML_ELEMENT_NODE)
 				continue;
-			
+
 			$propName = $propertyNode->getAttribute("name");
 			$isReadyOnly = $propertyNode->getAttribute("readOnly") == 1;
 			$isInsertOnly = $propertyNode->getAttribute("insertOnly") == 1;
@@ -478,7 +478,7 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 				$propType = $propertyNode->getAttribute("type");
 			$propType = $this->getTypeClass($propType);
 			$propDescription = $propertyNode->getAttribute("description");
-			
+
 			$this->appendLine("	/**");
 			$description = $propDescription;
 			$description = str_replace("\n", "\n	 * ", $propDescription); // to format multiline descriptions
@@ -493,14 +493,14 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			if ($isInsertOnly)
 				$this->appendLine("	 * @insertonly");
 			$this->appendLine("	 */");
-			
+
 			$propertyLine =	"public $$propName";
-			
+
 			if ($this->isSimpleType($propType) || $isEnum)
 			{
 				$propertyLine .= " = null";
 			}
-			
+
 			$this->appendLine("	$propertyLine;");
 			$this->appendLine("");
 		}
@@ -510,7 +510,7 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("}");
 		$this->appendLine();
 	}
-	
+
 	function writeService(DOMElement $serviceNode)
 	{
 		$plugin = null;
@@ -519,10 +519,10 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 
 		$serviceId = $serviceNode->getAttribute("id");
 		$serviceName = $serviceNode->getAttribute("name");
-					
+
 		$serviceClassName = $this->getServiceClass($serviceNode, $plugin);
 		$this->appendLine();
-		
+
 		if($this->generateDocs)
 		{
 			$this->appendLine('/**');
@@ -530,50 +530,50 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine(" * @subpackage $this->subpackage");
 			$this->appendLine(' */');
 		}
-		
+
 		$this->appendLine("class $serviceClassName extends Vidiun_Client_ServiceBase");
 		$this->appendLine("{");
 		$this->appendLine("	function __construct(Vidiun_Client_Client \$client = null)");
 		$this->appendLine("	{");
 		$this->appendLine("		parent::__construct(\$client);");
 		$this->appendLine("	}");
-		
+
 		$actionNodes = $serviceNode->childNodes;
 		foreach($actionNodes as $actionNode)
 		{
 		    if ($actionNode->nodeType != XML_ELEMENT_NODE)
 				continue;
-				
+
 		    $this->writeAction($serviceId, $serviceName, $actionNode);
 		}
 		$this->appendLine("}");
 	}
-	
+
 	function writeAction($serviceId, $serviceName, DOMElement $actionNode, $plugin = null)
 	{
 		$action = $actionNode->getAttribute("name");
 		if(!$this->shouldIncludeAction($serviceId, $action))
 			return;
-		
+
 	    $resultNode = $actionNode->getElementsByTagName("result")->item(0);
 	    $resultType = $resultNode->getAttribute("type");
 	    $arrayObjectType = ($resultType == 'array') ? $resultNode->getAttribute ( "arrayType" ) : null;
-		
+
 		$enableInMultiRequest = true;
 		if($actionNode->hasAttribute("enableInMultiRequest"))
 		{
 			$enableInMultiRequest = intval($actionNode->getAttribute("enableInMultiRequest"));
 		}
-	    
+
 		$returnType = $this->getTypeClass($resultType);
-		
+
 		// method signature
 		$signature = "";
 		if (in_array($action, array("list", "clone", "goto"))) // because list & clone are preserved in PHP
 			$signature .= "function ".$action."Action(";
 		else
 			$signature .= "function ".$action."(";
-			
+
 		$paramNodes = $actionNode->getElementsByTagName("param");
 		$signature .= $this->getSignature($paramNodes);
 
@@ -584,14 +584,14 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("	 */");
 		$this->appendLine("	$signature");
 		$this->appendLine("	{");
-		
+
 		if(!$enableInMultiRequest)
 		{
 			$this->appendLine("		if (\$this->client->isMultiRequest())");
 			$this->appendLine("			throw \$this->client->getVidiunClientException(\"Action is not supported as part of multi-request.\", Vidiun_Client_ClientException::ERROR_ACTION_IN_MULTIREQUEST);");
 			$this->appendLine("		");
 		}
-		
+
 		$this->appendLine("		\$vparams = array();");
 		$haveFiles = false;
 		foreach($paramNodes as $paramNode)
@@ -600,13 +600,13 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		    $paramName = $paramNode->getAttribute("name");
 		    $isEnum = $paramNode->hasAttribute("enumType");
 		    $isOptional = $paramNode->getAttribute("optional");
-			
+
 		    if ($haveFiles === false && $paramType == "file")
 	    	{
 		        $haveFiles = true;
 	        	$this->appendLine("		\$vfiles = array();");
 	    	}
-	    
+
 			if (!$this->isSimpleType($paramType))
 			{
 				if ($isEnum)
@@ -646,7 +646,7 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 				$this->appendLine("		\$this->client->addParam(\$vparams, \"$paramName\", \$$paramName);");
 			}
 		}
-		
+
 	    if($resultType == 'file')
 	    {
 			$this->appendLine("		\$this->client->queueServiceActionCall('" . strtolower($serviceId) . "', '$action', null, \$vparams);");
@@ -663,7 +663,7 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 	    	{
 	    		$fallbackClass = "\"$resultType\"";
 	    	}
-	    	
+
 			if ($haveFiles)
 			{
 				$this->appendLine("		\$this->client->queueServiceActionCall(\"".strtolower($serviceId)."\", \"$action\",  $fallbackClass, \$vparams, \$vfiles);");
@@ -672,23 +672,23 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			{
 				$this->appendLine("		\$this->client->queueServiceActionCall(\"".strtolower($serviceId)."\", \"$action\", $fallbackClass, \$vparams);");
 			}
-			
+
 			if($enableInMultiRequest)
 			{
 				$this->appendLine("		if (\$this->client->isMultiRequest())");
 				$this->appendLine("			return \$this->client->getMultiRequestResult();");
 			}
-			
+
 			$this->appendLine("		\$resultXml = \$this->client->doQueue();");
 			$this->appendLine("		\$resultXmlObject = new \\SimpleXMLElement(\$resultXml);");
 			$this->appendLine("		\$this->client->checkIfError(\$resultXmlObject->result);");
-			
+
 			switch($resultType)
 			{
 				case 'int':
 					$this->appendLine("		\$resultObject = (int)Vidiun_Client_ParseUtils::unmarshalSimpleType(\$resultXmlObject->result);");
 					break;
-				
+
 				case 'bool':
 					$this->appendLine("		\$resultObject = (bool)Vidiun_Client_ParseUtils::unmarshalSimpleType(\$resultXmlObject->result);");
 					break;
@@ -703,7 +703,7 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 					$this->appendLine("			\$this->client->validateObjectType(\$resultObjectItem, \"$arrayObjectType\");");
 					$this->appendLine("		}");
 					break;
-				
+
 				default:
 					if ($resultType)
 					{
@@ -712,15 +712,15 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 					}
 			}
 	    }
-			
+
 		if($resultType && $resultType != 'null')
 		{
 			$this->appendLine("		return \$resultObject;");
 		}
-		
+
 		$this->appendLine("	}");
 	}
-	
+
 	function getSignature($paramNodes, $plugin = null)
 	{
 		$signature = "";
@@ -729,7 +729,7 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			$paramName = $paramNode->getAttribute("name");
 			$paramType = $paramNode->getAttribute("type");
 			$defaultValue = $paramNode->getAttribute("default");
-						
+
 			if ($this->isSimpleType($paramType) || $paramType == "file")
 			{
 				$signature .= "$".$paramName;
@@ -743,8 +743,8 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 				$typeClass = $this->getTypeClass($paramType);
 				$signature .= $typeClass." $".$paramName;
 			}
-			
-			
+
+
 			if ($paramNode->getAttribute("optional"))
 			{
 				if ($this->isSimpleType($paramType))
@@ -763,27 +763,27 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 							$signature .= " = \"\""; // hack for partner.getUsage
 						else
 							$signature .= " = $defaultValue";
-					} 
+					}
 				}
 				else
 					$signature .= " = null";
 			}
-				
+
 			$signature .= ", ";
 		}
 		if ($this->endsWith($signature, ", "))
 			$signature = substr($signature, 0, strlen($signature) - 2);
 		$signature .= ")";
-		
+
 		return $signature;
 	}
-	
+
 	function writeMainClient(DOMNodeList $serviceNodes, DOMNodeList $configurationNodes)
 	{
 		$mainClassName = 'Vidiun_Client_Client';
 		$apiVersion = $this->_doc->documentElement->getAttribute('apiVersion');
 		$date = date('y-m-d');
-		
+
 		if($this->generateDocs)
 		{
 			$this->appendLine('/**');
@@ -791,18 +791,18 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine(" * @subpackage $this->subpackage");
 			$this->appendLine(' */');
 		}
-		
+
 		$this->appendLine("class $mainClassName extends Vidiun_Client_ClientBase");
 		$this->appendLine("{");
-	
+
 		foreach($serviceNodes as $serviceNode)
 		{
 			if(!$this->shouldIncludeService($serviceNode->getAttribute("id")))
 				continue;
-				
+
 			if($serviceNode->hasAttribute("plugin"))
 				continue;
-				
+
 			$serviceName = $serviceNode->getAttribute("name");
 			$description = $serviceNode->getAttribute("description");
 			$serviceClassName = "Vidiun_Client_".ucfirst($serviceName)."Service";
@@ -814,7 +814,7 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			$this->appendLine("	public \$$serviceName = null;");
 			$this->appendLine("");
 		}
-		
+
 		$this->appendLine("	/**");
 		$this->appendLine("	 * Vidiun client constructor");
 		$this->appendLine("	 *");
@@ -827,22 +827,22 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("		\$this->setClientTag('php5:$date');");
 		$this->appendLine("		\$this->setApiVersion('$apiVersion');");
 		$this->appendLine("		");
-		
+
 		foreach($serviceNodes as $serviceNode)
 		{
 			if(!$this->shouldIncludeService($serviceNode->getAttribute("id")))
 				continue;
-				
+
 			if($serviceNode->hasAttribute("plugin"))
 				continue;
-				
+
 			$serviceName = $serviceNode->getAttribute("name");
 			$serviceClassName = "Vidiun_Client_".ucfirst($serviceName)."Service";
 			$this->appendLine("		\$this->$serviceName = new $serviceClassName(\$this);");
 		}
 		$this->appendLine("	}");
 		$this->appendLine("	");
-	
+
 		$volatileProperties = array();
 		foreach($configurationNodes as $configurationNode)
 		{
@@ -850,38 +850,38 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			$configurationName = $configurationNode->nodeName;
 			$attributeName = lcfirst($configurationName) . "Configuration";
 			$volatileProperties[$attributeName] = array();
-		
+
 			foreach($configurationNode->childNodes as $configurationPropertyNode)
 			{
 				/* @var $configurationPropertyNode DOMElement */
-				
+
 				if ($configurationPropertyNode->nodeType != XML_ELEMENT_NODE)
 					continue;
-			
+
 				$configurationProperty = $configurationPropertyNode->localName;
-				
+
 				if($configurationPropertyNode->hasAttribute('volatile') && $configurationPropertyNode->getAttribute('volatile'))
 				{
 					$volatileProperties[$attributeName][] = $configurationProperty;
 				}
-				
+
 				$type = $this->getTypeClass($configurationPropertyNode->getAttribute('type'));
 				$description = null;
-				
+
 				if($configurationPropertyNode->hasAttribute('description'))
 				{
 					$description = $configurationPropertyNode->getAttribute('description');
 				}
-				
+
 				$this->writeConfigurationProperty($configurationName, $configurationProperty, $configurationProperty, $type, $description);
-				
+
 				if($configurationPropertyNode->hasAttribute('alias'))
 				{
-					$this->writeConfigurationProperty($configurationName, $configurationPropertyNode->getAttribute('alias'), $configurationProperty, $type, $description);					
+					$this->writeConfigurationProperty($configurationName, $configurationPropertyNode->getAttribute('alias'), $configurationProperty, $type, $description);
 				}
 			}
 		}
-		
+
 		$this->appendLine ( "	/**");
 		$this->appendLine ( "	 * Clear all volatile configuration parameters");
 		$this->appendLine ( "	 */");
@@ -896,16 +896,16 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 			}
 		}
 		$this->appendLine ( "	}");
-		
+
 		$this->appendLine("}");
 	}
-	
+
 	protected function writeConfigurationProperty($configurationName, $name, $paramName, $type, $description)
 	{
 		$methodsName = ucfirst($name);
 		$signitureType = $this->isSimpleType($type) ? '' : "$type ";
-	
-		
+
+
 		$this->appendLine("	/**");
 		if($description)
 		{
@@ -919,8 +919,8 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("		\$this->{$configurationName}Configuration['{$paramName}'] = \${$name};");
 		$this->appendLine("	}");
 		$this->appendLine("	");
-	
-		
+
+
 		$this->appendLine("	/**");
 		if($description)
 		{
@@ -940,7 +940,7 @@ class PhpZendClientGenerator extends ClientGeneratorFromXml
 		$this->appendLine("	}");
 		$this->appendLine("	");
 	}
-	
+
 	protected function addFile($fileName, $fileContents, $addLicense = true)
 	{
 		$patterns = array(
